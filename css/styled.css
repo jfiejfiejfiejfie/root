@@ -1,0 +1,279 @@
+@charset "utf-8";
+/* 基本要素 */
+.header {
+  z-index:2;
+  position: fixed;
+  /* width: 100%; */
+  box-sizing: border-box;
+  /* padding: 30px 10vw; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+body {
+  margin: 0;
+  padding: 0;
+  color: #333;
+} 
+a { color: #b7a077; }
+a:visited { color: #a8a8a8; }
+a:hover {
+  color: #988564;
+  font-weight: bold;
+  text-decoration: none;
+}
+a img { transition: opacity 0.2s linear; }
+a:hover img { opacity: 0.7; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0; }
+p {
+  margin-top: 0;
+  line-height: 1.6;
+}
+img #image{
+  border-radius: 50%;
+}
+#main h1 {
+  background-image: url(../images/header_bg.jpg);
+  padding: 13px 30px 10px 20px;
+  font-size: 26px;
+  color: #44382d;
+  border-bottom: solid 3px #716961;
+}
+#main h2 {
+  font-size: 22px;
+  border: 1px solid #b7a077;
+  padding: 11px 22px;
+  border-radius: 5px;
+}
+#main h3 {
+  font-size: 18px;
+  border-left: solid 3px #b7a077;
+  padding: 4px 9px 4px 14px;
+}
+.test{
+  display: none;
+}
+/* ヘッダー */
+header {
+  width: 1280px;
+  margin: 0 auto;
+}
+header h1 {
+  float: left;
+  margin: 5px 0 10px;
+}
+header #header_contact {
+  float: right;
+  margin: 35px 0;
+}
+/* ナビゲーション */
+#global_navi {
+  width: 1280px;
+  clear: both;
+  overflow: hidden;
+  margin: 16px auto;
+}
+#global_navi ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#global_navi ul li {
+  width: 256px;
+  float: left;
+  /* margin-right: 1px; */
+  text-align: center;
+}
+#global_navi ul li ul{
+  display: none;       /* ★1:標準では非表示にする */
+  margin: 0px;         /* ★2:サブメニュー外側の余白(ゼロ) */
+  padding: 0px;        /* ★3:サブメニュー内側の余白(ゼロ) */
+  position: absolute;  /* ★4:絶対配置にする */
+}
+#global_navi li:hover ul{
+  display: block;
+}
+#global_navi ul li a {
+  display: block;
+  padding: 16px;
+  background-color: #352b23;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.2s linear;
+}
+#global_navi ul li.current a { 
+  background-color: #b7a077; 
+}
+#global_navi ul li a:hover { 
+  background-color: #8c7a5b;
+}
+/* コンテンツ全体 */
+#wrapper {
+  width: 1280px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+/* メイン部分 */
+#main {
+  width: 1000px;
+  float: left;
+  margin-top: 100px;
+}
+/* サイドバー */
+#sidebar {
+  width: 220px;
+  float: right;
+  margin-top: 100px;
+}
+#side_banner { margin-bottom: 30px; }
+#side_banner h2 {
+  background-color: #716961;
+  color: #fff;
+  padding: 7px;
+  font-size: 14px;
+  text-align: center;
+}
+#side_banner span{
+  text-align: center;
+}
+#side_banner ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#side_banner ul li { margin-bottom: 10px; }
+/* フッター */
+footer {
+  background-color: #352b23;
+  text-align: center;
+}
+footer #footer_nav {
+  background-color: #efefef;
+  padding: 10px 0;
+}
+footer #footer_nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+footer #footer_nav li {
+  display: inline;
+  border-left: solid 1px #aaa;
+  margin-left: 8px;
+  padding-left: 8px;
+  font-size: smaller;
+}
+footer #footer_nav li:last-child {
+  border-right: solid 1px #aaa;
+  padding: 0 8px;
+}
+footer small {
+  display: block;
+  padding: 8px 0;
+  color: #fff;
+}
+
+/* トップページ */
+#main_visual {
+  width: 980px;
+  height: 440px;
+  margin: 0 auto 25px;
+}
+/* こだわり */
+#point  { margin-bottom: 30px; }
+#point section {
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+#point figure {
+  float: right;
+  margin: 0 0 0 16px;
+}
+#point figcaption {
+  font-size: 12px;
+  color: #9C9689;
+  text-align: center;
+}
+
+
+
+/* ---------------------------------
+メディアクエリー
+--------------------------------- */
+@media screen and (max-width : 767px){
+  /* 基本要素 */
+  img {
+    max-width: 100%;
+  }
+  /* Layout */
+  header,
+  #global_navi,
+  #sidebar,
+  #wrapper{
+    width: 100%;
+  }  
+  /* ヘッダー */
+  header h1 {
+    float: none;
+    text-align: center;
+  }
+  header h1 img {
+    width: 50%;
+  }
+  header #header_contact {
+    display: none;
+  }
+  /* ナビゲーション */
+  #global_navi ul li {
+    width: 50%;
+    padding: 0.5px;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  #global_navi ul li a {
+    margin: 0;
+  }
+  #global_navi ul li:last-child {
+    width: 100%;
+  }
+  /* メイン部分 */
+  #main {
+    width: 100%;
+    padding: 0 5%;
+    box-sizing: border-box;
+  }
+  #main figure {
+    text-align: center;
+  }
+  /* トップページパーツ */
+  #main_visual {
+    width: 100%;
+    height: auto;
+  }
+  #point figure {
+    float: none;
+    margin: 0 0 11px 0;
+  }
+  /* サイドバー */
+  #side_banner ul li {
+    text-align: center;
+    margin: 11px auto;
+  }
+  #side_contact address img {
+    width: 14px;
+    height: 20px;
+  }
+}
+.block-download {
+	/* display: none; */
+	text-align: center;
+	padding: 15px 20px 24px;
+	background: #f6f6f6;
+}
+
+.block-download p {
+	font-size: 1.0rem;
+	font-weight: bold;
+	margin-bottom: 0.5em;
+	line-height: 1.3;
+}

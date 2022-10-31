@@ -1,0 +1,90 @@
+ @charset "utf-8";
+/**
+ *  Author: 08
+ *  Description: Mサイズ用CSS(630～899px)
+ *
+ *  [1] Lサイズ用CSSを継承
+ *  [2] 基本セレクタ
+ *  [3] クラスセレクタ
+ *  [4] IDセレクタ
+ */
+/*******************************
+    [1] 変数
+********************************/
+/*******************************
+    [2] ミックスイン
+********************************/
+/*******************************
+    [3] 基本セレクタ
+********************************/
+/*******************************
+    [4] クラスセレクタ
+********************************/
+/* .s2 {
+  display: block;
+} */
+/*******************************
+    [5] IDセレクタ
+********************************/
+/* #header {
+  width: 100%;
+}
+#header .top_header {
+  width: 100%;
+}
+#header .game_bar > .game_title {
+  width: 100%;
+} */
+/* #header2 {
+  min-width: auto;
+}
+#header2 .top_header {
+  width: 100%;
+}
+#header2 #navi > ul {
+  width: 100%;
+}
+#contents {
+  max-width: 100%;
+  margin: 0 auto 10px auto;
+}
+#contents #left {
+  z-index: 1;
+  margin-right: 10px;
+  position: relative;
+}
+#contents #main {
+  margin-left: -260px;
+}
+#contents #main > div {
+  margin: 0 0 0 260px;
+}
+#contents #main > div > div {
+  margin-bottom: 10px;
+}
+#contents #right {
+  margin-top: 10px;
+  margin-left: -260px;
+  width: 100%;
+}
+#contents #right > div {
+  width: auto;
+  margin: 0 0 0 260px;
+}
+#header .sub_menu > div > a {
+  width: 16.66% !important;
+  font-size: 13px!important;
+}
+#header .sub_menu > div > a:hover {
+  background-color: #fee !important;
+}
+#menu_s > div > div > a,
+#menu_s > div > div > span {
+  font-size: 28px!important;
+  line-height: 14px!important;
+  padding-top: 4px;
+}
+#menu_s > div > div > a > span,
+#menu_s > div > div > span > span {
+  display: block;
+}   */

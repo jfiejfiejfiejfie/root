@@ -1,0 +1,660 @@
+/* ------------------------
+　▼書式設定
+--------------------------*/
+html {
+    margin:0;
+    padding:0;
+}
+
+body {
+    width: 100%;
+    margin: 0 auto;
+}
+
+body#black {background:#000;}
+body#white {background:#fff;}
+/* ------------------------
+　▲書式設定
+--------------------------*/
+
+/* ------------------------
+　▼PC/SP 表示非表示
+--------------------------*/
+#pcOnly,
+.pcOnly {
+    display: block!important;
+}
+#pcOnly_inline,
+.pcOnly_inline {
+    display: inline!important;
+}
+#pcOnly_inline-block,
+.pcOnly_inline-block {
+    display: inline-block!important;
+}
+
+#spOnly,
+.spOnly {
+    display: none!important;
+}
+#spOnly_inline,
+.spOnly_inline {
+    display: none!important;
+}
+#spOnly_inline-block,
+.spOnly_inline-block {
+    display: none!important;
+}
+
+@media screen and (max-width: 767px) {
+    #pcOnly,
+    .pcOnly {
+        display: none!important;
+    }
+    #pcOnly_inline,
+    .pcOnly_inline {
+        display: none!important;
+    }
+    #pcOnly_inline-block,
+    .pcOnly_inline-block {
+        display: none!important;
+    }
+
+    #spOnly,
+    .spOnly {
+        display: block!important;
+    }
+    #spOnly_inline,
+    .spOnly_inline {
+        display: inline!important;
+    }
+    #spOnly_inline-block,
+    .spOnly_inline-block {
+        display: inline-block!important;
+    }
+}
+/* ------------------------
+　▲PC/SP 表示非表示
+--------------------------*/
+
+/* ------------------------
+　▼header　ヘッダー
+--------------------------*/
+header {
+    font-family: "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+    font-size: 12px;
+}
+header a:link,
+header a:visited {
+    text-decoration: none;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+header a:active {
+    text-decoration: none;
+}
+
+header#sqexHeader-black_rsp {
+    border-bottom: 1px solid #838383;
+    background:#000;
+}
+header#sqexHeader-white_rsp {
+    border-bottom: 1px solid #ccc;
+    background:#fff;
+}
+@media screen and (max-width: 767px) {
+    header#sqexHeader-black_rsp,
+    header#sqexHeader-white_rsp {
+        height: auto;
+        padding:10px 0;
+    }
+}
+header#sqexHeader-black_rsp a:link,
+header#sqexHeader-black_rsp a:visited,
+header#sqexHeader-black_rsp a:hover,
+header#sqexHeader-black_rsp a:active {
+    color:#fff;
+}
+header#sqexHeader-white_rsp a:link,
+header#sqexHeader-white_rsp a:visited,
+header#sqexHeader-white_rsp a:hover,
+header#sqexHeader-white_rsp a:active {
+    color:#000;
+}
+
+#header-title {
+    height: 37px;
+    padding: 0 10px;
+}
+
+#header-title div.logo {
+    float: left;
+    margin-top:13px;
+}
+
+#header-title div.logo a {
+    width: 130px;
+    height: 14px;
+    display: block;
+}
+
+header#sqexHeader-black_rsp #sqexaccount {
+    float: right;
+    margin-right: 10px;
+    margin-top: 4px;
+}
+
+/*スマートフォン*/
+@media screen and (max-width: 767px) {
+    #header-title {
+        display: none;
+    }
+
+    #phone-title {
+        width: 100%; /* 608px;*/
+        height: auto;
+        position: relative;
+    }
+
+    #phone-title div.logo {
+        width: 40%; /* 418px */
+        /*height: auto; /* 35px */
+        margin: 0 auto;
+        text-align: center;
+        max-width: 160px;
+    }
+    #phone-title div.logo img {
+        display:block;
+        width:100%;
+    }
+}
+
+/* ------------------------
+　▲header　ヘッダー
+--------------------------*/
+
+/* ------------------------
+　▼contents　コンテンツ
+--------------------------*/
+
+#contents {
+    margin: 0 auto;
+    background: #fff;
+    color:#000;
+}
+
+@media screen and (max-width: 767px) {
+    #contents {
+        width:100%;
+    }
+}
+/* ------------------------
+　▲contents　コンテンツ
+--------------------------*/
+
+
+/* ------------------------
+　▼footer　フッター
+--------------------------*/
+div#sqexFooter {
+    margin-top: 0px;
+    clear: both;
+    text-align: center;
+    font-family:Verdana,Arial,Meiryo,"Hiragino Kaku Gothic Pro",Osaka,"MS P Gothic",sans-serif;
+    font-weight:normal!important;
+    font-size:12px;
+}
+
+/*----------------------------------------------------
+=div.sqex-footer-white
+----------------------------------------------------*/
+div#sqexFooter.sqex-footer-white {
+    color: #333;
+    background: #fff;
+    border-top: 1px solid #ccc;
+}
+div#sqexFooter.sqex-footer-white a:link,
+div#sqexFooter.sqex-footer-white a:visited,
+div#sqexFooter.sqex-footer-white a:hover,
+div#sqexFooter.sqex-footer-whitee a:active {
+    color: #000;
+}
+
+div.sqex-footer-white div#sqex-footer-contents-inner {
+    border-top:none;
+}
+
+/*----------------------------------------------------
+=div.sqex-footer-black
+----------------------------------------------------*/
+div#sqexFooter.sqex-footer-black {
+    color: #ccc;
+    background: #000;
+    border-top: 1px solid #666;
+}
+div#sqexFooter.sqex-footer-black a:link,
+div#sqexFooter.sqex-footer-black a:visited,
+div#sqexFooter.sqex-footer-black a:hover,
+div#sqexFooter.sqex-footer-black a:active {
+    color: #fff;
+}
+
+div#sqexFooter a:link,
+div#sqexFooter a:visited,
+div#sqexFooter a:hover,
+div#sqexFooter a:active {
+    text-decoration: none!important;
+    font-weight:normal!important;
+}
+div#sqexFooter a:hover {
+    text-decoration: underline!important;
+    font-weight:normal!important;
+}
+div#sqex-footer-contents {
+    line-height:1.0;
+}
+
+div#sqexFooter div.sqex-footer-spbuy{
+    margin-left: auto;
+    margin-right: auto;
+    padding:0 0 10px 0;
+    text-align:center;
+}
+div#sqexFooter.sqex-footer-white div.sqex-footer-spbuy {
+    border-bottom: 1px solid #ccc;
+}
+
+div#sqexFooter div.sqex-footer-spbuy a {
+    margin:10px 5px 0 5px;
+    display:inline-block;
+}
+div#sqexFooter div.sqex-footer-spbuy a:last-child {
+    margin-right:0;
+}
+div#sqexFooter div.sqex-footer-spbuy img {
+    height:40px;
+}
+
+div#rating-ex {
+    padding:10px 0;
+    text-align:center;
+    border-bottom:1px solid #333;
+}
+
+div#sqex-footer-contents-inner {
+    border-bottom:1px solid #333;
+    text-align:center;
+    position:relative;
+}
+div.sqex-footer-white div#sqex-footer-contents-inner {
+    border-bottom:1px solid #ccc;
+}
+
+div#sqexFooter div.sqex-footer-links {
+    padding:10px 0;
+    position:absolute;
+    right:10px;
+    top:0;
+}
+div#sqexFooter div.sqex-footer-links a {
+    display:inline-block;
+    margin-right: 20px;
+}
+div#sqexFooter div.sqex-footer-links a:last-child {
+    margin-right:0;
+}
+
+div#sqexFooter div.sqex-footer-links img {
+    height:40px;
+}
+@media screen and (max-width: 767px) {
+    div#sqexFooter div.sqex-footer-links {
+        margin:0;
+        float:none;
+        text-align:center;
+        border-top: 1px solid #333;
+        position:relative;
+        right:auto;
+        top:auto;
+    }
+    div#sqexFooter.sqex-footer-white div.sqex-footer-links {
+         border-top: 1px solid #ccc;
+    }
+
+    div#sqexFooter div.sqex-footer-links a {
+        margin: 0 5px;
+    }
+}
+
+div#sqexFooter div.sqex-footer-shares-wrap {
+    display:inline-block;
+    padding:10px 0;
+    width:313px;
+    position:absolute;
+    left:50%;
+    margin-left:-156px;
+}
+div#sqexFooter div.sqex-footer-shares-wrap.logoless {
+    display:inline-block;
+    padding:10px 0;
+    position:relative;
+    width:auto;
+    left:0;
+    margin:0 auto;
+}
+
+div#sqexFooter dl.sqex-footer-shares {
+    text-align:center;
+    width:auto;
+    height:40px;
+}
+div#sqexFooter dl.sqex-footer-shares dt,
+div#sqexFooter dl.sqex-footer-shares dd {
+    display:inline-block;
+    margin:7px 15px 7px 0;
+    vertical-align:middle;
+    height:25px;
+}
+div#sqexFooter dl.sqex-footer-shares dd:last-child {
+    margin-right:0;
+}
+div#sqexFooter dl.sqex-footer-shares dd div {
+    vertical-align:middle!important;
+}
+
+@media screen and (max-width: 767px) {
+    div#sqexFooter div.sqex-footer-shares-wrap {
+        width:auto;
+        position:relative;
+        left:auto;
+        margin-left:auto;
+    }
+    div#sqexFooter dl.sqex-footer-shares {
+        width:auto;
+        border:none;
+        float:none;
+    }
+    div#sqexFooter dl.sqex-footer-shares dt {
+        display:none;
+    }
+}
+
+
+div#sqexFooter div.sqex-footer-logos {
+    float:left;
+    margin-left:10px;
+    padding:10px 0;
+}
+div#sqexFooter div.sqex-footer-logos img {
+    margin-right:20px;
+    max-height:40px;
+    max-width:320px;
+    vertical-align: middle;
+}
+div#sqexFooter div.sqex-footer-logos object {
+    margin-right:20px;
+    height:40px;
+    width:auto;
+}
+div#sqexFooter div.sqex-footer-logos object.footerlogo-rectangle {
+    height:22px;
+    padding:9px 0;
+}
+div#sqexFooter div.sqex-footer-logos img.white-border-right{
+    border-right: 1px solid #fff;
+    padding-right: 10px;
+    margin-right: 10px;
+}
+div#sqexFooter div.sqex-footer-logos img.black-border-right{
+    border-right: 1px solid #333;
+    padding-right: 10px;
+    margin-right: 10px;
+}
+div#sqexFooter div.sqex-footer-logos img.foreign-rating {
+    max-height: 100px;
+}
+div#sqexFooter div.sqex-footer-logos object.foreign-rating {
+    height: 100px;
+}
+@media screen and (max-width: 767px) {
+    div#sqexFooter div.sqex-footer-logos {
+        float:none;
+        padding:10px;
+        margin:0;
+        text-align:center;
+        border-bottom:1px solid #333;
+    }
+    div#sqexFooter.sqex-footer-white div.sqex-footer-logos {
+        border-bottom:1px solid #ccc;
+    }
+    div#sqexFooter div.sqex-footer-logos img {
+        margin:5px;
+    }
+    div#sqexFooter div.sqex-footer-logos object {
+        margin:5px;
+    }
+    div#sqexFooter div.sqex-footer-logos img.white-border-right{
+        padding-right: 5px;
+    }
+    div#sqexFooter div.sqex-footer-logos img.black-border-right{
+        padding-right: 5px;
+    }
+}
+
+
+div#sqexFooter ul {
+    padding: 10px 0;
+    text-align: center;
+    line-height: 1;
+    width:100%;
+    border-bottom: 1px solid #333;
+}
+div#sqexFooter.sqex-footer-white ul {
+    padding: 10px 0;
+    text-align: center;
+    line-height: 1;
+    width:100%;
+    border-bottom: 1px solid #ccc;
+}
+
+div#sqexFooter ul li {
+    display: inline;
+    padding-left: 11px;
+    padding-right: 10px;
+    border-right:1px dotted #666;
+    font-size:12px;
+}
+div#sqexFooter ul li:last-child {
+    border:none;
+}
+
+
+@media screen and (max-width: 767px) {
+    div#sqexFooter ul {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    div#sqexFooter ul li {
+        box-sizing:border-box;
+        width:50%;
+        padding:0.5%;
+        margin:1% 0;
+        border:none;
+    }
+    div#sqexFooter ul li:nth-child(odd) {
+        border-right:1px dotted #666;
+    }
+}
+
+div#sqexFooter div.sqex-footer-copy-logo {
+    position:relative;
+}
+
+div#sqexFooter div.sqex-footer-copy-logo #pcOnly img {
+    width:100%;
+    max-width:960px;
+}
+
+div#sqexFooter p.sqex-footer-copyright {
+    margin: 0 auto;
+    padding: 20px 0;
+    text-align: center;
+    z-index:1000;
+    width:70%;
+}
+
+p.sqex-footer-copyright span{
+    display:block;
+    margin:-25px 10px 0 0;
+    text-align:right;
+}
+
+p.sqex-footer-copyright span a{
+    margin-left:10px;
+}
+
+div#sqexFooter .sqex-footer-tm {
+    padding: 14px 15px 0 15px;
+    line-height: 1.2;
+    display:block;
+}
+
+div#sqexFooter .sqex-footer-exlogo {
+    position:absolute;
+    top:10px;
+    right:10px;
+}
+div#sqexFooter .sqex-footer-exlogo_sp {
+    display:none;
+    border-top:1px solid #333;
+    padding:10px 0;
+}
+
+@media screen and (max-width: 767px) {
+    div#sqexFooter .sqex-footer-exlogo {
+        display:none;
+    }
+    div#sqexFooter .sqex-footer-exlogo_sp {
+        display:block;
+    }
+}
+
+div.sqex-footer-tooltip {
+    left: -1000px;
+    line-height: 1em !important;
+    position: absolute;
+    top: -1000px;
+    width: 332px;
+    z-index: 100;
+}
+div.sqex-footer-tooltip p {
+    background: none repeat scroll 0 0 #fefefe;
+    border: 1px solid #666666;
+    color: #333333;
+    font-size: 10px;
+    padding: 5px;
+}
+
+/*----------------------------------------------------
+=div#sqexFooter div.column3
+----------------------------------------------------*/
+div.column3 div#sqex-footer-contents-inner {
+    position:relative;
+}
+
+div#sqexFooter.column3 div.sqex-footer-logos {
+    float:none;
+    padding:10px 0;
+    text-align:center;
+    margin:0 0 0 0;
+    border-bottom:1px solid #333;
+}
+div#sqexFooter.column3 div.sqex-footer-links {
+    float:none;
+}
+div#sqexFooter.sqex-footer-white.column3 div.sqex-footer-logos {
+    border-bottom:1px solid #ccc;
+}
+
+@media screen and (max-width: 767px) {
+    div.column3 div#sqex-footer-contents div.sqex-footer-links {
+        float:none;
+    }
+}
+
+div.sqex-footer-white.column3 div#sqex-footer-contents div.sqex-footer-links {
+    border-bottom: 1px solid #ccc;
+}
+div.sqex-footer-white.column3 div#sqex-footer-contents div.sqex-footer-logos {
+    border-bottom: 1px solid #ccc;
+}
+
+
+div#sqexFooter.column3 div.sqex-footer-shares-wrap {
+    width:auto;
+    position:relative;
+    left:auto;
+    margin-left:auto;
+}
+
+/* ------------------------
+　▲footer　フッター
+--------------------------*/
+
+/* ------------------------
+　▼追記：採用ボタンなど
+--------------------------*/
+/*.addcomArea*/
+div#sqexFooter ul.addcomArea { display: flex; justify-content: center;}
+div#sqexFooter ul.addcomArea li { border:none; background: none; }
+div#sqexFooter ul.addcomArea li a.recruitBtn {
+    background: rgba(51,51,51,1);
+    border-radius: 0!important;
+    color: #fff;
+    display: inline-block;
+    font-size: 100%;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+    width: 160px;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+div#sqexFooter ul.addcomArea li a.recruitBtn:hover { text-decoration: none!important; }
+div#sqexFooter ul.addcomArea li a.recruitBtn::before, div#sqexFooter ul.addcomArea li a.recruitBtn::after { display: none; }
+
+@media screen and (max-width: 767px) {
+    div#sqexFooter ul.addcomArea li { padding: 0; margin: 0; }
+}
+/*end.addcomArea*/
+
+
+/* ------------------------
+　▼追記：アラビア語
+--------------------------*/
+div#sqexFooter ul.ar {
+    direction: rtl;
+}
+div#sqexFooter ul.ar li {
+    border-left:1px dotted #666;
+    border-right:none;
+}
+div#sqexFooter ul.ar li:last-child {
+    border:none;
+}
+
+@media screen and (max-width: 767px) {
+    div#sqexFooter ul.ar li {
+        border:none;
+    }
+    div#sqexFooter ul.ar li:nth-child(odd) {
+        border-left:1px dotted #666;
+    }
+}
+/* ------------------------
+　▲アラビア語
+--------------------------*/

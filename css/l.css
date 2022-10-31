@@ -1,0 +1,204 @@
+@charset "utf-8";
+/**
+ *  Author: 08
+ *  Description: Lサイズ用CSS(630px以上)※Mサイズでも読み込まれる
+ *
+ *  [1] 変数
+ *  [2] ミックスイン
+ *  [3] 基本セレクタ
+ *  [4] クラスセレクタ
+ *  [5] IDセレクタ
+ */
+/*******************************
+    [1] 変数
+********************************/
+/*******************************
+    [2] ミックスイン
+********************************/
+/*******************************
+    [3] 基本セレクタ
+********************************/
+h1 {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+/*******************************
+    [4] クラスセレクタ
+********************************/
+.s,
+.s2,
+.wiki_s {
+  display: none;
+}
+/*******************************
+    [5] IDセレクタ
+********************************/
+body {
+  background-color: #60caff;
+}
+#header {
+  width: 1280px;
+  min-width: 100%;
+}
+#header .top_header {
+  width: 1280px;
+  position: fixed;
+}
+#header .game_bar > .game_title {
+  width: 1905px;
+  padding: 0 8px;
+  position: fixed;
+  background: rgb(0, 0, 0);
+}
+#header2 {
+  min-width: 1140px;
+}
+#header2 .top_header {
+  width: 1140px;
+  margin: 0 auto 10px;
+}
+#header2 #navi > ul {
+  width: 1140px;
+  margin: 0 auto;
+  padding: 10px;
+  font-size: 12px;
+}
+#header2 #navi > ul li {
+  display: inline;
+  padding-left: 18px;
+  background-image: url(/common/img/icon/navi.png);
+  background-size: 14px;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+#header2 #navi > ul li:first-child {
+  background: none;
+  padding-left: 0;
+}
+#header2 #navi > ul li a:hover {
+  background-color: transparent;
+}
+#contents {
+  zoom: 1;
+  width: 1140px;
+  margin: 0 auto 10px auto;
+  padding: 0 10px;
+}
+#contents:after {
+  content: "";
+  display: block;
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
+#contents #left {
+  margin-right: 20px;
+  float: left;
+  width: 250px;
+}
+#contents #left > div {
+  -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+}
+#contents #main {
+  float: right;
+  width: 100%;
+  margin-left: -100%;
+}
+#contents #main > div {
+  margin: 0 270px 20px;
+}
+#contents #main .frame {
+  background-color: white;
+  border-top: 1px solid #ddd;
+  -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  padding-bottom: 20px;
+}
+#contents #right {
+  float: right;
+}
+#contents #right > div {
+  width: 250px;
+  background-color: white;
+}
+#footer {
+  padding: 10px;
+}
+#footer .footer_menu .game_menu .title {
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  text-align: left;
+}
+#footer .footer_menu .game_menu .title a {
+  color: white;
+}
+#footer .footer_menu .game_menu ul {
+  zoom: 1;
+}
+#footer .footer_menu .game_menu ul:after {
+  content: "";
+  display: block;
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
+#footer .footer_menu .game_menu ul li {
+  float: left;
+  width: 33%;
+  text-align: left;
+}
+#footer .footer_menu .game_menu ul li a {
+  color: white;
+  font-size: 11px;
+  line-height: 20px;
+}
+#footer .footer_menu .game_menu ul li a:hover {
+  background-color: transparent;
+  text-decoration: underline;
+}
+#footer .footer_menu .other_menu {
+  margin-top: 20px;
+}
+#footer .footer_menu .other_menu a {
+  font-size: 11px;
+  margin: 5px;
+  color: white;
+}
+#header .sub_menu > div > a {
+  width: 16.66% !important;
+  font-size: 13px!important;
+}
+#header .sub_menu > div > a:hover {
+  background-color: #fee !important;
+}
+#menu_s > div > div > a,
+#menu_s > div > div > span {
+  font-size: 30px!important;
+  line-height: 96px!important;
+  padding-top: 8px;
+}
+#menu_s > div > div > a > span,
+#menu_s > div > div > span > span {
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: 700;
+  position: fixed;
+}
+#images{
+  position: fixed;
+}
+/*** admin ***/
+#admin #contents #main > div {
+  margin: 0 0 20px 270px;
+}
+#admin #right {
+  display: none;
+}
+.s_size_only {
+  display: none !important;
+}
