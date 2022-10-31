@@ -1,54 +1,10 @@
 <?php
-session_start(); 
-require_once('../lib/util.php');
-$gobackURL = "search_sp.php";
-
-// 文字エンコードの検証
-if (!cken($_POST)){
-  header("Location:{$gobackURL}");
-  exit();
-}
-
-// nameが未設定、空のときはエラー
-if(isset($_GET["kind_name"])){
-  $kind_name=$_GET["kind_name"];
-}
-else if (empty($_POST)){
-  header("Location:{$gobackURL}");
-  exit();
-} else if(!isset($_POST["kind_name"])||($_POST["kind_name"]==="")){
-  header("Location:{$gobackURL}");
-  exit();
-}
-
-// データベースユーザ
-$user = 'root';
-$password = '';
-// 利用するデータベース
-$dbName = 'wakka1';
-// MySQLサーバ
-$host = 'localhost:3306';
-// MySQLのDSN文字列
-$dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
-if(!isset($_GET["kind_name"])){
-$kind_id=$_POST["kind_name"];
-try{
-  $pdo=new PDO($dsn,$user,$password);
-  $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-  $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-  $sql = "SELECT * FROM kind WHERE id=$kind_id";
-  $stm = $pdo->prepare($sql);
-  $stm->execute();
-  $kind=$stm->fetchAll(PDO::FETCH_ASSOC);
-  foreach($kind as $row){
-    $kind_name=$row["name"];
-  }
-}catch(Exception $e){
-  echo 'エラーがありました。';
-  echo $e->getMessage();
-  exit();
-}
-}
+  session_start();
+  $user='root';
+  $password='';
+  $dbName = 'wakka1';
+  $host = 'localhost:3306';
+  $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 ?>
 <!DOCTYPE html>
 <html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
@@ -57,10 +13,11 @@ try{
 <meta property="og:title" content="フラワーアレンジメント教室　Bloom【ブルーム】">
 <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
 <meta property="og:url" content="http://bloom.ne.jp">
-<meta property="og:image" content="">
-<title>貸し借り|検索</title>
+<meta property="og:image" content="images/main_visual.jpg">
+<title>貸し借り|マイページ</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
+<link rel="stylesheet" href="css/original.css">
 <link rel="stylesheet" href="css/styled.css">
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -83,10 +40,9 @@ try{
   js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.5&appId=643231655816289";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-  
   <!--ヘッダー-->
 		<div id="header">
-<div class="game_bar" style="background-image: url();">
+<div class="game_bar" style="background-image: url(images/main_visual.jpg);">
 		<div class="game_title">
 				<a href="all.php"><img src=""class="mr5" /></a>
 				<a  href="all.php">貸し借りサイト</a>
@@ -110,120 +66,129 @@ try{
 		</div>
 		</div>
 
-<div>
-  <!-- 入力フォームを作る -->
+
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
-    <section id="point">
-        <h2>ジャンル検索</h2>
-    <form method="POST" action="search_kind.php">
-    <ul>
-      <li>
-        <label>ジャンルで検索します：<br>
-        <select name="kind_name">
-                          <?php
-                                  try{
-                                    $pdo=new PDO($dsn,$user,$password);
-                                    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-                                    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-                                    $sql = "SELECT * FROM kind";
-                                    $stm = $pdo->prepare($sql);
-                                    $stm->execute();
-                                    $kind=$stm->fetchAll(PDO::FETCH_ASSOC);
-                                }catch(Exception $e){
-                                    echo 'エラーがありました。';
-                                    echo $e->getMessage();
-                                    exit();
-                                }
-                            foreach($kind as $row){
-                              echo '<option value="',$row["id"],'">',$row["name"],"</option>";
-                            }
-                          ?>
-                        </select>
-        </label>
-      </li>
-      <li><input type="submit" value="検索する"></li>
-    </ul>
-    </form>
-    </section>
-      <section id="point">
-        <h2>出品物一覧</h2>
-        <div>
-  <?php
-  //MySQLデータベースに接続する
-  try {
-    $pdo = new PDO($dsn, $user, $password);
-    // プリペアドステートメントのエミュレーションを無効にする
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    // 例外がスローされる設定にする
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // SQL文を作る
-    $sql = "SELECT * FROM main WHERE kind LIKE(:item) and loan=0";
-    //$sql = "SELECT * FROM main where item='$item'";
-    // プリペアドステートメントを作る
-    $stm=$pdo->prepare($sql);
-    // プレースホルダに値をバインドする
-    $stm->bindValue(':item',$kind_name,PDO::PARAM_STR);
-    // SQL文を実行する
-    $stm->execute();
-    // 結果の取得（連想配列で受け取る）
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-    if(count($result)>0){
-      echo "ジャンル:{$kind_name}";
-      // テーブルのタイトル行
-      echo '<table class="table table-striped">';
+   
+      <?php  if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){ ?>
+      <h2>ブロックリスト</h2>
+      <?php
+      $name=$_SESSION["name"];
+        try{
+            $pdo=new PDO($dsn,$user,$password);
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            $sql = "SELECT * FROM blocklist WHERE user_id =:id";
+            $stm = $pdo->prepare($sql);
+            $stm->bindValue(':name',$name,PDO::PARAM_STR);
+            $stm->execute();
+            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+            echo '<table class="table table-striped">';
             echo '<thead><tr>';
-            echo '<th>','貸出者','</th>';
+            echo '<th>','掲載日','</th>';
             echo '<th>','貸出物','</th>';
             echo '<th>','ジャンル','</th>';
             echo '<th>','金額','</th>';
             echo '<th>','画像','</th>';
-            if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-              if($_SESSION["admin"]==1){
-              echo '<th>','削除','</th>';
-              }
-            }
             echo '</tr></thead>';
             echo '<tbody>';
             foreach($result as $row){
                 echo '<tr>';
-                if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-                  if($row['member']===$_SESSION['name']){
-                    echo '<td id="color">',es($row['member']);
-                  }else{
-                    echo '<td>',es($row['member']);
-                  }
-                }else{
-                  echo '<td>',es($row['member']);
-                }
-                echo "<br><a target='_blank' href='profile.php?id={$row['member_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['member_id']}'></a></td>";
-                echo '<td>',es($row['item']),'</td>';
+                echo '<td>',$row['today'],'</td>';
+                echo '<td>',$row['item'],'</td>';
                 echo '<td>',$row['kind'],'</td>';
                 echo '<td>￥',number_format($row['money']),'</td>';
-                echo "<td><a target='_blank' href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
-                if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-                  if($_SESSION["admin"]==1){
-                    $row['id']=rawurlencode($row['id']);
-                    echo "<td><a class = 'btn btn-primary' href=delete.php?id={$row["id"]}>","消す",'</a></td>';
-                    }
-                }
+                echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
                 echo '</tr>';
             }
             echo '</tbody>';
             echo '</table>';
-    } else {
-      echo "名前に「{$kind_name}」は見つかりませんでした。";
+        }catch(Exception $e){
+            echo 'エラーがありました。';
+            echo $e->getMessage();
+            exit();
+        }
+      ?>
+      <h2>取引中</h2>
+      <?php
+        try{
+          $pdo=new PDO($dsn,$user,$password);
+          $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+          $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+          $sql = "SELECT * FROM main WHERE member =:name and loan=1";
+          $stm = $pdo->prepare($sql);
+          $stm->bindValue(':name',$name,PDO::PARAM_STR);
+          $stm->execute();
+          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+          echo '<table class="table table-striped">';
+          echo '<thead><tr>';
+          echo '<th>','掲載日','</th>';
+          echo '<th>','貸出物','</th>';
+          echo '<th>','ジャンル','</th>';
+          echo '<th>','金額','</th>';
+          echo '<th>','画像','</th>';
+          echo '<th>','チャット','</th>';
+          echo '</tr></thead>';
+          echo '<tbody>';
+          foreach($result as $row){
+              echo '<tr>';
+              echo '<td>',$row['today'],'</td>';
+              echo '<td>',$row['item'],'</td>';
+              echo '<td>',$row['kind'],'</td>';
+              echo '<td>￥',number_format($row['money']),'</td>';
+              echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
+              echo "<td><a class = 'btn btn-primary' href=loan.php?id={$row["id"]}&name={$row["item"]}>","話す",'</a></td>';
+              echo '</tr>';
+          }
+          echo '</tbody>';
+          echo '</table>';
+      }catch(Exception $e){
+          echo 'エラーがありました。';
+          echo $e->getMessage();
+          exit();
+      }
+      ?>
+      <h2>購入したもの</h2>
+      <?php
+        try{
+          $pdo=new PDO($dsn,$user,$password);
+          $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+          $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+          $sql = "SELECT * FROM main WHERE  buy_id=:id and loan=1";
+          $stm = $pdo->prepare($sql);
+          $stm->bindValue(':id',$id,PDO::PARAM_STR);
+          $stm->execute();
+          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+          echo '<table class="table table-striped">';
+          echo '<thead><tr>';
+          echo '<th>','掲載日','</th>';
+          echo '<th>','貸出物','</th>';
+          echo '<th>','ジャンル','</th>';
+          echo '<th>','金額','</th>';
+          echo '<th>','画像','</th>';
+          echo '<th>','チャット','</th>';
+          echo '</tr></thead>';
+          echo '<tbody>';
+          foreach($result as $row){
+              echo '<tr>';
+              echo '<td>',$row['today'],'</td>';
+              echo '<td>',$row['item'],'</td>';
+              echo '<td>',$row['kind'],'</td>';
+              echo '<td>￥',number_format($row['money']),'</td>';
+              echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
+              echo "<td><a class = 'btn btn-primary' href=loan.php?id={$row["id"]}&name={$row["item"]}>","話す",'</a></td>';
+              echo '</tr>';
+          }
+          echo '</tbody>';
+          echo '</table>';
+      }catch(Exception $e){
+          echo 'エラーがありました。';
+          echo $e->getMessage();
+          exit();
+      }
     }
-  } catch (Exception $e) {
-    echo '<span class="error">エラーがありました。</span><br>';
-    echo $e->getMessage();
-  }
-  ?>
-      <hr>
-    <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
-</div>
-      </section>
+      ?>
     </div>
     <!--/メイン-->
 

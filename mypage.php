@@ -96,6 +96,7 @@
             echo '<font size="3">',$row["email"],'</font><br>';
             echo '<hr>コメント<br><font size="10">',$row["comment"],'</font><br>';
             echo '<hr>残金<br><font size="10">￥',number_format($row['money']),'</font><hr>';
+            echo '<a href="blocklist.php" class="btn btn-primary">ブロックリスト</a><hr>';
             echo '<a href="edit.php" class="btn btn-primary">編集する</a>';
           // }else{
           // $url = "https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg";

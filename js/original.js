@@ -39,3 +39,19 @@ $(function(){
       });
     });
   });
+  function previewImage(obj)
+  {
+    var fileReader = new FileReader();
+    fileReader.onload = (function() {
+      document.getElementById('preview').src = fileReader.result;
+    });
+    fileReader.readAsDataURL(obj.files[0]);
+  }
+  function checkdiv( obj,id ) {
+    if( obj.checked ){
+    document.getElementById(id).style.display = "block";
+    }
+    else {
+    document.getElementById(id).style.display = "none";
+    }
+    }

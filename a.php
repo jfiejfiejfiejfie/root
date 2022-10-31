@@ -1,7 +1,18 @@
-<?php
-if(mb_send_mail('fki2166301@stu.o-hara.ac.jp', 'メール送信テスト：タイトル', 'メール送信テスト：本文')) {
-    echo "送信完了";
-} else {
-    echo "送信失敗";
-}
-?>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JavaScriptのFileAPIで画像のプレビュー</title>
+</head>
+<body>
+<form>
+<input type="file" accept='image/*' onchange="previewImage(this);">
+</form>
+<p>
+Preview:<br>
+<img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="max-width:200px;">
+</p>
+<script>
+</script>
+</body>
+</html>

@@ -1,8 +1,0 @@
-﻿$.getScript('https://www.googletagmanager.com/gtag/js?id=G-JZF8NT6LN9');
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-
-//GA
-gtag('config', 'G-JZF8NT6LN9');
-gtag('config', 'UA-48249555-33');

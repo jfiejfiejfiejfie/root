@@ -1,6 +1,0 @@
-﻿  gtag('event', 'conversion', {
-      'send_to': 'AW-996876087/UDrVCNLbv58BELe-rNsD',
-      'value': 1.0,
-      'currency': 'JPY',
-      'aw_remarketing_only': true
-  });

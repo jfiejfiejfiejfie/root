@@ -17,7 +17,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 <meta property="og:title" content="フラワーアレンジメント教室　Bloom【ブルーム】">
 <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
 <meta property="og:url" content="http://bloom.ne.jp">
-<meta property="og:image" content="images/main_visual.jpg">
+<meta property="og:image" content="">
 <title>貸し借り</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
@@ -63,7 +63,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
   //エラーがあったとき
   if (count($errors)>0){
     echo "<script> rikki(); </script>";
-    echo "<img src='images/main_visual.jpg'>";
+    echo "<img src=''>";
     echo "<h1>Error!!!</h1>";
     echo '<ol class="error">';
     foreach ($errors as $value) {
@@ -86,7 +86,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
   
   <!--ヘッダー-->
   <div id="header">
-<div class="game_bar" style="background-image: url(images/main_visual.jpg);">
+<div class="game_bar" style="background-image: url();">
 		<div class="game_title">
 				<a href="all.php"><img src="images/gomi.png"class="mr5" /></a>
 				<a  href="all.php">貸し借りサイト</a>
