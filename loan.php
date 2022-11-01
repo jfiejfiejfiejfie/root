@@ -78,7 +78,7 @@ $_SESSION["chat_name"]=$_GET["name"];
     <!--メイン-->
     <div id="main">
       <section id="point">
-        <img src="image.php?id=<?php echo $chat_id;?>" style="height:50%; width:50%;">
+        <img src="image.php?id=<?php echo $chat_id;?>" style="max-width:350px;">
         <h2><?php echo htmlspecialchars($_GET["name"]);?>についてのチャット履歴</h2>
         <div>
     <?php
@@ -115,10 +115,9 @@ $_SESSION["chat_name"]=$_GET["name"];
 <hr>
 <form action="chat.php" method="POST"enctype="multipart/form-data">
     チャット:<input type="text" name="text" required>
-<li>画像選択:
-                <li>
-                  <label><img src="images/imageplus.png"><br>
-                        <input type="file" multiple name="image" class="test">
+<label>画像選択:<br>
+                <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+                        <input type="file" multiple name="image"class="test" accept="image/*"  onchange="previewImage(this);">
                           </label>
               </div>
               <input type="submit" value="送信" >

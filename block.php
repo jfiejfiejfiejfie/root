@@ -9,15 +9,15 @@ $dbName = 'wakka1';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 $my_id=$_SESSION["id"];
-$user_id=$_GET["id"];
+$userid=$_GET["id"];
 try{
     $pdo=new PDO($dsn,$user,$password);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
     $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-    $sql = "INSERT INTO blocklist (my_id,user_id) VALUES(:my_id,:user_id)";
+    $sql = "INSERT INTO blocklist (my_id,userid) VALUES(:my_id,:userid)";
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':my_id',$my_id,PDO::PARAM_STR);
-    $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
+    $stm->bindValue(':userid',$userid,PDO::PARAM_STR);
     $stm->execute();
     $result=$stm->fetchAll(PDO::FETCH_ASSOC);
 }catch(Exception $e){
@@ -93,7 +93,7 @@ try{
     <div id="main">
       <section id="point">
         <h2>ブロック完了</h2>
-        <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+        <p><a href="<?php echo $gobackURL ?>">ブロックリスト</a></p>
       </section>
     </div>
     <!--/メイン-->

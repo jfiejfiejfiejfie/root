@@ -86,7 +86,7 @@
             foreach($result as $row){
             echo '<table class="table table-striped">';
             echo '<thead><tr>';
-            echo '<td><img src="image.php?id=',$row['id'],'"></td>';
+            echo '<td><img src="image.php?id=',$row['id'],'"style="max-width:200px;"></td>';
             echo '</tr>';
             echo '<tr>';
             echo '</thead>';
@@ -140,7 +140,9 @@
                 </li>
                 <li>
                   <label>画像選択:<br>
-                        <input type="file" name="image" required>
+                <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+                        <input type="file" multiple name="image"class="test" accept="image/*"  onchange="previewImage(this);">
+                          </label>
                 <li><input type="submit" value="編集する">
                 </li>
             </ul>

@@ -2,29 +2,14 @@
 session_start(); 
 require_once('../lib/util.php');
 // $gobackURL ="blocklist.php?id={$_SESSION["my_id"]}&user_id={$_SESSION["user_id"]}";
-$gobackURL ='blocklist.php';
 $user='root';
 $password='';
 $dbName = 'wakka1';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
-$main_id=$_SESSION["id"];
-$user_id=$_GET["id"];
-try{
-    $pdo=new PDO($dsn,$user,$password);
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-    $sql = "INSERT INTO blocklist (main_id,user_id) VALUES(:main_id,:user_id)";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':main_id',$main_id,PDO::PARAM_STR);
-    $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
-    $stm->execute();
-    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-}catch(Exception $e){
-    echo 'エラーがありました。';
-    echo $e->getMessage();
-    exit();
-    }
+$main_id=$_GET["id"];
+$user_id=$_SESSION["id"];
+$gobackURL ="detail.php?id={$main_id}";
 ?>
 
 <!DOCTYPE html>
@@ -88,6 +73,66 @@ try{
 		</div>
 		</div>
   <div>
+    <?php
+    $count=0;
+    try{
+      $pdo=new PDO($dsn,$user,$password);
+      $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+      $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+      $sql = "SELECT * FROM likes WHERE user_id=$user_id and main_id=$main_id";
+      $stm = $pdo->prepare($sql);
+      $stm->execute();
+      $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+      foreach($result as $row){
+        $count+=1;
+      }
+    }catch(Exception $e){
+        echo 'エラーがありました。';
+        echo $e->getMessage();
+        exit();
+    }
+    if($count>0){
+      try{
+        $pdo=new PDO($dsn,$user,$password);
+        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM likes WHERE main_id=:main_id and user_id=:user_id";
+        $stm = $pdo->prepare($sql);
+        $stm->bindValue(':main_id',$main_id,PDO::PARAM_STR);
+        $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
+        $stm->execute();
+        $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+      }catch(Exception $e){
+        echo 'エラーがありました。';
+        echo $e->getMessage();
+        exit();
+        }
+      echo "<div id='wrapper'>";
+      echo "<div id='main'>";
+      echo "<section id='point'>";
+      echo "<h2>いいね解除しました。</h2>";
+      echo "<p><a href=$gobackURL>戻る</a></p>";
+      echo "</section>";
+      echo "</div>";
+      echo "</div>";
+      exit();
+    }
+    try{
+      $pdo=new PDO($dsn,$user,$password);
+      $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+      $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+      $sql = "INSERT INTO likes (main_id,user_id) VALUES(:main_id,:user_id)";
+      $stm = $pdo->prepare($sql);
+      $stm->bindValue(':main_id',$main_id,PDO::PARAM_STR);
+      $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
+      $stm->execute();
+      $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+  }catch(Exception $e){
+      echo 'エラーがありました。';
+      echo $e->getMessage();
+      exit();
+      }
+    ?>
   <div id="wrapper">
     <!--メイン-->
     <div id="main">

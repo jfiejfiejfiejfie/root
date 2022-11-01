@@ -27,6 +27,8 @@
 <link rel="stylesheet" href="css/s.css">
 <link rel="favicon.ico">
 <link rel="apple-touch-icon" href="webclip152.png">
+<script src="js/original.js">
+</script>
 </head>
 <body>
 <div id="fb-root"></div>
@@ -81,6 +83,8 @@
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
             foreach($result as $row){
+              echo "<img src=my_image.php?id=$id style='max-width:200px;'>";
+              echo "<hr>";
             ?>
             <ul>
                 <li>
@@ -104,8 +108,10 @@
                     </label>
                 </li>
                 <li>
-                  <label>画像選択:
-                  <input type="file" name="image" required>
+                  <label>画像選択:<br>
+                  <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+                        <input type="file" multiple name="image"class="test" accept="image/*"  onchange="previewImage(this);">
+                          </label>
                 </li>
                 <li><input type="submit" value="変更する"></li>
             </ul>

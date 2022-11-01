@@ -7,6 +7,9 @@ $password='';
 $dbName = 'wakka1';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+$id=$_GET["id"];
+$main_id=$_GET["id"];
+$_SESSION["main_id"]=$_GET["id"];
 if(isset($_SESSION["id"])){
 try{
   $id=$_SESSION["id"];
@@ -99,7 +102,25 @@ try{
         <h2>出品物詳細</h2>
         <div>
     <?php
-    $data=$_GET["id"];
+        $data=$_GET["id"];
+    try{
+      $pdo=new PDO($dsn,$user,$password);
+      $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+      $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+      $sql = "SELECT * FROM likes WHERE main_id=$data";
+      $stm = $pdo->prepare($sql);
+      $stm->execute();
+      $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+      $count=0;
+      foreach($result as $row){
+        $count+=1;
+      }
+    }catch(Exception $e){
+        echo 'エラーがありました。';
+        echo $e->getMessage();
+        exit();
+    }
+
         try{
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
@@ -114,6 +135,7 @@ try{
             echo '<td><a img data-lightbox="group" height="200" width="200  "href="image.php?id=',$row['id'],'">
                   <img src="image.php?id=',$row['id'],'"height="200" width="200"></a></td>';
             echo '</tr>';
+            echo '<tr>';
             echo '<tr>';
             echo '<th>最終編集時間</th>';
             echo '<td>',$row["today"],'</td>';
@@ -159,7 +181,7 @@ try{
     ?>
     <?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
       echo "<a href='loan.php?id={$row["id"]}&name={$row["item"]}' class='btn btn-success'>チャットをする</a><br>";
-      echo "<a href='favorite.php?id={$row["main_id"]}' class='btn btn-info'>いいねする</a><br>";
+      echo "<a href='favorite.php?id={$row["id"]}' class='btn'><img src='images/good.png' style='max-width:50px'>$count</a><br>";
       if($_SESSION['name']===$row["member"]){
         if($row["buy_id"]===0){
         echo "<a href='my_edit.php?id={$row["id"]}' class='btn btn-primary'>編集する</a>";
