@@ -96,6 +96,7 @@
             echo '<font size="3">',$row["email"],'</font><br>';
             echo '<hr>コメント<br><font size="10">',$row["comment"],'</font><br>';
             echo '<hr>残金<br><font size="10">￥',number_format($row['money']),'</font><hr>';
+            echo '<a href="blocklist.php" class="btn btn-primary">ブロックリスト</a><hr>';
             echo '<a href="edit.php" class="btn btn-primary">編集する</a>';
           // }else{
           // $url = "https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg";
@@ -243,46 +244,6 @@
           exit();
       }
     }
-      ?>
-      
-      <h2>「いいね」した商品</h2>
-      <?php
-        try{
-          $pdo=new PDO($dsn,$user,$password);
-          $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-          $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-          $sql = "SELECT * FROM main WHERE member =:name and loan=1";
-          $stm = $pdo->prepare($sql);
-          $stm->bindValue(':name',$name,PDO::PARAM_STR);
-          $stm->execute();
-          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-          echo '<table class="table table-striped">';
-          echo '<thead><tr>';
-          echo '<th>','掲載日','</th>';
-          echo '<th>','貸出物','</th>';
-          echo '<th>','ジャンル','</th>';
-          echo '<th>','金額','</th>';
-          echo '<th>','画像','</th>';
-          echo '<th>','チャット','</th>';
-          echo '</tr></thead>';
-          echo '<tbody>';
-          foreach($result as $row){
-              echo '<tr>';
-              echo '<td>',$row['today'],'</td>';
-              echo '<td>',$row['item'],'</td>';
-              echo '<td>',$row['kind'],'</td>';
-              echo '<td>￥',number_format($row['money']),'</td>';
-              echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
-              echo "<td><a class = 'btn btn-primary' href=loan.php?id={$row["id"]}&name={$row["item"]}>","話す",'</a></td>';
-              echo '</tr>';
-          }
-          echo '</tbody>';
-          echo '</table>';
-      }catch(Exception $e){
-          echo 'エラーがありました。';
-          echo $e->getMessage();
-          exit();
-      }
       ?>
     </div>
     <!--/メイン-->
