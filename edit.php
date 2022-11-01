@@ -14,7 +14,7 @@
 <meta property="og:title" content="フラワーアレンジメント教室　Bloom【ブルーム】">
 <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
 <meta property="og:url" content="http://bloom.ne.jp">
-<meta property="og:image" content="">
+<meta property="og:image" content="images/main_visual.jpg">
 <title>貸し借り</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
@@ -27,8 +27,6 @@
 <link rel="stylesheet" href="css/s.css">
 <link rel="favicon.ico">
 <link rel="apple-touch-icon" href="webclip152.png">
-<script src="js/original.js">
-</script>
 </head>
 <body>
 <div id="fb-root"></div>
@@ -41,7 +39,7 @@
 }(document, 'script', 'facebook-jssdk'));</script>
   
 		<div id="header">
-<div class="game_bar" style="background-image: url();">
+<div class="game_bar" style="background-image: url(images/main_visual.jpg);">
 		<div class="game_title">
 				<a href="all.php"><img src=""class="mr5" /></a>
 				<a  href="all.php">貸し借りサイト</a>
@@ -83,7 +81,6 @@
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
             foreach($result as $row){
-            echo '<img id="image" height="100" width="100" src="my_image.php?id=',$row["id"],'">';
             ?>
             <ul>
                 <li>
@@ -103,13 +100,12 @@
                 </li>
                 <li>
                     <label>コメント:
-                        <input type="text" name="comment" placeholder="comment" value="<?php echo htmlspecialchars($row["comment"]); ?>">
+                        <input type="text" name="comment" placeholder="comment" value="<?php echo htmlspecialchars($row["comment"]); ?>" required>
                     </label>
                 </li>
                 <li>
-                  <label><img src="images/imageplus.png" id="preview"><br>
-                        <input type="file" multiple name="image"class="test" accept="image/*"  onchange="previewImage(this);">
-                          </label>
+                  <label>画像選択:
+                  <input type="file" name="image" required>
                 </li>
                 <li><input type="submit" value="変更する"></li>
             </ul>

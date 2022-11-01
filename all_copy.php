@@ -8,7 +8,7 @@
 <meta property="og:title" content="フラワーアレンジメント教室　Bloom【ブルーム】">
 <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
 <meta property="og:url" content="http://bloom.ne.jp">
-<meta property="og:image" content="">
+<meta property="og:image" content="images/main_visual.jpg">
 <title>貸し借り|HOME</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
@@ -60,7 +60,7 @@
 
   <!--メインビジュアル画像-->
   <div id="main_visual">
-    <p><img src="" alt="あなただけのアレンジメントに出会えるフラワーアレンジメント教室"></p>
+    <p><img src="images/main_visual.jpg" alt="あなただけのアレンジメントに出会えるフラワーアレンジメント教室"></p>
   </div>
   <!--/メインビジュアル画像-->
 

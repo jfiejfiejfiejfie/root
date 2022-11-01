@@ -21,7 +21,7 @@ if($_SESSION["admin"]==0){
 <meta property="og:title" content="フラワーアレンジメント教室　Bloom【ブルーム】">
 <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
 <meta property="og:url" content="http://bloom.ne.jp">
-<meta property="og:image" content="">
+<meta property="og:image" content="images/main_visual.jpg">
 <title>貸し借り|一覧</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
@@ -51,7 +51,7 @@ if($_SESSION["admin"]==0){
 </script>
   
 <div id="header">
-<div class="game_bar" style="background-image: url();">
+<div class="game_bar" style="background-image: url(images/main_visual.jpg);">
 		<div class="game_title">
 				<a href="all.php"><img src="images/logo.png"class="mr5" /></a>
 				<a id='hsb_name' href="all.php">貸し借りサイト</a>

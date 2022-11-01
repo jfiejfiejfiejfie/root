@@ -1,12 +1,30 @@
 <?php
 session_start(); 
 require_once('../lib/util.php');
-$gobackURL ='list.php';
+// $gobackURL ="blocklist.php?id={$_SESSION["my_id"]}&user_id={$_SESSION["user_id"]}";
+$gobackURL ='blocklist.php';
 $user='root';
 $password='';
 $dbName = 'wakka1';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+$main_id=$_SESSION["id"];
+$user_id=$_GET["id"];
+try{
+    $pdo=new PDO($dsn,$user,$password);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    $sql = "INSERT INTO blocklist (main_id,user_id) VALUES(:main_id,:user_id)";
+    $stm = $pdo->prepare($sql);
+    $stm->bindValue(':main_id',$main_id,PDO::PARAM_STR);
+    $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
+    $stm->execute();
+    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+}catch(Exception $e){
+    echo 'エラーがありました。';
+    echo $e->getMessage();
+    exit();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -17,11 +35,12 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
 <meta property="og:url" content="http://bloom.ne.jp">
 <meta property="og:image" content="images/main_visual.jpg">
-<title>貸し借り|一覧</title>
+<title>貸し借り|詳細</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
 <link rel="stylesheet" href="css/styled.css">
 <link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/original.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/l.css">
@@ -41,24 +60,22 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
   js = d.createElement(s); js.id = id;
   js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.5&appId=643231655816289";
   fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-window.onload=suteki;
-</script>
+}(document, 'script', 'facebook-jssdk'));</script>
   
   <!--ヘッダー-->
-		<div id="header">
+  	<div id="header">
 <div class="game_bar" style="background-image: url(images/main_visual.jpg);">
 		<div class="game_title">
 				<a href="all.php"><img src=""class="mr5" /></a>
 				<a  href="all.php">貸し借りサイト</a>
 			<div id="menu_s">
 				<div>
-				<div><a href="all.php"><img src="images/home.png"  style="width:70px" /><span>HOME</span></a></div>
-				<div><a href="add_db.php"><img src="images/register.png"  style="width:70px" /><span>商品登録</span></span></a></div>
-				<div><a href="search_sp.php"><img src="images/search.png"  style="width:70px" /><span>検索</span></span></a></div>
-				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1"  style="width:70px" /><span>一覧</span></a></div>
-				<div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b"  style="width:70px" /><span>マイページ</span></span></a></div>
-				<div><a href="contact.php"><img src="images/contact.png"  style="width:70px" /><span>お問い合わせ</span></a></div>
+				<div><a href="all.php"><img src="images/home.png" alt="最新情報" style="width:70px" /><span>HOME</span></a></div>
+				<div><a href="add_db.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>商品登録</span></span></a></div>
+				<div><a href="search_sp.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>検索</span></span></a></div>
+				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1" alt="掲示板" style="width:70px" /><span>一覧</span></a></div>
+				<div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b" alt="ﾗﾝｷﾝｸﾞ" style="width:70px" /><span>マイページ</span></span></a></div>
+				<div><a href="contact.php"><img src="images/contact.png" alt="3周年" style="width:70px" /><span>お問い合わせ</span></a></div>
 			</div>
 			</div>
 			<?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){
@@ -70,35 +87,13 @@ window.onload=suteki;
                             <?php }?>
 		</div>
 		</div>
-
-<div>
+  <div>
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
       <section id="point">
-        <h2>出品物一覧</h2>
-        <div>
-    <?php
-    $data=$_GET["id"];
-        try{
-            echo $data,'を';
-            $pdo=new PDO($dsn,$user,$password);
-            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            $sql = "DELETE FROM main WHERE id =$data";
-            $stm = $pdo->prepare($sql);
-            $stm->execute();
-            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-            echo "削除しました。";
-        }catch(Exception $e){
-            echo 'エラーがありました。';
-            echo $e->getMessage();
-            exit();
-        }
-    ?>
-    <hr>
-    <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
-</div>
+        <h2>いいねしました。</h2>
+        <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
       </section>
     </div>
     <!--/メイン-->
@@ -108,10 +103,11 @@ window.onload=suteki;
       <section id="side_banner">
         <h2>関連リンク</h2>
         <ul>
-        <li><a href="notice.php"><img src="images/kanban.png"></a></li>
+        <li><a href="https://wakka.vercel.app/"><img src="images/kanban.png"></a></li>
           <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>
-          
-
+          <li><a href="../DQ5ierukana/dq5.html" target="_blank"><img src="images/banner02.jpg" alt="イイネ！押してね！facebookページ"></a></li>
+          <li><a href="https://www.jp.square-enix.com/ffx_x-2HD/" target="_blank"><img src="images/z_5caeb93e328c4.jpg" height="200" width="230"></a></li>
+          <li><a href="https://www.sanyobussan.co.jp/products/pk_daikunogensan_idaten/" target="_blank"><img src="images/2022-10-17 143626.jpg" height="200" width="230"></a></li>
           <div class="block-download">
 					<p>アプリのダウンロードはコチラ！</p>
 					<a href="https://apps.apple.com/jp/app/final-fantasy-x-x-2-hd%E3%83%AA%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC/id1297115524" onclick="gtag('event','click', {'event_category': 'download','event_label': 'from-fv-to-appstore','value': '1'});gtag_report_conversion('https://itunes.apple.com/jp/app/%E3%83%95%E3%83%AA%E3%83%9E%E3%81%A7%E3%83%AC%E3%83%B3%E3%82%BF%E3%83%AB-%E3%82%AF%E3%82%AA%E3%83%83%E3%82%BF-%E8%B2%B8%E3%81%97%E5%80%9F%E3%82%8A%E3%81%AE%E3%83%95%E3%83%AA%E3%83%9E%E3%82%A2%E3%83%97%E3%83%AA/id1288431440?l=en&mt=8');" class="btn-download"target="_blank">

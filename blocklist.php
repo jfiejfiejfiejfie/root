@@ -1,11 +1,18 @@
 <?php
-  session_start();
-  $user='root';
-  $password='';
-  $dbName = 'wakka1';
-  $host = 'localhost:3306';
-  $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+session_start(); 
+require_once('../lib/util.php');
+$gobackURL ='profile.php';
+$user='root';
+$password='';
+$dbName = 'wakka1';
+$host = 'localhost:3306';
+$dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+$my_id=$_GET["id"];
+$_SESSION["my_id"]=$_GET["id"];
+$_SESSION["user_id"]=$_GET["user_id"];
 ?>
+
+
 <!DOCTYPE html>
 <html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
@@ -14,12 +21,12 @@
 <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
 <meta property="og:url" content="http://bloom.ne.jp">
 <meta property="og:image" content="images/main_visual.jpg">
-<title>貸し借り|マイページ</title>
+<title>貸し借り|詳細</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
-<link rel="stylesheet" href="css/original.css">
 <link rel="stylesheet" href="css/styled.css">
 <link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/original.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/l.css">
@@ -40,6 +47,7 @@
   js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.5&appId=643231655816289";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
+  
   <!--ヘッダー-->
 		<div id="header">
 <div class="game_bar" style="background-image: url(images/main_visual.jpg);">
@@ -48,12 +56,12 @@
 				<a  href="all.php">貸し借りサイト</a>
 			<div id="menu_s">
 				<div>
-				<div><a href="all.php"><img src="images/home.png"  style="width:70px" /><span>HOME</span></a></div>
-				<div><a href="add_db.php"><img src="images/register.png"  style="width:70px" /><span>商品登録</span></span></a></div>
-				<div><a href="search_sp.php"><img src="images/search.png"  style="width:70px" /><span>検索</span></span></a></div>
-				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1"  style="width:70px" /><span>一覧</span></a></div>
-				<div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b"  style="width:70px" /><span>マイページ</span></span></a></div>
-				<div><a href="contact.php"><img src="images/contact.png"  style="width:70px" /><span>お問い合わせ</span></a></div>
+				<div><a href="all.php"><img src="images/home.png" alt="最新情報" style="width:70px" /><span>HOME</span></a></div>
+				<div><a href="add_db.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>商品登録</span></span></a></div>
+				<div><a href="search_sp.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>検索</span></span></a></div>
+				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1" alt="掲示板" style="width:70px" /><span>一覧</span></a></div>
+				<div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b" alt="ﾗﾝｷﾝｸﾞ" style="width:70px" /><span>マイページ</span></span></a></div>
+				<div><a href="contact.php"><img src="images/contact.png" alt="3周年" style="width:70px" /><span>お問い合わせ</span></a></div>
 			</div>
 			</div>
 			<?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){
@@ -66,129 +74,46 @@
 		</div>
 		</div>
 
-
+<div>
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
-   
-      <?php  if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){ ?>
-      <h2>ブロックリスト</h2>
-      <?php
-      $name=$_SESSION["name"];
+      <section id="point">
+      <img src="image.php?id=<?php echo $chat_id;?>" style="height:50%; width:50%;">
+        <h2><?php echo htmlspecialchars($_GET["name"]);?>についてのチャット履歴</h2>
+        <div>
+    <?php
         try{
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            $sql = "SELECT * FROM blocklist WHERE user_id =:id";
+            $sql = "SELECT * FROM chat WHERE chat_id=$chat_id";
             $stm = $pdo->prepare($sql);
-            $stm->bindValue(':name',$name,PDO::PARAM_STR);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+            foreach($result as $row){
             echo '<table class="table table-striped">';
             echo '<thead><tr>';
-            echo '<th>','掲載日','</th>';
-            echo '<th>','貸出物','</th>';
-            echo '<th>','ジャンル','</th>';
-            echo '<th>','金額','</th>';
-            echo '<th>','画像','</th>';
-            echo '</tr></thead>';
-            echo '<tbody>';
-            foreach($result as $row){
-                echo '<tr>';
-                echo '<td>',$row['today'],'</td>';
-                echo '<td>',$row['item'],'</td>';
-                echo '<td>',$row['kind'],'</td>';
-                echo '<td>￥',number_format($row['money']),'</td>';
-                echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
-                echo '</tr>';
+            echo '<th><a href="profile.php?id=',$row["image_id"],'">','<img id="image" height="100" width="100" src="my_image.php?id=',$row["image_id"],'"></a>',$row["name"],":",$row["date"],'</th>';
+            echo '</tr>';
+            echo '<tr>';
+            if($row["image"]!=""){
+            echo '<td><img id="parent" src="chat_image.php?id=',$row["id"],' alt="" height="232" width="232"/></td>';
+            echo '</tr>';
+            echo '<tr>';
             }
-            echo '</tbody>';
+            echo '<td>',$row["text"],'</td>';
+            echo '</tr>';
+            echo '</thead>';
             echo '</table>';
+            }
         }catch(Exception $e){
             echo 'エラーがありました。';
             echo $e->getMessage();
             exit();
         }
-      ?>
-      <h2>取引中</h2>
-      <?php
-        try{
-          $pdo=new PDO($dsn,$user,$password);
-          $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-          $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-          $sql = "SELECT * FROM main WHERE member =:name and loan=1";
-          $stm = $pdo->prepare($sql);
-          $stm->bindValue(':name',$name,PDO::PARAM_STR);
-          $stm->execute();
-          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-          echo '<table class="table table-striped">';
-          echo '<thead><tr>';
-          echo '<th>','掲載日','</th>';
-          echo '<th>','貸出物','</th>';
-          echo '<th>','ジャンル','</th>';
-          echo '<th>','金額','</th>';
-          echo '<th>','画像','</th>';
-          echo '<th>','チャット','</th>';
-          echo '</tr></thead>';
-          echo '<tbody>';
-          foreach($result as $row){
-              echo '<tr>';
-              echo '<td>',$row['today'],'</td>';
-              echo '<td>',$row['item'],'</td>';
-              echo '<td>',$row['kind'],'</td>';
-              echo '<td>￥',number_format($row['money']),'</td>';
-              echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
-              echo "<td><a class = 'btn btn-primary' href=loan.php?id={$row["id"]}&name={$row["item"]}>","話す",'</a></td>';
-              echo '</tr>';
-          }
-          echo '</tbody>';
-          echo '</table>';
-      }catch(Exception $e){
-          echo 'エラーがありました。';
-          echo $e->getMessage();
-          exit();
-      }
-      ?>
-      <h2>購入したもの</h2>
-      <?php
-        try{
-          $pdo=new PDO($dsn,$user,$password);
-          $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-          $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-          $sql = "SELECT * FROM main WHERE  buy_id=:id and loan=1";
-          $stm = $pdo->prepare($sql);
-          $stm->bindValue(':id',$id,PDO::PARAM_STR);
-          $stm->execute();
-          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-          echo '<table class="table table-striped">';
-          echo '<thead><tr>';
-          echo '<th>','掲載日','</th>';
-          echo '<th>','貸出物','</th>';
-          echo '<th>','ジャンル','</th>';
-          echo '<th>','金額','</th>';
-          echo '<th>','画像','</th>';
-          echo '<th>','チャット','</th>';
-          echo '</tr></thead>';
-          echo '<tbody>';
-          foreach($result as $row){
-              echo '<tr>';
-              echo '<td>',$row['today'],'</td>';
-              echo '<td>',$row['item'],'</td>';
-              echo '<td>',$row['kind'],'</td>';
-              echo '<td>￥',number_format($row['money']),'</td>';
-              echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
-              echo "<td><a class = 'btn btn-primary' href=loan.php?id={$row["id"]}&name={$row["item"]}>","話す",'</a></td>';
-              echo '</tr>';
-          }
-          echo '</tbody>';
-          echo '</table>';
-      }catch(Exception $e){
-          echo 'エラーがありました。';
-          echo $e->getMessage();
-          exit();
-      }
-    }
-      ?>
+    ?>
+<hr>
     </div>
     <!--/メイン-->
 
@@ -197,10 +122,11 @@
       <section id="side_banner">
         <h2>関連リンク</h2>
         <ul>
-        <li><a href="notice.php"><img src="images/kanban.png"></a></li>
+        <li><a href="https://wakka.vercel.app/"><img src="images/kanban.png"></a></li>
           <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>
-          
-
+          <li><a href="../DQ5ierukana/dq5.html" target="_blank"><img src="images/banner02.jpg" alt="イイネ！押してね！facebookページ"></a></li>
+          <li><a href="https://www.jp.square-enix.com/ffx_x-2HD/" target="_blank"><img src="images/z_5caeb93e328c4.jpg" height="200" width="230"></a></li>
+          <li><a href="https://www.sanyobussan.co.jp/products/pk_daikunogensan_idaten/" target="_blank"><img src="images/2022-10-17 143626.jpg" height="200" width="230"></a></li>
           <div class="block-download">
 					<p>アプリのダウンロードはコチラ！</p>
 					<a href="https://apps.apple.com/jp/app/final-fantasy-x-x-2-hd%E3%83%AA%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC/id1297115524" onclick="gtag('event','click', {'event_category': 'download','event_label': 'from-fv-to-appstore','value': '1'});gtag_report_conversion('https://itunes.apple.com/jp/app/%E3%83%95%E3%83%AA%E3%83%9E%E3%81%A7%E3%83%AC%E3%83%B3%E3%82%BF%E3%83%AB-%E3%82%AF%E3%82%AA%E3%83%83%E3%82%BF-%E8%B2%B8%E3%81%97%E5%80%9F%E3%82%8A%E3%81%AE%E3%83%95%E3%83%AA%E3%83%9E%E3%82%A2%E3%83%97%E3%83%AA/id1288431440?l=en&mt=8');" class="btn-download"target="_blank">

@@ -17,7 +17,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 <meta property="og:title" content="フラワーアレンジメント教室　Bloom【ブルーム】">
 <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
 <meta property="og:url" content="http://bloom.ne.jp">
-<meta property="og:image" content="">
+<meta property="og:image" content="images/main_visual.jpg">
 <title>貸し借り</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
@@ -45,7 +45,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
   
   <!--ヘッダー-->
 		<div id="header">
-<div class="game_bar" style="background-image: url();">
+<div class="game_bar" style="background-image: url(images/main_visual.jpg);">
 		<div class="game_title">
 				<a href="all.php"><img src=""class="mr5" /></a>
 				<a  href="all.php">貸し借りサイト</a>
@@ -84,63 +84,55 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
     $_SESSION["sex"]=$_POST["sex"];
     $_SESSION["email"]=$_POST["email"];
     $_SESSION["comment"]=$_POST["comment"];
-    if(isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK){
-      try{
-        $pdo=new PDO($dsn,$user,$password);
-        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        echo "画像変更$age,$sex,$email,$comment";
-        $upfile = $_FILES["image"]["tmp_name"];
-        $imgdat = file_get_contents($upfile);
-        $sql="UPDATE users SET age = :age,sex = :sex,email = :email,comment = :comment,image=:imgdat where id = $id";
-        $stm=$pdo->prepare($sql);
-        $stm->bindValue(':age',$age,PDO::PARAM_STR);
-        $stm->bindValue(':sex',$sex,PDO::PARAM_STR);
-        $stm->bindValue(':email',$email,PDO::PARAM_STR);
-        $stm->bindValue(':comment',$comment,PDO::PARAM_STR);
-        $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
-        if($stm->execute()){
-          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-          $sql = "SELECT * FROM users WHERE id=$id" ;
-          $stm = $pdo->prepare($sql);
-          $stm->execute();
-          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-        }else{
-        echo "ツイカエラーガアリマシタ。";
-      }
-  }catch(Exception $e){
-    echo 'エラーがありました。';
-    echo $e->getMessage();
-    exit();
-}
-}
-else{
-  try{
-    $pdo=new PDO($dsn,$user,$password);
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-    echo "$age,$sex,$email,$comment";
-    $sql="UPDATE users SET age = :age,sex = :sex,email = :email,comment = :comment where id = $id";
-    $stm=$pdo->prepare($sql);
-    $stm->bindValue(':age',$age,PDO::PARAM_STR);
-    $stm->bindValue(':sex',$sex,PDO::PARAM_STR);
-    $stm->bindValue(':email',$email,PDO::PARAM_STR);
-    $stm->bindValue(':comment',$comment,PDO::PARAM_STR);
-    if($stm->execute()){
-      $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-      $sql = "SELECT * FROM users WHERE id=$id" ;
-      $stm = $pdo->prepare($sql);
-      $stm->execute();
-      $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-    }else{
-    echo "ツイカエラーガアリマシタ。";
-  }
-}catch(Exception $e){
-echo 'エラーがありました。';
-echo $e->getMessage();
-exit();
-}}
     
+    $upfile = $_FILES["image"]["tmp_name"];
+    $imgdat = file_get_contents($upfile);
+        try{
+            $pdo=new PDO($dsn,$user,$password);
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
+            $sql="UPDATE users SET age = :age,sex = :sex,email = :email,comment = :comment,image=:imgdat where id = $id";
+            $stm=$pdo->prepare($sql);
+            $stm->bindValue(':age',$age,PDO::PARAM_STR);
+            $stm->bindValue(':sex',$sex,PDO::PARAM_STR);
+            $stm->bindValue(':email',$email,PDO::PARAM_STR);
+            $stm->bindValue(':comment',$comment,PDO::PARAM_STR);
+            $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
+            
+            if($stm->execute()){
+            $sql = "SELECT * FROM users WHERE id = $id";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+            echo '<table>';
+            echo '<thead><tr>';
+            echo '<th>','年齢','</th>';
+            echo '<th>','性別','</th>';
+            echo '<th>','E-mail','</th>';
+            echo '<th>','コメント','</th>';
+            echo '<th>','プロフィール画像','</th>';
+            echo '</tr></thead>';
+            echo '<tbody>';
+            foreach($result as $row){
+                echo '<tr>';
+                echo '<td>',es($row['age']),'</td>';
+                echo '<td>',es($row['sex']),'</td>';
+                echo '<td>',es($row['email']),'</td>';
+                echo '<td>',es($row['comment']),'</td>';
+                echo '<td><img height="150" width="150" src="my_image.php?id=',$row['id'],'"></td>';
+                echo '</tr>';
+            }
+            echo '</tbody>';
+            echo '</table>';
+        }else{
+            echo "ツイカエラーガアリマシタ。";
+        }
+        }catch(Exception $e){
+            echo 'エラーがありました。';
+            echo $e->getMessage();
+            exit();
+        }
     ?>
     <hr>
     <p><a href="<?php echo $gobackURL ?>">戻る</a></p>

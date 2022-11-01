@@ -6,6 +6,8 @@
   $host = 'localhost:3306';
   $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
   $id=$_GET["id"];
+  $my_id=$_GET["id"];
+  $_SESSION["my_id"]=$_GET["id"];
 ?>
 <!DOCTYPE html>
 <html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
@@ -14,7 +16,7 @@
 <meta property="og:title" content="フラワーアレンジメント教室　Bloom【ブルーム】">
 <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
 <meta property="og:url" content="http://bloom.ne.jp">
-<meta property="og:image" content="">
+<meta property="og:image" content="images/main_visual.jpg">
 <title>貸し借り|マイページ</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
@@ -43,7 +45,7 @@
 }(document, 'script', 'facebook-jssdk'));</script>
   <!--ヘッダー-->
 		<div id="header">
-<div class="game_bar" style="background-image: url();">
+<div class="game_bar" style="background-image: url(images/main_visual.jpg);">
 		<div class="game_title">
 				<a href="all.php"><img src=""class="mr5" /></a>
 				<a  href="all.php">貸し借りサイト</a>
@@ -97,6 +99,7 @@
             exit();
         }
       ?>
+
       <h2><?php echo htmlspecialchars($name);?>が出品している物</h2>
       <?php
         try{
@@ -130,6 +133,13 @@
             exit();
         }
       ?>
+      <form action="block.php" method="POST"enctype="multipart/form-data">
+      <?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+      if($_SESSION['name']!==$name){
+        echo "<a href='block.php?id={$row["member_id"]}' class='btn btn-primary'>ブロックする</a>";
+      }
+    } ?>
+          </form>
     </div>
     <!--/メイン-->
 
