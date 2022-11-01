@@ -7,6 +7,25 @@ $password='';
 $dbName = 'wakka1';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+try{
+  $block_count=0;
+  $pdo=new PDO($dsn,$user,$password);
+  $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+  $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+  $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+  $stm = $pdo->prepare($sql);
+  $stm->bindValue(':id',$_SESSION["id"],PDO::PARAM_STR);
+  $stm->execute();
+  $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+  foreach($result as $row){
+    $block_count+=1;
+    $block_list[]=$row["userid"];
+  }
+}catch(Exception $e){
+    echo 'エラーがありました。';
+    echo $e->getMessage();
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -95,11 +114,18 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
         <div>
     <?php
         try{
-          $count=0;
+          if($block_count!=0){
+            $block_list=implode(",",$block_list);
+          }
+            $count=0;
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            $sql = 'SELECT * FROM main WHERE money order by money';
+            if($block_count!=0){
+              $sql = "SELECT * FROM main WHERE member_id not in ($block_list)";
+            }else{
+              $sql = "SELECT * FROM main";
+            }
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);

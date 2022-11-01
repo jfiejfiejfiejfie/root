@@ -10,21 +10,28 @@ $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 $my_id=$_SESSION["id"];
 $userid=$_GET["id"];
-try{
+$username=$_GET["name"];
+$block_count=$_GET["count"];
+if($block_count==0){
     $pdo=new PDO($dsn,$user,$password);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
     $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-    $sql = "INSERT INTO blocklist (my_id,userid) VALUES(:my_id,:userid)";
+    $sql = "INSERT INTO blocklist (my_id,userid,username) VALUES(:my_id,:userid,:username)";
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':my_id',$my_id,PDO::PARAM_STR);
     $stm->bindValue(':userid',$userid,PDO::PARAM_STR);
+    $stm->bindValue(':username',$username,PDO::PARAM_STR);
     $stm->execute();
     $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-}catch(Exception $e){
-    echo 'エラーがありました。';
-    echo $e->getMessage();
-    exit();
-    }
+}else{
+    $pdo=new PDO($dsn,$user,$password);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    $sql = "DELETE FROM blocklist WHERE my_id=$my_id and userid=$userid";
+    $stm = $pdo->prepare($sql);
+    $stm->execute();
+    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
 
 <!DOCTYPE html>
@@ -70,12 +77,12 @@ try{
 				<a  href="all.php">貸し借りサイト</a>
 			<div id="menu_s">
 				<div>
-				<div><a href="all.php"><img src="images/home.png" alt="最新情報" style="width:70px" /><span>HOME</span></a></div>
-				<div><a href="add_db.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>商品登録</span></span></a></div>
-				<div><a href="search_sp.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>検索</span></span></a></div>
-				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1" alt="掲示板" style="width:70px" /><span>一覧</span></a></div>
-				<div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b" alt="ﾗﾝｷﾝｸﾞ" style="width:70px" /><span>マイページ</span></span></a></div>
-				<div><a href="contact.php"><img src="images/contact.png" alt="3周年" style="width:70px" /><span>お問い合わせ</span></a></div>
+				<div><a href="all.php"><img src="images/home.png"  style="width:70px" /><span>HOME</span></a></div>
+				<div><a href="add_db.php"><img src="images/register.png"  style="width:70px" /><span>商品登録</span></span></a></div>
+				<div><a href="search_sp.php"><img src="images/search.png"  style="width:70px" /><span>検索</span></span></a></div>
+				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1"  style="width:70px" /><span>一覧</span></a></div>
+				<div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b"  style="width:70px" /><span>マイページ</span></span></a></div>
+				<div><a href="contact.php"><img src="images/contact.png"  style="width:70px" /><span>お問い合わせ</span></a></div>
 			</div>
 			</div>
 			<?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){
@@ -92,8 +99,13 @@ try{
     <!--メイン-->
     <div id="main">
       <section id="point">
+        <?php if($block_count==0){?>
         <h2>ブロック完了</h2>
         <p><a href="<?php echo $gobackURL ?>">ブロックリスト</a></p>
+        <?php }else{?>
+          <h2>ブロック解除完了</h2>
+        <p><a href="<?php echo $gobackURL ?>">ブロックリスト</a></p>
+        <?php }?>
       </section>
     </div>
     <!--/メイン-->
