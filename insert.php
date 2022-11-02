@@ -125,6 +125,7 @@ $gobackURL ='add_db.php';
     $money=$_POST["money"];
     $upfile = $_FILES["image"]["tmp_name"];
     $imgdat = file_get_contents($upfile);
+
         try{
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
@@ -142,28 +143,54 @@ $gobackURL ='add_db.php';
             $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
             if($stm->execute()){
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-            // foreach($result as $row){
-            //   $connect_id=$row["id"];
-            // }
-            $sql = 'SELECT * FROM main';
+            $sql = 'SELECT * FROM main WHERE today = :today';
             $stm = $pdo->prepare($sql);
+            $stm->bindValue(':today',$today,PDO::PARAM_STR);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-            // foreach($_FILES['image'] as $row){
-            //   $pdo=new PDO($dsn,$user,$password);
-            //   $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-            //   $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            //   echo $_FILES["image"]["type"][$row];
-            //   $type=$_FILES["image"]["type"][$row];
-            //   $upfile=$_FILES["image"]["tmp_name"][$row];
-            //   $imgdat = file_get_contents($upfile);
-            //   $sql="INSERT INTO images(image_type,image_content,connect_id)VALUES(:type,:imgdat,:id)";
-            //   $stm->bindValue(':type',$type,PDO::PARAM_STR);
-            //   $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
-            //   $stm->bindValue(':id',$connect_id,PDO::PARAM_STR);
-            //   $stm=$pdo->prepare($sql);
-            //   $stm->execute();
-            // }
+            foreach($result as $row){
+              $image_id=$row["id"];
+            }
+            if(isset($_FILES["image2"])&&($_FILES["image2"]["tmp_name"]!='')){
+              $upfile = $_FILES["image2"]["tmp_name"];
+              $imgdat = file_get_contents($upfile);
+              $sql="INSERT INTO image_list (image_id,image,number) VALUES(:image_id,:imgdat,:number)";
+              $stm=$pdo->prepare($sql);
+              $stm->bindValue(':image_id',$image_id,PDO::PARAM_STR);
+              $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
+              $stm->bindValue(':number',1,PDO::PARAM_STR);
+              $stm->execute();
+            }
+            if(isset($_FILES["image3"])&&($_FILES["image3"]["tmp_name"]!='')){
+              $upfile = $_FILES["image3"]["tmp_name"];
+              $imgdat = file_get_contents($upfile);
+              $sql="INSERT INTO image_list (image_id,image,number) VALUES(:image_id,:imgdat,:number)";
+              $stm=$pdo->prepare($sql);
+              $stm->bindValue(':image_id',$image_id,PDO::PARAM_STR);
+              $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
+              $stm->bindValue(':number',2,PDO::PARAM_STR);
+              $stm->execute();
+            }
+            if(isset($_FILES["image4"])&&($_FILES["image4"]["tmp_name"]!='')){
+              $upfile = $_FILES["image4"]["tmp_name"];
+              $imgdat = file_get_contents($upfile);
+              $sql="INSERT INTO image_list (image_id,image,number) VALUES(:image_id,:imgdat,:number)";
+              $stm=$pdo->prepare($sql);
+              $stm->bindValue(':image_id',$image_id,PDO::PARAM_STR);
+              $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
+              $stm->bindValue(':number',3,PDO::PARAM_STR);
+              $stm->execute();
+            }
+            if(isset($_FILES["image5"])&&($_FILES["image5"]["tmp_name"]!='')){
+              $upfile = $_FILES["image5"]["tmp_name"];
+              $imgdat = file_get_contents($upfile);
+              $sql="INSERT INTO image_list (image_id,image,number) VALUES(:image_id,:imgdat,:number)";
+              $stm=$pdo->prepare($sql);
+              $stm->bindValue(':image_id',$image_id,PDO::PARAM_STR);
+              $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
+              $stm->bindValue(':number',4,PDO::PARAM_STR);
+              $stm->execute();
+            }
             echo "<h1>登録しました。</h1>";
         }else{
             echo "ツイカエラーガアリマシタ。";

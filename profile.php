@@ -8,6 +8,26 @@
   $id=$_GET["id"];
   $my_id=$_GET["id"];
   $_SESSION["my_id"]=$_GET["id"];
+  #blockcount
+  $block_count=0;
+  try{
+    $pdo=new PDO($dsn,$user,$password);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    $sql = "SELECT * FROM blocklist WHERE userid =:userid and my_id=:my_id";
+    $stm = $pdo->prepare($sql);
+    $stm->bindValue(':userid',$id,PDO::PARAM_STR);
+    $stm->bindValue(':my_id',$_SESSION["id"],PDO::PARAM_STR);
+    $stm->execute();
+    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+    foreach($result as $row){
+      $block_count+=1;
+    }
+}catch(Exception $e){
+    echo 'エラーがありました。';
+    echo $e->getMessage();
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
@@ -136,7 +156,11 @@
       <form action="block.php" method="POST"enctype="multipart/form-data">
       <?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
       if($_SESSION['name']!==$name){
-        echo "<a href='block.php?id={$row["member_id"]}' class='btn btn-primary'>ブロックする</a>";
+        if($block_count==0){
+          echo "<a href='block.php?id=$id&name=$name' class='btn btn-danger'>ブロックする</a>";
+        }else{
+          echo "<a href='block.php?id=$id&name=$name' class='btn btn-primary'>ブロックを解除する</a>";
+        }
       }
     } ?>
           </form>

@@ -89,7 +89,8 @@
           foreach($result as $row){
             echo '<table class="table table-striped">';
               echo "<a href='profile.php?id={$row['userid']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['userid']}'></a><br>";
-              echo $row["name"],"</td>";
+              echo $row["username"],"</td>";
+              echo "<hr>";
               echo '</tr>';
           }
           echo '</tbody>';

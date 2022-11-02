@@ -75,6 +75,23 @@
     <?php
     $data=$_GET["id"];
     $_SESSION["loan_id"]=$data;
+    try{
+      $pdo=new PDO($dsn,$user,$password);
+      $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+      $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+      $sql = "SELECT * FROM image_list WHERE image_id=$data";
+      $stm = $pdo->prepare($sql);
+      $stm->execute();
+      $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+      $image_count=0;
+      foreach($result as $row){
+        $image_count+=1;
+      }
+    }catch(Exception $e){
+        echo 'エラーがありました。';
+        echo $e->getMessage();
+        exit();
+    }
         try{
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
@@ -86,7 +103,23 @@
             foreach($result as $row){
             echo '<table class="table table-striped">';
             echo '<thead><tr>';
-            echo '<td><img src="image.php?id=',$row['id'],'"style="max-width:200px;"></td>';
+            echo '<td><img src="image.php?id=',$row['id'],'"style="max-width:200px;">';
+            if($image_count>0){
+              echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=',$row['id'],'&number=1">
+                    <img src="image_next.php?id=',$row['id'],'&number=1"height="150" width="150"></a>';
+              if($image_count>1){
+                echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=',$row['id'],'&number=2">
+                      <img src="image_next.php?id=',$row['id'],'&number=2"height="150" width="150"></a>';
+                if($image_count>2){
+                  echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=',$row['id'],'&number=3">
+                        <img src="image_next.php?id=',$row['id'],'&number=3"height="150" width="150"></a>';
+                  if($image_count>3){
+                    echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=',$row['id'],'&number=4">
+                          <img src="image_next.php?id=',$row['id'],'&number=4"height="150" width="150"></a></td>';
+                  }
+                }
+              }
+        }
             echo '</tr>';
             echo '<tr>';
             echo '</thead>';
@@ -140,9 +173,26 @@
                 </li>
                 <li>
                   <label>画像選択:<br>
-                <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-                        <input type="file" multiple name="image"class="test" accept="image/*"  onchange="previewImage(this);">
+                <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+                        <input type="file" name="image"class="test" accept="image/*"  onchange="previewImage(this);">
                           </label>
+                          <?php if($image_count>0){?>
+                  <label><img src="images/imageplus.png" id="preview2" style="max-width:200px;"><br>
+                        <input type="file" name="image2"class="test" accept="image/*"  onchange="previewImage2(this);">
+                          </label>
+                          <?php if($image_count>1){?>
+                  <label><img src="images/imageplus.png" id="preview3" style="max-width:200px;"><br>
+                        <input type="file" name="image3"class="test" accept="image/*"  onchange="previewImage3(this);">
+                          </label>
+                          <?php if($image_count>2){?>
+                  <label><img src="images/imageplus.png" id="preview4" style="max-width:200px;"><br>
+                        <input type="file" name="image4"class="test" accept="image/*"  onchange="previewImage4(this);">
+                          </label>
+                          <?php if($image_count>3){?>
+                  <label><img src="images/imageplus.png" id="preview5" style="max-width:200px;"><br>
+                        <input type="file" name="image5"class="test" accept="image/*"  onchange="previewImage5(this);">
+                          </label>
+                          <?php }}}}?>
                 <li><input type="submit" value="編集する">
                 </li>
             </ul>

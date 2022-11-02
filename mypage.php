@@ -166,81 +166,6 @@
             exit();
         }
       ?>
-      <h2>取引中</h2>
-      <?php
-        try{
-          $pdo=new PDO($dsn,$user,$password);
-          $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-          $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-          $sql = "SELECT * FROM main WHERE member =:name and loan=1";
-          $stm = $pdo->prepare($sql);
-          $stm->bindValue(':name',$name,PDO::PARAM_STR);
-          $stm->execute();
-          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-          echo '<table class="table table-striped">';
-          echo '<thead><tr>';
-          echo '<th>','掲載日','</th>';
-          echo '<th>','貸出物','</th>';
-          echo '<th>','ジャンル','</th>';
-          echo '<th>','金額','</th>';
-          echo '<th>','画像','</th>';
-          echo '</tr></thead>';
-          echo '<tbody>';
-          foreach($result as $row){
-              echo '<tr>';
-              echo '<td>',$row['today'],'</td>';
-              echo '<td>',$row['item'],'</td>';
-              echo '<td>',$row['kind'],'</td>';
-              echo '<td>￥',number_format($row['money']),'</td>';
-              echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
-              echo '</tr>';
-          }
-          echo '</tbody>';
-          echo '</table>';
-      }catch(Exception $e){
-          echo 'エラーがありました。';
-          echo $e->getMessage();
-          exit();
-      }
-      ?>
-      <h2>購入したもの</h2>
-      <?php
-        try{
-          $pdo=new PDO($dsn,$user,$password);
-          $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-          $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-          $sql = "SELECT * FROM main WHERE  buy_id=:id and loan=1";
-          $stm = $pdo->prepare($sql);
-          $stm->bindValue(':id',$id,PDO::PARAM_STR);
-          $stm->execute();
-          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-          echo '<table class="table table-striped">';
-          echo '<thead><tr>';
-          echo '<th>','掲載日','</th>';
-          echo '<th>','貸出物','</th>';
-          echo '<th>','ジャンル','</th>';
-          echo '<th>','金額','</th>';
-          echo '<th>','画像','</th>';
-          echo '</tr></thead>';
-          echo '<tbody>';
-          foreach($result as $row){
-              echo '<tr>';
-              echo '<td>',$row['today'],'</td>';
-              echo '<td>',$row['item'],'</td>';
-              echo '<td>',$row['kind'],'</td>';
-              echo '<td>￥',number_format($row['money']),'</td>';
-              echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
-              echo '</tr>';
-          }
-          echo '</tbody>';
-          echo '</table>';
-      }catch(Exception $e){
-          echo 'エラーがありました。';
-          echo $e->getMessage();
-          exit();
-      }
-    }
-      ?>
       <?php
       try{
         $count=0;
@@ -293,6 +218,7 @@
           echo '</tbody>';
           echo '</table>';
         }
+      }
       ?>
     </div>
     <!--/メイン-->
@@ -302,7 +228,7 @@
       <section id="side_banner">
         <h2>関連リンク</h2>
         <ul>
-        <li><a href="notice.php"><img src="images/kanban.png"></a></li>
+        <li><a href="notice.php"><img src="images/kanban.gif"></a></li>
           <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>
           
 
