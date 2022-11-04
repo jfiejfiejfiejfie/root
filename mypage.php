@@ -116,7 +116,11 @@
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+<<<<<<< HEAD
             $sql = "SELECT * FROM list WHERE user_id=$id and loan=0";
+=======
+            $sql = "SELECT * FROM main WHERE user_id=$id and loan=0";
+>>>>>>> root/master
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);

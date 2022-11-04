@@ -12,7 +12,11 @@ try{
   $pdo=new PDO($dsn,$user,$password);
   $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
   $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+<<<<<<< HEAD
   $sql = "DELETE FROM list WHERE user_id = :id";
+=======
+  $sql = "DELETE FROM main WHERE user_id = :id";
+>>>>>>> root/master
   $stm=$pdo->prepare($sql);
   $stm->bindValue(':id',$id,PDO::PARAM_STR);
   if($stm->execute()){

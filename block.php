@@ -9,15 +9,54 @@ $dbName = 'wakka1';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 $my_id=$_SESSION["id"];
+<<<<<<< HEAD
 $user_id=$_GET["id"];
+=======
+<<<<<<< HEAD
+$user_id=$_GET["id"];
+=======
+$userid=$_GET["id"];
+$username=$_GET["name"];
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> root/master
+>>>>>>> root/master
+>>>>>>> root/master
 $block_count=0;
   try{
     $pdo=new PDO($dsn,$user,$password);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
     $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+<<<<<<< HEAD
     $sql = "SELECT * FROM blocklist WHERE user_id =:user_id and my_id=:my_id";
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
+=======
+<<<<<<< HEAD
+    $sql = "SELECT * FROM blocklist WHERE user_id =:user_id and my_id=:my_id";
+    $stm = $pdo->prepare($sql);
+    $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
+=======
+    $sql = "SELECT * FROM blocklist WHERE userid =:userid and my_id=:my_id";
+<<<<<<< HEAD
+    $stm = $pdo->prepare($sql);
+    $stm->bindValue(':userid',$userid,PDO::PARAM_STR);
+=======
+=======
+$block_count=$_GET["count"];
+if($block_count==0){
+    $pdo=new PDO($dsn,$user,$password);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    $sql = "INSERT INTO blocklist (my_id,userid,username) VALUES(:my_id,:userid,:username)";
+>>>>>>> root/master
+    $stm = $pdo->prepare($sql);
+    $stm->bindValue(':userid',$userid,PDO::PARAM_STR);
+<<<<<<< HEAD
+>>>>>>> root/master
+>>>>>>> root/master
+>>>>>>> root/master
     $stm->bindValue(':my_id',$_SESSION["id"],PDO::PARAM_STR);
     $stm->execute();
     $result=$stm->fetchAll(PDO::FETCH_ASSOC);
@@ -33,17 +72,49 @@ if($block_count==0){
     $pdo=new PDO($dsn,$user,$password);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
     $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> root/master
     $sql = "INSERT INTO blocklist (my_id,user_id) VALUES(:my_id,:user_id)";
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':my_id',$my_id,PDO::PARAM_STR);
     $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
     $stm->execute();
     $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+<<<<<<< HEAD
+=======
+=======
+    $sql = "INSERT INTO blocklist (my_id,userid,username) VALUES(:my_id,:userid,:username)";
+    $stm = $pdo->prepare($sql);
+    $stm->bindValue(':my_id',$my_id,PDO::PARAM_STR);
+    $stm->bindValue(':userid',$userid,PDO::PARAM_STR);
+    $stm->bindValue(':username',$username,PDO::PARAM_STR);
+    $stm->execute();
+    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+<<<<<<< HEAD
+=======
+=======
+    $stm->bindValue(':username',$username,PDO::PARAM_STR);
+    $stm->execute();
+    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+>>>>>>> root/master
+>>>>>>> root/master
+>>>>>>> root/master
+>>>>>>> root/master
 }else{
     $pdo=new PDO($dsn,$user,$password);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
     $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+<<<<<<< HEAD
     $sql = "DELETE FROM blocklist WHERE my_id=$my_id and user_id=$user_id";
+=======
+<<<<<<< HEAD
+    $sql = "DELETE FROM blocklist WHERE my_id=$my_id and user_id=$user_id";
+=======
+    $sql = "DELETE FROM blocklist WHERE my_id=$my_id and userid=$userid";
+>>>>>>> root/master
+>>>>>>> root/master
     $stm = $pdo->prepare($sql);
     $stm->execute();
     $result=$stm->fetchAll(PDO::FETCH_ASSOC);

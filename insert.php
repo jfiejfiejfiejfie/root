@@ -130,7 +130,11 @@ $gobackURL ='add_db.php';
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
+<<<<<<< HEAD
             $sql="INSERT INTO list (created_at,user_id,item,comment,money,kind,image) VALUES(:created_at,:id,:item,:comment,:money,:kind,:imgdat)";
+=======
+            $sql="INSERT INTO main (created_at,user_id,item,comment,money,kind,image) VALUES(:created_at,:id,:item,:comment,:money,:kind,:imgdat)";
+>>>>>>> root/master
             $stm=$pdo->prepare($sql);
             $stm->bindValue(':created_at',$created_at,PDO::PARAM_STR);
             $stm->bindValue(':id',$id,PDO::PARAM_STR);
@@ -141,6 +145,7 @@ $gobackURL ='add_db.php';
             $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
             if($stm->execute()){
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+<<<<<<< HEAD
             $sql = 'SELECT * FROM list WHERE created_at = :created_at';
             $stm = $pdo->prepare($sql);
             $stm->bindValue(':created_at',$created_at,PDO::PARAM_STR);
@@ -148,13 +153,34 @@ $gobackURL ='add_db.php';
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
             foreach($result as $row){
               $list_id=$row["id"];
+=======
+<<<<<<< HEAD
+            $sql = 'SELECT * FROM main WHERE created_at = :created_at';
+            $stm = $pdo->prepare($sql);
+            $stm->bindValue(':created_at',$created_at,PDO::PARAM_STR);
+=======
+            $sql = 'SELECT * FROM main WHERE today = :today';
+            $stm = $pdo->prepare($sql);
+            $stm->bindValue(':today',$today,PDO::PARAM_STR);
+>>>>>>> root/master
+            $stm->execute();
+            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+            foreach($result as $row){
+              $image_id=$row["id"];
+>>>>>>> root/master
             }
             if(isset($_FILES["image2"])&&($_FILES["image2"]["tmp_name"]!='')){
               $upfile = $_FILES["image2"]["tmp_name"];
               $imgdat = file_get_contents($upfile);
+<<<<<<< HEAD
               $sql="INSERT INTO image_list (list_id,image,number) VALUES(:list_id,:imgdat,:number)";
               $stm=$pdo->prepare($sql);
               $stm->bindValue(':list_id',$list_id,PDO::PARAM_STR);
+=======
+              $sql="INSERT INTO image_list (image_id,image,number) VALUES(:image_id,:imgdat,:number)";
+              $stm=$pdo->prepare($sql);
+              $stm->bindValue(':image_id',$image_id,PDO::PARAM_STR);
+>>>>>>> root/master
               $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
               $stm->bindValue(':number',1,PDO::PARAM_STR);
               $stm->execute();
@@ -162,9 +188,15 @@ $gobackURL ='add_db.php';
             if(isset($_FILES["image3"])&&($_FILES["image3"]["tmp_name"]!='')){
               $upfile = $_FILES["image3"]["tmp_name"];
               $imgdat = file_get_contents($upfile);
+<<<<<<< HEAD
               $sql="INSERT INTO image_list (list_id,image,number) VALUES(:list_id,:imgdat,:number)";
               $stm=$pdo->prepare($sql);
               $stm->bindValue(':list_id',$list_id,PDO::PARAM_STR);
+=======
+              $sql="INSERT INTO image_list (image_id,image,number) VALUES(:image_id,:imgdat,:number)";
+              $stm=$pdo->prepare($sql);
+              $stm->bindValue(':image_id',$image_id,PDO::PARAM_STR);
+>>>>>>> root/master
               $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
               $stm->bindValue(':number',2,PDO::PARAM_STR);
               $stm->execute();
@@ -172,9 +204,15 @@ $gobackURL ='add_db.php';
             if(isset($_FILES["image4"])&&($_FILES["image4"]["tmp_name"]!='')){
               $upfile = $_FILES["image4"]["tmp_name"];
               $imgdat = file_get_contents($upfile);
+<<<<<<< HEAD
               $sql="INSERT INTO image_list (list_id,image,number) VALUES(:list_id,:imgdat,:number)";
               $stm=$pdo->prepare($sql);
               $stm->bindValue(':list_id',$list_id,PDO::PARAM_STR);
+=======
+              $sql="INSERT INTO image_list (image_id,image,number) VALUES(:image_id,:imgdat,:number)";
+              $stm=$pdo->prepare($sql);
+              $stm->bindValue(':image_id',$image_id,PDO::PARAM_STR);
+>>>>>>> root/master
               $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
               $stm->bindValue(':number',3,PDO::PARAM_STR);
               $stm->execute();
@@ -182,9 +220,15 @@ $gobackURL ='add_db.php';
             if(isset($_FILES["image5"])&&($_FILES["image5"]["tmp_name"]!='')){
               $upfile = $_FILES["image5"]["tmp_name"];
               $imgdat = file_get_contents($upfile);
+<<<<<<< HEAD
               $sql="INSERT INTO image_list (list_id,image,number) VALUES(:list_id,:imgdat,:number)";
               $stm=$pdo->prepare($sql);
               $stm->bindValue(':list_id',$list_id,PDO::PARAM_STR);
+=======
+              $sql="INSERT INTO image_list (image_id,image,number) VALUES(:image_id,:imgdat,:number)";
+              $stm=$pdo->prepare($sql);
+              $stm->bindValue(':image_id',$image_id,PDO::PARAM_STR);
+>>>>>>> root/master
               $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
               $stm->bindValue(':number',4,PDO::PARAM_STR);
               $stm->execute();
