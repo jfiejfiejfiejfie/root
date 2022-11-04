@@ -1,15 +1,15 @@
 <?php
 session_start(); 
 require_once('../lib/util.php');
-$gobackURL ="loan.php?id={$_SESSION["chat_id"]}&name={$_SESSION["chat_name"]}";
 $user='root';
 $password='';
 $dbName = 'wakka1';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 date_default_timezone_set('Asia/Tokyo');
-$chat_id=$_SESSION["chat_id"];
-$image_id=$_SESSION["id"];
+$list_id=$_POST["list_id"];
+$gobackURL ="loan.php?id={$list_id}";
+$id=$_SESSION["id"];
 $text=$_POST["text"];
 if($_FILES["image"]["tmp_name"]==""){
 $imgdat="";
@@ -23,13 +23,12 @@ try{
     $pdo=new PDO($dsn,$user,$password);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
     $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-    $sql = "INSERT INTO chat (name,date,text,chat_id,image_id,image) VALUES(:name,:date,:text,:chat_id,:image_id,:imgdat)";
+    $sql = "INSERT INTO chat (user_id,created_at,text,list_id,image) VALUES(:user_id,:date,:text,:list_id,:imgdat)";
     $stm = $pdo->prepare($sql);
-    $stm->bindValue(':name',$name,PDO::PARAM_STR);
+    $stm->bindValue(':user_id',$id,PDO::PARAM_STR);
     $stm->bindValue(':date',$date,PDO::PARAM_STR);
     $stm->bindValue(':text',$text,PDO::PARAM_STR);
-    $stm->bindValue(':chat_id',$chat_id,PDO::PARAM_STR);
-    $stm->bindValue(':image_id',$image_id,PDO::PARAM_STR);
+    $stm->bindValue(':list_id',$list_id,PDO::PARAM_STR);
     $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
     $stm->execute();
     $result=$stm->fetchAll(PDO::FETCH_ASSOC);

@@ -12,30 +12,9 @@ try{
   $pdo=new PDO($dsn,$user,$password);
   $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
   $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-  $sql = "SELECT * FROM users WHERE id = $id";
+  $sql = "DELETE FROM list WHERE user_id = :id";
   $stm=$pdo->prepare($sql);
-  if($stm->execute()){
-  $stm = $pdo->prepare($sql);
-  $stm->execute();
-  $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-  foreach($result as $row){
-    $name=$row["name"];
-  }
-}else{
-  echo "ツイカエラーガアリマシタ。";
-}
-}catch(Exception $e){
-  echo 'エラーがありました。1';
-  echo $e->getMessage();
-  exit();
-}
-try{
-  $pdo=new PDO($dsn,$user,$password);
-  $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-  $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-  $sql = "DELETE FROM main WHERE member = :member";
-  $stm=$pdo->prepare($sql);
-  $stm->bindValue(':member',$name,PDO::PARAM_STR);
+  $stm->bindValue(':id',$id,PDO::PARAM_STR);
   if($stm->execute()){
   // $stm = $pdo->prepare($sql);
   // $stm->execute();

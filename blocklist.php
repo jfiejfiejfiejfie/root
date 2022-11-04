@@ -75,7 +75,6 @@
 
       <h2>ブロックリスト</h2>
       <?php
-            $name=$_SESSION["name"];
             $id=$_SESSION["id"];
         try{
           $pdo=new PDO($dsn,$user,$password);
@@ -88,8 +87,16 @@
           $result=$stm->fetchAll(PDO::FETCH_ASSOC);
           foreach($result as $row){
             echo '<table class="table table-striped">';
-              echo "<a href='profile.php?id={$row['userid']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['userid']}'></a><br>";
-              echo $row["name"],"</td>";
+              echo "<a href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
+              $user_id=$row["user_id"];
+              $sql = "SELECT * FROM users WHERE id=$user_id";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $result2=$stm->fetchAll(PDO::FETCH_ASSOC);
+              foreach($result2 as $row2){
+                echo $row2["name"],"</td>";
+              }
+              echo "<hr>";
               echo '</tr>';
           }
           echo '</tbody>';

@@ -46,4 +46,48 @@ $(function(){
       document.getElementById('preview').src = fileReader.result;
     });
     fileReader.readAsDataURL(obj.files[0]);
+    document.getElementById('hidden1').style.visibility = 'visible';
   }
+  function previewImage2(obj)
+  {
+    var fileReader = new FileReader();
+    fileReader.onload = (function() {
+      document.getElementById('preview2').src = fileReader.result;
+    });
+    fileReader.readAsDataURL(obj.files[0]);
+    document.getElementById('hidden2').style.visibility = 'visible';
+  }
+  function previewImage3(obj)
+  {
+    var fileReader = new FileReader();
+    fileReader.onload = (function() {
+      document.getElementById('preview3').src = fileReader.result;
+    });
+    fileReader.readAsDataURL(obj.files[0]);
+    document.getElementById('hidden3').style.visibility = 'visible';
+  }
+  function previewImage4(obj)
+  {
+    var fileReader = new FileReader();
+    fileReader.onload = (function() {
+      document.getElementById('preview4').src = fileReader.result;
+    });
+    fileReader.readAsDataURL(obj.files[0]);
+    document.getElementById('hidden4').style.visibility = 'visible';
+  }
+  function previewImage5(obj)
+  {
+    var fileReader = new FileReader();
+    fileReader.onload = (function() {
+      document.getElementById('preview5').src = fileReader.result;
+    });
+    fileReader.readAsDataURL(obj.files[0]);
+  }
+  
+  // function add(point){
+    
+  //   data="hidden" + String(point);
+  //   alert(data);
+  //   document.getElementById(data).style.visibility = 'visible';
+  //   return $point;
+  // }

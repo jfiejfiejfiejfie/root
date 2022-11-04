@@ -88,7 +88,6 @@
       $result=$stm->fetchAll(PDO::FETCH_ASSOC);
       foreach($result as $row){
         if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){
-          // if($row[""]){
             echo '<img id="image" height="150" width="150" src="my_image.php?id=',$row["id"],'"><br>';
             echo '<font size="10">',$row["name"],'</font><hr>';
             echo '<font size="5">',$row["age"],'歳</font><br>';
@@ -98,23 +97,6 @@
             echo '<hr>残金<br><font size="10">￥',number_format($row['money']),'</font><hr>';
             echo '<a href="blocklist.php" class="btn btn-primary">ブロックリスト</a><hr>';
             echo '<a href="edit.php" class="btn btn-primary">編集する</a>';
-          // }else{
-          // $url = "https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg";
-          // $img = file_get_contents($url);
-      
-          // $enc_img = base64_encode($img);
-      
-          // $imginfo = getimagesize('data:application/octet-stream;base64,' . $enc_img);
-      
-          // echo '<img src="data:' . $imginfo['mime'] . ';base64,'.$enc_img.'"height="150" width="150"><br>';
-          // echo '<font size="10">',$row["name"],'</font><hr>';
-          // echo '<font size="5">',$row["age"],'歳</font><br>';
-          // echo '<font size="5">',$row["sex"],'</font><br>';
-          // echo '<font size="3">',$row["email"],'</font><br>';
-          // echo '<hr>コメント<br><font size="10">',$row["comment"],'</font><br>';
-          // echo '<hr>残金<br><font size="10">￥',number_format($row['money']),'</font><hr>';
-          // echo '<a href="edit.php" class="btn btn-primary">編集する</a>';
-          // }
         }
       }
       if(!isset($_SESSION["loggedin"])){
@@ -130,14 +112,12 @@
       <?php  if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){ ?>
       <h2>出品中</h2>
       <?php
-      $name=$_SESSION["name"];
         try{
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            $sql = "SELECT * FROM main WHERE member =:name and loan=0";
+            $sql = "SELECT * FROM list WHERE user_id=$id and loan=0";
             $stm = $pdo->prepare($sql);
-            $stm->bindValue(':name',$name,PDO::PARAM_STR);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
             echo '<table class="table table-striped">';
@@ -151,7 +131,7 @@
             echo '<tbody>';
             foreach($result as $row){
                 echo '<tr>';
-                echo '<td>',$row['today'],'</td>';
+                echo '<td>',$row['created_at'],'</td>';
                 echo '<td>',$row['item'],'</td>';
                 echo '<td>',$row['kind'],'</td>';
                 echo '<td>￥',number_format($row['money']),'</td>';
@@ -166,94 +146,19 @@
             exit();
         }
       ?>
-      <h2>取引中</h2>
-      <?php
-        try{
-          $pdo=new PDO($dsn,$user,$password);
-          $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-          $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-          $sql = "SELECT * FROM main WHERE member =:name and loan=1";
-          $stm = $pdo->prepare($sql);
-          $stm->bindValue(':name',$name,PDO::PARAM_STR);
-          $stm->execute();
-          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-          echo '<table class="table table-striped">';
-          echo '<thead><tr>';
-          echo '<th>','掲載日','</th>';
-          echo '<th>','貸出物','</th>';
-          echo '<th>','ジャンル','</th>';
-          echo '<th>','金額','</th>';
-          echo '<th>','画像','</th>';
-          echo '</tr></thead>';
-          echo '<tbody>';
-          foreach($result as $row){
-              echo '<tr>';
-              echo '<td>',$row['today'],'</td>';
-              echo '<td>',$row['item'],'</td>';
-              echo '<td>',$row['kind'],'</td>';
-              echo '<td>￥',number_format($row['money']),'</td>';
-              echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
-              echo '</tr>';
-          }
-          echo '</tbody>';
-          echo '</table>';
-      }catch(Exception $e){
-          echo 'エラーがありました。';
-          echo $e->getMessage();
-          exit();
-      }
-      ?>
-      <h2>購入したもの</h2>
-      <?php
-        try{
-          $pdo=new PDO($dsn,$user,$password);
-          $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-          $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-          $sql = "SELECT * FROM main WHERE  buy_id=:id and loan=1";
-          $stm = $pdo->prepare($sql);
-          $stm->bindValue(':id',$id,PDO::PARAM_STR);
-          $stm->execute();
-          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-          echo '<table class="table table-striped">';
-          echo '<thead><tr>';
-          echo '<th>','掲載日','</th>';
-          echo '<th>','貸出物','</th>';
-          echo '<th>','ジャンル','</th>';
-          echo '<th>','金額','</th>';
-          echo '<th>','画像','</th>';
-          echo '</tr></thead>';
-          echo '<tbody>';
-          foreach($result as $row){
-              echo '<tr>';
-              echo '<td>',$row['today'],'</td>';
-              echo '<td>',$row['item'],'</td>';
-              echo '<td>',$row['kind'],'</td>';
-              echo '<td>￥',number_format($row['money']),'</td>';
-              echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
-              echo '</tr>';
-          }
-          echo '</tbody>';
-          echo '</table>';
-      }catch(Exception $e){
-          echo 'エラーがありました。';
-          echo $e->getMessage();
-          exit();
-      }
-    }
-      ?>
       <?php
       try{
         $count=0;
         $pdo=new PDO($dsn,$user,$password);
         $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
         $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM likes WHERE user_id=$id";
+        $sql = "SELECT * FROM likes WHERE my_id=$id";
         $stm = $pdo->prepare($sql);
         $stm->execute();
         $result=$stm->fetchAll(PDO::FETCH_ASSOC);
         foreach($result as $row){
           $count+=1;
-          $main_list[]=$row["main_id"];
+          $main_list[]=$row["list_id"];
         }
       }catch(Exception $e){
           echo 'エラーがありました。';
@@ -267,7 +172,7 @@
           $pdo=new PDO($dsn,$user,$password);
           $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
           $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-          $sql = "SELECT * FROM main WHERE id IN ($main_list)";
+          $sql = "SELECT * FROM list WHERE id IN ($main_list)";
           $stm = $pdo->prepare($sql);
           $stm->execute();
           $result=$stm->fetchAll(PDO::FETCH_ASSOC);
@@ -283,7 +188,7 @@
           echo '<tbody>';
           foreach($result as $row){
               echo '<tr>';
-              echo '<td>',$row['today'],'</td>';
+              echo '<td>',$row['created_at'],'</td>';
               echo '<td>',$row['item'],'</td>';
               echo '<td>',$row['kind'],'</td>';
               echo '<td>￥',number_format($row['money']),'</td>';
@@ -293,6 +198,7 @@
           echo '</tbody>';
           echo '</table>';
         }
+      }
       ?>
     </div>
     <!--/メイン-->
@@ -302,7 +208,7 @@
       <section id="side_banner">
         <h2>関連リンク</h2>
         <ul>
-        <li><a href="notice.php"><img src="images/kanban.png"></a></li>
+        <li><a href="notice.php"><img src="images/kanban.gif"></a></li>
           <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>
           
 

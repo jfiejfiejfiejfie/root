@@ -123,7 +123,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // SQL文を作る
     $sql = "SELECT * FROM users WHERE name LIKE(:name)";
-    //$sql = "SELECT * FROM main where item='$item'";
+    //$sql = "SELECT * FROM list where item='$item'";
     // プリペアドステートメントを作る
     $stm=$pdo->prepare($sql);
     // プレースホルダに値をバインドする

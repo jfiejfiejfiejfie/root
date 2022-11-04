@@ -121,11 +121,10 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            $sql="UPDATE main SET loan=$loan,buy_id=$data,buy_name=:name WHERE id=$id";
+            $sql="UPDATE list SET loan=$loan,buy_user_id=$data WHERE id=$id";
             $stm=$pdo->prepare($sql);
-            $stm->bindValue(':name',$name,PDO::PARAM_STR);
             if($stm->execute()){
-            $sql = 'SELECT * FROM main';
+            $sql = 'SELECT * FROM list';
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);

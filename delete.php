@@ -96,7 +96,7 @@ if($_SESSION["admin"]==0){
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            $sql = "DELETE FROM main WHERE id =$data";
+            $sql = "DELETE FROM list WHERE id =$data";
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
@@ -106,6 +106,29 @@ if($_SESSION["admin"]==0){
             echo $e->getMessage();
             exit();
         }
+            $pdo=new PDO($dsn,$user,$password);
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            $sql = "DELETE FROM chat WHERE chat_id = $data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+
+            $pdo=new PDO($dsn,$user,$password);
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            $sql = "DELETE FROM image_list WHERE list_id = $data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+            
+            $pdo=new PDO($dsn,$user,$password);
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            $sql = "DELETE FROM likes WHERE list_id = $data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
     ?>
     <hr>
     <p><a href="<?php echo $gobackURL ?>">戻る</a></p>

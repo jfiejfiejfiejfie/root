@@ -122,8 +122,8 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
     // 例外がスローされる設定にする
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // SQL文を作る
-    $sql = "SELECT * FROM main WHERE item LIKE(:item)";
-    //$sql = "SELECT * FROM main where item='$item'";
+    $sql = "SELECT * FROM list WHERE item LIKE(:item)";
+    //$sql = "SELECT * FROM list where item='$item'";
     // プリペアドステートメントを作る
     $stm=$pdo->prepare($sql);
     // プレースホルダに値をバインドする
@@ -150,16 +150,15 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
       echo '<tbody>';
       foreach($result as $row){
           echo '<tr>';
-          if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-            if($row['member']===$_SESSION['name']){
-              echo '<td id="color">',es($row['member']);
-            }else{
-              echo '<td>',es($row['member']);
-            }
-          }else{
-            echo '<td>',es($row['member']);
+          $user_id=$row["user_id"];
+          $sql = "SELECT * FROM users WHERE id=$user_id";
+          $stm = $pdo->prepare($sql);
+          $stm->execute();
+          $result2=$stm->fetchAll(PDO::FETCH_ASSOC);
+          foreach($result2 as $row2){
+            echo '<td>',$row2["name"];
           }
-          echo "<br><a href='profile.php?id={$row['member_id']}'><img height='100' width='100'src='my_image.php?id={$row['member_id']}'></a></td>";
+          echo "<br><a href='profile.php?id={$row['user_id']}'><img height='100' width='100'src='my_image.php?id={$row['user_id']}'></a></td>";
           echo '<td>',es($row['item']),'</td>';
           echo '<td>￥',number_format($row['money']),'</td>';
           echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
