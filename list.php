@@ -19,11 +19,7 @@ if(isset($_SESSION["id"])){
   $result=$stm->fetchAll(PDO::FETCH_ASSOC);
   foreach($result as $row){
     $block_count+=1;
-<<<<<<< HEAD
     $block_list[]=$row["user_id"];
-=======
-    $block_list[]=$row["userid"];
->>>>>>> root/master
   }
 }
 ?>
@@ -122,11 +118,7 @@ if(isset($_SESSION["id"])){
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
             if($block_count!=0){
-<<<<<<< HEAD
               $sql = "SELECT * FROM main WHERE user_id not in ($block_list)";
-=======
-              $sql = "SELECT * FROM main WHERE member_id not in ($block_list)";
->>>>>>> root/master
             }else{
               $sql = "SELECT * FROM main";
             }
