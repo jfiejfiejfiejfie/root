@@ -1,15 +1,23 @@
 <?php
 session_start(); 
 require_once('../lib/util.php');
-$gobackURL ='list.php';
 $user='root';
 $password='';
 $dbName = 'wakka1';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
-$chat_id=$_GET["id"];
-$_SESSION["chat_id"]=$_GET["id"];
-$_SESSION["chat_name"]=$_GET["name"];
+$id=$_GET["id"];
+$gobackURL ="detail.php?id={$id}";
+$pdo=new PDO($dsn,$user,$password);
+$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+$pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+$sql = "SELECT * FROM main WHERE id=$id";
+$stm = $pdo->prepare($sql);
+$stm->execute();
+$result=$stm->fetchAll(PDO::FETCH_ASSOC);
+foreach($result as $row){
+  $item_name=$row["item"];
+}
 ?>
 
 <!DOCTYPE html>
@@ -78,22 +86,31 @@ $_SESSION["chat_name"]=$_GET["name"];
     <!--メイン-->
     <div id="main">
       <section id="point">
-        <img src="image.php?id=<?php echo $chat_id;?>" style="max-width:350px;">
-        <h2><?php echo htmlspecialchars($_GET["name"]);?>についてのチャット履歴</h2>
+        <img src="image.php?id=<?php echo $id;?>" style="max-width:350px;">
+        <h2>
+        <?php
+        echo $item_name;
+        ?>についてのチャット履歴</h2>
         <div>
     <?php
         try{
-            $pdo=new PDO($dsn,$user,$password);
-            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            $sql = "SELECT * FROM chat WHERE chat_id=$chat_id";
+            $sql = "SELECT * FROM chat WHERE list_id=$id";
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
             foreach($result as $row){
             echo '<table class="table table-striped">';
             echo '<thead><tr>';
-            echo '<th><a href="profile.php?id=',$row["image_id"],'">','<img id="image" height="100" width="100" src="my_image.php?id=',$row["image_id"],'"></a>',$row["name"],":",$row["date"],'</th>';
+            echo '<th><a href="profile.php?id=',$row["user_id"],'">','<img id="image" height="100" width="100" src="my_image.php?id=',$row["user_id"],'"></a>';
+            $user_id=$row["user_id"];
+            $sql = "SELECT * FROM users WHERE id=$user_id";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result2=$stm->fetchAll(PDO::FETCH_ASSOC);
+            foreach($result2 as $row2){
+              echo $row2["name"],":";
+            }
+            echo $row["created_at"],'</th>';
             echo '</tr>';
             echo '<tr>';
             if($row["image"]!=""){
@@ -120,8 +137,10 @@ $_SESSION["chat_name"]=$_GET["name"];
                         <input type="file" multiple name="image"class="test" accept="image/*"  onchange="previewImage(this);">
                           </label>
               </div>
+              <input type="hidden" name="list_id" value="<?php echo $id;?>">
               <input type="submit" value="送信" >
       </form>
+      <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
     </div>
     <!--/メイン-->
 

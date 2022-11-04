@@ -8,6 +8,26 @@
   $id=$_GET["id"];
   $my_id=$_GET["id"];
   $_SESSION["my_id"]=$_GET["id"];
+  #blockcount
+  $block_count=0;
+  try{
+    $pdo=new PDO($dsn,$user,$password);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    $sql = "SELECT * FROM blocklist WHERE user_id =:user_id and my_id=:my_id";
+    $stm = $pdo->prepare($sql);
+    $stm->bindValue(':user_id',$id,PDO::PARAM_STR);
+    $stm->bindValue(':my_id',$_SESSION["id"],PDO::PARAM_STR);
+    $stm->execute();
+    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+    foreach($result as $row){
+      $block_count+=1;
+    }
+}catch(Exception $e){
+    echo 'エラーがありました。';
+    echo $e->getMessage();
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
@@ -106,9 +126,9 @@
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            $sql = "SELECT * FROM main WHERE member =:name AND loan=0";
+            $sql = "SELECT * FROM main WHERE user_id=:id AND loan=0";
             $stm = $pdo->prepare($sql);
-            $stm->bindValue(':name',$name,PDO::PARAM_STR);
+            $stm->bindValue(':id',$id,PDO::PARAM_STR);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
             echo '<table class="table table-striped">';
@@ -120,7 +140,7 @@
             echo '<tbody>';
             foreach($result as $row){
                 echo '<tr>';
-                echo '<td>',$row['today'],'</td>';
+                echo '<td>',$row['created_at'],'</td>';
                 echo '<td>',$row['item'],'</td>';
                 echo "<td><a target='_blank' href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
                 echo '</tr>';
@@ -136,7 +156,11 @@
       <form action="block.php" method="POST"enctype="multipart/form-data">
       <?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
       if($_SESSION['name']!==$name){
-        echo "<a href='block.php?id={$row["member_id"]}' class='btn btn-primary'>ブロックする</a>";
+        if($block_count==0){
+          echo "<a href='block.php?id=$id' class='btn btn-danger'>ブロックする</a>";
+        }else{
+          echo "<a href='block.php?id=$id' class='btn btn-primary'>ブロックを解除する</a>";
+        }
       }
     } ?>
           </form>

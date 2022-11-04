@@ -7,6 +7,21 @@ $password='';
 $dbName = 'wakka1';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+$block_count=0;
+if(isset($_SESSION["id"])){
+  $pdo=new PDO($dsn,$user,$password);
+  $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+  $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+  $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+  $stm = $pdo->prepare($sql);
+  $stm->bindValue(':id',$_SESSION["id"],PDO::PARAM_STR);
+  $stm->execute();
+  $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+  foreach($result as $row){
+    $block_count+=1;
+    $block_list[]=$row["user_id"];
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -47,21 +62,21 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 }(document, 'script', 'facebook-jssdk'));</script>
   
   <!--ヘッダー-->
-		<div id="header">
-<div class="game_bar" style="background-image: url(images/main_visual.jpg);">
-		<div class="game_title">
-				<a href="all.php"><img src=""class="mr5" /></a>
-				<a  href="all.php">貸し借りサイト</a>
-			<div id="menu_s">
-				<div>
-				<div><a href="all.php"><img src="images/home.png"  style="width:70px" /><span>HOME</span></a></div>
-				<div><a href="add_db.php"><img src="images/register.png"  style="width:70px" /><span>商品登録</span></span></a></div>
-				<div><a href="search_sp.php"><img src="images/search.png"  style="width:70px" /><span>検索</span></span></a></div>
-				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1"  style="width:70px" /><span>一覧</span></a></div>
-				<div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b"  style="width:70px" /><span>マイページ</span></span></a></div>
-				<div><a href="contact.php"><img src="images/contact.png"  style="width:70px" /><span>お問い合わせ</span></a></div>
-			</div>
-			</div>
+      <div id="header">
+  <div class="game_bar" style="background-image: url(images/main_visual.jpg);">
+      <div class="game_title">
+          <a href="all.php"><img src=""class="mr5" /></a>
+          <a  href="all.php">貸し借りサイト</a>
+        <div id="menu_s">
+          <div>
+          <div><a href="all.php"><img src="images/home.png"  style="width:70px" /><span>HOME</span></a></div>
+          <div><a href="add_db.php"><img src="images/register.png"  style="width:70px" /><span>商品登録</span></span></a></div>
+          <div><a href="search_sp.php"><img src="images/search.png"  style="width:70px" /><span>検索</span></span></a></div>
+          <div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1"  style="width:70px" /><span>一覧</span></a></div>
+          <div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b"  style="width:70px" /><span>マイページ</span></span></a></div>
+          <div><a href="contact.php"><img src="images/contact.png"  style="width:70px" /><span>お問い合わせ</span></a></div>
+        </div>
+        </div>
 			<?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){
           ?>
           <a href="javascript:if(confirm('ログアウトしますか？')) location.href='logout.php';"  style="width:30px;"><img height="30" width="30" src="my_image.php?id=<?php echo $_SESSION["id"];?>" style="border-radius: 50%"/></a>
@@ -95,11 +110,18 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
         <div>
     <?php
         try{
-          $count=0;
+          if($block_count!=0){
+            $block_list=implode(",",$block_list);
+          }
+            $count=0;
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            $sql = 'SELECT * FROM main WHERE money order by money';
+            if($block_count!=0){
+              $sql = "SELECT * FROM main WHERE user_id not in ($block_list)";
+            }else{
+              $sql = "SELECT * FROM main";
+            }
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);

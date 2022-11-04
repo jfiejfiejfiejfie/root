@@ -80,7 +80,111 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
     <div id="main">
       <section id="point">
         <h1>お知らせ欄</h1>
-        <hr><br><font size="10">実装までお待ちください。</font><br>
+        <?php
+    if(isset($_SESSION["id"])){
+    $id=$_SESSION["id"];
+    }else{
+      $id=0;
+    }
+      try{
+        $count=0;
+        $pdo=new PDO($dsn,$user,$password);
+        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM likes WHERE my_id=$id";
+        $stm = $pdo->prepare($sql);
+        $stm->execute();
+        $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+        foreach($result as $row){
+          $count+=1;
+          $main_list[]=$row["list_id"];
+        }
+      }catch(Exception $e){
+          echo 'エラーがありました。';
+          echo $e->getMessage();
+          exit();
+      }
+      ?>
+      <?php
+        if($count!=0){
+          $main_list=implode(",",$main_list);
+          $pdo=new PDO($dsn,$user,$password);
+          $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+          $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+          $sql = "SELECT * FROM main WHERE id IN ($main_list)";
+          $stm = $pdo->prepare($sql);
+          $stm->execute();
+          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+          echo "<h2>この商品が「いいね」されました。</h2>";
+          echo '<table class="table table-striped">';
+          echo '<thead><tr>';
+          echo '<th>','掲載日','</th>';
+          echo '<th>','貸出物','</th>';
+          echo '<th>','ジャンル','</th>';
+          echo '<th>','金額','</th>';
+          echo '<th>','画像','</th>';
+          echo '<th>','既読にする','</th>';
+          echo '</tr></thead>';
+          echo '<tbody>';
+          foreach($result as $row){
+              echo '<tr>';
+              echo '<td>',$row['created_at'],'</td>';
+              echo '<td>',$row['item'],'</td>';
+              echo '<td>',$row['kind'],'</td>';
+              echo '<td>￥',number_format($row['money']),'</td>';
+              echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
+              echo '<td><input id="check" type="checkbox" name="#" class="big"></td>';
+              echo '</tr>';
+          }
+          echo '</tbody>';
+          echo '</table>';
+        }
+      ?>
+      <?php
+        try{
+          $pdo=new PDO($dsn,$user,$password);
+          $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+          $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+          $sql = "SELECT * FROM main WHERE  buy_user_id=:id and loan=1";
+          $stm = $pdo->prepare($sql);
+          $stm->bindValue(':id',$id,PDO::PARAM_STR);
+          $stm->execute();
+          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+          echo "<h2>この商品が「購入」されました。</h2>";
+          echo '<table class="table table-striped">';
+          echo '<thead><tr>';
+          echo '<th>','掲載日','</th>';
+          echo '<th>','貸出物','</th>';
+          echo '<th>','ジャンル','</th>';
+          echo '<th>','金額','</th>';
+          echo '<th>','画像','</th>';
+          echo '<th>','既読にする','</th>';
+          echo '</tr></thead>';
+          echo '<tbody>';
+          foreach($result as $row){
+              echo '<tr>';
+              echo '<td>',$row['created_at'],'</td>';
+              echo '<td>',$row['item'],'</td>';
+              echo '<td>',$row['kind'],'</td>';
+              echo '<td>￥',number_format($row['money']),'</td>';
+              echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
+              echo '<td><input id="check" type="checkbox" name="#" class="big"></td>';
+              echo '</tr>';
+          }
+          echo '</tbody>';
+          echo '</table>';
+      }catch(Exception $e){
+          echo 'エラーがありました。';
+          echo $e->getMessage();
+          exit();
+      }
+  
+      ?>
+      <style>
+input.big {
+	transform: scale(2.0);
+}
+</style>
     </div>
     <!--/メイン-->
 
@@ -89,7 +193,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
       <section id="side_banner">
         <h2>関連リンク</h2>
         <ul>
-        <li><a href="notice.php"><img src="images/kanban.png"></a></li>
+        <li><a href="notice.php"><img src="images/kanban.gif"></a></li>
           <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>
           
 

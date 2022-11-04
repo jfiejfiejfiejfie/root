@@ -88,6 +88,15 @@ window.onload=suteki;
             $sql = "DELETE FROM main WHERE id =$data";
             $stm = $pdo->prepare($sql);
             $stm->execute();
+            $sql = "DELETE FROM chat WHERE chat_id = $data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $sql = "DELETE FROM image_list WHERE image_id = $data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $sql = "DELETE FROM likes WHERE list_id = $data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
             echo "削除しました。";
         }catch(Exception $e){

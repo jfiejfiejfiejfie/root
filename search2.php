@@ -118,8 +118,15 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
             foreach($result as $row){
                 echo '<tr>';
                 echo '<td>',es($row['id']),'</td>';
-                echo '<td>',es($row['today']),'</td>';
-                echo '<td>',es($row['member']),'</td>';
+                echo '<td>',es($row['created_at']),'</td>';
+                $user_id=$row["user_id"];
+                $sql = "SELECT * FROM users WHERE id=$user_id";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $result2=$stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach($result2 as $row2){
+                  echo '<td>',$row2["name"];
+                }
                 echo '<td>',es($row['item']),'</td>';
                 echo '<td>',es($row['comment']),'</td>';
                 echo '</tr>';
