@@ -7,18 +7,8 @@ $password='';
 $dbName = 'wakka1';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
-<<<<<<< HEAD
 $block_count=0;
 if(isset($_SESSION["id"])){
-=======
-<<<<<<< HEAD
-$block_count=0;
-if(isset($_SESSION["id"])){
-=======
-try{
-  $block_count=0;
->>>>>>> root/master
->>>>>>> root/master
   $pdo=new PDO($dsn,$user,$password);
   $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
   $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
@@ -31,16 +21,6 @@ try{
     $block_count+=1;
     $block_list[]=$row["userid"];
   }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-}catch(Exception $e){
-    echo 'エラーがありました。';
-    echo $e->getMessage();
-    exit();
->>>>>>> root/master
->>>>>>> root/master
 }
 ?>
 
