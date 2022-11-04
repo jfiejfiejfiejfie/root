@@ -94,7 +94,11 @@ window.onload=suteki;
             $sql = "DELETE FROM image_list WHERE image_id = $data";
             $stm = $pdo->prepare($sql);
             $stm->execute();
+<<<<<<< HEAD
             $sql = "DELETE FROM likes WHERE list_id = $data";
+=======
+            $sql = "DELETE FROM likes WHERE main_id = $data";
+>>>>>>> root/master
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);

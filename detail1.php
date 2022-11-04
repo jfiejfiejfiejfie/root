@@ -106,7 +106,11 @@
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+<<<<<<< HEAD
             $sql="UPDATE main SET item = :item, money = :money,created_at=:created_at,kind=:kind where id = $id";
+=======
+            $sql="UPDATE main SET item = :item, money = :money,today=:today,kind=:kind where id = $id";
+>>>>>>> root/master
             $stm=$pdo->prepare($sql);
             $stm->bindValue(':item',$item,PDO::PARAM_STR);
             // $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);

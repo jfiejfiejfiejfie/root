@@ -141,9 +141,15 @@ $gobackURL ='add_db.php';
             $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
             if($stm->execute()){
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+<<<<<<< HEAD
             $sql = 'SELECT * FROM main WHERE created_at = :created_at';
             $stm = $pdo->prepare($sql);
             $stm->bindValue(':created_at',$created_at,PDO::PARAM_STR);
+=======
+            $sql = 'SELECT * FROM main WHERE today = :today';
+            $stm = $pdo->prepare($sql);
+            $stm->bindValue(':today',$today,PDO::PARAM_STR);
+>>>>>>> root/master
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
             foreach($result as $row){

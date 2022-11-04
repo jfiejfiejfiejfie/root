@@ -14,9 +14,15 @@
     $pdo=new PDO($dsn,$user,$password);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
     $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+<<<<<<< HEAD
     $sql = "SELECT * FROM blocklist WHERE user_id =:user_id and my_id=:my_id";
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':user_id',$id,PDO::PARAM_STR);
+=======
+    $sql = "SELECT * FROM blocklist WHERE userid =:userid and my_id=:my_id";
+    $stm = $pdo->prepare($sql);
+    $stm->bindValue(':userid',$id,PDO::PARAM_STR);
+>>>>>>> root/master
     $stm->bindValue(':my_id',$_SESSION["id"],PDO::PARAM_STR);
     $stm->execute();
     $result=$stm->fetchAll(PDO::FETCH_ASSOC);
@@ -157,9 +163,27 @@
       <?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
       if($_SESSION['name']!==$name){
         if($block_count==0){
+<<<<<<< HEAD
           echo "<a href='block.php?id=$id' class='btn btn-danger'>ブロックする</a>";
         }else{
           echo "<a href='block.php?id=$id' class='btn btn-primary'>ブロックを解除する</a>";
+=======
+<<<<<<< HEAD
+          echo "<a href='block.php?id=$id&name=$name' class='btn btn-danger'>ブロックする</a>";
+        }else{
+          echo "<a href='block.php?id=$id&name=$name' class='btn btn-primary'>ブロックを解除する</a>";
+=======
+<<<<<<< HEAD
+          echo "<a href='block.php?id=$id&name=$name' class='btn btn-danger'>ブロックする</a>";
+        }else{
+          echo "<a href='block.php?id=$id&name=$name' class='btn btn-primary'>ブロックを解除する</a>";
+=======
+          echo "<a href='block.php?id=$id&name=$name&count=$block_count' class='btn btn-danger'>ブロックする</a>";
+        }else{
+          echo "<a href='block.php?id=$id&name=$name&count=$block_count' class='btn btn-primary'>ブロックを解除する</a>";
+>>>>>>> root/master
+>>>>>>> root/master
+>>>>>>> root/master
         }
       }
     } ?>

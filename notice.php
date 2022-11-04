@@ -97,7 +97,11 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
         $result=$stm->fetchAll(PDO::FETCH_ASSOC);
         foreach($result as $row){
           $count+=1;
+<<<<<<< HEAD
           $main_list[]=$row["list_id"];
+=======
+          $main_list[]=$row["main_id"];
+>>>>>>> root/master
         }
       }catch(Exception $e){
           echo 'エラーがありました。';
@@ -128,7 +132,11 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
           echo '<tbody>';
           foreach($result as $row){
               echo '<tr>';
+<<<<<<< HEAD
               echo '<td>',$row['created_at'],'</td>';
+=======
+              echo '<td>',$row['today'],'</td>';
+>>>>>>> root/master
               echo '<td>',$row['item'],'</td>';
               echo '<td>',$row['kind'],'</td>';
               echo '<td>￥',number_format($row['money']),'</td>';
@@ -145,7 +153,11 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
           $pdo=new PDO($dsn,$user,$password);
           $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
           $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+<<<<<<< HEAD
           $sql = "SELECT * FROM main WHERE  buy_user_id=:id and loan=1";
+=======
+          $sql = "SELECT * FROM main WHERE  buy_id=:id and loan=1";
+>>>>>>> root/master
           $stm = $pdo->prepare($sql);
           $stm->bindValue(':id',$id,PDO::PARAM_STR);
           $stm->execute();
@@ -163,7 +175,11 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
           echo '<tbody>';
           foreach($result as $row){
               echo '<tr>';
+<<<<<<< HEAD
               echo '<td>',$row['created_at'],'</td>';
+=======
+              echo '<td>',$row['today'],'</td>';
+>>>>>>> root/master
               echo '<td>',$row['item'],'</td>';
               echo '<td>',$row['kind'],'</td>';
               echo '<td>￥',number_format($row['money']),'</td>';

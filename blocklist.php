@@ -87,6 +87,7 @@
           $result=$stm->fetchAll(PDO::FETCH_ASSOC);
           foreach($result as $row){
             echo '<table class="table table-striped">';
+<<<<<<< HEAD
               echo "<a href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
               $user_id=$row["user_id"];
               $sql = "SELECT * FROM users WHERE id=$user_id";
@@ -96,6 +97,10 @@
               foreach($result2 as $row2){
                 echo $row2["name"],"</td>";
               }
+=======
+              echo "<a href='profile.php?id={$row['userid']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['userid']}'></a><br>";
+              echo $row["username"],"</td>";
+>>>>>>> root/master
               echo "<hr>";
               echo '</tr>';
           }

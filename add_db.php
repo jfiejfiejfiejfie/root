@@ -115,7 +115,23 @@
                 <li>画像選択:
                 <li>
                   <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+<<<<<<< HEAD
                         <input type="file" name="image" class="test" accept="image/*" onchange="previewImage(this);" required>
+=======
+                        <input type="file" name="image"class="test" accept="image/*"  onchange="previewImage(this);" required>
+                          </label>
+                  <label id="hidden1" style="visibility: hidden;"><img src="images/imageplus.png" id="preview2" style="max-width:200px;"><br>
+                        <input type="file" name="image2"class="test" accept="image/*"  onchange="previewImage2(this);">
+                          </label>
+                  <label id="hidden2" style="visibility: hidden;"><img src="images/imageplus.png" id="preview3" style="max-width:200px;"><br>
+                        <input type="file" name="image3"class="test" accept="image/*"  onchange="previewImage3(this);">
+                          </label>
+                  <label id="hidden3" style="visibility: hidden;"><img src="images/imageplus.png" id="preview4" style="max-width:200px;"><br>
+                        <input type="file" name="image4"class="test" accept="image/*"  onchange="previewImage4(this);">
+                          </label>
+                  <label id="hidden4" style="visibility: hidden;"><img src="images/imageplus.png" id="preview5" style="max-width:200px;"><br>
+                        <input type="file" name="image5"class="test" accept="image/*"  onchange="previewImage5(this);">
+>>>>>>> root/master
                           </label>
                   <label id="hidden1" style="visibility: hidden;"><img src="images/imageplus.png" id="preview2" style="max-width:200px;"><br>
                         <input type="file" name="image2" class="test" accept="image/*" onchange="previewImage2(this);">
