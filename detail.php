@@ -107,6 +107,23 @@ try{
       $pdo=new PDO($dsn,$user,$password);
       $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
       $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+      $sql = "SELECT * FROM image_list WHERE image_id=$data";
+      $stm = $pdo->prepare($sql);
+      $stm->execute();
+      $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+      $image_count=0;
+      foreach($result as $row){
+        $image_count+=1;
+      }
+    }catch(Exception $e){
+        echo 'エラーがありました。';
+        echo $e->getMessage();
+        exit();
+    }
+    try{
+      $pdo=new PDO($dsn,$user,$password);
+      $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+      $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
       $sql = "SELECT * FROM likes WHERE main_id=$data";
       $stm = $pdo->prepare($sql);
       $stm->execute();
@@ -131,11 +148,27 @@ try{
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
             foreach($result as $row){
             echo '<table class="table table-striped">';
-            echo '<thead><tr>';
+            echo '<thead><tr><th>画像一覧</th>';
             echo '<td><a img data-lightbox="group" height="200" width="200  "href="image.php?id=',$row['id'],'">
-                  <img src="image.php?id=',$row['id'],'"height="200" width="200"></a></td>';
+                  <img src="image.php?id=',$row['id'],'"height="150" width="150"></a>';
+            if($image_count>0){
+                  echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=',$row['id'],'&number=1">
+                        <img src="image_next.php?id=',$row['id'],'&number=1"height="150" width="150"></a>';
+                  if($image_count>1){
+                    echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=',$row['id'],'&number=2">
+                          <img src="image_next.php?id=',$row['id'],'&number=2"height="150" width="150"></a>';
+                    if($image_count>2){
+                      echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=',$row['id'],'&number=3">
+                            <img src="image_next.php?id=',$row['id'],'&number=3"height="150" width="150"></a>';
+                      if($image_count>3){
+                        echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=',$row['id'],'&number=4">
+                              <img src="image_next.php?id=',$row['id'],'&number=4"height="150" width="150"></a></td>';
+                      }
+                    }
+                  }
+            }
             echo '</tr>';
-            echo '<tr>';
+            // echo '<tr>';
             echo '<tr>';
             echo '<th>最終編集時間</th>';
             echo '<td>',$row["today"],'</td>';

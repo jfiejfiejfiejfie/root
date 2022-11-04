@@ -102,43 +102,63 @@
     $item=$_POST["item"];
     $money=$_POST["money"];
     $kind=$_POST["kind"];
-    
-    $upfile = $_FILES["image"]["tmp_name"];
-    $imgdat = file_get_contents($upfile);
         try{
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-
-            $sql="UPDATE main SET item = :item, money = :money, image = :imgdat,today=:today,kind=:kind where id = $id";
+            $sql="UPDATE main SET item = :item, money = :money,today=:today,kind=:kind where id = $id";
             $stm=$pdo->prepare($sql);
             $stm->bindValue(':item',$item,PDO::PARAM_STR);
-            $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
+            // $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
             
             $stm->bindValue(':today',$today,PDO::PARAM_STR);
             $stm->bindValue(':money',$money,PDO::PARAM_STR);
             $stm->bindValue(':kind',$kind,PDO::PARAM_STR);
             if($stm->execute()){
-            $sql = "SELECT * FROM main WHERE id = $id";
-            $stm = $pdo->prepare($sql);
-            $stm->execute();
-            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-            echo '<table>';
-            echo '<thead><tr>';
-            echo '<th>','貸出物','</th>';
-            echo '<th>','画像','</th>';
-            echo '<th>','金額','</th>';
-            echo '</tr></thead>';
-            echo '<tbody>';
-            foreach($result as $row){
-                echo '<tr>';
-                echo '<td>',es($row['item']),'</td>';
-                echo '<td>','<img height="150" width="150" src="image.php?id=',$row['id'],'">','</td>';
-                echo '<td>','￥',es(number_format($row['money'])),'</td>';
-                echo '</tr>';
-            }
-            echo '</tbody>';
-            echo '</table>';
+              if(isset($_FILES["image"])&&($_FILES["image"]["tmp_name"]!='')){
+                $upfile = $_FILES["image"]["tmp_name"];
+                $imgdat = file_get_contents($upfile);
+                $sql="UPDATE main SET image = :imgdat WHERE id=$id";
+                $stm=$pdo->prepare($sql);
+                $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
+                $stm->execute();
+              }
+              if(isset($_FILES["image2"])&&($_FILES["image2"]["tmp_name"]!='')){
+                $upfile = $_FILES["image2"]["tmp_name"];
+                $imgdat = file_get_contents($upfile);
+                $sql="UPDATE image_list SET image = :imgdat WHERE image_id=$id and number=:number";
+                $stm=$pdo->prepare($sql);
+                $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
+                $stm->bindValue(':number',1,PDO::PARAM_STR);
+                $stm->execute();
+              }
+              if(isset($_FILES["image3"])&&($_FILES["image3"]["tmp_name"]!='')){
+                $upfile = $_FILES["image3"]["tmp_name"];
+                $imgdat = file_get_contents($upfile);
+                $sql="UPDATE image_list SET image = :imgdat WHERE image_id=$id and number=:number";
+                $stm=$pdo->prepare($sql);
+                $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
+                $stm->bindValue(':number',2,PDO::PARAM_STR);
+                $stm->execute();
+              }
+              if(isset($_FILES["image4"])&&($_FILES["image4"]["tmp_name"]!='')){
+                $upfile = $_FILES["image4"]["tmp_name"];
+                $imgdat = file_get_contents($upfile);
+                $sql="UPDATE image_list SET image = :imgdat WHERE image_id=$id and number=:number";
+                $stm=$pdo->prepare($sql);
+                $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
+                $stm->bindValue(':number',3,PDO::PARAM_STR);
+                $stm->execute();
+              }
+              if(isset($_FILES["image5"])&&($_FILES["image5"]["tmp_name"]!='')){
+                $upfile = $_FILES["image5"]["tmp_name"];
+                $imgdat = file_get_contents($upfile);
+                $sql="UPDATE image_list SET image = :imgdat WHERE image_id=$id and number=:number";
+                $stm=$pdo->prepare($sql);
+                $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
+                $stm->bindValue(':number',4,PDO::PARAM_STR);
+                $stm->execute();
+              }
         }else{
             echo "ツイカエラーガアリマシタ。";
         }
