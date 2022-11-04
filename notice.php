@@ -4,7 +4,7 @@ require_once('../lib/util.php');
 $gobackURL ='all.php';
 $user='root';
 $password='';
-$dbName = 'wakka1';
+$dbName = 'loan_db';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 $pdo=new PDO($dsn,$user,$password);
@@ -84,7 +84,6 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
       <section id="point">
         <h1>お知らせ欄</h1>
         <?php
-<<<<<<< HEAD
         $count=0;
         $count2=0;
         $id=$_SESSION["id"];
@@ -99,24 +98,10 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         if($count!=0){
         $list_list=implode(",",$list_list);
         $sql = "SELECT * FROM likes WHERE list_id IN ($list_list)";
-=======
-    if(isset($_SESSION["id"])){
-    $id=$_SESSION["id"];
-    }else{
-      $id=0;
-    }
-      try{
-        $count=0;
-        $pdo=new PDO($dsn,$user,$password);
-        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM likes WHERE my_id=$id";
->>>>>>> root/master
         $stm = $pdo->prepare($sql);
         $stm->execute();
         $result=$stm->fetchAll(PDO::FETCH_ASSOC);
         foreach($result as $row){
-<<<<<<< HEAD
           $count2+=1;
           $main_list[]=$row["list_id"];
         }
@@ -124,28 +109,11 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
       ?>
       <?php
         if($count2!=0){
-=======
-          $count+=1;
-          $main_list[]=$row["list_id"];
-        }
-      }catch(Exception $e){
-          echo 'エラーがありました。';
-          echo $e->getMessage();
-          exit();
-      }
-      ?>
-      <?php
-        if($count!=0){
->>>>>>> root/master
           $main_list=implode(",",$main_list);
           $pdo=new PDO($dsn,$user,$password);
           $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
           $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-<<<<<<< HEAD
           $sql = "SELECT * FROM list WHERE id IN ($main_list)";
-=======
-          $sql = "SELECT * FROM main WHERE id IN ($main_list)";
->>>>>>> root/master
           $stm = $pdo->prepare($sql);
           $stm->execute();
           $result=$stm->fetchAll(PDO::FETCH_ASSOC);
@@ -179,11 +147,7 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
           $pdo=new PDO($dsn,$user,$password);
           $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
           $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-<<<<<<< HEAD
           $sql = "SELECT * FROM list WHERE  buy_user_id=:id and loan=1";
-=======
-          $sql = "SELECT * FROM main WHERE  buy_user_id=:id and loan=1";
->>>>>>> root/master
           $stm = $pdo->prepare($sql);
           $stm->bindValue(':id',$id,PDO::PARAM_STR);
           $stm->execute();

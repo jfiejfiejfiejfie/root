@@ -4,7 +4,7 @@ require_once('../lib/util.php');
 $gobackURL ='list.php';
 $user='root';
 $password='';
-$dbName = 'wakka1';
+$dbName = 'loan_db';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 ?>
@@ -95,19 +95,6 @@ window.onload=suteki;
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $sql = "DELETE FROM likes WHERE list_id = $data";
-            $stm = $pdo->prepare($sql);
-            $stm->execute();
-            $sql = "DELETE FROM chat WHERE chat_id = $data";
-            $stm = $pdo->prepare($sql);
-            $stm->execute();
-            $sql = "DELETE FROM image_list WHERE image_id = $data";
-            $stm = $pdo->prepare($sql);
-            $stm->execute();
-<<<<<<< HEAD
-            $sql = "DELETE FROM likes WHERE list_id = $data";
-=======
-            $sql = "DELETE FROM likes WHERE main_id = $data";
->>>>>>> root/master
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);

@@ -4,7 +4,7 @@ require_once('../lib/util.php');
 $gobackURL ='list.php';
 $user='root';
 $password='';
-$dbName = 'wakka1';
+$dbName = 'loan_db';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 
@@ -117,11 +117,7 @@ if($_SESSION["admin"]==0){
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-<<<<<<< HEAD
             $sql = "DELETE FROM image_list WHERE list_id = $data";
-=======
-            $sql = "DELETE FROM image_list WHERE image_id = $data";
->>>>>>> root/master
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
@@ -129,15 +125,7 @@ if($_SESSION["admin"]==0){
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-<<<<<<< HEAD
             $sql = "DELETE FROM likes WHERE list_id = $data";
-=======
-<<<<<<< HEAD
-            $sql = "DELETE FROM likes WHERE list_id = $data";
-=======
-            $sql = "DELETE FROM likes WHERE main_id = $data";
->>>>>>> root/master
->>>>>>> root/master
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);

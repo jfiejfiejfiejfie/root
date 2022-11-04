@@ -5,7 +5,7 @@ $id=$_GET["id"];
 $gobackURL="detail.php?id={$id}";
 $user='root';
 $password='';
-$dbName = 'wakka1';
+$dbName = 'loan_db';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 ?>
@@ -121,11 +121,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
             $pdo=new PDO($dsn,$user,$password);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-<<<<<<< HEAD
             $sql="UPDATE list SET loan=$loan,buy_user_id=$data WHERE id=$id";
-=======
-            $sql="UPDATE main SET loan=$loan,buy_user_id=$data WHERE id=$id";
->>>>>>> root/master
             $stm=$pdo->prepare($sql);
             if($stm->execute()){
             $sql = 'SELECT * FROM list';

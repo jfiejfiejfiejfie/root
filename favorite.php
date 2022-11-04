@@ -4,7 +4,7 @@ require_once('../lib/util.php');
 // $gobackURL ="blocklist.php?id={$_SESSION["my_id"]}&user_id={$_SESSION["user_id"]}";
 $user='root';
 $password='';
-$dbName = 'wakka1';
+$dbName = 'loan_db';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 $list_id=$_GET["id"];

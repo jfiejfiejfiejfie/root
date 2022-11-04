@@ -4,7 +4,7 @@ require_once('../lib/util.php');
 $gobackURL ='all.php';
 $user='root';
 $password='';
-$dbName = 'wakka1';
+$dbName = 'loan_db';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 $block_count=0;
@@ -118,15 +118,9 @@ if(isset($_SESSION["id"])){
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
             if($block_count!=0){
-<<<<<<< HEAD
               $sql = "SELECT * FROM list WHERE user_id not in ($block_list)";
             }else{
               $sql = "SELECT * FROM list";
-=======
-              $sql = "SELECT * FROM main WHERE user_id not in ($block_list)";
-            }else{
-              $sql = "SELECT * FROM main";
->>>>>>> root/master
             }
             $stm = $pdo->prepare($sql);
             $stm->execute();

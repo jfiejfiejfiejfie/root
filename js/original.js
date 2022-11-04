@@ -46,15 +46,7 @@ $(function(){
       document.getElementById('preview').src = fileReader.result;
     });
     fileReader.readAsDataURL(obj.files[0]);
-<<<<<<< HEAD
     document.getElementById('hidden1').style.visibility = 'visible';
-=======
-<<<<<<< HEAD
-    // document.getElementById('hidden1').style.visibility = 'visible';
-=======
-    document.getElementById('hidden1').style.visibility = 'visible';
->>>>>>> root/master
->>>>>>> root/master
   }
   function previewImage2(obj)
   {
@@ -63,15 +55,7 @@ $(function(){
       document.getElementById('preview2').src = fileReader.result;
     });
     fileReader.readAsDataURL(obj.files[0]);
-<<<<<<< HEAD
     document.getElementById('hidden2').style.visibility = 'visible';
-=======
-<<<<<<< HEAD
-    // document.getElementById('hidden2').style.visibility = 'visible';
-=======
-    document.getElementById('hidden2').style.visibility = 'visible';
->>>>>>> root/master
->>>>>>> root/master
   }
   function previewImage3(obj)
   {
@@ -80,15 +64,7 @@ $(function(){
       document.getElementById('preview3').src = fileReader.result;
     });
     fileReader.readAsDataURL(obj.files[0]);
-<<<<<<< HEAD
     document.getElementById('hidden3').style.visibility = 'visible';
-=======
-<<<<<<< HEAD
-    // document.getElementById('hidden3').style.visibility = 'visible';
-=======
-    document.getElementById('hidden3').style.visibility = 'visible';
->>>>>>> root/master
->>>>>>> root/master
   }
   function previewImage4(obj)
   {
@@ -97,15 +73,7 @@ $(function(){
       document.getElementById('preview4').src = fileReader.result;
     });
     fileReader.readAsDataURL(obj.files[0]);
-<<<<<<< HEAD
     document.getElementById('hidden4').style.visibility = 'visible';
-=======
-<<<<<<< HEAD
-    // document.getElementById('hidden4').style.visibility = 'visible';
-=======
-    document.getElementById('hidden4').style.visibility = 'visible';
->>>>>>> root/master
->>>>>>> root/master
   }
   function previewImage5(obj)
   {
@@ -114,7 +82,6 @@ $(function(){
       document.getElementById('preview5').src = fileReader.result;
     });
     fileReader.readAsDataURL(obj.files[0]);
-<<<<<<< HEAD
   }
   
   // function add(point){
@@ -124,17 +91,3 @@ $(function(){
   //   document.getElementById(data).style.visibility = 'visible';
   //   return $point;
   // }
-=======
-<<<<<<< HEAD
-  }
-  
-  function add(point){
-    
-    data="hidden" + String(point);
-    alert(data);
-    document.getElementById(data).style.visibility = 'visible';
-    return $point;
-=======
->>>>>>> root/master
-  }
->>>>>>> root/master

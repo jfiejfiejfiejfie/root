@@ -3,7 +3,7 @@ session_start();
 require_once('../lib/util.php');
 $user='root';
 $password='';
-$dbName = 'wakka1';
+$dbName = 'loan_db';
 $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 $id=$_GET["id"];
@@ -11,11 +11,7 @@ $gobackURL ="detail.php?id={$id}";
 $pdo=new PDO($dsn,$user,$password);
 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
 $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-<<<<<<< HEAD
 $sql = "SELECT * FROM list WHERE id=$id";
-=======
-$sql = "SELECT * FROM main WHERE id=$id";
->>>>>>> root/master
 $stm = $pdo->prepare($sql);
 $stm->execute();
 $result=$stm->fetchAll(PDO::FETCH_ASSOC);

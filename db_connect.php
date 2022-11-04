@@ -1,6 +1,6 @@
 <?php
 /* ①　データベースの接続情報を定数に格納する */
-const DB_HOST = 'mysql:dbname=wakka1;host=localhost';
+const DB_HOST = 'mysql:dbname=loan_db;host=localhost';
 const DB_USER = 'root';
 const DB_PASSWORD = '';
 

@@ -25,7 +25,7 @@ else if (empty($_POST)){
 $user = 'root';
 $password = '';
 // 利用するデータベース
-$dbName = 'wakka1';
+$dbName = 'loan_db';
 // MySQLサーバ
 $host = 'localhost:3306';
 // MySQLのDSN文字列

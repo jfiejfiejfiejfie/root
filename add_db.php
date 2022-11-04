@@ -2,7 +2,7 @@
   session_start(); 
   $user='root';
   $password='';
-  $dbName = 'wakka1';
+  $dbName = 'loan_db';
   $host = 'localhost:3306';
   $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
   $point=0;
