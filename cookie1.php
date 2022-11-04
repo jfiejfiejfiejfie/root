@@ -6,6 +6,6 @@ setcookie("name", $yourname , time()+10);
  
 echo "<p>". $yourname. "さんでクッキーを保存しました。<p>";
  
-echo "<p><a href='cookie2.php'>確認画面へ</a></p>";
+echo "<p><a href='cookie2.php'>確認画面へgsgsa</a></p>";
  
 ?>
