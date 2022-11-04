@@ -157,9 +157,15 @@
       <?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
       if($_SESSION['name']!==$name){
         if($block_count==0){
+<<<<<<< HEAD
           echo "<a href='block.php?id=$id&name=$name' class='btn btn-danger'>ブロックする</a>";
         }else{
           echo "<a href='block.php?id=$id&name=$name' class='btn btn-primary'>ブロックを解除する</a>";
+=======
+          echo "<a href='block.php?id=$id&name=$name&count=$block_count' class='btn btn-danger'>ブロックする</a>";
+        }else{
+          echo "<a href='block.php?id=$id&name=$name&count=$block_count' class='btn btn-primary'>ブロックを解除する</a>";
+>>>>>>> root/master
         }
       }
     } ?>

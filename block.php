@@ -11,14 +11,24 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 $my_id=$_SESSION["id"];
 $userid=$_GET["id"];
 $username=$_GET["name"];
+<<<<<<< HEAD
 $block_count=0;
   try{
     $pdo=new PDO($dsn,$user,$password);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
     $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     $sql = "SELECT * FROM blocklist WHERE userid =:userid and my_id=:my_id";
+=======
+$block_count=$_GET["count"];
+if($block_count==0){
+    $pdo=new PDO($dsn,$user,$password);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    $sql = "INSERT INTO blocklist (my_id,userid,username) VALUES(:my_id,:userid,:username)";
+>>>>>>> root/master
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':userid',$userid,PDO::PARAM_STR);
+<<<<<<< HEAD
     $stm->bindValue(':my_id',$_SESSION["id"],PDO::PARAM_STR);
     $stm->execute();
     $result=$stm->fetchAll(PDO::FETCH_ASSOC);
@@ -41,6 +51,11 @@ if($block_count==0){
     $stm->bindValue(':username',$username,PDO::PARAM_STR);
     $stm->execute();
     $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+=======
+    $stm->bindValue(':username',$username,PDO::PARAM_STR);
+    $stm->execute();
+    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+>>>>>>> root/master
 }else{
     $pdo=new PDO($dsn,$user,$password);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
