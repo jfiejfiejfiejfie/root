@@ -71,7 +71,7 @@
             <ul>
                   <li>
                     <label>貸出物　:<?php if(!isset($_SESSION["loggedin"])){echo htmlspecialchars("ログインしてください。");}?>
-                        <input type="text" name="item" placeholder="貸出物"required>
+                        <input type="text" name="item" placeholder="貸出物">
                     </label>
                   </li>
                   <li>
@@ -103,7 +103,7 @@
                 </li>
                 <li>
                 <label>金額　　:<?php if(!isset($_SESSION["loggedin"])){echo htmlspecialchars("ログインしてください。");}?>
-                        <input type="number_format" name="money" placeholder="金額"required>
+                        <input type="number_format" name="money" placeholder="金額">
                     </label>
                 </li>
                 <li>画像選択:

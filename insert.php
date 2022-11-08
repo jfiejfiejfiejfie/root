@@ -33,10 +33,11 @@ $gobackURL ='add_db.php';
   <?php
   // 簡単なエラー処理
   $errors = [];
+  $money=$_POST["money"];
   if (!isset($_POST["money"])||(!ctype_digit($_POST["money"]))) {
-    $errors[] = "金額が整数値ではありません。";
+    $money=100;
   }
-  if($_POST["money"]<100||10000000<=$_POST["money"]){
+  if($money<100||10000000<=$money){
     $errors[]="金額を100円以上10,000,000未満にしてください。";
   }
   //エラーがあったとき
@@ -113,15 +114,20 @@ $gobackURL ='add_db.php';
     $id=$_SESSION["id"];
     date_default_timezone_set('Asia/Tokyo');
     $created_at=date("Y/m/d H:i:s");
-    $item=$_POST["item"];
+    if($_POST["item"]!=""){
+      $item=$_POST["item"];
+    }else{
+      $lines=file("named1.txt",FILE_IGNORE_NEW_LINES);
+      $lines2=file("named2.txt",FILE_IGNORE_NEW_LINES);
+      $item="{$lines[rand(0,7)]}{$lines2[rand(0,6)]}";
+    }
     $comment=$_POST["comment"];
-    $money=$_POST["money"];
     $upfile = $_FILES["image"]["tmp_name"];
     $imgdat = file_get_contents($upfile);
 
         try{
             
-
+            
             $sql="INSERT INTO list (created_at,user_id,item,comment,money,kind,image) VALUES(:created_at,:id,:item,:comment,:money,:kind,:imgdat)";
             $stm=$pdo->prepare($sql);
             $stm->bindValue(':created_at',$created_at,PDO::PARAM_STR);

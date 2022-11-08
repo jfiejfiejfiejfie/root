@@ -2,7 +2,7 @@
 session_start(); 
 require_once('../lib/util.php');
 $gobackURL = "list.php";
-
+require_once "db_connect.php";
 // 文字エンコードの検証
 if (!cken($_POST)){
   header("Location:{$gobackURL}");
