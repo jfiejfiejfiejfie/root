@@ -6,6 +6,7 @@
   $host = 'localhost:3306';
   $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 ?>
+
 <!DOCTYPE html>
 <html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
@@ -67,9 +68,12 @@
 		</div>
 
 
+
+
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
+
     <h2>プロフィール</h2>
     <?php
     if(isset($_SESSION["id"])){
@@ -95,8 +99,9 @@
             echo '<font size="3">',$row["email"],'</font><br>';
             echo '<hr>コメント<br><font size="10">',$row["comment"],'</font><br>';
             echo '<hr>残金<br><font size="10">￥',number_format($row['money']),'</font><hr>';
+            echo '<a href="edit.php" class="btn btn-primary">編集する</a><hr>';
             echo '<a href="blocklist.php" class="btn btn-primary">ブロックリスト</a><hr>';
-            echo '<a href="edit.php" class="btn btn-primary">編集する</a>';
+            echo '<a href="eturan.php" class="btn btn-primary">閲覧履歴</a><hr>';
         }
       }
       if(!isset($_SESSION["loggedin"])){
@@ -108,7 +113,10 @@
       echo $e->getMessage();
       exit();
   }
+  
     ?>
+
+
       <?php  if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){ ?>
       <h2>出品中</h2>
       <?php

@@ -57,11 +57,7 @@ if (!cken($_POST)){
 
   //MySQLデータベースに接続する
   try {
-    $pdo = new PDO($dsn, $user, $password);
-    // プリペアドステートメントのエミュレーションを無効にする
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    // 例外がスローされる設定にする
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
   } catch (Exception $e) {
     $err =  '<span class="error">エラーがありました。</span><br>';
     $err .= $e->getMessage();

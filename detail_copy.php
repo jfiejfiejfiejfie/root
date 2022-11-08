@@ -1,9 +1,29 @@
 <?php
-  session_start(); 
-  require_once('../lib/util.php');
-  $gobackURL ='list.php';
-  require_once "db_connect.php";
-  ?>
+session_start(); 
+require_once('../lib/util.php');
+$gobackURL ='list.php';
+require_once "db_connect.php";
+$id=$_GET["id"];
+$list_id=$_GET["id"];
+$_SESSION["list_id"]=$_GET["id"];
+if(isset($_SESSION["id"])){
+try{
+  $id=$_SESSION["id"];
+
+  $sql = "SELECT * FROM users WHERE id =:id";
+  $stm = $pdo->prepare($sql);
+  $stm->bindValue(':id',$id,PDO::PARAM_STR);
+  $stm->execute();
+  $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+  foreach($result as $row){}
+  $money=$row["money"];
+}catch(Exception $e){
+  echo 'エラーがありました。';
+  echo $e->getMessage();
+  exit();
+}}
+?>
+
 <!DOCTYPE html>
 <html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
@@ -12,11 +32,12 @@
 <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
 <meta property="og:url" content="http://bloom.ne.jp">
 <meta property="og:image" content="images/main_visual.jpg">
-<title>貸し借り|登録</title>
+<title>貸し借り|詳細</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
 <link rel="stylesheet" href="css/styled.css">
 <link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/original.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/l.css">
@@ -26,6 +47,9 @@
 <link rel="apple-touch-icon" href="webclip152.png">
 <script src="js/original.js">
 </script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
 </head>
 <body>
 <audio id="audio"></audio>
@@ -64,13 +88,15 @@
 		</div>
 		</div>
 
-
+<div>
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
+      <section id="point">
+        <h2>出品物詳細</h2>
+        <div>
     <?php
-    $data=$_GET["id"];
-    $_SESSION["loan_id"]=$data;
+        $data=$_GET["id"];
     try{
       
       $sql = "SELECT * FROM image_list WHERE list_id=$data";
@@ -86,6 +112,22 @@
         echo $e->getMessage();
         exit();
     }
+    try{
+      
+      $sql = "SELECT * FROM likes WHERE list_id=$data";
+      $stm = $pdo->prepare($sql);
+      $stm->execute();
+      $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+      $count=0;
+      foreach($result as $row){
+        $count+=1;
+      }
+    }catch(Exception $e){
+        echo 'エラーがありました。';
+        echo $e->getMessage();
+        exit();
+    }
+
         try{
             
             $sql = "SELECT * FROM list WHERE id=$data";
@@ -94,99 +136,104 @@
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
             foreach($result as $row){
             echo '<table class="table table-striped">';
-            echo '<thead><tr>';
-            echo '<td><img src="image.php?id=',$row['id'],'"style="max-width:200px;">';
+            echo '<thead><tr><th>画像一覧</th>';
+            echo '<td><a img data-lightbox="group" height="200" width="200" href="image.php?id=',$row['id'],'">
+                  <img src="image.php?id=',$row['id'],'"height="150" width="150"></a>';
             if($image_count>0){
-              echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=',$row['id'],'&number=1">
-                    <img src="image_next.php?id=',$row['id'],'&number=1"height="150" width="150"></a>';
-              if($image_count>1){
-                echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=',$row['id'],'&number=2">
-                      <img src="image_next.php?id=',$row['id'],'&number=2"height="150" width="150"></a>';
-                if($image_count>2){
-                  echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=',$row['id'],'&number=3">
-                        <img src="image_next.php?id=',$row['id'],'&number=3"height="150" width="150"></a>';
-                  if($image_count>3){
-                    echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=',$row['id'],'&number=4">
-                          <img src="image_next.php?id=',$row['id'],'&number=4"height="150" width="150"></a></td>';
+                  echo '<a img data-lightbox="group" height="200" width="200" href="image_next.php?id=',$row['id'],'&number=1">
+                        <img src="image_next.php?id=',$row['id'],'&number=1"height="150" width="150"></a>';
+                  if($image_count>1){
+                    echo '<a img data-lightbox="group" height="200" width="200" href="image_next.php?id=',$row['id'],'&number=2">
+                          <img src="image_next.php?id=',$row['id'],'&number=2"height="150" width="150"></a>';
+                    if($image_count>2){
+                      echo '<a img data-lightbox="group" height="200" width="200" href="image_next.php?id=',$row['id'],'&number=3">
+                            <img src="image_next.php?id=',$row['id'],'&number=3"height="150" width="150"></a>';
+                      if($image_count>3){
+                        echo '<a img data-lightbox="group" height="200" width="200" href="image_next.php?id=',$row['id'],'&number=4">
+                              <img src="image_next.php?id=',$row['id'],'&number=4"height="150" width="150"></a></td>';
+                      }
+                    }
                   }
-                }
-              }
-        }
+            }
+            echo '</tr>';
+            // echo '<tr>';
+            echo '<tr>';
+            echo '<th>最終編集時間</th>';
+            echo '<td>',$row["created_at"],'</td>';
             echo '</tr>';
             echo '<tr>';
+            echo '<th>商品名</th>';
+            echo '<td>',$row["item"],'</td>';
+            echo '</tr>';
+            echo '<tr>';
+            echo '<th>ジャンル</th>';
+            echo '<td><a href="search_kind.php?kind_name=',$row["kind"],'">',($row['kind']),'</a></td>';
+            echo '</tr>';
+            echo '<tr>';
+            echo '<th>金額</th>';
+            echo '<td>￥',number_format($row['money']),'</td>';
+            echo '</tr>';
+            echo '<tr>';
+            echo '<th>出品者</th>';
+            echo '<td>';
+            echo "<a href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
+            $user_id=$row["user_id"];
+            $sql = "SELECT * FROM users WHERE id=$user_id";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result2=$stm->fetchAll(PDO::FETCH_ASSOC);
+            foreach($result2 as $row2){
+              echo $row2["name"],"</td>";
+            }
+            echo '</tr>';
+            echo '<tr>';
+            echo '<th>コメント</th>';
+            echo '<td>',$row["comment"],'</td>';
+            echo '</tr>';
+            if($row["buy_user_id"]!==0){
+            echo '<tr>';
+            echo '<th>購入者</th>';
+            echo '<td>';
+            echo "<a href='profile.php?id={$row['buy_user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['buy_user_id']}'></a><br>";
+            $user_id=$row["buy_user_id"];
+            $sql = "SELECT * FROM users WHERE id=$user_id";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result2=$stm->fetchAll(PDO::FETCH_ASSOC);
+            foreach($result2 as $row2){
+              echo $row2["name"],"</td>";
+            }
+            echo '</tr>';
+            }
             echo '</thead>';
             echo '</table>';
-            //echo "<td><a href=detail.php?id={$row["id"]}>"
-            $item=$row["item"];
-            $money=$row["money"];
             }
         }catch(Exception $e){
             echo 'エラーがありました。';
             echo $e->getMessage();
             exit();
         }
-    ?><hr>
-        <form method="POST" action="detail1.php" enctype="multipart/form-data">
-            <ul>
-                  <li>
-                    <label>貸出物　:
-                        <input type="text" name="item" value="<?php echo htmlspecialchars($item); ?>" placeholder="貸出物">
-                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($_GET["id"]);?>">
-                    </label>
-                  </li>
-                  <li>
-                    <label>ジャンル:
-                        <select name="kind">
-                          <?php
-                                  try{
-                                    
-                                    $sql = "SELECT * FROM kind";
-                                    $stm = $pdo->prepare($sql);
-                                    $stm->execute();
-                                    $kind=$stm->fetchAll(PDO::FETCH_ASSOC);
-                                }catch(Exception $e){
-                                    echo 'エラーがありました。';
-                                    echo $e->getMessage();
-                                    exit();
-                                }
-                            foreach($kind as $row){
-                              echo '<option value="',$row["name"],'">',$row["name"],"</option>";
-                            }
-                          ?>
-                        </select>
-                    </label>
-                  </li>
-                  <li>
-                <label>金額　　:
-                        <input type="number_format" name="money" value="<?php echo htmlspecialchars($money); ?>" placeholder="金額" required>
-                    </label>
-                </li>
-                <li>
-                  <label>画像選択:<br>
-                <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-                        <input type="file" name="image"class="test" accept="image/*"  onchange="previewImage(this);">
-                          </label>
-                          <?php if($image_count>0){?>
-                  <label><img src="images/imageplus.png" id="preview2" style="max-width:200px;"><br>
-                        <input type="file" name="image2"class="test" accept="image/*"  onchange="previewImage2(this);">
-                          </label>
-                          <?php if($image_count>1){?>
-                  <label><img src="images/imageplus.png" id="preview3" style="max-width:200px;"><br>
-                        <input type="file" name="image3"class="test" accept="image/*"  onchange="previewImage3(this);">
-                          </label>
-                          <?php if($image_count>2){?>
-                  <label><img src="images/imageplus.png" id="preview4" style="max-width:200px;"><br>
-                        <input type="file" name="image4"class="test" accept="image/*"  onchange="previewImage4(this);">
-                          </label>
-                          <?php if($image_count>3){?>
-                  <label><img src="images/imageplus.png" id="preview5" style="max-width:200px;"><br>
-                        <input type="file" name="image5"class="test" accept="image/*"  onchange="previewImage5(this);">
-                          </label>
-                          <?php }}}}?>
-                <li><input type="submit" value="編集する">
-                </li>
-            </ul>
-        </form>
+    ?>
+    <?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+      echo "<a href='loan.php?id={$row["id"]}' class='btn btn-success'>チャットをする</a><br>";
+      echo "<a href='favorite.php?id={$row["id"]}' class='btn'><img src='images/good.png' style='max-width:50px'>$count</a><br>";
+      if($_SESSION['name']===$row2["name"]){
+        if($row["buy_user_id"]===0){
+        echo "<a href='my_edit.php?id={$row["id"]}' class='btn btn-primary'>編集する</a>";
+        echo "<a href='mydelete.php?id={$row["id"]}' class='btn btn-danger'>削除する</a>";
+        }
+      }else{
+        if($row["buy_user_id"]===0){
+          echo "<a href='buy.php?id={$row["id"]}&money={$row["money"]}&user_id={$row["user_id"]}' class='btn btn-danger'>購入する</a>";
+        }else{
+          echo "<a href='#' class='btn btn-danger'>売り切れ</a>";
+        }
+      }
+    } ?>
+<hr>
+<p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+</div>
+      </section>
     </div>
     <!--/メイン-->
 
@@ -221,8 +268,7 @@
         <li><a href="add_db.php">商品登録</a></li>
         <li><a href="list.php">一覧</a></li>
         <li><a href="mypage.php">マイページ</a></li>
-        <li><?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){?><a href="contact.php">お問い合わせ💛</a>
-      <?php }else{?><a href="register.php">アカウント登録</a><?php }?></li><li><a href="login.php">ログイン</a></li>
+        <li><a href="register.php">アカウント登録</a></li><li><a href="login.php">ログイン</a></li>
       </ul>
     </div>
     <small>&copy; 2015 Bloom.</small>

@@ -86,7 +86,28 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         <?php
         $count=0;
         $count2=0;
+        $count_chat=0;
+        $count_chat2=0;
         $id=$_SESSION["id"];
+        $sql = "SELECT * FROM list WHERE user_id=$id";
+        $stm = $pdo->prepare($sql);
+        $stm->execute();
+        $result_chat=$stm->fetchAll(PDO::FETCH_ASSOC);
+        foreach($result_chat as $row_chat){
+          $count_chat+=1;
+          $chat_list[]=$row_chat["id"];
+        }
+        if($count_chat!=0){
+          $chat_list=implode(",",$chat_list);
+          $sql = "SELECT * FROM chat WHERE list_id IN ($chat_list)";
+          $stm = $pdo->prepare($sql);
+          $stm->execute();
+          $chat_result=$stm->fetchAll(PDO::FETCH_ASSOC);
+          foreach($chat_result as $row_chat2){
+            $count_chat2+=1;
+            $chat_list2[]=$row_chat2["list_id"];
+          }
+        }
         $sql = "SELECT * FROM list WHERE user_id=$id";
         $stm = $pdo->prepare($sql);
         $stm->execute();
@@ -120,21 +141,27 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
           echo "<h2>この商品が「いいね」されました。</h2>";
           echo '<table class="table table-striped">';
           echo '<thead><tr>';
-          echo '<th>','掲載日','</th>';
           echo '<th>','貸出物','</th>';
-          echo '<th>','ジャンル','</th>';
           echo '<th>','金額','</th>';
           echo '<th>','画像','</th>';
+          echo '<th>','いいね数','</th>';
           echo '<th>','既読にする','</th>';
           echo '</tr></thead>';
           echo '<tbody>';
           foreach($result as $row){
+              $good_count=0;
               echo '<tr>';
-              echo '<td>',$row['created_at'],'</td>';
               echo '<td>',$row['item'],'</td>';
-              echo '<td>',$row['kind'],'</td>';
               echo '<td>￥',number_format($row['money']),'</td>';
               echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
+              $sql = "SELECT * FROM likes WHERE list_id=".$row["id"];
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $result_good=$stm->fetchAll(PDO::FETCH_ASSOC);
+              foreach($result_good as $row_good){
+                $good_count+=1;
+              }
+              echo "<td><img src='images/good.png' style='max-width:50px'><div style='font-size:35px;'>",$good_count,'</div></td>';
               echo '<td><input id="check" type="checkbox" name="#" class="big"></td>';
               echo '</tr>';
           }
@@ -147,7 +174,7 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
           $pdo=new PDO($dsn,$user,$password);
           $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
           $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-          $sql = "SELECT * FROM list WHERE  buy_user_id=:id and loan=1";
+          $sql = "SELECT * FROM list WHERE  user_id=:id and loan=1";
           $stm = $pdo->prepare($sql);
           $stm->bindValue(':id',$id,PDO::PARAM_STR);
           $stm->execute();
@@ -180,8 +207,40 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
           echo $e->getMessage();
           exit();
       }
-  
       ?>
+            <?php
+        if($count_chat!=0){
+          $chat_list2=implode(",",$chat_list2);
+          $pdo=new PDO($dsn,$user,$password);
+          $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+          $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+          $sql = "SELECT * FROM chat WHERE list_id IN ($chat_list2) and checked=0";
+          $stm = $pdo->prepare($sql);
+          // $stm->bindValue(':id',$id,PDO::PARAM_STR);
+          $stm->execute();
+          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+          echo "<h2>この商品に「チャット」が届きました。</h2>";
+          echo '<table class="table table-striped">';
+          echo '<thead><tr>';
+          echo '<th>','時間','</th>';
+          echo '<th>','コメント内容','</th>';
+          echo '<th>','画像','</th>';
+          echo '<th>','既読にする','</th>';
+          echo '</tr></thead>';
+          echo '<tbody>';
+          foreach($result as $row){
+              echo '<tr>';
+              echo '<td>',$row['created_at'],'</td>';
+              echo '<td>',$row['text'],'</td>';
+              echo "<td><a href=loan.php?id={$row["list_id"]}>",'<img height="100" width="100" src="image.php?id=',$row['list_id'],'"></a></td>';
+              echo '<td><input id="check" type="checkbox" name="#" class="big" ></td>';
+              echo '</tr>';
+          }
+          echo '</tbody>';
+          echo '</table>';
+      }
+      ?>
+      
       <style>
 input.big {
 	transform: scale(2.0);

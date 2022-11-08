@@ -2,11 +2,7 @@
 session_start(); 
 require_once('../lib/util.php');
 $gobackURL ='list.php';
-$user='root';
-$password='';
-$dbName = 'loan_db';
-$host = 'localhost:3306';
-$dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+require_once "db_connect.php";
 
 if($_SESSION["admin"]==0){
     header("location: all.php");
@@ -93,9 +89,7 @@ if($_SESSION["admin"]==0){
     $data=$_GET["id"];
         try{
             echo $data,'を';
-            $pdo=new PDO($dsn,$user,$password);
-            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            
             $sql = "DELETE FROM list WHERE id =$data";
             $stm = $pdo->prepare($sql);
             $stm->execute();
@@ -106,25 +100,19 @@ if($_SESSION["admin"]==0){
             echo $e->getMessage();
             exit();
         }
-            $pdo=new PDO($dsn,$user,$password);
-            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            
             $sql = "DELETE FROM chat WHERE chat_id = $data";
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
 
-            $pdo=new PDO($dsn,$user,$password);
-            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            
             $sql = "DELETE FROM image_list WHERE list_id = $data";
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
             
-            $pdo=new PDO($dsn,$user,$password);
-            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            
             $sql = "DELETE FROM likes WHERE list_id = $data";
             $stm = $pdo->prepare($sql);
             $stm->execute();
@@ -142,7 +130,7 @@ if($_SESSION["admin"]==0){
       <section id="side_banner">
         <h2>関連リンク</h2>
         <ul>
-        <li><a href="notice.php"><img src="images/kanban.png"></a></li>
+        <li><a href="notice.php"><img src="images/kanban.gif"></a></li>
           <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>
           
 
@@ -154,7 +142,7 @@ if($_SESSION["admin"]==0){
 				</div>
         </ul>
       </section>
-      
+
     </aside>
     <!--/サイド-->
   </div>

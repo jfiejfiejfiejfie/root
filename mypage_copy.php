@@ -1,45 +1,7 @@
 <?php
-session_start(); 
-require_once('../lib/util.php');
-// $gobackURL ="blocklist.php?id={$_SESSION["my_id"]}&user_id={$_SESSION["user_id"]}";
-$gobackURL ='blocklist.php';
-require_once "db_connect.php";
-$my_id=$_SESSION["id"];
-$user_id=$_GET["id"];
-$block_count=0;
-  try{
-    
-    $sql = "SELECT * FROM blocklist WHERE user_id =:user_id and my_id=:my_id";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
-    $stm->bindValue(':my_id',$_SESSION["id"],PDO::PARAM_STR);
-    $stm->execute();
-    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-    foreach($result as $row){
-      $block_count+=1;
-    }
-}catch(Exception $e){
-    echo 'エラーがありました。';
-    echo $e->getMessage();
-    exit();
-}
-if($block_count==0){
-    
-    $sql = "INSERT INTO blocklist (my_id,user_id) VALUES(:my_id,:user_id)";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':my_id',$my_id,PDO::PARAM_STR);
-    $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
-    $stm->execute();
-    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-}else{
-    
-    $sql = "DELETE FROM blocklist WHERE my_id=$my_id and user_id=$user_id";
-    $stm = $pdo->prepare($sql);
-    $stm->execute();
-    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-}
+  session_start();
+  require_once "db_connect.php";
 ?>
-
 <!DOCTYPE html>
 <html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
@@ -48,12 +10,12 @@ if($block_count==0){
 <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
 <meta property="og:url" content="http://bloom.ne.jp">
 <meta property="og:image" content="images/main_visual.jpg">
-<title>貸し借り|詳細</title>
+<title>貸し借り|マイページ</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
+<link rel="stylesheet" href="css/original.css">
 <link rel="stylesheet" href="css/styled.css">
 <link rel="stylesheet" href="css/font-awesome.min.css">
-<link rel="stylesheet" href="css/original.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/l.css">
@@ -74,9 +36,8 @@ if($block_count==0){
   js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.5&appId=643231655816289";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-  
   <!--ヘッダー-->
-  	<div id="header">
+		<div id="header">
 <div class="game_bar" style="background-image: url(images/main_visual.jpg);">
 		<div class="game_title">
 				<a href="all.php"><img src=""class="mr5" /></a>
@@ -100,19 +61,133 @@ if($block_count==0){
                             <?php }?>
 		</div>
 		</div>
-  <div>
+
+
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
-      <section id="point">
-        <?php if($block_count==0){?>
-        <h2>ブロック完了</h2>
-        <p><a href="<?php echo $gobackURL ?>">ブロックリスト</a></p>
-        <?php }else{?>
-          <h2>ブロック解除完了</h2>
-        <p><a href="<?php echo $gobackURL ?>">ブロックリスト</a></p>
-        <?php }?>
-      </section>
+    <h2>プロフィール</h2>
+    <?php
+    if(isset($_SESSION["id"])){
+    $id=$_SESSION["id"];
+    }else{
+      $id=0;
+    }
+    try{
+      
+      $sql = "SELECT * FROM users WHERE id =:id";
+      $stm = $pdo->prepare($sql);
+      $stm->bindValue(':id',$id,PDO::PARAM_STR);
+      $stm->execute();
+      $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+      foreach($result as $row){
+        if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){
+            echo '<img id="image" height="150" width="150" src="my_image.php?id=',$row["id"],'"><br>';
+            echo '<font size="10">',$row["name"],'</font><hr>';
+            echo '<font size="5">',$row["age"],'歳</font><br>';
+            echo '<font size="5">',$row["sex"],'</font><br>';
+            echo '<font size="3">',$row["email"],'</font><br>';
+            echo '<hr>コメント<br><font size="10">',$row["comment"],'</font><br>';
+            echo '<hr>残金<br><font size="10">￥',number_format($row['money']),'</font><hr>';
+            echo '<a href="blocklist.php" class="btn btn-primary">ブロックリスト</a><hr>';
+            echo '<a href="edit.php" class="btn btn-primary">編集する</a>';
+        }
+      }
+      if(!isset($_SESSION["loggedin"])){
+        echo "ログインをしてください。";
+        echo "<a href='login.php' class='btn btn-danger'>ログイン</a>";
+      }
+    }catch(Exception $e){
+      echo 'エラーがありました。';
+      echo $e->getMessage();
+      exit();
+  }
+    ?>
+      <?php  if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){ ?>
+      <h2>出品中</h2>
+      <?php
+        try{
+            
+            $sql = "SELECT * FROM list WHERE user_id=$id and loan=0";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+            echo '<table class="table table-striped">';
+            echo '<thead><tr>';
+            echo '<th>','掲載日','</th>';
+            echo '<th>','貸出物','</th>';
+            echo '<th>','ジャンル','</th>';
+            echo '<th>','金額','</th>';
+            echo '<th>','画像','</th>';
+            echo '</tr></thead>';
+            echo '<tbody>';
+            foreach($result as $row){
+                echo '<tr>';
+                echo '<td>',$row['created_at'],'</td>';
+                echo '<td>',$row['item'],'</td>';
+                echo '<td>',$row['kind'],'</td>';
+                echo '<td>￥',number_format($row['money']),'</td>';
+                echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
+                echo '</tr>';
+            }
+            echo '</tbody>';
+            echo '</table>';
+        }catch(Exception $e){
+            echo 'エラーがありました。';
+            echo $e->getMessage();
+            exit();
+        }
+      ?>
+      <?php
+      try{
+        $count=0;
+        
+        $sql = "SELECT * FROM likes WHERE my_id=$id";
+        $stm = $pdo->prepare($sql);
+        $stm->execute();
+        $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+        foreach($result as $row){
+          $count+=1;
+          $main_list[]=$row["list_id"];
+        }
+      }catch(Exception $e){
+          echo 'エラーがありました。';
+          echo $e->getMessage();
+          exit();
+      }
+      ?>
+      <?php
+        if($count!=0){
+          $main_list=implode(",",$main_list);
+          
+          $sql = "SELECT * FROM list WHERE id IN ($main_list)";
+          $stm = $pdo->prepare($sql);
+          $stm->execute();
+          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+          echo "<h2>「いいね」した商品</h2>";
+          echo '<table class="table table-striped">';
+          echo '<thead><tr>';
+          echo '<th>','掲載日','</th>';
+          echo '<th>','貸出物','</th>';
+          echo '<th>','ジャンル','</th>';
+          echo '<th>','金額','</th>';
+          echo '<th>','画像','</th>';
+          echo '</tr></thead>';
+          echo '<tbody>';
+          foreach($result as $row){
+              echo '<tr>';
+              echo '<td>',$row['created_at'],'</td>';
+              echo '<td>',$row['item'],'</td>';
+              echo '<td>',$row['kind'],'</td>';
+              echo '<td>￥',number_format($row['money']),'</td>';
+              echo "<td><a href=detail.php?id={$row["id"]}>",'<img height="100" width="100" src="image.php?id=',$row['id'],'"></a></td>';
+              echo '</tr>';
+          }
+          echo '</tbody>';
+          echo '</table>';
+        }
+      }
+      ?>
     </div>
     <!--/メイン-->
 
@@ -133,7 +208,7 @@ if($block_count==0){
 				</div>
         </ul>
       </section>
-
+      
     </aside>
     <!--/サイド-->
   </div>

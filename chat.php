@@ -1,11 +1,7 @@
 <?php
 session_start(); 
 require_once('../lib/util.php');
-$user='root';
-$password='';
-$dbName = 'loan_db';
-$host = 'localhost:3306';
-$dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+require_once "db_connect.php";
 date_default_timezone_set('Asia/Tokyo');
 $list_id=$_POST["list_id"];
 $gobackURL ="loan.php?id={$list_id}";
@@ -20,9 +16,7 @@ $imgdat="";
 $name=$_SESSION["name"];
 $date = date('Y-m-d H:i:s');
 try{
-    $pdo=new PDO($dsn,$user,$password);
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    
     $sql = "INSERT INTO chat (user_id,created_at,text,list_id,image) VALUES(:user_id,:date,:text,:list_id,:imgdat)";
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':user_id',$id,PDO::PARAM_STR);

@@ -1,45 +1,7 @@
 <?php
-session_start(); 
-require_once('../lib/util.php');
-// $gobackURL ="blocklist.php?id={$_SESSION["my_id"]}&user_id={$_SESSION["user_id"]}";
-$gobackURL ='blocklist.php';
-require_once "db_connect.php";
-$my_id=$_SESSION["id"];
-$user_id=$_GET["id"];
-$block_count=0;
-  try{
-    
-    $sql = "SELECT * FROM blocklist WHERE user_id =:user_id and my_id=:my_id";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
-    $stm->bindValue(':my_id',$_SESSION["id"],PDO::PARAM_STR);
-    $stm->execute();
-    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-    foreach($result as $row){
-      $block_count+=1;
-    }
-}catch(Exception $e){
-    echo 'エラーがありました。';
-    echo $e->getMessage();
-    exit();
-}
-if($block_count==0){
-    
-    $sql = "INSERT INTO blocklist (my_id,user_id) VALUES(:my_id,:user_id)";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':my_id',$my_id,PDO::PARAM_STR);
-    $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
-    $stm->execute();
-    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-}else{
-    
-    $sql = "DELETE FROM blocklist WHERE my_id=$my_id and user_id=$user_id";
-    $stm = $pdo->prepare($sql);
-    $stm->execute();
-    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-}
+  session_start();
+  require_once "db_connect.php";
 ?>
-
 <!DOCTYPE html>
 <html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
@@ -48,12 +10,12 @@ if($block_count==0){
 <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
 <meta property="og:url" content="http://bloom.ne.jp">
 <meta property="og:image" content="images/main_visual.jpg">
-<title>貸し借り|詳細</title>
+<title>貸し借り|マイページ</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
+<link rel="stylesheet" href="css/original.css">
 <link rel="stylesheet" href="css/styled.css">
 <link rel="stylesheet" href="css/font-awesome.min.css">
-<link rel="stylesheet" href="css/original.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/l.css">
@@ -74,14 +36,13 @@ if($block_count==0){
   js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.5&appId=643231655816289";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-  
   <!--ヘッダー-->
-  	<div id="header">
+		<div id="header">
 <div class="game_bar" style="background-image: url(images/main_visual.jpg);">
 		<div class="game_title">
 				<a href="all.php"><img src=""class="mr5" /></a>
 				<a  href="all.php">貸し借りサイト</a>
-			<div id="menu_s">
+        <div id="menu_s">
 				<div>
 				<div><a href="all.php"><img src="images/home.png"  style="width:70px" /><span>HOME　　　</span></a></div>
 				<div><a href="add_db.php"><img src="images/register.png"  style="width:70px" /><span>商品登録　　</span></span></a></div>
@@ -100,19 +61,46 @@ if($block_count==0){
                             <?php }?>
 		</div>
 		</div>
-  <div>
+
+
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
-      <section id="point">
-        <?php if($block_count==0){?>
-        <h2>ブロック完了</h2>
-        <p><a href="<?php echo $gobackURL ?>">ブロックリスト</a></p>
-        <?php }else{?>
-          <h2>ブロック解除完了</h2>
-        <p><a href="<?php echo $gobackURL ?>">ブロックリスト</a></p>
-        <?php }?>
-      </section>
+<h2>閲覧履歴</h2>   
+<?php
+if(isset($_COOKIE['history_url'])){
+  $history_url = unserialize($_COOKIE['history_url']); //クッキーに保存されたURLを配列にする
+  }
+  if(isset($_COOKIE['history_item'])){
+  $history_item = unserialize($_COOKIE['history_item']); //クッキーに保存されたテキストを配列にする
+  $i = 0;
+  echo "<table><tr>";
+  foreach($history_item as $key=>$val){
+  $sql = "SELECT * FROM list WHERE id=$val";
+  $stm = $pdo->prepare($sql);
+  $stm->execute();
+  $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+  foreach($result as $row){}
+  echo '<td>';
+  echo '<div class="sample5"><a href="'.$history_url[$i].'"><img src="image.php?id='.$val.'" id="parent" height="240" width="240"></img>'; //テキストを表示および同じ順番に保存されているURLを表示
+  if($row["loan"]==1){
+    echo '<img id="child" src="images/sold.png" height="240" width="240"/>';
+    }
+  echo '<div class="mask">';
+  echo '<div class="caption">',$row["item"],'</div></div></a></div></td>';
+  // echo '<li><a href="'.$history_url[$i].'">'.$val.'</a></li>'."\n"; //テキストを表示および同じ順番に保存されているURLを表示
+  $i++;
+  if($i%4==0){
+    echo "</tr>";
+    echo "<tr>";
+  }
+  }
+  echo '</tr></table>';
+  }else{
+  echo '<p>過去に見たページはありません。</p>';
+  }
+?>
+
     </div>
     <!--/メイン-->
 
@@ -133,7 +121,7 @@ if($block_count==0){
 				</div>
         </ul>
       </section>
-
+      
     </aside>
     <!--/サイド-->
   </div>

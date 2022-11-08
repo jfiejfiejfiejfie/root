@@ -30,6 +30,49 @@ try{
 }}
 ?>
 
+<?php
+$sql = "SELECT * FROM list WHERE id =$list_id";
+$stm = $pdo->prepare($sql);
+$stm->execute();
+$result=$stm->fetchAll(PDO::FETCH_ASSOC);
+foreach($result as $row){}
+ $text="{$row["id"]}";
+//  $text="{$row["id"]}:{$row["item"]}";
+ $data_item = array($text); //ここに保存したいテキスト（配列にしとく）
+ $data_url = array($_SERVER["REQUEST_URI"]); //現在のURL（配列にしとく）
+ $max = '10'; //保存する数
+
+//テキストの保存
+ if(isset($_COOKIE['history_item'])){ //現在クッキーに保存されているものがあれば
+  $status = unserialize($_COOKIE['history_item']); //まずアンシリアライズ（？）で配列に
+  foreach($status as $key=>$name ){ 
+   if(!in_array($name,$data_item)){  // data_itemにnameがなければ
+    array_push($data_item,$name);// data_itemに突っ込む
+   }
+   if( count($data_item) == $max ){ //保存する数で終了
+    break;
+   }
+  }
+ }
+
+//URL保存　テキスト保存とやってることは一緒
+ if(isset($_COOKIE['history_url'])){
+  $status = unserialize($_COOKIE['history_url']);
+  foreach($status as $key=>$name ){
+   if(!in_array($name,$data_url)){
+    array_push($data_url,$name);
+   }
+   if( count($data_url) == $max ){
+    break;
+   }
+  }
+ }
+ 
+//クッキーセット
+ setcookie( 'history_item' , serialize($data_item) , time() + 3600, '/' );
+ setcookie( 'history_url' , serialize($data_url) , time() + 3600, '/' );
+?>
+
 <!DOCTYPE html>
 <html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">

@@ -18,15 +18,7 @@ if (empty($_POST)){
   exit();
 }
 
-// データベースユーザ
-$user = 'root';
-$password = '';
-// 利用するデータベース
-$dbName = 'loan_db';
-// MySQLサーバ
-$host = 'localhost:3306';
-// MySQLのDSN文字列
-$dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+
 ?>
 
 <!DOCTYPE html>
@@ -86,11 +78,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
   $item = $_POST["item"];
   //MySQLデータベースに接続する
   try {
-    $pdo = new PDO($dsn, $user, $password);
-    // プリペアドステートメントのエミュレーションを無効にする
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    // 例外がスローされる設定にする
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
     // SQL文を作る
     $sql = "SELECT * FROM list WHERE item LIKE(:item)";
     //$sql = "SELECT * FROM list where item='$item'";

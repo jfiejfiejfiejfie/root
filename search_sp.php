@@ -2,11 +2,7 @@
 session_start(); 
 require_once('../lib/util.php');
 $gobackURL ='all.php';
-$user='root';
-$password='';
-$dbName = 'loan_db';
-$host = 'localhost:3306';
-$dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+require_once "db_connect.php";
 ?>
 
 <!DOCTYPE html>
@@ -52,11 +48,11 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 				<a  href="all.php">貸し借りサイト</a>
 			<div id="menu_s">
 				<div>
-				<div><a href="all.php"><img src="images/home.png"  style="width:70px" /><span>HOME</span></a></div>
-				<div><a href="add_db.php"><img src="images/register.png"  style="width:70px" /><span>商品登録</span></span></a></div>
-				<div><a href="search_sp.php"><img src="images/search.png"  style="width:70px" /><span>検索</span></span></a></div>
-				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1"  style="width:70px" /><span>一覧</span></a></div>
-				<div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b"  style="width:70px" /><span>マイページ</span></span></a></div>
+				<div><a href="all.php"><img src="images/home.png"  style="width:70px" /><span>HOME　　　</span></a></div>
+				<div><a href="add_db.php"><img src="images/register.png"  style="width:70px" /><span>商品登録　　</span></span></a></div>
+				<div><a href="search_sp.php"><img src="images/search.png"  style="width:70px" /><span>検索　　　　</span></span></a></div>
+				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1"  style="width:70px" /><span>一覧　　　　</span></a></div>
+				<div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b"  style="width:70px" /><span>マイページ　</span></span></a></div>
 				<div><a href="contact.php"><img src="images/contact.png"  style="width:70px" /><span>お問い合わせ</span></a></div>
 			</div>
 			</div>
@@ -96,9 +92,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
         <select name="kind_name">
                           <?php
                                   try{
-                                    $pdo=new PDO($dsn,$user,$password);
-                                    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-                                    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+                                    
                                     $sql = "SELECT * FROM kind";
                                     $stm = $pdo->prepare($sql);
                                     $stm->execute();
@@ -151,7 +145,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
       <section id="side_banner">
         <h2>関連リンク</h2>
         <ul>
-        <li><a href="notice.php"><img src="images/kanban.png"></a></li>
+        <li><a href="notice.php"><img src="images/kanban.gif"></a></li>
           <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>
           
 
@@ -163,7 +157,7 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 				</div>
         </ul>
       </section>
-      
+
     </aside>
     <!--/サイド-->
   </div>
