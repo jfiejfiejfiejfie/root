@@ -1,6 +1,7 @@
 <?php
 session_start(); 
 require_once('../lib/util.php');
+require_once "db_connect.php";
 $gobackURL ='list.php';
 $user='root';
 $password='';
@@ -9,7 +10,41 @@ $host = 'localhost:3306';
 $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
 $id=$_GET["id"];
 $list_id=$_GET["id"];
+$my_id=$_SESSION["id"];
 $_SESSION["list_id"]=$_GET["id"];
+if(isset($_GET["good"])){
+    $count=0;
+    try{
+      $sql = "SELECT * FROM likes WHERE my_id=$my_id and list_id=$list_id";
+      $stm = $pdo->prepare($sql);
+      $stm->execute();
+      $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+      foreach($result as $row){
+        $count+=1;
+      }
+    }catch(Exception $e){
+        echo 'エラーがありました。';
+        echo $e->getMessage();
+        exit();
+    }
+    if($count>0){
+      $sql = "DELETE FROM likes WHERE list_id=:list_id and my_id=:my_id";
+      $stm = $pdo->prepare($sql);
+      $stm->bindValue(':list_id',$list_id,PDO::PARAM_STR);
+      $stm->bindValue(':my_id',$my_id,PDO::PARAM_STR);
+      $stm->execute();
+      $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+    }
+    else{
+      $sql = "INSERT INTO likes (list_id,my_id) VALUES(:list_id,:my_id)";
+      $stm = $pdo->prepare($sql);
+      $stm->bindValue(':list_id',$list_id,PDO::PARAM_STR);
+      $stm->bindValue(':my_id',$my_id,PDO::PARAM_STR);
+      $stm->execute();
+      $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+    }
+    header('Location:detail.php?id='.$id);
+}
 if(isset($_SESSION["id"])){
 try{
   $id=$_SESSION["id"];
@@ -271,7 +306,10 @@ foreach($result as $row){}
     ?>
     <?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
       echo "<a href='loan.php?id={$row["id"]}' class='btn btn-success'>チャットをする</a><br>";
-      echo "<a href='favorite.php?id={$row["id"]}' class='btn'><img src='images/good.png' style='max-width:50px'>$count</a><br>";
+      // echo "<a href='favorite.php?id={$row["id"]}' class='btn'><img src='images/good.png' style='max-width:50px'>$count</a><br>";
+      echo '<form method="POST" action="detail.php?id='.$row["id"].'&good=1">';
+      echo "<input type='image'src='images/good.png'style='max-width:50px'>$count<br>";
+      echo '</form>';
       if($_SESSION['name']===$row2["name"]){
         if($row["buy_user_id"]===0){
         echo "<a href='my_edit.php?id={$row["id"]}' class='btn btn-primary'>編集する</a>";

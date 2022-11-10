@@ -3,6 +3,7 @@ session_start();
 require_once('../lib/util.php');
 $gobackURL = "search_sp.php";
 require_once "db_connect.php";
+define('MAX','5');
 // 文字エンコードの検証
 if (!cken($_POST)){
   header("Location:{$gobackURL}");
@@ -20,8 +21,6 @@ else if (empty($_POST)){
   header("Location:{$gobackURL}");
   exit();
 }
-
-
 if(!isset($_GET["kind_name"])){
 $kind_id=$_POST["kind_name"];
 try{
@@ -153,7 +152,16 @@ try{
     $stm->execute();
     // 結果の取得（連想配列で受け取る）
     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-    if(count($result)>0){
+    $books_num = count($result);
+    $max_page = ceil($books_num / MAX);
+    if(!isset($_GET['page_id'])){
+        $now = 1;
+    }else{
+        $now = $_GET['page_id'];
+    }
+    $start_no = ($now - 1) * MAX;
+    $disp_data = array_slice($result, $start_no, MAX, true);
+    if(count($disp_data)>0){
       echo "ジャンル:{$kind_name}";
       // テーブルのタイトル行
       echo '<table class="table table-striped">';
@@ -170,7 +178,7 @@ try{
             }
             echo '</tr></thead>';
             echo '<tbody>';
-            foreach($result as $row){
+            foreach($disp_data as $row){
                 echo '<tr>';
                 $user_id=$row["user_id"];
                 $sql = "SELECT * FROM users WHERE id=$user_id";
@@ -202,6 +210,26 @@ try{
     echo '<span class="error">エラーがありました。</span><br>';
     echo $e->getMessage();
   }
+  echo '全件数'. $books_num. '件'. '　';
+            if($now > 1){ // リンクをつけるかの判定
+                echo '<a href=search_kind.php?page_id='.($now - 1).'&kind_name=',$kind_name,'>前へ</a>'. '　';
+            } else {
+                echo '前へ'. '　';
+            }
+            
+            for($i = 1; $i <= $max_page; $i++){
+                if ($i == $now) {
+                    echo $now. '　'; 
+                } else {
+                    echo '<a href=search_kind.php?page_id='.$i. '&kind_name=',$kind_name,'>'.$i.'</a>'. '　';
+                }
+            }
+             
+            if($now < $max_page){ // リンクをつけるかの判定
+                echo '<a href=search_kind.php?page_id='.($now + 1).'&kind_name=',$kind_name,'>次へ</a>'. '　';
+            } else {
+                echo '次へ';
+            }
   ?>
       <hr>
     <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
@@ -216,9 +244,8 @@ try{
         <h2>関連リンク</h2>
         <ul>
         <li><a href="notice.php"><img src="images/kanban.gif"></a></li>
+        <li><a href="keijiban.php"><img src="images/keijiban.png" style="width:90%;"></a></li>
           <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>
-          
-
           <div class="block-download">
 					<p>アプリのダウンロードはコチラ！</p>
 					<a href="https://apps.apple.com/jp/app/final-fantasy-x-x-2-hd%E3%83%AA%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC/id1297115524" onclick="gtag('event','click', {'event_category': 'download','event_label': 'from-fv-to-appstore','value': '1'});gtag_report_conversion('https://itunes.apple.com/jp/app/%E3%83%95%E3%83%AA%E3%83%9E%E3%81%A7%E3%83%AC%E3%83%B3%E3%82%BF%E3%83%AB-%E3%82%AF%E3%82%AA%E3%83%83%E3%82%BF-%E8%B2%B8%E3%81%97%E5%80%9F%E3%82%8A%E3%81%AE%E3%83%95%E3%83%AA%E3%83%9E%E3%82%A2%E3%83%97%E3%83%AA/id1288431440?l=en&mt=8');" class="btn-download"target="_blank">

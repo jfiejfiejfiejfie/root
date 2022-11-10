@@ -83,7 +83,13 @@ $(function(){
     });
     fileReader.readAsDataURL(obj.files[0]);
   }
-  
+  // function test(){
+  //   alert("a");
+  //   $.ajax({url:"name_generator.php", success:function(result){
+  //     alert(result);
+  //   }
+  //   })
+  // } 
   // function add(point){
     
   //   data="hidden" + String(point);

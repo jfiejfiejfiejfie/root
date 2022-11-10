@@ -1,5 +1,6 @@
 <?php
   session_start();
+  require_once "db_connect.php";
 ?>
 <!DOCTYPE html>
 <html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
@@ -68,7 +69,31 @@
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
-		
+		<h1>最近投稿されたもの</h1>
+		<table>
+			<?php
+				echo '<tr>';
+				$count=0;
+				$sql = "SELECT * FROM list ORDER BY created_at DESC LIMIT 4";
+				$stm = $pdo->prepare($sql);
+				$stm->execute();
+				$result=$stm->fetchAll(PDO::FETCH_ASSOC);
+				foreach($result as $row){
+					echo '<div class="container mt-3">';
+					echo '<td class="border border-dark">';
+					echo'<div class="sample5"><a href=detail.php?',"id={$row["id"]}>";
+					echo '<img id="parent" src="image.php?id=',$row["id"],' alt="" height="232" width="232"/>';
+					if($row["loan"]==1){
+					echo '<img id="child" src="images/sold.png" height="232" width="232"/>';
+					}
+					echo '<div class="mask">';
+					echo '<div class="caption">',$row["item"],'</div>';
+					echo '<div class="price"><p class="rainbow">￥',number_format($row["money"]),'</p></div>';
+					echo '</div></div></a></td></div>';
+				}
+				echo "</tr>";
+			?>
+		</table>
       <section id="sec-feature">
 					<div class="feature-01">
 						<div class="sec_inner">
@@ -143,9 +168,8 @@
         <h2>関連リンク</h2>
         <ul>
         <li><a href="notice.php"><img src="images/kanban.gif"></a></li>
+        <li><a href="keijiban.php"><img src="images/keijiban.png" style="width:90%;"></a></li>
           <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>
-          
-
           <div class="block-download">
 					<p>アプリのダウンロードはコチラ！</p>
 					<a href="https://apps.apple.com/jp/app/final-fantasy-x-x-2-hd%E3%83%AA%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC/id1297115524" onclick="gtag('event','click', {'event_category': 'download','event_label': 'from-fv-to-appstore','value': '1'});gtag_report_conversion('https://itunes.apple.com/jp/app/%E3%83%95%E3%83%AA%E3%83%9E%E3%81%A7%E3%83%AC%E3%83%B3%E3%82%BF%E3%83%AB-%E3%82%AF%E3%82%AA%E3%83%83%E3%82%BF-%E8%B2%B8%E3%81%97%E5%80%9F%E3%82%8A%E3%81%AE%E3%83%95%E3%83%AA%E3%83%9E%E3%82%A2%E3%83%97%E3%83%AA/id1288431440?l=en&mt=8');" class="btn-download"target="_blank">
