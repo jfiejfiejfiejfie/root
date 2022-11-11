@@ -11,19 +11,38 @@ define( 'FILENAME', './message.txt');
 date_default_timezone_set('Asia/Tokyo');
 
 // 変数の初期化
-$current_date = null;
-$data = null;
-$file_handle = null;
-$split_data = null;
-$message = array();
-$message_array = array();
-$success_message = null;
-$error_message = array();
-$clean = array();
+// $current_date = null;
+// $data = null;
+// $file_handle = null;
+// $split_data = null;
+// $message = array();
+// $message_array = array();
+// $success_message = null;
+// $error_message = array();
+// $clean = array();
 // $pdo = null;
 // $stmt = null;
 // $res = null;
-$option = null;
+// $option = null;
+function ngWordCheck($word = ''){
+  $ngArray = array(
+          '事故','死亡','骨折','重傷','殺害','傷害','暴力','被害者','放送事故',
+          'ポルノ','アダルト','セックス','バイブレーター','マスターベーション','オナニー','スケベ','羞恥','セクロス',
+          'エッチ','SEX','風俗','童貞','ペニス','巨乳','ロリ','触手','羞恥','ノーブラ','手ブラ',
+          'ローアングル','禁断','Tバック','グラビア','美尻','お尻','セクシー','無修正',
+          '大麻','麻薬',
+          '基地外','糞','死ね','殺す',
+          'shit','piss','fuck','cunt','cocksucker','motherfucker','tits',
+  );
+  $ngList = '/' . implode('|',$ngArray) . '/' ;
+  $f = preg_match($ngList,$word);
+
+  if($f == '1'){
+      return true;
+  }else{
+      return false;
+  }
+}
 if(isset($_SESSION["loggedin"])){
     $id=$_SESSION["id"];
     $sql = "SELECT * FROM users WHERE id =$id";
@@ -36,14 +55,12 @@ if(isset($_SESSION["loggedin"])){
 }else{
     $name="匿名";
 }
-
 // データベースに接続
-
 if( !empty($_POST['btn_submit']) ) {
-  if($_POST['message'] == "aaa"){
-     
+  $f=ngWordCheck($_POST['message']);
+  if($f == true){
     // ①$alertにjavascriptのalert関数を代入する。
-    $alert = "<script type='text/javascript'>alert('これはalertです。');</script>";
+    $alert = "<script type='text/javascript'>alert('NGワードが含まれています。');</script>";
      
     // ②echoで①を表示する
     echo $alert;
@@ -62,28 +79,11 @@ if( !empty($_POST['btn_submit']) ) {
 		$clean['message'] = htmlspecialchars( $_POST['message'], ENT_QUOTES, 'UTF-8');
         $clean['message'] = preg_replace( '/\\r\\n|\\n|\\r/', '<br>', $clean['message']);
 	}
-
     if( empty($error_message) ) {
-	// if( $file_handle = fopen( FILENAME, "a") ) {
-
-	//     // 書き込み日時を取得
-	// 	$current_date = date("Y-m-d H:i:s");
-	
-	// 	// 書き込むデータを作成
-	// 	$data = "'".$clean['view_name']."','".$clean['message']."','".$current_date."'\n";
-	
-	// 	// 書き込み
-	// 	fwrite( $file_handle, $data);
-	
-	// 	// ファイルを閉じる
-	// 	fclose( $file_handle);
-
-	// 	$success_message = 'メッセージを書き込みました。';
-	// }	
     	// 書き込み日時を取得
 		$current_date = date("Y-m-d H:i:s");
 		// SQL作成
-        $sql="INSERT INTO message (view_name, message, post_date) VALUES ( :view_name, :message, :current_date)";
+    $sql="INSERT INTO message (view_name, message, post_date) VALUES ( :view_name, :message, :current_date)";
 		$stmt = $pdo->prepare($sql);
 		// 値をセット
 		$stmt->bindParam( ':view_name', $clean['view_name'], PDO::PARAM_STR);
@@ -109,53 +109,13 @@ if( empty($error_message) ) {
 	$sql = "SELECT view_name,message,post_date FROM message ORDER BY post_date DESC";
 	$message_array = $pdo->query($sql);
 }
-// データベースの接続を閉じる
-// $pdo = null;
-
-// if( $file_handle = fopen( FILENAME,'r') ) {
-//     while( $data = fgets($file_handle) ){
-
-// 		$split_data = preg_split( '/\'/', $data);
-
-// 		$message = array(
-// 			'view_name' => $split_data[1],
-// 			'message' => $split_data[3],
-// 			'post_date' => $split_data[5]
-// 		);
-// 		array_unshift( $message_array, $message);
-// 	}
-    
-//     // ファイルを閉じる
-//     fclose( $file_handle);
-// }
 }
 ?>
 <!DOCTYPE html>
-<html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
-<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
-<meta charset="UTF-8">
-<meta property="og:title" content="フラワーアレンジメント教室　Bloom【ブルーム】">
-<meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
-<meta property="og:url" content="http://bloom.ne.jp">
-<meta property="og:image" content="images/main_visual.jpg">
+<?php require_once("head.php")?>
 <title>貸し借り|一覧</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
-<link rel="stylesheet" href="css/styled.css">
-<link rel="stylesheet" href="css/font-awesome.min.css">
-<link rel="stylesheet" href="css/original.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/common.css">
-<link rel="stylesheet" href="css/l.css">
-<link rel="stylesheet" href="css/m.css">
-<link rel="stylesheet" href="css/s.css">
-<link rel="favicon.ico">
-<link rel="apple-touch-icon" href="webclip152.png">
-<script src="js/original.js">
-</script>
 </head>
 <body>
-<script src="js/original.js"></script>
 <div id="cursor"></div>
 <audio id="audio"></audio>
 <div id="fb-root"></div>
@@ -168,30 +128,7 @@ if( empty($error_message) ) {
 }(document, 'script', 'facebook-jssdk'));</script>
   
   <!--ヘッダー-->
-		<div id="header">
-<div class="game_bar" style="background-image: url(images/main_visual.jpg);">
-		<div class="game_title">
-				<a href="all.php"><img src=""class="mr5" /></a>
-				<a  href="all.php">貸し借りサイト</a>
-			<div id="menu_s">
-				<div>
-				<div><a href="all.php"><img src="images/home.png"  style="width:70px" /><span>HOME</span></a></div>
-				<div><a href="add_db.php"><img src="images/register.png"  style="width:70px" /><span>商品登録</span></span></a></div>
-				<div><a href="search_sp.php"><img src="images/search.png"  style="width:70px" /><span>検索</span></span></a></div>
-				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1"  style="width:70px" /><span>一覧</span></a></div>
-				<div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b"  style="width:70px" /><span>マイページ</span></span></a></div>
-				<div><a href="contact.php"><img src="images/contact.png" style="width:70px" /><span>お問い合わせ</span></a></div>
-			</div>
-			</div>
-			<?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){
-          ?>
-          <a href="javascript:if(confirm('ログアウトしますか？')) location.href='logout.php';"  style="width:30px;"><img height="30" width="30" src="my_image.php?id=<?php echo $_SESSION["id"];?>" style="border-radius: 50%"/></a>
-
-        <?php }else{?>
-          <a href="javascript:location.href='login.php';" style="width:30px;" class="open_login_menu pl5 pr5"><img src="https://cdn08.net/pokemongo/wiki/login.png" alt="ログイン"></a>		
-                            <?php }?>
-		</div>
-		</div>
+  <?php require_once("header.php");?>
   <!-- 入力フォームを作る -->
   
   <div id="wrapper">
@@ -214,10 +151,6 @@ if( empty($error_message) ) {
 	</ul>
 <?php endif; ?>
 <form method="post">
-	<!-- <div>
-		<label for="view_name">表示名</label>
-		<input id="view_name" type="text" name="view_name" value="">
-	</div> -->
 	<div>
 		<label for="message">ひと言メッセージ</label>
 		<textarea id="message" name="message"></textarea>
@@ -226,7 +159,6 @@ if( empty($error_message) ) {
 </form>
 <hr>
 <section>
-<?php if( !empty($message_array) ){ ?>
 <article>
     <?php
         try{
@@ -283,7 +215,6 @@ if( empty($error_message) ) {
             }
     ?>
 </article>
-<?php } ?>
 </section>
 </body>
     </div>

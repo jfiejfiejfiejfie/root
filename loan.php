@@ -2,8 +2,48 @@
 session_start(); 
 require_once('../lib/util.php');
 require_once "db_connect.php";
+define('MAX','5');
 $id=$_GET["id"];
 $gobackURL ="detail.php?id={$id}";
+if(!isset($_GET['page_id'])){
+  $now = 1;
+}else{
+  $now = $_GET['page_id'];
+}
+if(isset($_GET["chat"])){
+  $text=$_POST["text"];
+  $user_id=$_SESSION["id"];
+  if($_FILES["image"]["tmp_name"]==""){
+    $imgdat="";
+  }else{
+    $upfile = $_FILES["image"]["tmp_name"];
+    $imgdat = file_get_contents($upfile);
+  }
+  $name=$_SESSION["name"];
+  date_default_timezone_set('Asia/Tokyo');
+  $date = date('Y-m-d H:i:s');
+  try{
+    $sql = "INSERT INTO chat (user_id,created_at,text,list_id,image) VALUES(:user_id,:date,:text,:list_id,:imgdat)";
+    $stm = $pdo->prepare($sql);
+    $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
+    $stm->bindValue(':date',$date,PDO::PARAM_STR);
+    $stm->bindValue(':text',$text,PDO::PARAM_STR);
+    $stm->bindValue(':list_id',$id,PDO::PARAM_STR);
+    $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
+    $stm->execute();
+    $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+  }catch(Exception $e){
+    echo 'エラーがありました。';
+    echo $e->getMessage();
+    exit();
+  }
+  if(isset($_GET['page_id'])){
+    header('Location:loan.php?id='.$id.'&page_id='.$now);
+  }else{
+    header('Location:loan.php?id='.$id);
+  }
+  
+}
 
 $sql = "SELECT * FROM list WHERE id=$id";
 $stm = $pdo->prepare($sql);
@@ -15,28 +55,8 @@ foreach($result as $row){
 ?>
 
 <!DOCTYPE html>
-<html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
-<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
-<meta charset="UTF-8">
-<meta property="og:title" content="フラワーアレンジメント教室　Bloom【ブルーム】">
-<meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
-<meta property="og:url" content="http://bloom.ne.jp">
-<meta property="og:image" content="images/main_visual.jpg">
+<?php require_once("head.php")?>
 <title>貸し借り|詳細</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
-<link rel="stylesheet" href="css/styled.css">
-<link rel="stylesheet" href="css/font-awesome.min.css">
-<link rel="stylesheet" href="css/original.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/common.css">
-<link rel="stylesheet" href="css/l.css">
-<link rel="stylesheet" href="css/m.css">
-<link rel="stylesheet" href="css/s.css">
-<link rel="favicon.ico">
-<link rel="apple-touch-icon" href="webclip152.png">
-<script src="js/original.js">
-</script>
 </head>
 <body>
 <audio id="audio"></audio>
@@ -50,30 +70,7 @@ foreach($result as $row){
 }(document, 'script', 'facebook-jssdk'));</script>
   
   <!--ヘッダー-->
-		<div id="header">
-<div class="game_bar" style="background-image: url(images/main_visual.jpg);">
-		<div class="game_title">
-				<a href="all.php"><img src=""class="mr5" /></a>
-				<a  href="all.php">貸し借りサイト</a>
-			<div id="menu_s">
-				<div>
-				<div><a href="all.php"><img src="images/home.png" alt="最新情報" style="width:70px" /><span>HOME</span></a></div>
-				<div><a href="add_db.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>商品登録</span></span></a></div>
-				<div><a href="search_sp.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>検索</span></span></a></div>
-				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1" alt="掲示板" style="width:70px" /><span>一覧</span></a></div>
-				<div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b" alt="ﾗﾝｷﾝｸﾞ" style="width:70px" /><span>マイページ</span></span></a></div>
-				<div><a href="contact.php"><img src="images/contact.png" alt="3周年" style="width:70px" /><span>お問い合わせ</span></a></div>
-			</div>
-			</div>
-			<?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){
-          ?>
-          <a href="javascript:if(confirm('ログアウトしますか？')) location.href='logout.php';"  style="width:30px;"><img height="30" width="30" src="my_image.php?id=<?php echo $_SESSION["id"];?>" style="border-radius: 50%"/></a>
-
-        <?php }else{?>
-          <a href="javascript:location.href='login.php';" style="width:30px;" class="open_login_menu pl5 pr5"><img src="https://cdn08.net/pokemongo/wiki/login.png" alt="ログイン"></a>		
-                            <?php }?>
-		</div>
-		</div>
+  <?php require_once("header.php");?>
 
 <div>
   <div id="wrapper">
@@ -85,6 +82,23 @@ foreach($result as $row){
         <?php
         echo $item_name;
         ?>についてのチャット履歴</h2>
+        <?php if(isset($_GET["page_id"])){
+          echo '<form action="loan.php?id='.$id.'&chat=1&page_id='.$now.'" method="POST"enctype="multipart/form-data">';
+        }
+        else{
+          echo '<form action="loan.php?id='.$id.'&chat=1" method="POST"enctype="multipart/form-data">';
+        }
+        ?>
+        チャット:<input type="text" name="text" required>
+    <label>画像選択:<br>
+                    <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+                            <input type="file" multiple name="image"class="test" accept="image/*"  onchange="previewImage(this);">
+                              </label>
+                  <!-- </div> -->
+                  <input type="hidden" name="list_id" value="<?php echo $id;?>"><br>
+                  <input type="submit" value="送信" >
+          </form>
+          <hr>
         <div>
     <?php
         try{
@@ -92,7 +106,11 @@ foreach($result as $row){
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-            foreach($result as $row){
+            $books_num = count($result);
+            $max_page = ceil($books_num / MAX);
+            $start_no = ($now - 1) * MAX;
+            $disp_data = array_slice($result, $start_no, MAX, true);
+            foreach($disp_data as $row){
             echo '<table class="table table-striped">';
             echo '<thead><tr>';
             echo '<th><a href="profile.php?id=',$row["user_id"],'">','<img id="image" height="100" width="100" src="my_image.php?id=',$row["user_id"],'"></a>';
@@ -122,40 +140,39 @@ foreach($result as $row){
             echo $e->getMessage();
             exit();
         }
+        echo '全件数'. $books_num. '件'. '　';
+            if($now > 1){ // リンクをつけるかの判定
+                echo '<a href=loan.php?id='.$id.'&page_id='.($now - 1).'>前へ</a>'. '　';
+            } else {
+                echo '前へ'. '　';
+            }
+            
+            for($i = 1; $i <= $max_page; $i++){
+                if ($i == $now) {
+                    echo $now. '　'; 
+                } else {
+                    echo '<a href=loan.php?id='.$id.'&page_id='. $i. '>'. $i. '</a>'. '　';
+                }
+            }
+             
+            if($now < $max_page){ // リンクをつけるかの判定
+                echo '<a href=loan.php?id='.$id.'&page_id='.($now + 1).'>次へ</a>'. '　';
+            } else {
+                echo '次へ';
+            }
     ?>
-<hr>
-<form action="chat.php" method="POST"enctype="multipart/form-data">
-    チャット:<input type="text" name="text" required>
-<label>画像選択:<br>
-                <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-                        <input type="file" multiple name="image"class="test" accept="image/*"  onchange="previewImage(this);">
-                          </label>
-              </div>
-              <input type="hidden" name="list_id" value="<?php echo $id;?>">
-              <input type="submit" value="送信" >
-      </form>
       <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
     </div>
+          </div>
     <!--/メイン-->
 
     <!--サイド-->
-    <aside id="sidebar">
-      <section id="side_banner">
-        <h2>関連リンク</h2>
-        <ul>
-        <li><a href="notice.php"><img src="images/kanban.gif"></a></li>
-        <li><a href="keijiban.php"><img src="images/keijiban.png" style="width:90%;"></a></li>
-          <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>
-          <div class="block-download">
-					<p>アプリのダウンロードはコチラ！</p>
-					<a href="https://apps.apple.com/jp/app/final-fantasy-x-x-2-hd%E3%83%AA%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC/id1297115524" onclick="gtag('event','click', {'event_category': 'download','event_label': 'from-fv-to-appstore','value': '1'});gtag_report_conversion('https://itunes.apple.com/jp/app/%E3%83%95%E3%83%AA%E3%83%9E%E3%81%A7%E3%83%AC%E3%83%B3%E3%82%BF%E3%83%AB-%E3%82%AF%E3%82%AA%E3%83%83%E3%82%BF-%E8%B2%B8%E3%81%97%E5%80%9F%E3%82%8A%E3%81%AE%E3%83%95%E3%83%AA%E3%83%9E%E3%82%A2%E3%83%97%E3%83%AA/id1288431440?l=en&mt=8');" class="btn-download"target="_blank">
-						<img src="https://quotta.net/wp-content/themes/quotta_2019/assets/img/common/btn_apple.png" alt="アップルストアでダウンロード" loading="lazy">
-					</a>
-				</div>
-        </ul>
-      </section>
+    <?php
+    require_once('side.php');
+    ?>
+    
       
-    </aside>
+    
     <!--/サイド-->
   </div>
   <!--/wrapper-->
