@@ -236,8 +236,8 @@ input.big {
 
     <!--サイド-->
     
-      <?php
-    require_once('side.php');
+    <?php
+        require_once('side.php');
     ?>
 
     

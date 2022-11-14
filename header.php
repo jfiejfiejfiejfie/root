@@ -1,7 +1,7 @@
 <div id="header">
 <div class="game_bar" style="background-image: url(images/main_visual.jpg);">
 <div class="game_title">
-<a href="all.php"><img src=""class="mr5" /></a>
+<a href="all.php"></a>
 <a  href="all.php">貸し借りサイト</a>
 <div id="menu_s">
 <div>

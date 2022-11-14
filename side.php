@@ -1,8 +1,19 @@
 <aside id="sidebar">
       <section id="side_banner">
         <h2>関連リンク</h2>
+        <?php
+          if(isset($_SESSION["loggedin"])){
+            require_once "notice_count.php";
+          }else{
+            $all_count=0;
+          }
+        ?>
         <ul>
-        <li><a href="notice.php"><img src="images/kanban.gif"></a></li>
+          <?php if($all_count!=0){
+        echo '<li><a href="notice.php"><img src="images/kanban.gif"></a></li>';
+        }else{
+        echo '<li><a href="notice.php"><img src="images/kanban.png"></a></li>';
+        }?>
         <li><a href="keijiban.php"><img src="images/keijiban.png" style="width:90%;"></a></li>
           <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>
           <div class="block-download">

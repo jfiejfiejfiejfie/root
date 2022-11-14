@@ -25,14 +25,14 @@ try {
   $mail->isSMTP();   // SMTP を使用
   $mail->Host       = 'smtp.gmail.com';  // ★★★ Gmail SMTP サーバーを指定
   $mail->SMTPAuth   = true;   // SMTP authentication を有効に
-  $mail->Username   = 'xxxxxx@gmail.com';  // ★★★ Gmail ユーザ名
-  $mail->Password   = 'password';  // ★★★ Gmail パスワード
+  $mail->Username   = 'yuttarishin@gmail.com';  // ★★★ Gmail ユーザ名
+  $mail->Password   = 'luckySO088';  // ★★★ Gmail パスワード
   $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // ★★★ 暗号化（TLS)を有効に 
   $mail->Port = 587;  //★★★ ポートは 587 
  
   //受信者設定
   //差出人アドレス, 差出人名 
-  $mail->setFrom('sender@example.com', mb_encode_mimeheader('差出人名')); 
+  $mail->setFrom('fki2166220@stu.o-hara.ac.jp', mb_encode_mimeheader('差出人名')); 
   // 受信者アドレス, 受信者名（受信者名はオプション）
   $mail->addAddress('someone@xxxxxx.com', mb_encode_mimeheader("受信者名")); 
   // 追加の受信者（受信者名は省略可能）
@@ -56,3 +56,4 @@ try {
 } catch (Exception $e) {
   echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
+?>
