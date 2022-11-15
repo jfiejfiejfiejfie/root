@@ -22,11 +22,16 @@ if (empty($_POST)) {
 
 ?>
 <!DOCTYPE html>
+<<<<<<< HEAD
 <?php require_once("head.php") ?>
+=======
+<?php require_once("head.php")?>
+>>>>>>> root/master
 <title>貸し借り|検索</title>
 </head>
 
 <body>
+<<<<<<< HEAD
   <audio id="audio"></audio>
   <div id="fb-root"></div>
 
@@ -65,6 +70,52 @@ if (empty($_POST)) {
     }
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':name', "%{$user_name}%", PDO::PARAM_STR);
+=======
+<audio id="audio"></audio>
+<div id="fb-root"></div>
+
+  
+  <!--ヘッダー-->
+		<?php require_once("header.php");?>
+
+<div>
+  <!-- 入力フォームを作る -->
+  
+  <div id="wrapper">
+    <!--メイン-->
+    <div id="main">
+      <section id="point">
+  <form method="POST" action="search_user.php">
+    <ul>
+      <li>
+        <label>ユーザ名を検索します（部分一致）：<br>
+        <input type="text" name="user_name" placeholder="名前を入れてください。" value="<?php echo htmlspecialchars($_POST["user_name"]);?>">
+        </label>
+      </li>
+      <li><input type="submit" value="検索する"></li>
+    </ul>
+  </form>
+</div>
+  <div id="wrapper">
+    <!--メイン-->
+    <div id="main">
+      <section id="point">
+        <h2>検索結果</h2>
+        <div>
+  <?php
+  $user_name = $_POST["user_name"];
+  //MySQLデータベースに接続する
+  try {
+
+    // SQL文を作る
+    $sql = "SELECT * FROM users WHERE name LIKE(:name)";
+    //$sql = "SELECT * FROM list where item='$item'";
+    // プリペアドステートメントを作る
+    $stm=$pdo->prepare($sql);
+    // プレースホルダに値をバインドする
+    $stm->bindValue(':name',"%{$user_name}%",PDO::PARAM_STR);
+    // SQL文を実行する
+>>>>>>> root/master
     $stm->execute();
     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
     if (count($result) > 0) {
@@ -105,9 +156,16 @@ if (empty($_POST)) {
     </div>
     <!--/wrapper-->
 
+<<<<<<< HEAD
     <!--フッター-->
     <footer>
       <div id="footer_nav">
+=======
+    <!--サイド-->
+    
+      <section id="side_banner">
+        <h2>関連リンク</h2>
+>>>>>>> root/master
         <ul>
           <li class="current"><a href="all.php">HOME</a></li>
           <li><a href="add_db.php">商品登録</a></li>
@@ -116,10 +174,43 @@ if (empty($_POST)) {
           <li><a href="register.php">アカウント登録</a></li>
           <li><a href="login.php">ログイン</a></li>
         </ul>
+<<<<<<< HEAD
       </div>
       <small>&copy; 2015 Bloom.</small>
     </footer>
     <!--/フッター-->
+=======
+      </section>
+      <!-- <section id="side_banner">
+      <form method="POST" action="search_user.php">
+        <ul>
+                <h2>ユーザ検索</h2><br>
+                <input type="text" name="user_name" placeholder="名前を入れてください。" value="<?php echo htmlspecialchars($_POST["user_name"]);?>">
+                <input type="submit" value="検索する">
+        </ul>
+       </form>
+      </section> -->
+      
+    
+    <!--/サイド-->
+  </div>
+  <!--/wrapper-->
+
+  <!--フッター-->
+  <footer>
+    <div id="footer_nav">
+    <ul>
+        <li class="current"><a href="all.php">HOME</a></li>
+        <li><a href="add_db.php">商品登録</a></li>
+        <li><a href="list.php">一覧</a></li>
+        <li><a href="mypage.php">マイページ</a></li>
+        <li><a href="register.php">アカウント登録</a></li><li><a href="login.php">ログイン</a></li>
+      </ul>
+    </div>
+    <small>&copy; 2015 Bloom.</small>
+  </footer>
+  <!--/フッター-->
+>>>>>>> root/master
 
 </body>
 

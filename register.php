@@ -111,8 +111,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
+<<<<<<< HEAD
     <audio id="audio"></audio>
     <div id="fb-root"></div>
+=======
+<audio id="audio"></audio>
+<div id="fb-root"></div>
+
+  
+  <!--ヘッダー-->
+		<?php require_once("header.php");?>
+>>>>>>> root/master
 
 
     <!--ヘッダー-->
@@ -172,6 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <!--/wrapper-->
 
+<<<<<<< HEAD
     <!--フッター-->
     <footer>
         <div id="footer_nav">
@@ -192,6 +202,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <small>&copy; 2022 BchichichichichiBryuryuryuryuryu.</small>
     </footer>
     <!--/フッター-->
+=======
+    <!--サイド-->
+    
+      <?php
+    require_once('side.php');
+    ?>
+
+    
+    <!--/サイド-->
+  </div>
+  <!--/wrapper-->
+
+  <!--フッター-->
+  <footer>
+    <div id="footer_nav">
+      <ul>
+        <li class="current"><a href="all.php">HOME</a></li>
+        <li><a href="add_db.php">商品登録</a></li>
+        <li><a href="list.php">一覧</a></li>
+        <li><a href="mypage.php">マイページ</a></li>
+        <li><?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){?><a href="contact.php">お問い合わせ💛</a>
+        <?php }else{?><a href="register.php">アカウント登録</a><?php }?></li><li><a href="login.php">ログイン</a></li>
+      </ul>
+    </div>
+    <small>&copy; 2022 BchichichichichiBryuryuryuryuryu.</small>
+  </footer>
+  <!--/フッター-->
+>>>>>>> root/master
 
 </body>
 

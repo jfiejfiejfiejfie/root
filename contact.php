@@ -3,6 +3,7 @@ session_start();
 require_once "db_connect.php";
 ?>
 <!DOCTYPE html>
+<<<<<<< HEAD
 <?php require_once("head.php") ?>
 <title>貸し借り|HOME</title>
 </head>
@@ -14,6 +15,18 @@ require_once "db_connect.php";
 
   <!--ヘッダー-->
   <?php require_once("header.php"); ?>
+=======
+<?php require_once("head.php")?>
+<title>貸し借り|HOME</title>
+</head>
+<body>
+<audio id="audio"></audio>
+<div id="fb-root"></div>
+
+  
+  <!--ヘッダー-->
+		<?php require_once("header.php");?>
+>>>>>>> root/master
 
 
   <div id="wrapper">
@@ -143,12 +156,21 @@ require_once "db_connect.php";
     <!--/メイン-->
 
     <!--サイド-->
+<<<<<<< HEAD
 
     <?php
       require_once('side.php');
       ?>
 
 
+=======
+    
+      <?php
+    require_once('side.php');
+    ?>
+
+    
+>>>>>>> root/master
     <!--/サイド-->
   </div>
   <!--/wrapper-->

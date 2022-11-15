@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 session_start();
 require_once "db_connect.php";
 ?>
@@ -13,6 +14,21 @@ require_once "db_connect.php";
 
   <!--ヘッダー-->
   <?php require_once("header.php"); ?>
+=======
+  session_start();
+  require_once "db_connect.php";
+?>
+<!DOCTYPE html>
+<?php require_once("head.php")?>
+<title>貸し借り|マイページ</title>
+</head>
+<body>
+<audio id="audio"></audio>
+<div id="fb-root"></div>
+
+  <!--ヘッダー-->
+		<?php require_once("header.php");?>
+>>>>>>> root/master
 
 
   <div id="wrapper">
@@ -23,9 +39,15 @@ require_once "db_connect.php";
 
       <h2>ブロックリスト</h2>
       <?php
+<<<<<<< HEAD
         $id = $_SESSION["id"];
         try {
 
+=======
+            $id=$_SESSION["id"];
+        try{
+          
+>>>>>>> root/master
           $sql = "SELECT * FROM blocklist WHERE  my_id=:id";
           $stm = $pdo->prepare($sql);
           $stm->bindValue(':id', $id, PDO::PARAM_STR);
@@ -33,6 +55,7 @@ require_once "db_connect.php";
           $result = $stm->fetchAll(PDO::FETCH_ASSOC);
           foreach ($result as $row) {
             echo '<table class="table table-striped">';
+<<<<<<< HEAD
             echo "<a href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
             $user_id = $row["user_id"];
             $sql = "SELECT * FROM users WHERE id=$user_id";
@@ -44,6 +67,19 @@ require_once "db_connect.php";
             }
             echo "<hr>";
             echo '</tr>';
+=======
+              echo "<a href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
+              $user_id=$row["user_id"];
+              $sql = "SELECT * FROM users WHERE id=$user_id";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $result2=$stm->fetchAll(PDO::FETCH_ASSOC);
+              foreach($result2 as $row2){
+                echo $row2["name"],"</td>";
+              }
+              echo "<hr>";
+              echo '</tr>';
+>>>>>>> root/master
           }
           echo '</tbody>';
           echo '</table>';
@@ -58,12 +94,21 @@ require_once "db_connect.php";
     <!--/メイン-->
 
     <!--サイド-->
+<<<<<<< HEAD
 
     <?php
       require_once('side.php');
       ?>
 
 
+=======
+    
+      <?php
+    require_once('side.php');
+    ?>
+
+    
+>>>>>>> root/master
     <!--/サイド-->
   </div>
   <!--/wrapper-->

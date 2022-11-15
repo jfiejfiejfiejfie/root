@@ -1,12 +1,30 @@
 <?php
 session_start();
 require_once('../lib/util.php');
+<<<<<<< HEAD
 $id = $_GET["id"];
 $gobackURL = "detail.php?id={$id}";
 require_once "db_connect.php";
   try {
     $data = $_SESSION["id"];
 
+=======
+$id=$_GET["id"];
+$gobackURL="detail.php?id={$id}";
+require_once "db_connect.php";
+?>
+
+<!DOCTYPE html>
+<?php require_once("head.php")?>
+<title>貸し借り</title>
+</head>
+<body>
+<audio id="audio"></audio>
+  <?php
+  try{
+    $data=$_SESSION["id"];
+    
+>>>>>>> root/master
     $sql = "SELECT * FROM users WHERE id=$data";
     $stm = $pdo->prepare($sql);
     $stm->execute();
@@ -56,6 +74,7 @@ require_once "db_connect.php";
     exit();
   }
   ?>
+<<<<<<< HEAD
 <!DOCTYPE html>
 <?php require_once("head.php") ?>
 <title>貸し借り</title>
@@ -67,11 +86,19 @@ require_once "db_connect.php";
 
   <!--ヘッダー-->
   <?php require_once("header.php"); ?>
+=======
+<div id="fb-root"></div>
+
+  
+  <!--ヘッダー-->
+  <?php require_once("header.php");?>
+>>>>>>> root/master
 
 
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
+<<<<<<< HEAD
       <div>
         <?php
     try {
@@ -118,6 +145,54 @@ require_once "db_connect.php";
       echo $e->getMessage();
       exit();
     }
+=======
+    <div>
+    <?php
+        try{
+            $loan=1;
+            
+            $sql="UPDATE list SET loan=$loan,buy_user_id=$data WHERE id=$id";
+            $stm=$pdo->prepare($sql);
+            if($stm->execute()){
+            $sql = 'SELECT * FROM list';
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+            echo "<h1>購入しました。</h1>";
+            }else{
+              echo "ツイカエラーガアリマシタ。";
+            }
+        }catch(Exception $e){
+            echo 'エラーがありました。';
+            echo $e->getMessage();
+            exit();
+        }
+        try{
+          $money=$money-$_GET["money"];
+          
+          $sql="UPDATE users SET money=$money WHERE id=$data";
+          $stm=$pdo->prepare($sql);
+          $stm->execute();
+          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+        }catch(Exception $e){
+        echo 'エラーがありました。';
+        echo $e->getMessage();
+        exit();
+        }
+        try{
+          $user_id=$_GET["user_id"];
+          $money=$_GET["money"];
+          
+          $sql="UPDATE users SET money=money+$money WHERE id=$user_id";
+          $stm=$pdo->prepare($sql);
+          $stm->execute();
+          $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+        }catch(Exception $e){
+        echo 'エラーがありました。';
+        echo $e->getMessage();
+        exit();
+        }
+>>>>>>> root/master
     ?>
         <hr>
         <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
@@ -126,12 +201,21 @@ require_once "db_connect.php";
     <!--/メイン-->
 
     <!--サイド-->
+<<<<<<< HEAD
 
     <?php
       require_once('side.php');
       ?>
 
 
+=======
+    
+      <?php
+    require_once('side.php');
+    ?>
+
+    
+>>>>>>> root/master
     <!--/サイド-->
   </div>
   <!--/wrapper-->
