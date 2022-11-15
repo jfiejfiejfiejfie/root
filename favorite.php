@@ -2,14 +2,10 @@
 session_start(); 
 require_once('../lib/util.php');
 // $gobackURL ="blocklist.php?id={$_SESSION["my_id"]}&user_id={$_SESSION["user_id"]}";
-$user='root';
-$password='';
-$dbName = 'wakka1';
-$host = 'localhost:3306';
-$dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
-$main_id=$_GET["id"];
-$user_id=$_SESSION["id"];
-$gobackURL ="detail.php?id={$main_id}";
+require_once "db_connect.php";
+$list_id=$_GET["id"];
+$my_id=$_SESSION["id"];
+$gobackURL ="detail.php?id={$list_id}";
 ?>
 
 <!DOCTYPE html>
@@ -76,10 +72,8 @@ $gobackURL ="detail.php?id={$main_id}";
     <?php
     $count=0;
     try{
-      $pdo=new PDO($dsn,$user,$password);
-      $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-      $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-      $sql = "SELECT * FROM likes WHERE user_id=$user_id and main_id=$main_id";
+      
+      $sql = "SELECT * FROM likes WHERE my_id=$my_id and list_id=$list_id";
       $stm = $pdo->prepare($sql);
       $stm->execute();
       $result=$stm->fetchAll(PDO::FETCH_ASSOC);
@@ -93,13 +87,11 @@ $gobackURL ="detail.php?id={$main_id}";
     }
     if($count>0){
       try{
-        $pdo=new PDO($dsn,$user,$password);
-        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql = "DELETE FROM likes WHERE main_id=:main_id and user_id=:user_id";
+        
+        $sql = "DELETE FROM likes WHERE list_id=:list_id and my_id=:my_id";
         $stm = $pdo->prepare($sql);
-        $stm->bindValue(':main_id',$main_id,PDO::PARAM_STR);
-        $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
+        $stm->bindValue(':list_id',$list_id,PDO::PARAM_STR);
+        $stm->bindValue(':my_id',$my_id,PDO::PARAM_STR);
         $stm->execute();
         $result=$stm->fetchAll(PDO::FETCH_ASSOC);
       }catch(Exception $e){
@@ -118,13 +110,11 @@ $gobackURL ="detail.php?id={$main_id}";
       exit();
     }
     try{
-      $pdo=new PDO($dsn,$user,$password);
-      $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-      $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-      $sql = "INSERT INTO likes (main_id,user_id) VALUES(:main_id,:user_id)";
+      
+      $sql = "INSERT INTO likes (list_id,my_id) VALUES(:list_id,:my_id)";
       $stm = $pdo->prepare($sql);
-      $stm->bindValue(':main_id',$main_id,PDO::PARAM_STR);
-      $stm->bindValue(':user_id',$user_id,PDO::PARAM_STR);
+      $stm->bindValue(':list_id',$list_id,PDO::PARAM_STR);
+      $stm->bindValue(':my_id',$my_id,PDO::PARAM_STR);
       $stm->execute();
       $result=$stm->fetchAll(PDO::FETCH_ASSOC);
   }catch(Exception $e){
@@ -148,11 +138,9 @@ $gobackURL ="detail.php?id={$main_id}";
       <section id="side_banner">
         <h2>関連リンク</h2>
         <ul>
-        <li><a href="https://wakka.vercel.app/"><img src="images/kanban.png"></a></li>
+        <li><a href="notice.php"><img src="images/kanban.gif"></a></li>
+        <li><a href="keijiban.php"><img src="images/keijiban.png" style="width:90%;"></a></li>
           <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>
-          <li><a href="../DQ5ierukana/dq5.html" target="_blank"><img src="images/banner02.jpg" alt="イイネ！押してね！facebookページ"></a></li>
-          <li><a href="https://www.jp.square-enix.com/ffx_x-2HD/" target="_blank"><img src="images/z_5caeb93e328c4.jpg" height="200" width="230"></a></li>
-          <li><a href="https://www.sanyobussan.co.jp/products/pk_daikunogensan_idaten/" target="_blank"><img src="images/2022-10-17 143626.jpg" height="200" width="230"></a></li>
           <div class="block-download">
 					<p>アプリのダウンロードはコチラ！</p>
 					<a href="https://apps.apple.com/jp/app/final-fantasy-x-x-2-hd%E3%83%AA%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC/id1297115524" onclick="gtag('event','click', {'event_category': 'download','event_label': 'from-fv-to-appstore','value': '1'});gtag_report_conversion('https://itunes.apple.com/jp/app/%E3%83%95%E3%83%AA%E3%83%9E%E3%81%A7%E3%83%AC%E3%83%B3%E3%82%BF%E3%83%AB-%E3%82%AF%E3%82%AA%E3%83%83%E3%82%BF-%E8%B2%B8%E3%81%97%E5%80%9F%E3%82%8A%E3%81%AE%E3%83%95%E3%83%AA%E3%83%9E%E3%82%A2%E3%83%97%E3%83%AA/id1288431440?l=en&mt=8');" class="btn-download"target="_blank">
@@ -161,7 +149,7 @@ $gobackURL ="detail.php?id={$main_id}";
 				</div>
         </ul>
       </section>
-      
+
     </aside>
     <!--/サイド-->
   </div>

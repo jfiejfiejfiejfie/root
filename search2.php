@@ -18,15 +18,7 @@ if (empty($_POST)){
   exit();
 }
 
-// データベースユーザ
-$user = 'root';
-$password = '';
-// 利用するデータベース
-$dbName = 'wakka1';
-// MySQLサーバ
-$host = 'localhost:3306';
-// MySQLのDSN文字列
-$dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+
 ?>
 
 <!DOCTYPE html>
@@ -86,14 +78,10 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
   $item = $_POST["item"];
   //MySQLデータベースに接続する
   try {
-    $pdo = new PDO($dsn, $user, $password);
-    // プリペアドステートメントのエミュレーションを無効にする
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    // 例外がスローされる設定にする
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
     // SQL文を作る
-    $sql = "SELECT * FROM main WHERE item LIKE(:item)";
-    //$sql = "SELECT * FROM main where item='$item'";
+    $sql = "SELECT * FROM list WHERE item LIKE(:item)";
+    //$sql = "SELECT * FROM list where item='$item'";
     // プリペアドステートメントを作る
     $stm=$pdo->prepare($sql);
     // プレースホルダに値をバインドする
@@ -118,8 +106,15 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
             foreach($result as $row){
                 echo '<tr>';
                 echo '<td>',es($row['id']),'</td>';
-                echo '<td>',es($row['today']),'</td>';
-                echo '<td>',es($row['member']),'</td>';
+                echo '<td>',es($row['created_at']),'</td>';
+                $user_id=$row["user_id"];
+                $sql = "SELECT * FROM users WHERE id=$user_id";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $result2=$stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach($result2 as $row2){
+                  echo '<td>',$row2["name"];
+                }
                 echo '<td>',es($row['item']),'</td>';
                 echo '<td>',es($row['comment']),'</td>';
                 echo '</tr>';
