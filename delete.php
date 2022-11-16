@@ -1,7 +1,15 @@
 <?php
 session_start();
 require_once('../lib/util.php');
+<<<<<<< HEAD
 $gobackURL = 'list.php';
+=======
+<<<<<<< HEAD
+$gobackURL = 'list.php';
+=======
+$gobackURL ='list.php';
+>>>>>>> root/master
+>>>>>>> root/master
 require_once "db_connect.php";
 
 if ($_SESSION["admin"] == 0) {
@@ -11,7 +19,15 @@ if ($_SESSION["admin"] == 0) {
 ?>
 
 <!DOCTYPE html>
+<<<<<<< HEAD
 <?php require_once("head.php") ?>
+=======
+<<<<<<< HEAD
+<?php require_once("head.php") ?>
+=======
+<?php require_once("head.php")?>
+>>>>>>> root/master
+>>>>>>> root/master
 <title>貸し借り|一覧</title>
 </head>
 
@@ -43,6 +59,10 @@ if ($_SESSION["admin"] == 0) {
       </div>
       <div id="menu_s">
         <div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> root/master
           <div><a href="all.php"><img src="images/home.png" style="width:70px" /><span>HOME</span></a></div>
           <div><a href="add_db.php"><img src="images/register.png" style="width:70px" /><span>商品登録</span></span></a>
           </div>
@@ -54,8 +74,63 @@ if ($_SESSION["admin"] == 0) {
         </div>
       </div>
       <span class="after"></span>
+<<<<<<< HEAD
     </div>
 
+=======
+=======
+    <?php
+    $data=$_GET["id"];
+        try{
+            echo $data,'を';
+            
+            $sql = "DELETE FROM list WHERE id =$data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+            echo "削除しました。";
+        }catch(Exception $e){
+            echo 'エラーがありました。';
+            echo $e->getMessage();
+            exit();
+        }
+            
+            $sql = "DELETE FROM chat WHERE chat_id = $data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+
+            
+            $sql = "DELETE FROM image_list WHERE list_id = $data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+            
+            
+            $sql = "DELETE FROM likes WHERE list_id = $data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+    ?>
+    <hr>
+    <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+</div>
+      </section>
+>>>>>>> root/master
+    </div>
+
+<<<<<<< HEAD
+=======
+    <!--サイド-->
+    
+      <?php
+    require_once('side.php');
+    ?>
+
+    
+    <!--/サイド-->
+>>>>>>> root/master
+>>>>>>> root/master
   </div>
   <div>
     <div id="wrapper">

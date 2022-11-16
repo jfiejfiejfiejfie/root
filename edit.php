@@ -1,10 +1,15 @@
 <?php
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> root/master
 session_start();
 $gobackURL = 'mypage.php';
 require_once "db_connect.php";
 ?>
 <!DOCTYPE html>
 <?php require_once("head.php") ?>
+<<<<<<< HEAD
 <title>貸し借り</title>
 </head>
 
@@ -13,17 +18,57 @@ require_once "db_connect.php";
 
 
   <?php require_once("header.php"); ?>
+=======
+<title>貸し借り</title>
+</head>
+
+<body>
+  <div id="fb-root"></div>
+
+
+  <?php require_once("header.php"); ?>
+=======
+  session_start(); 
+  $gobackURL ='mypage.php';
+  require_once "db_connect.php";
+?>
+<!DOCTYPE html>
+<?php require_once("head.php")?>
+<title>貸し借り</title>
+</head>
+<body>
+<div id="fb-root"></div>
+
+  
+		<?php require_once("header.php");?>
+>>>>>>> root/master
+>>>>>>> root/master
 
 
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> root/master
       <h1>編集タイム</h1>
       <form method="POST" action="edit_db.php" enctype="multipart/form-data">
         <?php
           $id = $_SESSION["id"];
           try {
 
+<<<<<<< HEAD
+=======
+=======
+        <h1>編集タイム</h1>
+        <form method="POST" action="edit_db.php" enctype="multipart/form-data">
+          <?php
+          $id=$_SESSION["id"];
+          try{
+            
+>>>>>>> root/master
+>>>>>>> root/master
             $sql = "SELECT * FROM users WHERE id =:id";
             $stm = $pdo->prepare($sql);
             $stm->bindValue(':id', $id, PDO::PARAM_STR);
@@ -85,12 +130,27 @@ require_once "db_connect.php";
     <!--/メイン-->
 
     <!--サイド-->
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> root/master
 
     <?php
       require_once('side.php');
       ?>
 
 
+<<<<<<< HEAD
+=======
+=======
+    
+      <?php
+    require_once('side.php');
+    ?>
+
+    
+>>>>>>> root/master
+>>>>>>> root/master
     <!--/サイド-->
   </div>
   <!--/wrapper-->
