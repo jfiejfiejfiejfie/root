@@ -1,7 +1,6 @@
 <?php
-if(mb_send_mail('fki2166301@stu.o-hara.ac.jp', 'メール送信テスト：タイトル', 'メール送信テスト：本文')) {
-    echo "送信完了";
-} else {
-    echo "送信失敗";
-}
+$lines=file("named1.txt",FILE_IGNORE_NEW_LINES);
+$lines2=file("named2.txt",FILE_IGNORE_NEW_LINES);
+$new_lines="{$lines[rand(0,4)]}{$lines2[rand(0,2)]}";
+echo $new_lines;
 ?>

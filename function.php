@@ -1,7 +1,8 @@
 <?php
 // データベースに接続
-function connectDB() {
-    $param = 'mysql:dbname=wakka1;host=localhost';
+function connectDB()
+{
+    $param = 'mysql:dbname=loan_db;host=localhost';
     try {
         $pdo = new PDO($param, 'root', '');
         return $pdo;
