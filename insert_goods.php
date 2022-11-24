@@ -3,7 +3,7 @@ require_once("../../lib/util.php");
 $gobackURL = "insertform.php";
 
 // 文字エンコードの検証
-if (!cken($_POST)){
+if (!cken($_POST)) {
   header("Location:{$gobackURL}");
   exit();
 }
@@ -11,33 +11,35 @@ if (!cken($_POST)){
 
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-<meta charset="utf-8">
-<title>レコード追加</title>
-<link href="../../css/style.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <title>レコード追加</title>
+  <link href="../../css/style.css" rel="stylesheet">
 </head>
+
 <body>
-<div>
-  <?php
+  <div>
+    <?php
   // 簡単なエラー処理
   $errors = [];
-  if (!isset($_POST["id"])||($_POST["id"]==="")){
+  if (!isset($_POST["id"]) || ($_POST["id"] === "")) {
     $errors[] = "商品IDが空です。";
   }
-  if (!isset($_POST["name"])||($_POST["name"]==="")){
+  if (!isset($_POST["name"]) || ($_POST["name"] === "")) {
     $errors[] = "商品名が空です。";
   }
-  if (!isset($_POST["brand"])||($_POST["brand"]==="")) {
+  if (!isset($_POST["brand"]) || ($_POST["brand"] === "")) {
     $errors[] = "ブランドが空です。";
   }
-  if (!isset($_POST["quantity"])||(!ctype_digit($_POST["quantity"]))) {
+  if (!isset($_POST["quantity"]) || (!ctype_digit($_POST["quantity"]))) {
     $errors[] = "個数が整数値ではありません。";
   }
   //エラーがあったとき
-  if (count($errors)>0){
+  if (count($errors) > 0) {
     echo '<ol class="error">';
     foreach ($errors as $value) {
-      echo "<li>", $value , "</li>";
+      echo "<li>", $value, "</li>";
     }
     echo "</ol>";
     echo "<hr>";
@@ -57,13 +59,9 @@ if (!cken($_POST)){
 
   //MySQLデータベースに接続する
   try {
-    $pdo = new PDO($dsn, $user, $password);
-    // プリペアドステートメントのエミュレーションを無効にする
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    // 例外がスローされる設定にする
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
   } catch (Exception $e) {
-    $err =  '<span class="error">エラーがありました。</span><br>';
+    $err = '<span class="error">エラーがありました。</span><br>';
     $err .= $e->getMessage();
     exit($err);
   }
@@ -99,8 +97,9 @@ if (!cken($_POST)){
     echo $e->getMessage();
   }
   ?>
-  <hr>
-  <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
-</div>
+    <hr>
+    <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+  </div>
 </body>
+
 </html>

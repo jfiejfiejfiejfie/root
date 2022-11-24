@@ -179,8 +179,8 @@ body {
 #menu_s > div > div > a,
 #menu_s > div > div > span {
   font-size: 30px!important;
-  line-height: 96px!important;
-  padding-top: 8px;
+  /* line-height: 96px!important; */
+  /* padding-top: 8px; */
 }
 #menu_s > div > div > a > span,
 #menu_s > div > div > span > span {

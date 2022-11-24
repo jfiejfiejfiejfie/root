@@ -19,7 +19,7 @@ session_start();
     <h1 class="my-5"><b><?php echo htmlspecialchars($_SESSION["name"]); ?></b>、本当にログアウトするというのですね?</h1>
     <p>
         <a href="logout_conf2.php" class="btn btn-danger ml-3">はい</a>
-        <a href="all.php" class="btn btn-info ml-3">いいえ</a>
+        <a href="index.php" class="btn btn-info ml-3">いいえ</a>
     </p>
 </body>
 </html>

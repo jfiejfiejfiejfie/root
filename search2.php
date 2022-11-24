@@ -18,15 +18,7 @@ if (empty($_POST)){
   exit();
 }
 
-// データベースユーザ
-$user = 'root';
-$password = '';
-// 利用するデータベース
-$dbName = 'wakka1';
-// MySQLサーバ
-$host = 'localhost:3306';
-// MySQLのDSN文字列
-$dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+
 ?>
 
 <!DOCTYPE html>
@@ -57,13 +49,13 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
   
   <!--ヘッダー-->
   <header>
-    <h1><a href="all.php"><img src="images/logo.png" alt="フラワーアレンジメント教室ブルーム" ></a></h1>
+    <h1><a href="index.php"><img src="images/logo.png" alt="フラワーアレンジメント教室ブルーム" ></a></h1>
     <div id="header_contact"><a href="login.php"><?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){?><img src="images/logout.png"<?php }else{?><img src="images/btn_contact.jpg"<?php }?> alt="お問い合わせ"></a></div>
     <nav id="global_navi">
       <ul>
-        <li><a href="all.php">HOME</a></li>
+        <li><a href="index.php">HOME</a></li>
         <li><a href="add_db.php">登録</a></li>
-        <li class="current"><a href="list.php">一覧</a></li>
+        <li class="current"><a href="user_chat_list.php">一覧</a></li>
         <li><a href="mypage.php">マイページ</a></li>
         <li><a href="register.php">アカウント登録</a></li>
       </ul>
@@ -86,14 +78,10 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
   $item = $_POST["item"];
   //MySQLデータベースに接続する
   try {
-    $pdo = new PDO($dsn, $user, $password);
-    // プリペアドステートメントのエミュレーションを無効にする
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    // 例外がスローされる設定にする
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
     // SQL文を作る
-    $sql = "SELECT * FROM main WHERE item LIKE(:item)";
-    //$sql = "SELECT * FROM main where item='$item'";
+    $sql = "SELECT * FROM list WHERE item LIKE(:item)";
+    //$sql = "SELECT * FROM list where item='$item'";
     // プリペアドステートメントを作る
     $stm=$pdo->prepare($sql);
     // プレースホルダに値をバインドする
@@ -118,8 +106,15 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
             foreach($result as $row){
                 echo '<tr>';
                 echo '<td>',es($row['id']),'</td>';
-                echo '<td>',es($row['today']),'</td>';
-                echo '<td>',es($row['member']),'</td>';
+                echo '<td>',es($row['created_at']),'</td>';
+                $user_id=$row["user_id"];
+                $sql = "SELECT * FROM users WHERE id=$user_id";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $result2=$stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach($result2 as $row2){
+                  echo '<td>',$row2["name"];
+                }
                 echo '<td>',es($row['item']),'</td>';
                 echo '<td>',es($row['comment']),'</td>';
                 echo '</tr>';
@@ -167,9 +162,9 @@ $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
   <footer>
     <div id="footer_nav">
     <ul>
-        <li class="current"><a href="all.php">HOME</a></li>
+        <li class="current"><a href="index.php">HOME</a></li>
         <li><a href="add_db.php">登録</a></li>
-        <li><a href="list.php">一覧</a></li>
+        <li><a href="user_chat_list.php">一覧</a></li>
         <li><a href="mypage.php">マイページ</a></li>
         <li><a href="register.php">アカウント登録</a></li><li><a href="login.php">ログイン</a></li>
       </ul>

@@ -18,8 +18,8 @@ session_start();
 <body>
     <h1 class="my-5"><b><?php echo htmlspecialchars($_SESSION["name"]); ?></b>、ログアウトしないんですね?</h1>
     <p>
-        <a href="all.php" class="btn btn-danger ml-3">はい</a>
-        <a href="all.php" class="btn btn-danger ml-3">Yes</a>
+        <a href="index.php" class="btn btn-danger ml-3">はい</a>
+        <a href="index.php" class="btn btn-danger ml-3">Yes</a>
     </p>
 </body>
 </html>

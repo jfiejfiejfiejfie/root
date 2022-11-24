@@ -34,13 +34,13 @@
   
   <!--ヘッダー-->
   <header>
-    <h1><a href="all.php"><img src="images/logo.png" alt="フラワーアレンジメント教室ブルーム" ></a></h1>
+    <h1><a href="index.php"><img src="images/logo.png" alt="フラワーアレンジメント教室ブルーム" ></a></h1>
     <div id="header_contact"><a href="login.php"><?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){?><img src="images/logout.png"<?php }else{?><img src="images/btn_contact.jpg"<?php }?> alt="お問い合わせ"></a></div>
     <nav id="global_navi">
       <ul>
-        <li class="current"><a href="all.php">HOME</a></li>
+        <li class="current"><a href="index.php">HOME</a></li>
         <li><a href="add_db.php">商品登録</a></li>
-        <li><a href="list.php">一覧</a>
+        <li><a href="user_chat_list.php">一覧</a>
         <ul>
           <li><a href="search_sp.php">商品検索</a></li>
         </ul>
@@ -149,9 +149,9 @@
   <footer>
     <div id="footer_nav">
     <ul>
-        <li class="current"><a href="all.php">HOME</a></li>
+        <li class="current"><a href="index.php">HOME</a></li>
         <li><a href="add_db.php">商品登録</a></li>
-        <li><a href="list.php">一覧</a></li>
+        <li><a href="user_chat_list.php">一覧</a></li>
         <li><a href="mypage.php">マイページ</a></li>
         <li><a href="register.php">アカウント登録</a></li><li><a href="login.php">ログイン</a></li>
       </ul>
