@@ -22,7 +22,7 @@ if (isset($_GET["chat"])) {
   foreach ($result as $row) {
     $user_id = $row["user_id"];
   }
-  $errors=[];
+  $errors = [];
   require_once('error.php');
   $text = $_POST["text"];
   $user_id = $_SESSION["id"];
@@ -88,15 +88,29 @@ foreach ($result as $row) {
         <section id="point">
           <h2>
             <?php
-        echo $user_name;
-        ?>とのチャット履歴
+            echo $user_name;
+            ?>とのチャット履歴
           </h2>
+          <?php
+          $block_count = 0;
+          $block_list = [];
+          $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+          $stm = $pdo->prepare($sql);
+          $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+          $stm->execute();
+          $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+          foreach ($block_result as $block_row) {
+            $block_count += 1;
+            $block_list[] = $block_row["user_id"];
+          }
+          if (!in_array($id, $block_list)) {
+          ?>
           <?php if (isset($_GET["page_id"])) {
-          echo '<form action="user_chat.php?id=' . $id . '&chat=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
-        } else {
-          echo '<form action="user_chat.php?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
-        }
-        ?>
+              echo '<form action="user_chat.php?id=' . $id . '&chat=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
+            } else {
+              echo '<form action="user_chat.php?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
+            }
+          ?>
           チャット:<input type="text" name="text" required>
           <label>画像選択:<br>
             <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
@@ -106,47 +120,50 @@ foreach ($result as $row) {
           <!-- </div> -->
           <input type="submit" value="送信">
           </form>
+          <?php } else { ?>
+          <h2>ブロック中のため送信できません。</h2>
+          <?php } ?>
           <hr>
           <div>
             <?php
-    try {
-      $sql = "SELECT * FROM user_chat WHERE (others_id=$id or user_id=$id) and (others_id=$user_id or user_id=$user_id) ORDER BY created_at DESC";
-      $stm = $pdo->prepare($sql);
-      $stm->execute();
-      $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-      require_once("paging.php");
-      foreach ($disp_data as $row) {
-        echo '<table class="table table-striped">';
-        echo '<thead><tr>';
-        echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
-        $user_id = $row["user_id"];
-        $sql = "SELECT * FROM users WHERE id=$user_id";
-        $stm = $pdo->prepare($sql);
-        $stm->execute();
-        $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($result2 as $row2) {
-          echo $row2["name"], ":";
-        }
-        echo $row["created_at"], '</th>';
-        echo '</tr>';
-        echo '<tr>';
-        if ($row["image"] != "") {
-          echo '<td><img id="parent" src="user_chat_image.php?id=', $row["id"], ' alt="" height="232" width="232"/></td>';
-          echo '</tr>';
-          echo '<tr>';
-        }
-        echo '<td>', $row["text"], '</td>';
-        echo '</tr>';
-        echo '</thead>';
-        echo '</table>';
-      }
-    } catch (Exception $e) {
-      echo 'エラーがありました。';
-      echo $e->getMessage();
-      exit();
-    }
-    require_once("paging2.php");
-    ?>
+            try {
+              $sql = "SELECT * FROM user_chat WHERE (others_id=$id or user_id=$id) and (others_id=$user_id or user_id=$user_id) ORDER BY created_at DESC";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              require_once("paging.php");
+              foreach ($disp_data as $row) {
+                echo '<table class="table table-striped">';
+                echo '<thead><tr>';
+                echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
+                $user_id = $row["user_id"];
+                $sql = "SELECT * FROM users WHERE id=$user_id";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($result2 as $row2) {
+                  echo $row2["name"], ":";
+                }
+                echo $row["created_at"], '</th>';
+                echo '</tr>';
+                echo '<tr>';
+                if ($row["image"] != "") {
+                  echo '<td><img id="parent" src="user_chat_image.php?id=', $row["id"], ' alt="" height="232" width="232"/></td>';
+                  echo '</tr>';
+                  echo '<tr>';
+                }
+                echo '<td>', $row["text"], '</td>';
+                echo '</tr>';
+                echo '</thead>';
+                echo '</table>';
+              }
+            } catch (Exception $e) {
+              echo 'エラーがありました。';
+              echo $e->getMessage();
+              exit();
+            }
+            require_once("paging2.php");
+            ?>
             <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
           </div>
       </div>
@@ -154,8 +171,8 @@ foreach ($result as $row) {
 
       <!--サイド-->
       <?php
-    require_once('side.php');
-    ?>
+      require_once('side.php');
+      ?>
 
 
 

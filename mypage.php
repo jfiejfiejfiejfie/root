@@ -51,9 +51,34 @@ require_once('db_connect.php');
               echo "<div style='color:red;'>認証してください。</div><a class='btn btn-primary' href='mb_send_mail.php?email=".$row["email"]."'>認証する</a>";
             }
             echo '<hr>コメント<br><font size="10">', $row["comment"], '</font><br>';
-            echo '<hr>残金<br><font size="10">￥', number_format($row['money']), '</font><hr>';
+            echo '<hr>残金<br><font size="10">￥', number_format($row['money']), '</font>';
+            echo '<hr>ポイント<br><font size="10">', number_format($row['point']), 'p</font>';
+            echo '<br><a href="shop_list.php"><img src="images/point.png"></a>';
+            ?>
+            <?php
+            $sql = "SELECT * FROM followlist WHERE my_id =$id";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+            $sth = $pdo->query($sql);
+            $count = $sth->rowCount();
+            echo '<hr>フォロー<br><font size="5">','<a href="followlist.php">';
+            echo $count."人</a><br></font><hr>";
+            ?>
+            <?php
+            $sql = "SELECT * FROM followlist WHERE user_id =$id";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+            $sth = $pdo->query($sql);
+            $count2 = $sth->rowCount();
+            echo 'フォロワー<br><font size="5">','<a href="followerlist.php">';
+            echo $count2."人</a><br></font><hr>";
+            ?>
+            <?php
             echo '<a href="edit.php" class="btn btn-primary">編集する</a><hr>';
             echo '<a href="blocklist.php" class="btn btn-primary">ブロックリスト</a><hr>';
+            echo '<a href="reservation_list.php" class="btn btn-primary">予約された商品</a><hr>';
             echo '<a href="eturan.php" class="btn btn-primary">閲覧履歴</a><hr>';
             if($row["admin"]==1){
               echo "<a href='admin.php' class='btn btn-danger'>管理者ページに行く</a>";

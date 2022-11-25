@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once "db_connect.php";
+$myURL = 'add_db.php';
+$gobackURL = 'index.php';
 $point = 0;
 ?>
 <!DOCTYPE html>
@@ -15,17 +17,20 @@ $point = 0;
 
   <!--ヘッダー-->
   <?php require_once("header.php"); ?>
-
+  <?php if(isset($_POST["kind"])){require_once('insert.php');}?>
 
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
       <?php
+      if(isset($_SESSION["insert_text"])){
+        echo $_SESSION["insert_text"];
+      }
       if (!isset($_SESSION["loggedin"])) {
         echo "<h2>この機能を利用するにはログインしてください。</h2>";
         echo "<a href='login.php' class='btn btn-danger'>ログイン</a>";
       } else { ?>
-      <form method="POST" action="insert.php" enctype="multipart/form-data">
+      <form method="POST" action="add_db.php" enctype="multipart/form-data">
         <ul>
           <li>
             <label>貸出物　:
@@ -58,7 +63,7 @@ $point = 0;
           </li>
           <li>
             <label>コメント:
-              <input type="text" name="comment" placeholder="コメント" required>
+              <textarea id="message" name="comment" placeholder="コメント"></textarea>
             </label>
           </li>
           <li>

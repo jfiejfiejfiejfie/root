@@ -22,6 +22,7 @@ if (!isset($_SESSION["check"])) {
 </head>
 
 <body>
+  
   <script src="js/original.js"></script>
   <div id="cursor"></div>
   <audio id="audio"></audio>
@@ -85,7 +86,7 @@ if (!isset($_SESSION["check"])) {
                   }
                   echo '<div class="mask">';
                   echo '<div class="caption">', $row["item"], '</div>';
-
+                  echo '<div class="bottom">  </div>';
                   echo '<div class="price"><p class="rainbow">￥', number_format($row["money"]), '</p></div>';
                   echo '</div></div></a></td></div>';
                   if ($count % 4 == 0) {

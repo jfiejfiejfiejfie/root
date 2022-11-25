@@ -2,47 +2,41 @@
 session_start();
 require_once('../lib/util.php');
 // $gobackURL ="blocklist.php?id={$_SESSION["my_id"]}&user_id={$_SESSION["user_id"]}";
-$gobackURL = 'blocklist.php';
+//$gobackURL = 'blocklist.php';
 require_once "db_connect.php";
 $my_id = $_SESSION["id"];
 $user_id = $_GET["id"];
-$block_count = 0;
+$follow_count = 0;
 try {
 
-  $sql = "SELECT * FROM blocklist WHERE user_id =:user_id and my_id=:my_id";
+  $sql = "SELECT * FROM followlist WHERE user_id =:user_id and my_id=:my_id";
   $stm = $pdo->prepare($sql);
   $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
   $stm->bindValue(':my_id', $_SESSION["id"], PDO::PARAM_STR);
   $stm->execute();
   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
   foreach ($result as $row) {
-    $block_count += 1;
+    $follow_count += 1;
   }
 } catch (Exception $e) {
   echo 'エラーがありました。';
   echo $e->getMessage();
   exit();
 }
-if ($block_count == 0) {
+if ($follow_count == 0) {
 
-  $sql = "INSERT INTO blocklist (my_id,user_id) VALUES(:my_id,:user_id)";
+  $sql = "INSERT INTO followlist (my_id,user_id) VALUES(:my_id,:user_id)";
   $stm = $pdo->prepare($sql);
   $stm->bindValue(':my_id', $my_id, PDO::PARAM_STR);
   $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
   $stm->execute();
+  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+} else {
 
   $sql = "DELETE FROM followlist WHERE my_id=$my_id and user_id=$user_id";
   $stm = $pdo->prepare($sql);
   $stm->execute();
-
-  $sql = "DELETE FROM followlist WHERE my_id=$user_id and user_id=$my_id";
-  $stm = $pdo->prepare($sql);
-  $stm->execute();
-} else {
-
-  $sql = "DELETE FROM blocklist WHERE my_id=$my_id and user_id=$user_id";
-  $stm = $pdo->prepare($sql);
-  $stm->execute();
+  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 }
 header('Location:profile.php?id=' . $user_id);
 ?>
@@ -64,7 +58,7 @@ header('Location:profile.php?id=' . $user_id);
       <!--メイン-->
       <div id="main">
         <section id="point">
-          <?php if ($block_count == 0) { ?>
+          <?php if ($follow_count == 0) { ?>
           <h2>ブロック完了</h2>
           <p><a href="<?php echo $gobackURL ?>">ブロックリスト</a></p>
           <?php } else { ?>
@@ -90,9 +84,9 @@ header('Location:profile.php?id=' . $user_id);
     <footer>
       <div id="footer_nav">
         <ul>
-          <li class="current"><a href="index.php">HOME</a></li>
+          <li class="current"><a href="all.php">HOME</a></li>
           <li><a href="add_db.php">商品登録</a></li>
-          <li><a href="user_chat_list.php">一覧</a></li>
+          <li><a href="list.php">一覧</a></li>
           <li><a href="mypage.php">マイページ</a></li>
           <li><a href="register.php">アカウント登録</a></li>
           <li><a href="login.php">ログイン</a></li>
