@@ -1,17 +1,9 @@
 <?php
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> root/master
->>>>>>> root/master
 session_start();
 require_once "db_connect.php";
 ?>
 <!DOCTYPE html>
 <?php require_once("head.php") ?>
-<<<<<<< HEAD
 <title>貸し借り|マイページ</title>
 </head>
 
@@ -21,44 +13,6 @@ require_once "db_connect.php";
 
   <!--ヘッダー-->
   <?php require_once("header.php"); ?>
-=======
-<<<<<<< HEAD
-<title>貸し借り|マイページ</title>
-</head>
-
-<body>
-  <audio id="audio"></audio>
-  <div id="fb-root"></div>
-
-  <!--ヘッダー-->
-  <?php require_once("header.php"); ?>
-=======
-<title>貸し借り|マイページ</title>
-</head>
-
-<body>
-  <audio id="audio"></audio>
-  <div id="fb-root"></div>
-
-  <!--ヘッダー-->
-  <?php require_once("header.php"); ?>
-=======
-  session_start();
-  require_once "db_connect.php";
-?>
-<!DOCTYPE html>
-<?php require_once("head.php")?>
-<title>貸し借り|マイページ</title>
-</head>
-<body>
-<audio id="audio"></audio>
-<div id="fb-root"></div>
-
-  <!--ヘッダー-->
-		<?php require_once("header.php");?>
->>>>>>> root/master
->>>>>>> root/master
->>>>>>> root/master
 
 
   <div id="wrapper">
@@ -69,27 +23,9 @@ require_once "db_connect.php";
 
       <h2>ブロックリスト</h2>
       <?php
-<<<<<<< HEAD
         $id = $_SESSION["id"];
         try {
 
-=======
-<<<<<<< HEAD
-        $id = $_SESSION["id"];
-        try {
-
-=======
-<<<<<<< HEAD
-        $id = $_SESSION["id"];
-        try {
-
-=======
-            $id=$_SESSION["id"];
-        try{
-          
->>>>>>> root/master
->>>>>>> root/master
->>>>>>> root/master
           $sql = "SELECT * FROM blocklist WHERE  my_id=:id";
           $stm = $pdo->prepare($sql);
           $stm->bindValue(':id', $id, PDO::PARAM_STR);
@@ -97,13 +33,6 @@ require_once "db_connect.php";
           $result = $stm->fetchAll(PDO::FETCH_ASSOC);
           foreach ($result as $row) {
             echo '<table class="table table-striped">';
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> root/master
->>>>>>> root/master
             echo "<a href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
             $user_id = $row["user_id"];
             $sql = "SELECT * FROM users WHERE id=$user_id";
@@ -115,25 +44,6 @@ require_once "db_connect.php";
             }
             echo "<hr>";
             echo '</tr>';
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
-              echo "<a href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
-              $user_id=$row["user_id"];
-              $sql = "SELECT * FROM users WHERE id=$user_id";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $result2=$stm->fetchAll(PDO::FETCH_ASSOC);
-              foreach($result2 as $row2){
-                echo $row2["name"],"</td>";
-              }
-              echo "<hr>";
-              echo '</tr>';
->>>>>>> root/master
->>>>>>> root/master
->>>>>>> root/master
           }
           echo '</tbody>';
           echo '</table>';
@@ -148,33 +58,12 @@ require_once "db_connect.php";
     <!--/メイン-->
 
     <!--サイド-->
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> root/master
->>>>>>> root/master
 
     <?php
       require_once('side.php');
       ?>
 
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
-    
-      <?php
-    require_once('side.php');
-    ?>
-
-    
->>>>>>> root/master
->>>>>>> root/master
->>>>>>> root/master
     <!--/サイド-->
   </div>
   <!--/wrapper-->
@@ -183,11 +72,7 @@ require_once "db_connect.php";
   <footer>
     <div id="footer_nav">
       <ul>
-<<<<<<< HEAD
         <li class="current"><a href="index.php">HOME</a></li>
-=======
-        <li class="current"><a href="all.php">HOME</a></li>
->>>>>>> root/master
         <li><a href="add_db.php">商品登録</a></li>
         <li><a href="user_chat_list.php">一覧</a></li>
         <li><a href="mypage.php">マイページ</a></li>

@@ -42,11 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //ユーザーネームから該当するユーザー情報を取得
         $sql = "SELECT * FROM users WHERE user_id = :user_id";
         $stmt = $pdo->prepare($sql);
-<<<<<<< HEAD
         $stmt->bindValue('user_id', $datas['name'], PDO::PARAM_INT);
-=======
-        $stmt->bindValue('name', $datas['name'], PDO::PARAM_INT);
->>>>>>> root/master
         $stmt->execute();
 
         //ユーザー情報があれば変数に格納
@@ -59,10 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION["loggedin"] = true;
                 $_SESSION["id"] = $row['id'];
                 $_SESSION["name"] = $row['name'];
-<<<<<<< HEAD
                 $_SESSION["user_id"] = $row['user_id'];
-=======
->>>>>>> root/master
                 $_SESSION["admin"] = $row['admin'];
                 //ウェルカムページへリダイレクト
                 header("location:welcome.php");
@@ -103,27 +96,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-<<<<<<< HEAD
     <audio id="audio"></audio>
     <div id="fb-root"></div>
-=======
-<<<<<<< HEAD
-    <audio id="audio"></audio>
-    <div id="fb-root"></div>
-=======
-<<<<<<< HEAD
-    <audio id="audio"></audio>
-    <div id="fb-root"></div>
-=======
-<audio id="audio"></audio>
-<div id="fb-root"></div>
-
-  
-  <!--ヘッダー-->
-		<?php require_once("header.php");?>
->>>>>>> root/master
->>>>>>> root/master
->>>>>>> root/master
 
 
     <!--ヘッダー-->
@@ -144,11 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="post">
                 <div class="form-group">
-<<<<<<< HEAD
                     <label>ユーザーID</label>
-=======
-                    <label>ユーザー名</label>
->>>>>>> root/master
                     <input type="text" name="name"
                         class="form-control <?php echo (!empty(h($errors['name']))) ? 'is-invalid' : ''; ?>"
                         value="<?php echo h($datas['name']); ?>">
@@ -185,26 +155,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <!--/wrapper-->
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> root/master
->>>>>>> root/master
     <!--フッター-->
     <footer>
         <div id="footer_nav">
             <ul>
-<<<<<<< HEAD
                 <li class="current"><a href="index.php">HOME</a></li>
                 <li><a href="add_db.php">商品登録</a></li>
                 <li><a href="user_chat_list.php">一覧</a></li>
-=======
-                <li class="current"><a href="all.php">HOME</a></li>
-                <li><a href="add_db.php">商品登録</a></li>
-                <li><a href="list.php">一覧</a></li>
->>>>>>> root/master
                 <li><a href="mypage.php">マイページ</a></li>
                 <li>
                     <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?><a
@@ -218,40 +175,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <small>&copy; 2015 Bloom.</small>
     </footer>
     <!--/フッター-->
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
-    <!--サイド-->
-    
-      <?php
-    require_once('side.php');
-    ?>
-
-    
-    <!--/サイド-->
-  </div>
-  <!--/wrapper-->
-
-  <!--フッター-->
-  <footer>
-    <div id="footer_nav">
-    <ul>
-        <li class="current"><a href="all.php">HOME</a></li>
-        <li><a href="add_db.php">商品登録</a></li>
-        <li><a href="list.php">一覧</a></li>
-        <li><a href="mypage.php">マイページ</a></li>
-        <li><?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){?><a href="contact.php">お問い合わせ💛</a>
-        <?php }else{?><a href="register.php">アカウント登録</a><?php }?></li><li><a href="login.php">ログイン</a></li>
-      </ul>
-    </div>
-    <small>&copy; 2015 Bloom.</small>
-  </footer>
-  <!--/フッター-->
->>>>>>> root/master
->>>>>>> root/master
->>>>>>> root/master
 
 </body>
 

@@ -5,23 +5,8 @@ $pdo = connectDB();
 
 $sql = 'SELECT * FROM image_list WHERE list_id = :id and number = :number LIMIT 1';
 $stmt = $pdo->prepare($sql);
-<<<<<<< HEAD
 $stmt->bindValue(':id', (int) $_GET['id'], PDO::PARAM_INT);
 $stmt->bindValue(':number', (int) $_GET['number'], PDO::PARAM_INT);
-=======
-<<<<<<< HEAD
-$stmt->bindValue(':id', (int) $_GET['id'], PDO::PARAM_INT);
-$stmt->bindValue(':number', (int) $_GET['number'], PDO::PARAM_INT);
-=======
-<<<<<<< HEAD
-$stmt->bindValue(':id', (int) $_GET['id'], PDO::PARAM_INT);
-$stmt->bindValue(':number', (int) $_GET['number'], PDO::PARAM_INT);
-=======
-$stmt->bindValue(':id', (int)$_GET['id'], PDO::PARAM_INT);
-$stmt->bindValue(':number', (int)$_GET['number'], PDO::PARAM_INT);
->>>>>>> root/master
->>>>>>> root/master
->>>>>>> root/master
 $stmt->execute();
 $image = $stmt->fetch();
 

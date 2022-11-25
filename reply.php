@@ -1,10 +1,6 @@
 <?php
 session_start();
-<<<<<<< HEAD
 $gobackURL = 'index.php';
-=======
-$gobackURL = 'all.php';
->>>>>>> root/master
 $myURL = 'keijiban.php';
 $option = '';
 require_once "db_connect.php";

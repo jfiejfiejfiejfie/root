@@ -110,15 +110,9 @@ if (empty($_POST)){
   <footer>
     <div id="footer_nav">
     <ul>
-<<<<<<< HEAD
         <li class="current"><a href="index.php">HOME</a></li>
         <li><a href="add_db.php">商品登録</a></li>
         <li><a href="user_chat_list.php">一覧</a></li>
-=======
-        <li class="current"><a href="all.php">HOME</a></li>
-        <li><a href="add_db.php">商品登録</a></li>
-        <li><a href="list.php">一覧</a></li>
->>>>>>> root/master
         <li><a href="mypage.php">マイページ</a></li>
         <li><a href="register.php">アカウント登録</a></li><li><a href="login.php">ログイン</a></li>
       </ul>
