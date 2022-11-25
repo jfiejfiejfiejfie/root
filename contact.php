@@ -100,6 +100,7 @@ if (isset($_POST['submitted'])) {
       $tel = '';
       $subject = '';
       $body = '';
+      $image = '';
       
       //再読み込みによる二重送信の防止
       $params = '?result='. $result;
