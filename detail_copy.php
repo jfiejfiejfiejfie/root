@@ -1,7 +1,11 @@
 <?php
 session_start(); 
 require_once('../lib/util.php');
+<<<<<<< HEAD
 $gobackURL ='user_chat_list.php';
+=======
+$gobackURL ='list.php';
+>>>>>>> root/master
 require_once "db_connect.php";
 $id=$_GET["id"];
 $list_id=$_GET["id"];
@@ -66,6 +70,7 @@ try{
 		<div id="header">
 <div class="game_bar" style="background-image: url(images/main_visual.jpg);">
 		<div class="game_title">
+<<<<<<< HEAD
 				<a href="index.php"><img src=""class="mr5" /></a>
 				<a  href="index.php">貸し借りサイト</a>
 			<div id="menu_s">
@@ -74,6 +79,16 @@ try{
 				<div><a href="add_db.php"><img src="images/register.png"  style="width:70px" /><span>商品登録　　</span></span></a></div>
 				<div><a href="search_sp.php"><img src="images/search.png"  style="width:70px" /><span>検索　　　　</span></span></a></div>
 				<div><a href="user_chat_list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1"  style="width:70px" /><span>一覧　　　　</span></a></div>
+=======
+				<a href="all.php"><img src=""class="mr5" /></a>
+				<a  href="all.php">貸し借りサイト</a>
+			<div id="menu_s">
+				<div>
+				<div><a href="all.php"><img src="images/home.png"  style="width:70px" /><span>HOME　　　</span></a></div>
+				<div><a href="add_db.php"><img src="images/register.png"  style="width:70px" /><span>商品登録　　</span></span></a></div>
+				<div><a href="search_sp.php"><img src="images/search.png"  style="width:70px" /><span>検索　　　　</span></span></a></div>
+				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1"  style="width:70px" /><span>一覧　　　　</span></a></div>
+>>>>>>> root/master
 				<div><a href="mypage.php"><img src="https://cdn08.net/dqwalk/data/img0/img93_5.png?87b"  style="width:70px" /><span>マイページ　</span></span></a></div>
 				<div><a href="contact.php"><img src="images/contact.png"  style="width:70px" /><span>お問い合わせ</span></a></div>
 			</div>
@@ -263,9 +278,15 @@ try{
   <footer>
     <div id="footer_nav">
     <ul>
+<<<<<<< HEAD
         <li class="current"><a href="index.php">HOME</a></li>
         <li><a href="add_db.php">商品登録</a></li>
         <li><a href="user_chat_list.php">一覧</a></li>
+=======
+        <li class="current"><a href="all.php">HOME</a></li>
+        <li><a href="add_db.php">商品登録</a></li>
+        <li><a href="list.php">一覧</a></li>
+>>>>>>> root/master
         <li><a href="mypage.php">マイページ</a></li>
         <li><a href="register.php">アカウント登録</a></li><li><a href="login.php">ログイン</a></li>
       </ul>
