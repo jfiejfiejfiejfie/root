@@ -36,9 +36,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     //データベースの中に同一ユーザー名が存在していないか確認
     if (empty($errors['name'])) {
+<<<<<<< HEAD
         $sql = "SELECT id FROM users WHERE user_id = :name";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':name', $datas['name'], PDO::PARAM_STR);
+=======
+        $sql = "SELECT id FROM users WHERE name = :name";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue('name', $datas['name'], PDO::PARAM_INT);
+>>>>>>> root/master
         $stmt->execute();
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $errors['name'] = 'そのユーザ名は使われています。';
@@ -52,7 +58,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $imginfo = getimagesize('data:application/octet-stream;base64,' . $enc_img);
         $params = [
             'id' => null,
+<<<<<<< HEAD
             'user_id' => $datas['name'],
+=======
+>>>>>>> root/master
             'name' => $datas['name'],
             'password' => password_hash($datas['password'], PASSWORD_DEFAULT),
             'created_at' => null,
@@ -114,8 +123,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
+<<<<<<< HEAD
     <audio id="audio"></audio>
     <div id="fb-root"></div>
+=======
+<<<<<<< HEAD
+    <audio id="audio"></audio>
+    <div id="fb-root"></div>
+=======
+<<<<<<< HEAD
+    <audio id="audio"></audio>
+    <div id="fb-root"></div>
+=======
+<audio id="audio"></audio>
+<div id="fb-root"></div>
+
+  
+  <!--ヘッダー-->
+		<?php require_once("header.php");?>
+>>>>>>> root/master
+>>>>>>> root/master
+>>>>>>> root/master
 
 
     <!--ヘッダー-->
@@ -129,14 +157,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>このフォームに必要事項を入力し、アカウントを作成してください。</p>
             <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="post">
                 <div class="form-group">
+<<<<<<< HEAD
                     <label>ユーザーID</label>
+=======
+                    <label>ユーザー名</label>
+>>>>>>> root/master
                     <input type="text" name="name"
                         class="form-control <?php echo (!empty(h($errors['name']))) ? 'is-invalid' : ''; ?>"
                         value="<?php echo h($datas['name']); ?>">
                     <span class="invalid-feedback">
                         <?php echo h($errors['name']); ?>
                     </span>
+<<<<<<< HEAD
                     <div style="color:gray;">※英数字20文字以内にしてください。</div>
+=======
+>>>>>>> root/master
                 </div>
                 <div class="form-group">
                     <label>パスワード</label>
@@ -176,13 +211,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <!--/wrapper-->
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> root/master
+>>>>>>> root/master
     <!--フッター-->
     <footer>
         <div id="footer_nav">
             <ul>
+<<<<<<< HEAD
                 <li class="current"><a href="index.php">HOME</a></li>
                 <li><a href="add_db.php">商品登録</a></li>
                 <li><a href="user_chat_list.php">一覧</a></li>
+=======
+                <li class="current"><a href="all.php">HOME</a></li>
+                <li><a href="add_db.php">商品登録</a></li>
+                <li><a href="list.php">一覧</a></li>
+>>>>>>> root/master
                 <li><a href="mypage.php">マイページ</a></li>
                 <li>
                     <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?><a
@@ -196,6 +244,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <small>&copy; 2022 BchichichichichiBryuryuryuryuryu.</small>
     </footer>
     <!--/フッター-->
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+    <!--サイド-->
+    
+      <?php
+    require_once('side.php');
+    ?>
+
+    
+    <!--/サイド-->
+  </div>
+  <!--/wrapper-->
+
+  <!--フッター-->
+  <footer>
+    <div id="footer_nav">
+      <ul>
+        <li class="current"><a href="all.php">HOME</a></li>
+        <li><a href="add_db.php">商品登録</a></li>
+        <li><a href="list.php">一覧</a></li>
+        <li><a href="mypage.php">マイページ</a></li>
+        <li><?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){?><a href="contact.php">お問い合わせ💛</a>
+        <?php }else{?><a href="register.php">アカウント登録</a><?php }?></li><li><a href="login.php">ログイン</a></li>
+      </ul>
+    </div>
+    <small>&copy; 2022 BchichichichichiBryuryuryuryuryu.</small>
+  </footer>
+  <!--/フッター-->
+>>>>>>> root/master
+>>>>>>> root/master
+>>>>>>> root/master
 
 </body>
 

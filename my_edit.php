@@ -1,7 +1,11 @@
 <?php
   session_start(); 
   require_once('../lib/util.php');
+<<<<<<< HEAD
   $gobackURL ='detail.php?id='.$_GET['id'];
+=======
+  $gobackURL ='list.php';
+>>>>>>> root/master
   require_once "db_connect.php";
   ?>
 <!DOCTYPE html>

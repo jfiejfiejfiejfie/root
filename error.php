@@ -1,5 +1,9 @@
 <?php
     // 簡単なエラー処理
+<<<<<<< HEAD
+=======
+    $errors = [];
+>>>>>>> root/master
     $block=1;
     require_once('block_check.php');
     if ($block_count>0) {
