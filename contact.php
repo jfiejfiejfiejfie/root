@@ -12,6 +12,7 @@ $email = trim( filter_input(INPUT_POST, 'email') );
 $tel = trim( filter_input(INPUT_POST, 'tel') );
 $subject = trim( filter_input(INPUT_POST, 'subject'));
 $body = trim( filter_input(INPUT_POST, 'body') );
+$image = trim( filter_input(INPUT_POST, 'image') );
  
 //送信ボタンが押された場合の処理
 if (isset($_POST['submitted'])) {
@@ -144,7 +145,7 @@ if (isset($_POST['submitted'])) {
   <hr>
   <?php endif; ?>
   <p>以下のフォームからお問い合わせください。</p>
-  <form id="form" method="post">
+  <form id="form" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label for="name">お名前（必須） 
         <span class="error-php"><?php if ( isset( $error['name'] ) ) echo h( $error['name'] ); ?></span>
@@ -174,6 +175,12 @@ if (isset($_POST['submitted'])) {
         <span class="error-php"><?php if ( isset( $error['body'] ) ) echo h( $error['body'] ); ?></span>
       </label>
       <textarea class="form-control" id="body" name="body" placeholder="お問い合わせ内容" required  maxlength="300" rows="3"><?php echo h($body); ?></textarea>
+    </div>
+    <div class="form-group">
+       <label for="body">画像 
+        <span class="error-php"><?php if ( isset( $error['body'] ) ) echo h( $error['body'] ); ?></span>
+      </label><br>  
+      <input type="file" name="image" accept="image/*">
     </div>
     <button name="submitted" type="submit" class="btn btn-primary">送信</button>
   </form>
