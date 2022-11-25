@@ -1,18 +1,4 @@
 <?php
-session_start();
-require_once('../lib/util.php');
-$gobackURL = 'add_db.php';
-require_once "db_connect.php";
-?>
-
-<!DOCTYPE html>
-<?php require_once("head.php") ?>
-<title>貸し借り</title>
-</head>
-
-<body>
-  <audio id="audio"></audio>
-  <?php
   // 簡単なエラー処理
   $errors = [];
   $money = $_POST["money"];
@@ -37,6 +23,7 @@ require_once "db_connect.php";
     echo "</ol>";
     echo "<hr>";
     echo "<a href=", $gobackURL, ">戻る</a><br>";
+    $_SESSION["insert_text"]="";
     exit();
   }
   $kind_id = $_POST["kind"];
@@ -54,18 +41,7 @@ require_once "db_connect.php";
     exit();
   }
   ?>
-  <div id="fb-root"></div>
-
-
-  <!--ヘッダー-->
-  <?php require_once("header.php"); ?>
-
-
-  <div id="wrapper">
-    <!--メイン-->
-    <div id="main">
-      <div>
-        <?php
+  <?php
     $id = $_SESSION["id"];
     date_default_timezone_set('Asia/Tokyo');
     $created_at = date("Y/m/d H:i:s");
@@ -142,49 +118,15 @@ require_once "db_connect.php";
           $stm->bindValue(':number', 4, PDO::PARAM_STR);
           $stm->execute();
         }
-        echo "<h1>登録しました。</h1>";
+        $_SESSION["insert_text"]="登録完了しました。";
       } else {
         echo "ツイカエラーガアリマシタ。";
+        $_SESSION["insert_text"]="";
       }
     } catch (Exception $e) {
       echo 'エラーがありました。';
       echo $e->getMessage();
       exit();
     }
+    header('Location:add_db.php');
     ?>
-        <hr>
-        <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
-      </div>
-    </div>
-    <!--/メイン-->
-
-    <!--サイド-->
-
-    <?php
-      require_once('side.php');
-      ?>
-
-
-    <!--/サイド-->
-  </div>
-  <!--/wrapper-->
-
-  <!--フッター-->
-  <footer>
-    <div id="footer_nav">
-      <ul>
-        <li class="current"><a href="index.php">HOME</a></li>
-        <li><a href="add_db.php">商品登録</a></li>
-        <li><a href="user_chat_list.php">一覧</a></li>
-        <li><a href="mypage.php">マイページ</a></li>
-        <li><a href="register.php">アカウント登録</a></li>
-        <li><a href="login.php">ログイン</a></li>
-      </ul>
-    </div>
-    <small>&copy; 2015 Bloom.</small>
-  </footer>
-  <!--/フッター-->
-
-</body>
-
-</html>

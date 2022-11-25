@@ -30,13 +30,19 @@ if ($block_count == 0) {
   $stm->bindValue(':my_id', $my_id, PDO::PARAM_STR);
   $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
   $stm->execute();
-  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+  $sql = "DELETE FROM followlist WHERE my_id=$my_id and user_id=$user_id";
+  $stm = $pdo->prepare($sql);
+  $stm->execute();
+
+  $sql = "DELETE FROM followlist WHERE my_id=$user_id and user_id=$my_id";
+  $stm = $pdo->prepare($sql);
+  $stm->execute();
 } else {
 
   $sql = "DELETE FROM blocklist WHERE my_id=$my_id and user_id=$user_id";
   $stm = $pdo->prepare($sql);
   $stm->execute();
-  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 }
 header('Location:profile.php?id=' . $user_id);
 ?>

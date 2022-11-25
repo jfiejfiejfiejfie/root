@@ -1,7 +1,7 @@
 <?php
   session_start(); 
   require_once('../lib/util.php');
-  $gobackURL ='user_chat_list.php';
+  $gobackURL ='detail.php?id='.$_GET['id'];
   require_once "db_connect.php";
   ?>
 <!DOCTYPE html>
@@ -139,6 +139,7 @@
                 </li>
             </ul>
         </form>
+        <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
     </div>
     <!--/メイン-->
 

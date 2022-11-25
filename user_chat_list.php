@@ -6,7 +6,7 @@ $option = '';
 $gobackURL = 'index.php';
 require_once "db_connect.php";
 $block_count = 0;
-$block=0;
+$block = 0;
 define('MAX', '12');
 // require_once("block_check.php");
 if (!isset($_SESSION["check"])) {
@@ -39,76 +39,109 @@ if (!isset($_SESSION["check"])) {
       <div id="main">
         <section id="point">
 
-            <div>
-              <?php
-                if(isset($_SESSION["loggedin"])){
+          <div>
+            <?php
+              if (isset($_SESSION["loggedin"])) {
                 echo '<h2>チャット一覧</h2>';
-                $user_id_list=[];
-                $id=$_SESSION["id"];
+                $user_id_list = [];
+                $id = $_SESSION["id"];
                 $sql = "SELECT * FROM user_chat WHERE others_id=$id or user_id=$id ORDER BY created_at DESC";
                 $stm = $pdo->prepare($sql);
                 $stm->execute();
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($result as $row) {
-                  echo '<table class="table table-striped">';
-                  echo '<thead><tr>';
-                  if($row["others_id"]==$id){
-                    if(!in_array($row["user_id"],$user_id_list)){
-                      echo '<th><a href="user_chat.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
+                  if ($row["others_id"] == $id) {
+                    if (!in_array($row["user_id"], $user_id_list)) {
+                      echo '<table class="table table-striped">';
+                      echo '<thead><tr>';
+                      echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
                       $user_id = $row["user_id"];
                       $sql = "SELECT * FROM users WHERE id=$user_id";
                       $stm = $pdo->prepare($sql);
                       $stm->execute();
                       $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
                       foreach ($result2 as $row2) {
-                        echo $row2["name"], "</th>";
+                        $block_list=[];
+                        $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+                        $stm = $pdo->prepare($sql);
+                        $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                        $stm->execute();
+                        $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($block_result as $block_row) {
+                          $block_list[] = $block_row["user_id"];
+                        }
+                        if (in_array($user_id, $block_list)) {
+                          echo $row2["name"], "<c style='color:red;'>※ブロック中!</c></th>";
+                        }else{
+                          echo $row2["name"], "</th>";
+                        }
                       }
-                      $user_id_list[]=$row["user_id"];
+                      $user_id_list[] = $row["user_id"];
                       $user_id = $row["user_id"];
                       $sql = "SELECT * FROM users WHERE id=$user_id";
                       $stm = $pdo->prepare($sql);
                       $stm->execute();
                       $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
                       foreach ($result2 as $row2) {
-                        echo "<td>".$row2["name"].':'.$row["text"];
+                        echo "<td>" . $row2["name"] . ':' . $row["text"];
                         if ($row["image"] != "") {
                           echo '<br>画像が添付されています。';
                         }
-                        echo '<br>',$row["created_at"];
+                        echo '<br>', $row["created_at"];
+                        echo "<br><a class='btn btn-primary' href='user_chat.php?id=$user_id'>チャットに行く</a>";
                         echo '</td>';
                       }
+                      echo '</tr>';
+                      echo '</thead>';
+                      echo '</table>';
                     }
-                  }else{
-                    if(!in_array($row["others_id"],$user_id_list)){
-                      echo '<th><a href="user_chat.php?id=', $row["others_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["others_id"], '"></a>';
+                  } else {
+                    if (!in_array($row["others_id"], $user_id_list)) {
+                      echo '<table class="table table-striped">';
+                      echo '<thead><tr>';
+                      echo '<th><a href="profile.php?id=', $row["others_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["others_id"], '"></a>';
                       $user_id = $row["others_id"];
                       $sql = "SELECT * FROM users WHERE id=$user_id";
                       $stm = $pdo->prepare($sql);
                       $stm->execute();
                       $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
                       foreach ($result2 as $row2) {
-                        echo $row2["name"], "</th>";
+                        $block_list=[];
+                        $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+                        $stm = $pdo->prepare($sql);
+                        $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                        $stm->execute();
+                        $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($block_result as $block_row) {
+                          $block_list[] = $block_row["user_id"];
+                        }
+                        if (in_array($user_id, $block_list)) {
+                          echo $row2["name"], "<c style='color:red;'>※ブロック中!</c></th>";
+                        }else{
+                          echo $row2["name"], "</th>";
+                        }
                       }
-                      $user_id_list[]=$row["others_id"];
+                      $user_id_list[] = $row["others_id"];
                       echo '<td>あなた:', $row["text"];
                       if ($row["image"] != "") {
                         echo '<br>画像が添付されています。';
                       }
-                      echo '<br>',$row["created_at"];
+                      echo '<br>', $row["created_at"];
+                      echo "<br><a class='btn btn-primary' href='user_chat.php?id=$user_id'>チャットに行く</a>";
                       echo '</td>';
+                      echo '</tr>';
+                      echo '</thead>';
+                      echo '</table>';
                     }
                   }
-                  echo '</tr>';
-                  echo '</thead>';
-                  echo '</table>';
                 }
-              }else{
+              } else {
                 echo "<h2>この機能を利用するにはログインしてください。</h2>";
                 echo "<a href='login.php' class='btn btn-danger'>ログイン</a>";
               }
               ?>
-            </div>
-          </section>
+          </div>
+        </section>
       </div>
       <!--/メイン-->
 

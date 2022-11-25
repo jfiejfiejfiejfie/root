@@ -99,6 +99,18 @@ if(isset($_GET["id"])){
             exit();
           }
           try {
+            $point = $_GET["money"]/100;
+
+            $sql = "UPDATE users SET point=$point WHERE id=$data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+          } catch (Exception $e) {
+            echo 'エラーがありました。';
+            echo $e->getMessage();
+            exit();
+          }
+          try {
             $user_id = $_GET["user_id"];
             $money = $_GET["money"];
 

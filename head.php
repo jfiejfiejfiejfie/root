@@ -21,3 +21,10 @@
     <link rel="apple-touch-icon" href="webclip152.png">
     <script src="js/original.js">
     </script>
+    <?php
+    if (isset($_SESSION["loggedin"])) {
+        if ($myURL != 'add_db.php') {
+            $_SESSION["insert_text"] = "";
+        }
+    }
+    ?>

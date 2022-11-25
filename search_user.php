@@ -55,12 +55,16 @@ if (empty($_POST)) {
   $user_name = $_POST["user_name"];
   //MySQLデータベースに接続する
   try {
-    $block = 0;
-    require_once('block_check.php');
-    if ($block_count != 0) {
-      $block_list = implode(",", $block_list);
-      $sql = "SELECT * FROM users WHERE name LIKE(:name) and id not in ($block_list)";
-    } else {
+    if(isset($_SESSION["loggedin"])){
+      $block = 0;
+      require_once('block_check.php');
+      if ($block_count != 0) {
+        $block_list = implode(",", $block_list);
+        $sql = "SELECT * FROM users WHERE name LIKE(:name) and id not in ($block_list)";
+      } else {
+        $sql = "SELECT * FROM users WHERE name LIKE(:name)";
+      }
+    }else{
       $sql = "SELECT * FROM users WHERE name LIKE(:name)";
     }
     $stm = $pdo->prepare($sql);

@@ -33,7 +33,7 @@
 .sample5 .caption {
 	font-size:		130%;
 	color:			#fff;
-	padding-top:		50px;
+	padding-top:		10px;
 	/* padding-left:		50px; */
 }
 .sample5 .mask {
@@ -50,10 +50,11 @@
 }
 .sample5 .price{
     font-size:		277%;
-	color:			#fff;
-	padding-top:		100px;
+	/* padding-bottom:		10px; */
     padding-left:		auto;
-    color: red;
+}
+.sample5 .bottom{
+	padding-top:		100px;
 }
 .sample5:hover .mask {
 	-webkit-transform:	scale(1);	/* 大きさを１にして表示する */

@@ -42,6 +42,9 @@ require_once "db_connect.php";
               $sql = "DELETE FROM likes WHERE list_id = $data";
               $stm = $pdo->prepare($sql);
               $stm->execute();
+              $sql = "DELETE FROM reservation_list WHERE list_id = $data";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
               $result = $stm->fetchAll(PDO::FETCH_ASSOC);
               echo "削除しました。";
             } catch (Exception $e) {
