@@ -126,14 +126,13 @@ foreach ($result as $row) {
           <hr>
           <div>
             <?php
-            $id = $_SESSION["id"];
-            $sql = "SELECT * FROM user_chat WHERE others_id=$id or user_id=$id ORDER BY created_at DESC";
+            $sql = "SELECT * FROM user_chat WHERE (others_id=$user_id and user_id=$id) or (others_id = $id  and user_id = $user_id) ORDER BY created_at DESC";
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result = $stm->fetchAll(PDO::FETCH_ASSOC);
             require_once('paging.php');
             foreach ($disp_data as $row) {
-              if ($row["others_id"] == $id) {
+              if (($row["others_id"] == $user_id)) {
                   echo '<table id="user_chat">';
                   echo '<thead><tr>';
                   echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
@@ -170,7 +169,8 @@ foreach ($result as $row) {
                     $text = $row["text"];
                     echo $text;
                     if ($row["image"] != "") {
-                      echo '<br>画像が添付されています。';
+                      echo '<img "height="150" width="150" src="user_chat_image.php?id='.$row["id"].'"><br>';;
+
                     }
                     echo '<br>', $row["created_at"];
                     echo '</td>';
@@ -178,7 +178,7 @@ foreach ($result as $row) {
                   echo '</tr>';
                   echo '</thead>';
                   echo '</table>';
-              } else {
+              } else{
                   echo '<table id="user_chat">';
                   echo '<thead><tr>';
                   echo '<td>';
