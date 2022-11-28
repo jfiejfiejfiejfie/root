@@ -53,7 +53,7 @@ $gobackURL = 'index.php';
                         $stm->execute();
                         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($result as $row) {
-                            $text = '名前:'.$row["view_name"].' IPアドレス->'.$row["IP"] . "\n";
+                            $text = $row["IP"] . "\n";
                         }
                         $a = fopen("report.txt", "a");
                         @fwrite($a, $text);

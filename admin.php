@@ -67,7 +67,7 @@ if ($row["admin"] == 0) {
                 $data[] = 'ファイルがありません';
             }
             foreach ($data as $line) {
-                echo $line . '<a href="report.php?IP=' . $line . '">永久追放する</a><br>';
+                echo 'IPアドレス->'.$line . '<a href="report.php?IP=' . $line . '">永久追放する</a><br>';
             }
             echo '<h1>IP追放編集</h1>';
             $filename = ".htaccess";
