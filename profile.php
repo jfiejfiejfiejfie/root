@@ -228,7 +228,7 @@ $option = "&id=$id";
           echo "<a href='block.php?id=$id' class='btn btn-primary'>ブロックを解除する</a>";
         }
       }
-      echo '　　　　　<a class="btn btn-primary" href="report.php?user_id='.$row["id"].'">通報</a></th>';
+      echo '　　　　　<a class="btn btn-primary" href="report.php?user_id='.$id.'">通報</a></th>';
         ?>
       </form>
     </div>
