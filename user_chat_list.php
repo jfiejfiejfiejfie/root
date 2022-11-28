@@ -100,7 +100,7 @@ if (!isset($_SESSION["check"])) {
                         echo '<br>画像が添付されています。';
                       }
                       echo '<br>', $row["created_at"];
-                      echo "<br><div id='button'><a class='btn btn-primary' href='user_chat.php?id=$user_id'>チャットに行く</a></div>";
+                      echo "<br><div id='button'><a class='btn btn-primary' href='user_chat.php?id=$user_id'>チャット</a></div>";
                       echo '</td>';
                     }
                     echo '</tr>';
@@ -149,7 +149,7 @@ if (!isset($_SESSION["check"])) {
                       echo '<br>画像が添付されています。';
                     }
                     echo '<br>', $row["created_at"];
-                    echo "<br><div id='button'><a class='btn btn-primary' href='user_chat.php?id=$user_id'>チャットに行く</a></div>";
+                    echo "<br><div id='button'><a class='btn btn-primary' href='user_chat.php?id=$user_id'>チャット</a></div>";
                     echo '</td>';
                     echo '</tr>';
                     echo '</thead>';
