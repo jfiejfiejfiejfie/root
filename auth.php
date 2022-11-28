@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "db_connect.php";
+$myURL = 'auth.php';
 $id=$_GET["id"];
 $sql = "UPDATE users SET checked=1 where id = $id";
 $stm = $pdo->prepare($sql);

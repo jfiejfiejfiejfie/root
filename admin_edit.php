@@ -1,6 +1,7 @@
 <?php
 session_start();
 $gobackURL = 'mypage.php';
+$myURL = 'admin_edit.php';
 require_once "db_connect.php";
 require_once('user_check.php');
 if($row["admin"]==0){

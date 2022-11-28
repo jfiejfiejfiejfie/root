@@ -1,7 +1,7 @@
 <div id="header">
     <div class="game_bar" style="background-image: url(images/main_visual.jpg);">
         <div class="game_title">
-            <a href="index.php"><img src="" class="mr5" /></a>
+            <a href="index.php"></a>
             <a href="index.php">貸し借りサイト</a>
             <div id="menu_s">
                 <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){

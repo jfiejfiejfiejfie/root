@@ -1,16 +1,10 @@
 <?php
+session_start();
 require_once "db_connect.php";
-$id = $_GET["id"];
-$sql = "SELECT * FROM message WHERE id=$id";
-$stm = $pdo->prepare($sql);
-$stm->execute();
-$result = $stm->fetchAll(PDO::FETCH_ASSOC);
-foreach ($result as $row) {
-    $text = "deny from ".$row["IP"];
+$myURL = 'report.php';
+if (isset($_GET["id"])) {
+    $id = $_GET["id"];
 }
-$a = fopen(".htaccess", "a");
-@fwrite($a, $text);
-fclose($a);
 ?>
 <?php
 session_start();
@@ -24,52 +18,71 @@ $gobackURL = 'index.php';
 </head>
 
 <body>
-  <script src="js/original.js"></script>
-  <div id="cursor"></div>
-  <audio id="audio"></audio>
-  <div id="fb-root"></div>
+    <audio id="audio"></audio>
+    <div id="fb-root"></div>
 
 
-  <!--ヘッダー-->
-  <?php require_once("header.php"); ?>
+    <!--ヘッダー-->
+    <?php require_once("header.php"); ?>
 
-  <div>
-    <!-- 入力フォームを作る -->
+    <div>
+        <!-- 入力フォームを作る -->
 
-    <div id="wrapper">
-      <!--メイン-->
-      <div id="main">
-        <section id="point">
-            <br><h2>通報しました</h2>
-      </div>
-      <!--/メイン-->
+        <div id="wrapper">
+            <!--メイン-->
+            <div id="main">
+                <section id="point">
+                    <br>
+                    <h2>通報しました</h2>
+                    <?php
+                    if (isset($_GET["id"])) {
+                        $sql = "SELECT * FROM message WHERE id=$id";
+                        $stm = $pdo->prepare($sql);
+                        $stm->execute();
+                        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($result as $row) {
+                            $text = $row["IP"] . "\n";
+                        }
+                        $a = fopen("report.txt", "a");
+                        @fwrite($a, $text);
+                        fclose($a);
+                    }
+                    if(isset($_GET["IP"])){
+                        $text = "deny from ".$_GET["IP"] . "\n";
+                        $a = fopen(".htaccess", "a");
+                        @fwrite($a, $text);
+                        fclose($a);
+                    }
+                    ?>
+            </div>
+            <!--/メイン-->
 
-      <!--サイド-->
+            <!--サイド-->
 
-      <?php
-      require_once('side.php');
-      ?>
+            <?php
+            require_once('side.php');
+            ?>
 
 
-      <!--/サイド-->
-    </div>
-    <!--/wrapper-->
+            <!--/サイド-->
+        </div>
+        <!--/wrapper-->
 
-    <!--フッター-->
-    <footer>
-      <div id="footer_nav">
-        <ul>
-          <li class="current"><a href="index.php">HOME</a></li>
-          <li><a href="add_db.php">商品登録</a></li>
-          <li><a href="user_chat_list.php">一覧</a></li>
-          <li><a href="mypage.php">マイページ</a></li>
-          <li><a href="register.php">アカウント登録</a></li>
-          <li><a href="login.php">ログイン</a></li>
-        </ul>
-      </div>
-      <small>&copy; 2015 Bloom.</small>
-    </footer>
-    <!--/フッター-->
+        <!--フッター-->
+        <footer>
+            <div id="footer_nav">
+                <ul>
+                    <li class="current"><a href="index.php">HOME</a></li>
+                    <li><a href="add_db.php">商品登録</a></li>
+                    <li><a href="user_chat_list.php">一覧</a></li>
+                    <li><a href="mypage.php">マイページ</a></li>
+                    <li><a href="register.php">アカウント登録</a></li>
+                    <li><a href="login.php">ログイン</a></li>
+                </ul>
+            </div>
+            <small>&copy; 2015 Bloom.</small>
+        </footer>
+        <!--/フッター-->
 </body>
 
 </html>
