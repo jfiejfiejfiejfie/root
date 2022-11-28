@@ -25,7 +25,7 @@
             alt="アップルストアでダウンロード" loading="lazy">
         </a>
       </div>
-<button type="button" onclick="sendPushNotification()">クリックして下さい</button>
+<button type="button" onclick="sendPushNotification()">プッシュ通知終了のお知らせ</button>
 <script type="text/javascript">
 function sendPushNotification() {
 Push.create('テスト！', {
