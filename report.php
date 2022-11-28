@@ -7,7 +7,6 @@ if (isset($_GET["id"])) {
 }
 ?>
 <?php
-session_start();
 require_once('../lib/util.php');
 $gobackURL = 'index.php';
 ?>
@@ -33,7 +32,20 @@ $gobackURL = 'index.php';
             <div id="main">
                 <section id="point">
                     <br>
-                    <h2>通報しました</h2>
+                    <?php
+                    echo '<h2>';
+                    if(isset($_GET["line"])){
+                        echo $_GET["line"].'行目を削除しました。';
+                    }
+                    if(isset($_GET["id"])){
+                        echo '通報しました・';
+                    }
+                    if(isset($_GET["IP"])){
+                        $IP=$_GET["IP"];
+                        echo $IP.'を永久追放しました。';
+                    }
+                    echo '</h2>';
+                    ?>
                     <?php
                     if (isset($_GET["id"])) {
                         $sql = "SELECT * FROM message WHERE id=$id";
@@ -47,12 +59,24 @@ $gobackURL = 'index.php';
                         @fwrite($a, $text);
                         fclose($a);
                     }
-                    if(isset($_GET["IP"])){
-                        $text = "deny from ".$_GET["IP"] . "\n";
+                    if (isset($_GET["IP"])) {
+                        $text = "deny from " . $_GET["IP"] . "\n";
                         $a = fopen(".htaccess", "a");
                         @fwrite($a, $text);
                         fclose($a);
                     }
+                    if (isset($_GET["line"])) {
+                        $line = $_GET["line"];
+                        $myFile = file('.htaccess');
+                        unset($myFile[$line]);
+                        file_put_contents('.htaccess', $myFile);
+                    }
+                    if(isset($_GET["id"])){
+                        $gobackURL="keijiban.php";
+                    }else{
+                        $gobackURL="admin.php";
+                    }
+                    echo '<p><a href="'.$gobackURL.'">戻る</a></p>';
                     ?>
             </div>
             <!--/メイン-->
