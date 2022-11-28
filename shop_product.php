@@ -27,63 +27,54 @@ require_once "db_connect.php";
       <!--メイン-->
       <div id="main">
         <section id="point">
-        <h2>ポイントを使ってギフトと交換</h2>
-        <div>
-        <?php
+            
+<?php
 try{
- 
+
+$code = $_GET["code"];
+    
 $dsn = "mysql:host=localhost;dbname=shop;charset=utf8";
 $user = "root";
 $password = "";
 $dbh = new PDO($dsn, $user, $password);
 $dbh -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-$sql = "SELECT code,name,price,gazou,explanation,enjoy FROM mst_product WHERE1";
+$sql = "SELECT code, name, price, gazou, explanation ,enjoy FROM mst_product WHERE code=?";
 $stmt = $dbh -> prepare($sql);
-$stmt -> execute();
+$data[] = $code;
+$stmt -> execute($data);
     
 $dbh = null;
     
-if(empty($_SESSION["cart"]) !== true) {
-  echo '<br><a href="shop_cartlook.php"><img img height="100" width="100" src="images/カートレ点.png"></a>';
-  //print "<a href='shop_cartlook.php'>カートを見る</a>";
-  print "<br><br>";
-}else{
-  echo '<br><a href="shop_cartlook.php"><img img height="100" width="100" src="images/カート.png"></a>';
-  print "<br><br>";
-}
-
+$rec = $stmt -> fetch(PDO::FETCH_ASSOC);
     
-while(true) {
-    $rec = $stmt -> fetch(PDO::FETCH_ASSOC);
-    if($rec === false) {
-        break;
-    }
-    $code = $rec["code"];
-    print "<a href='shop_product.php?code=".$code."'>";
-    if(empty($rec["gazou"]) === true) {
-        $gazou = "";
-    } else {
-        $gazou = "<img src='../product/gazou/".$rec['gazou']."'>";
-    }
-    print $gazou;
-    print "<br>";
-    print $rec["name"];
-    print "<br>";
-    print $rec["price"]."p";
-    print "<br>";
-    print "<br><br>";
+if(empty($rec["gazou"]) === true) {
+    $disp_gazou = "";
+} else {
+    $disp_gazou = "<img src='../product/gazou/".$rec['gazou']."'>";
 }
-print "<br>";
-
+    
 }
 catch(Exception $e) {
     print "只今障害が発生しております。<br><br>";
     print "<a href='../staff_login/staff_login.html'>ログイン画面へ</a>";
 }
 ?>
+<br>
+<a href="shop_cartin.php?code=<?php print $code;?>">カートに入れる</a>
+<br><br>
+<?php print $disp_gazou;?>
+<br>
+<?php print $rec['name'];?>
+<br>
+<?php print $rec['price'];?>p
+<br>
+詳細:<?php print $rec['explanation'];?>
 
-</div>
+<br><br>
+<form>
+<input type="button" onclick="history.back()" value="戻る">
+</form>
 
       </div>
       <!--/メイン-->

@@ -27,6 +27,31 @@ require_once "db_connect.php";
       <!--メイン-->
       <div id="main">
         <section id="point">
+        <?php
+    
+    $code = $_GET["code"];
+    
+    if(isset($_SESSION["cart"]) === true) {
+        $cart = $_SESSION["cart"];
+        $kazu = $_SESSION["kazu"];
+            if(in_array($code, $cart) === true) {
+            print "すでにカートにあります。<br><br>";
+            print "<a href='shop_list.php'>ショップ一覧へ戻る</a>";
+            } 
+            }
+    if(empty($_SESSION["cart"]) === true or in_array($code, $cart) === false) {
+    $cart[] = $code;
+    $kazu[] = 1;
+    $_SESSION["cart"] = $cart;
+    $_SESSION["kazu"] = $kazu;
+    
+    print "カートに追加しました。<br><br>";
+    print "<a href='shop_list.php'>ショップ一覧へ戻る</a>";
+    }
+    
+    ?>
+    <br><br>
+    
       </div>
       <!--/メイン-->
 
