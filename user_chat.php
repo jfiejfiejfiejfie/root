@@ -111,11 +111,11 @@ foreach ($result as $row) {
               echo '<form action="user_chat.php?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
             }
           ?>
-          チャット:<input type="text" name="text" required>
           <label>画像選択:<br>
             <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
             <input type="file" multiple name="image" class="test" accept="image/*" onchange="previewImage(this);">
-          </label>
+          </label><br>
+          チャット:<input type="text" name="text" required>
           <br>
           <!-- </div> -->
           <input type="submit" value="送信">
@@ -126,43 +126,107 @@ foreach ($result as $row) {
           <hr>
           <div>
             <?php
-            try {
-              $sql = "SELECT * FROM user_chat WHERE (others_id=$id or user_id=$id) and (others_id=$user_id or user_id=$user_id) ORDER BY created_at DESC";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              require_once("paging.php");
-              foreach ($disp_data as $row) {
-                echo '<table class="table table-striped">';
-                echo '<thead><tr>';
-                echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
-                $user_id = $row["user_id"];
-                $sql = "SELECT * FROM users WHERE id=$user_id";
-                $stm = $pdo->prepare($sql);
-                $stm->execute();
-                $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($result2 as $row2) {
-                  echo $row2["name"], ":";
-                }
-                echo $row["created_at"], '</th>';
-                echo '</tr>';
-                echo '<tr>';
-                if ($row["image"] != "") {
-                  echo '<td><img id="parent" src="user_chat_image.php?id=', $row["id"], ' alt="" height="232" width="232"/></td>';
+            $id = $_SESSION["id"];
+            $sql = "SELECT * FROM user_chat WHERE others_id=$id or user_id=$id ORDER BY created_at DESC";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+            require_once('paging.php');
+            foreach ($disp_data as $row) {
+              if ($row["others_id"] == $id) {
+                  echo '<table id="user_chat">';
+                  echo '<thead><tr>';
+                  echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
+                  $user_id = $row["user_id"];
+                  $sql = "SELECT * FROM users WHERE id=$user_id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result2 as $row2) {
+                    $block_list = [];
+                    $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+                    $stm = $pdo->prepare($sql);
+                    $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                    $stm->execute();
+                    $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($block_result as $block_row) {
+                      $block_list[] = $block_row["user_id"];
+                    }
+                    echo '<br>';
+                    if (in_array($user_id, $block_list)) {
+                      echo $row2["name"], "<c style='color:red;'>※ブロック中!</c></th>";
+                    } else {
+                      echo $row2["name"], "</th>";
+                    }
+                  }
+                  $user_id = $row["user_id"];
+                  $sql = "SELECT * FROM users WHERE id=$user_id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result2 as $row2) {
+                    echo "<td>";
+                    //整形したい文字列
+                    $text = $row["text"];
+                    //文字数の上限
+                    $limit = 120;
+                    if (mb_strlen($text) > $limit) {
+                      $title = mb_substr($text, 0, $limit);
+                      echo $title . '･･･';
+                    } else {
+                      echo $text;
+                    }
+                    if ($row["image"] != "") {
+                      echo '<br>画像が添付されています。';
+                    }
+                    echo '<br>', $row["created_at"];
+                    echo '</td>';
+                  }
                   echo '</tr>';
-                  echo '<tr>';
+                  echo '</thead>';
+                  echo '</table>';
+              } else {
+                  echo '<table id="user_chat">';
+                  echo '<thead><tr>';
+                  echo '<td>';
+                  if ($row["image"] != "") {
+                    echo '<img "height="150" width="150" src="user_chat_image.php?id='.$row["id"].'"><br>';
+                  }
+                  $text = $row["text"];
+                  //文字数の上限
+                  $limit = 120;
+                  if (mb_strlen($text) > $limit) {
+                    $title = mb_substr($text, 0, $limit);
+                    echo $title . '･･･';
+                  } else {
+                    echo $text;
+                  }
+                  echo '<br>', $row["created_at"];
+                  echo '</td>';
+                  echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
+                  $user_id = $row["user_id"];
+                  $sql = "SELECT * FROM users WHERE id=$user_id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result2 as $row2) {
+                    $block_list = [];
+                    $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+                    $stm = $pdo->prepare($sql);
+                    $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                    $stm->execute();
+                    $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($block_result as $block_row) {
+                      $block_list[] = $block_row["user_id"];
+                    }
+                    echo '<br></th>';
+                  echo '</tr>';
+                  echo '</thead>';
+                  echo '</table>';
                 }
-                echo '<td>', $row["text"], '</td>';
-                echo '</tr>';
-                echo '</thead>';
-                echo '</table>';
               }
-            } catch (Exception $e) {
-              echo 'エラーがありました。';
-              echo $e->getMessage();
-              exit();
             }
-            require_once("paging2.php");
+            require_once('paging2.php');
             ?>
             <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
           </div>
