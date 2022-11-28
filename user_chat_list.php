@@ -42,7 +42,8 @@ if (!isset($_SESSION["check"])) {
           <div>
             <?php
               if (isset($_SESSION["loggedin"])) {
-                echo '<h2>チャット一覧</h2>';
+
+                echo '<br><h2>チャット一覧</h2>';
                 $user_id_list = [];
                 $id = $_SESSION["id"];
                 $sql = "SELECT * FROM user_chat WHERE others_id=$id or user_id=$id ORDER BY created_at DESC";

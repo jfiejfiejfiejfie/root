@@ -33,6 +33,7 @@ $point = 0;
       <form method="POST" action="add_db.php" enctype="multipart/form-data">
         <ul>
           <li>
+            <br>
             <label>貸出物　:
               <input type="text" id="item_name" name="item" placeholder="貸出物">
             </label>

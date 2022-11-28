@@ -132,7 +132,7 @@ if (isset($_POST['submitted'])) {
 	<div id="wrapper">
 		<!--メイン-->
 		<div id="main">
-
+      <br>
   <h2>お問い合わせフォーム</h2>
   <?php  if (filter_input(INPUT_GET, 'result') ) : // 送信が成功した場合?>
   <h4>送信完了!</h4>

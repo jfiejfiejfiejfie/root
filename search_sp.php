@@ -25,6 +25,7 @@ require_once "db_connect.php";
       <!--メイン-->
       <div id="main">
         <section id="point">
+          <br>
           <h2>検索</h2>
           <form method="POST" action="search1.php">
             <ul>
