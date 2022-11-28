@@ -93,12 +93,16 @@ $option = "&kind_name=$kind_name";
           <div>
             <?php
             try {
-              $block = 0;
-              require_once('block_check.php');
-              if ($block_count != 0) {
-                $block_list = implode(",", $block_list);
-                $sql = "SELECT * FROM list WHERE kind LIKE(:item) and loan=0 and user_id not in ($block_list)";
-              } else {
+              if (isset($_SESSION["loggedin"])) {
+                $block = 0;
+                require_once('block_check.php');
+                if ($block_count != 0) {
+                  $block_list = implode(",", $block_list);
+                  $sql = "SELECT * FROM list WHERE kind LIKE(:item) and loan=0 and user_id not in ($block_list)";
+                } else {
+                  $sql = "SELECT * FROM list WHERE kind LIKE(:item) and loan=0";
+                }
+              }else{
                 $sql = "SELECT * FROM list WHERE kind LIKE(:item) and loan=0";
               }
               $stm = $pdo->prepare($sql);
@@ -134,7 +138,7 @@ $option = "&kind_name=$kind_name";
                     echo '<td>', $row2["name"];
                   }
                   echo "<br><a target='_blank' href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a></td>";
-                  echo '<td>',$row['item'], '</td>';
+                  echo '<td>', $row['item'], '</td>';
                   echo '<td>', $row['kind'], '</td>';
                   echo '<td>￥', number_format($row['money']), '</td>';
                   echo "<td><a target='_blank' href=detail.php?id={$row["id"]}>", '<img height="100" width="100" src="image.php?id=', $row['id'], '"></a></td>';
