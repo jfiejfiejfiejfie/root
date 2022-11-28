@@ -25,6 +25,7 @@ require_once('db_connect.php');
 
       <?php
       echo '<br>';
+      echo 'あなたのIPアドレスは'.$_SERVER['REMOTE_ADDR'];
     if (!isset($_SESSION["loggedin"])) {
       echo "<h2>この機能を利用するにはログインしてください。</h2>";
       echo "<a href='login.php' class='btn btn-danger'>ログイン</a>";
