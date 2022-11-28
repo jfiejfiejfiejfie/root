@@ -53,7 +53,7 @@ if (!isset($_SESSION["check"])) {
                 foreach ($result as $row) {
                   if ($row["others_id"] == $id) {
                     if (!in_array($row["user_id"], $user_id_list)) {
-                      echo '<table class="table table-striped">';
+                      echo '<table id="user_chat">';
                       echo '<thead><tr>';
                       echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
                       $user_id = $row["user_id"];
@@ -98,7 +98,7 @@ if (!isset($_SESSION["check"])) {
                     }
                   } else {
                     if (!in_array($row["others_id"], $user_id_list)) {
-                      echo '<table class="table table-striped">';
+                      echo '<table id="user_chat">';
                       echo '<thead><tr>';
                       echo '<th><a href="profile.php?id=', $row["others_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["others_id"], '"></a>';
                       $user_id = $row["others_id"];
