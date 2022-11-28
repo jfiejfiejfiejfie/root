@@ -55,7 +55,7 @@ require_once('db_connect.php');
             echo '<hr>コメント<br><font size="10">', $row["comment"], '</font><br>';
             echo '<hr>残金<br><font size="10">￥', number_format($row['money']), '</font>';
             echo '<hr>ポイント<br><font size="10">', number_format($row['point']), 'p</font>';
-            //echo '<br><a href="notice.php"><img src="images/point.png"></a>';
+            echo '<br><a href="shop_list.php"><img src="images/point.png"></a>';
             ?>
             <?php
             $sql = "SELECT * FROM followlist WHERE my_id =$id";
