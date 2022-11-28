@@ -138,13 +138,14 @@ if (!empty($_POST['btn_submit'])) {
         $stmt = $pdo->prepare($sql);
         // $stmt->bindParam(':message_id', $_POST['message_id'], PDO::PARAM_STR);
       }else{
-        $sql = "INSERT INTO message (view_name, message, post_date) VALUES ( :view_name, :message, :current_date)";
+        $sql = "INSERT INTO message (view_name, message, post_date,IP) VALUES ( :view_name, :message, :current_date,:IP)";
         $stmt = $pdo->prepare($sql);
       }
       // 値をセット
       $stmt->bindParam(':view_name', $clean['view_name'], PDO::PARAM_STR);
       $stmt->bindParam(':message', $clean['message'], PDO::PARAM_STR);
       $stmt->bindParam(':current_date', $current_date, PDO::PARAM_STR);
+      $stmt->bindParam(':IP', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
 
       // SQLクエリの実行
       $res = $stmt->execute();
