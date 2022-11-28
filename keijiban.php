@@ -134,7 +134,7 @@ if (!empty($_POST['btn_submit'])) {
       // SQL作成
       if(isset($_POST["message_id"])){
         $message_id=$_POST["message_id"];
-        $sql = "INSERT INTO message (view_name, message, post_date,message_id) VALUES ( :view_name, :message, :current_date,$message_id)";
+        $sql = "INSERT INTO message (view_name, message, post_date,message_id,IP) VALUES ( :view_name, :message, :current_date,$message_id,:IP)";
         $stmt = $pdo->prepare($sql);
         // $stmt->bindParam(':message_id', $_POST['message_id'], PDO::PARAM_STR);
       }else{
