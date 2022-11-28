@@ -177,12 +177,6 @@ if (isset($_POST['submitted'])) {
       </label>
       <textarea class="form-control" id="body" name="body" placeholder="お問い合わせ内容" required  maxlength="300" rows="3"><?php echo h($body); ?></textarea>
     </div>
-    <div class="form-group">
-       <label for="body">画像 
-        <span class="error-php"><?php if ( isset( $error['body'] ) ) echo h( $error['body'] ); ?></span>
-      </label><br>  
-      <input type="file" name="image" accept="image/*">
-    </div>
     <button name="submitted" type="submit" class="btn btn-primary">送信</button>
   </form>
   </div>
