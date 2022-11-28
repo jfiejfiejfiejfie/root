@@ -30,6 +30,7 @@
                                 style="width:70px" /><span>お問い合わせ</span></a></div>
                 </div>
             </div>
+            
             <?php
     if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
             <a href="javascript:if(confirm('ログアウトしますか？')) location.href='logout.php';" style="width:100px;"><img
