@@ -25,6 +25,20 @@
             alt="アップルストアでダウンロード" loading="lazy">
         </a>
       </div>
+<button type="button" onclick="sendPushNotification()">クリックして下さい</button>
+<script type="text/javascript">
+function sendPushNotification() {
+Push.create('テスト！', {
+body: 'お知らせに実装したいですねｗ',
+icon: 'index.jpg',
+timeout: 5000,
+onClick: function () {
+this.close();
+location.href = 'https://www.yahoo.co.jp';
+}
+});
+}
+</script>
     </ul>
   </section>
 

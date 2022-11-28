@@ -21,6 +21,8 @@
     <link rel="apple-touch-icon" href="webclip152.png">
     <script src="js/original.js">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/0.0.11/push.min.js"></script>
+    </script>
     <?php
     if (isset($_SESSION["loggedin"])) {
         if ($myURL != 'add_db.php') {
