@@ -71,6 +71,7 @@ if (!isset($_SESSION["check"])) {
                       foreach ($block_result as $block_row) {
                         $block_list[] = $block_row["user_id"];
                       }
+                      echo '<br>';
                       if (in_array($user_id, $block_list)) {
                         echo $row2["name"], "<c style='color:red;'>※ブロック中!</c></th>";
                       } else {
