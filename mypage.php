@@ -25,6 +25,7 @@ require_once('db_connect.php');
 
       <?php
       echo '<br>';
+      echo 'あなたのIPアドレスは'.$_SERVER['REMOTE_ADDR'];
     if (!isset($_SESSION["loggedin"])) {
       echo "<h2>この機能を利用するにはログインしてください。</h2>";
       echo "<a href='login.php' class='btn btn-danger'>ログイン</a>";
@@ -54,7 +55,7 @@ require_once('db_connect.php');
             echo '<hr>コメント<br><font size="10">', $row["comment"], '</font><br>';
             echo '<hr>残金<br><font size="10">￥', number_format($row['money']), '</font>';
             echo '<hr>ポイント<br><font size="10">', number_format($row['point']), 'p</font>';
-            echo '<br><a href="notice.php"><img src="images/point.png"></a>';
+            //echo '<br><a href="notice.php"><img src="images/point.png"></a>';
             ?>
             <?php
             $sql = "SELECT * FROM followlist WHERE my_id =$id";

@@ -137,7 +137,7 @@ if (!isset($_SESSION["check"])) {
                   }
                 }
               } else {
-                echo "<h2>この機能を利用するにはログインしてください。</h2>";
+                echo "<br><h2>この機能を利用するにはログインしてください。</h2>";
                 echo "<a href='login.php' class='btn btn-danger'>ログイン</a>";
               }
               ?>

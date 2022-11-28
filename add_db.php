@@ -22,6 +22,7 @@ $point = 0;
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
+    <br>
       <?php
       if(isset($_SESSION["insert_text"])){
         echo $_SESSION["insert_text"];
@@ -30,6 +31,7 @@ $point = 0;
         echo "<h2>この機能を利用するにはログインしてください。</h2>";
         echo "<a href='login.php' class='btn btn-danger'>ログイン</a>";
       } else { ?>
+      <h2>登録</h2>
       <form method="POST" action="add_db.php" enctype="multipart/form-data">
         <ul>
           <li>

@@ -85,73 +85,77 @@ if (!cken($_POST)) {
           <h2>出品物一覧</h2>
           <div>
             <?php
-  //MySQLデータベースに接続する
-  
-  try {
-    $block = 0;
-    require_once('block_check.php');
-    if ($block_count != 0) {
-      $block_list = implode(",", $block_list);
-      $sql = "SELECT * FROM list WHERE money BETWEEN $money1 AND $money2  AND loan=0 and user_id not in ($block_list) ORDER BY money";
-    } else {
-      $sql = "SELECT * FROM list WHERE money BETWEEN $money1 AND $money2  AND loan=0 ORDER BY money";
-    }
-    $stm = $pdo->prepare($sql);
-    $stm->execute();
-    // 結果の取得（連想配列で受け取る）
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-    require_once('paging.php');
-    if (count($disp_data) > 0) {
-      echo "{$money1}以上{$money2}以下の商品";
-      // テーブルのタイトル行
-      echo '<table class="table table-striped">';
-      echo '<thead><tr>';
-      echo '<th>', '貸出者', '</th>';
-      echo '<th>', '貸出物', '</th>';
-      echo '<th>', 'ジャンル', '</th>';
-      echo '<th>', '金額', '</th>';
-      echo '<th>', '画像', '</th>';
-      if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-        if ($_SESSION["admin"] == 1) {
-          echo '<th>', '削除', '</th>';
-        }
-      }
-      echo '</tr></thead>';
-      echo '<tbody>';
-      foreach ($disp_data as $row) {
-        echo '<tr>';
-        $user_id = $row["user_id"];
-        $sql = "SELECT * FROM users WHERE id=$user_id";
-        $stm = $pdo->prepare($sql);
-        $stm->execute();
-        $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($result2 as $row2) {
-          echo '<td>', $row2["name"];
-        }
-        echo "<br><a target='_blank' href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a></td>";
-        echo '<td>',$row['item'], '</td>';
-        echo '<td>', $row['kind'], '</td>';
-        echo '<td>￥', number_format($row['money']), '</td>';
-        echo "<td><a target='_blank' href=detail.php?id={$row["id"]}>", '<img height="100" width="100" src="image.php?id=', $row['id'], '"></a></td>';
-        if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-          if ($_SESSION["admin"] == 1) {
-            $row['id'] = rawurlencode($row['id']);
-            echo "<td><a class = 'btn btn-primary' href=delete.php?id={$row["id"]}>", "消す", '</a></td>';
-          }
-        }
-        echo '</tr>';
-      }
-      echo '</tbody>';
-      echo '</table>';
-    } else {
-      echo "{$money1}以上{$money2}以下の商品は見つかりませんでした。";
-    }
-  } catch (Exception $e) {
-    echo '<span class="error">エラーがありました。</span><br>';
-    echo $e->getMessage();
-  }
-  require_once('paging2.php');
-  ?>
+            //MySQLデータベースに接続する
+            
+            try {
+              if (isset($_SESSION["loggedin"])) {
+                $block = 0;
+                require_once('block_check.php');
+                if ($block_count != 0) {
+                  $block_list = implode(",", $block_list);
+                  $sql = "SELECT * FROM list WHERE money BETWEEN $money1 AND $money2  AND loan=0 and user_id not in ($block_list) ORDER BY money";
+                } else {
+                  $sql = "SELECT * FROM list WHERE money BETWEEN $money1 AND $money2  AND loan=0 ORDER BY money";
+                }
+              } else {
+                $sql = "SELECT * FROM list WHERE money BETWEEN $money1 AND $money2  AND loan=0 ORDER BY money";
+              }
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              // 結果の取得（連想配列で受け取る）
+              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              require_once('paging.php');
+              if (count($disp_data) > 0) {
+                echo "{$money1}以上{$money2}以下の商品";
+                // テーブルのタイトル行
+                echo '<table class="table table-striped">';
+                echo '<thead><tr>';
+                echo '<th>', '貸出者', '</th>';
+                echo '<th>', '貸出物', '</th>';
+                echo '<th>', 'ジャンル', '</th>';
+                echo '<th>', '金額', '</th>';
+                echo '<th>', '画像', '</th>';
+                if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+                  if ($_SESSION["admin"] == 1) {
+                    echo '<th>', '削除', '</th>';
+                  }
+                }
+                echo '</tr></thead>';
+                echo '<tbody>';
+                foreach ($disp_data as $row) {
+                  echo '<tr>';
+                  $user_id = $row["user_id"];
+                  $sql = "SELECT * FROM users WHERE id=$user_id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result2 as $row2) {
+                    echo '<td>', $row2["name"];
+                  }
+                  echo "<br><a target='_blank' href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a></td>";
+                  echo '<td>', $row['item'], '</td>';
+                  echo '<td>', $row['kind'], '</td>';
+                  echo '<td>￥', number_format($row['money']), '</td>';
+                  echo "<td><a target='_blank' href=detail.php?id={$row["id"]}>", '<img height="100" width="100" src="image.php?id=', $row['id'], '"></a></td>';
+                  if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+                    if ($_SESSION["admin"] == 1) {
+                      $row['id'] = rawurlencode($row['id']);
+                      echo "<td><a class = 'btn btn-primary' href=delete.php?id={$row["id"]}>", "消す", '</a></td>';
+                    }
+                  }
+                  echo '</tr>';
+                }
+                echo '</tbody>';
+                echo '</table>';
+              } else {
+                echo "{$money1}以上{$money2}以下の商品は見つかりませんでした。";
+              }
+            } catch (Exception $e) {
+              echo '<span class="error">エラーがありました。</span><br>';
+              echo $e->getMessage();
+            }
+            require_once('paging2.php');
+            ?>
             <hr>
             <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
           </div>

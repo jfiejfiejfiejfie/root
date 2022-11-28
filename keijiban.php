@@ -134,17 +134,18 @@ if (!empty($_POST['btn_submit'])) {
       // SQL作成
       if(isset($_POST["message_id"])){
         $message_id=$_POST["message_id"];
-        $sql = "INSERT INTO message (view_name, message, post_date,message_id) VALUES ( :view_name, :message, :current_date,$message_id)";
+        $sql = "INSERT INTO message (view_name, message, post_date,message_id,IP) VALUES ( :view_name, :message, :current_date,$message_id,:IP)";
         $stmt = $pdo->prepare($sql);
         // $stmt->bindParam(':message_id', $_POST['message_id'], PDO::PARAM_STR);
       }else{
-        $sql = "INSERT INTO message (view_name, message, post_date) VALUES ( :view_name, :message, :current_date)";
+        $sql = "INSERT INTO message (view_name, message, post_date,IP) VALUES ( :view_name, :message, :current_date,:IP)";
         $stmt = $pdo->prepare($sql);
       }
       // 値をセット
       $stmt->bindParam(':view_name', $clean['view_name'], PDO::PARAM_STR);
       $stmt->bindParam(':message', $clean['message'], PDO::PARAM_STR);
       $stmt->bindParam(':current_date', $current_date, PDO::PARAM_STR);
+      $stmt->bindParam(':IP', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
 
       // SQLクエリの実行
       $res = $stmt->execute();
@@ -265,7 +266,7 @@ echo $count . '件'; ?>
         echo '<table class="table table-striped">';
         echo '<thead><tr>';
         echo '<th>No', $row["id"], ' ', $row["view_name"], ':';
-        echo $row["post_date"], '</th>';
+        echo $row["post_date"], '　　　　　<a class="btn btn-primary" href="report.php?id='.$row["id"].'">通報</a></th>';
         echo '</tr>';
         echo '<tr>';
         echo '<td>', $row["message"], '</td>';
@@ -280,7 +281,7 @@ echo $count . '件'; ?>
         foreach ($result2 as $row2) {
         echo '<tr>';
         echo '<th>No', $row2["id"], ' ', $row2["view_name"], ':';
-        echo $row2["post_date"], '</th></tr><tr>';
+        echo $row2["post_date"], '　　　　　<a class="btn btn-primary" href="report.php?id='.$row2["id"].'">通報</a></th></tr><tr>';
         echo '<td>', $row2['message'], '</td>';
         echo '</tr>';
         }
