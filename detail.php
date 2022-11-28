@@ -19,6 +19,7 @@ if (isset($_SESSION["id"])) {
     foreach ($result as $row) {
     }
     $money = $row["money"];
+    $point = $row["point"];
   } catch (Exception $e) {
     echo 'エラーがありました。';
     echo $e->getMessage();
@@ -276,6 +277,7 @@ if (isset($_SESSION["id"])) {
                     echo "<a href='detail.php?id={$row["id"]}&reservation=1' class='btn btn-danger'>予約中</a>";
                   } else if ($checked == 1) {
                     echo "<a href='buy.php?id={$row["id"]}&money={$row["money"]}&user_id={$row["user_id"]}' class='btn btn-danger'>購入する</a>";
+                    echo "<a href='buyp.php?id={$row["id"]}&money={$row["money"]}&user_id={$row["user_id"]}' class='btn btn-danger'>ポイントで購入する</a>";
                   }
                 } else {
                   echo "<div style='color:red;'>※この商品は売り切れのため、チャットをすることはできません。</div><br>";
