@@ -81,8 +81,13 @@
     border-radius: 50%;
 }
 #user_chat th{
-    width:400px;
+    width:250px;
 }
 #user_chat td{
-    width:600px;
+    width:750px;
+    font-size: 20px;
+}
+#button{
+    padding-left: 500px;
+
 }
