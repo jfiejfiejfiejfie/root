@@ -93,6 +93,7 @@ if (isset($_SESSION["id"])) {
       <!--メイン-->
       <div id="main">
         <section id="point">
+          <br>
           <h2>出品物詳細</h2>
           <div>
             <?php

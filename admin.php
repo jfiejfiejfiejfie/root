@@ -69,6 +69,22 @@ if ($row["admin"] == 0) {
             foreach ($data as $line) {
                 echo 'IPアドレス->'.$line . '<a href="report.php?IP=' . $line . '">永久追放する</a><br>';
             }
+            // echo '<h1>ユーザを永久追放する</h1>';
+            $filename = "user_report.txt";
+            $data = array();
+            if (is_readable($filename) === TRUE) {
+                if (($fp = fopen($filename, 'r')) !== FALSE) {
+                    while (($tmp = fgets($fp)) !== FALSE) {
+                        $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
+                    }
+                    fclose($fp);
+                }
+            } else {
+                $data[] = 'ファイルがありません';
+            }
+            foreach ($data as $line) {
+                echo 'ユーザーID->'.$line . '<a href="deleteacount.php?id=' . $line . '">永久追放する</a><br>';
+            }
             echo '<h1>IP追放編集</h1>';
             $filename = ".htaccess";
             $data = array();

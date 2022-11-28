@@ -37,8 +37,8 @@ $gobackURL = 'index.php';
                     if(isset($_GET["line"])){
                         echo $_GET["line"].'行目を削除しました。';
                     }
-                    if(isset($_GET["id"])){
-                        echo '通報しました・';
+                    if(isset($_GET["id"]) || isset($_GET["user_id"])){
+                        echo '通報しました。';
                     }
                     if(isset($_GET["IP"])){
                         $IP=$_GET["IP"];
@@ -56,6 +56,12 @@ $gobackURL = 'index.php';
                             $text = $row["IP"] . "\n";
                         }
                         $a = fopen("report.txt", "a");
+                        @fwrite($a, $text);
+                        fclose($a);
+                    }
+                    if (isset($_GET["user_id"])) {
+                        $text=$_GET["user_id"]."\n";
+                        $a = fopen("user_report.txt", "a");
                         @fwrite($a, $text);
                         fclose($a);
                     }

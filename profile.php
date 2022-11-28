@@ -97,7 +97,7 @@ $option = "&id=$id";
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
-      <h2>プロフィール</h2>
+      <br><h2>プロフィール</h2>
       <img id="image" height="150" width="150" src="my_image.php?id=<?php echo htmlspecialchars($id); ?>"><br>
       <?php
       if ($row["admin"] == 0) {
@@ -196,6 +196,7 @@ $option = "&id=$id";
       ?>
       <form action="block.php" method="POST" enctype="multipart/form-data">
         <?php
+        echo '<br>';
         if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
           if ($_SESSION['name'] !== $name) {
             if ($block_count == 0) {
@@ -227,6 +228,7 @@ $option = "&id=$id";
           echo "<a href='block.php?id=$id' class='btn btn-primary'>ブロックを解除する</a>";
         }
       }
+      echo '　　　　　<a class="btn btn-primary" href="report.php?user_id='.$row["id"].'">通報</a></th>';
         ?>
       </form>
     </div>
