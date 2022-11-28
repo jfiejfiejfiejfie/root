@@ -20,7 +20,7 @@ require_once "db_connect.php";
 	<div id="wrapper">
 		<!--メイン-->
 		<div id="main">
-			<h1>最近投稿されfeたもの</h1>
+			<h1>最近投稿されたもの</h1>
 			<table>
 				<?php
             echo '<tr>';
