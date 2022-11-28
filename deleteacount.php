@@ -5,6 +5,8 @@ $gobackURL = 'admin.php';
 require_once "db_connect.php";
 if(isset($_POST["id"])){
   $id=$_POST["id"];
+}else if(isset($_GET["id"])){
+  $id = $_GET["id"];
 }else{
   $id = $_SESSION["id"];
 }
