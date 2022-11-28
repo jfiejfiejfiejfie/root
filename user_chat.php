@@ -168,14 +168,7 @@ foreach ($result as $row) {
                     echo "<td>";
                     //整形したい文字列
                     $text = $row["text"];
-                    //文字数の上限
-                    $limit = 120;
-                    if (mb_strlen($text) > $limit) {
-                      $title = mb_substr($text, 0, $limit);
-                      echo $title . '･･･';
-                    } else {
-                      echo $text;
-                    }
+                    echo $text;
                     if ($row["image"] != "") {
                       echo '<br>画像が添付されています。';
                     }
@@ -193,14 +186,7 @@ foreach ($result as $row) {
                     echo '<img "height="150" width="150" src="user_chat_image.php?id='.$row["id"].'"><br>';
                   }
                   $text = $row["text"];
-                  //文字数の上限
-                  $limit = 120;
-                  if (mb_strlen($text) > $limit) {
-                    $title = mb_substr($text, 0, $limit);
-                    echo $title . '･･･';
-                  } else {
-                    echo $text;
-                  }
+                  echo $text;
                   echo '<br>', $row["created_at"];
                   echo '</td>';
                   echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
