@@ -29,8 +29,8 @@ if(isset($_GET["id"])){
   // 簡単なエラー処理
   $errors = [];
   $memo = "購入"; 
-  if ($point < $_GET["point"]) {
-    $errors[] = "お金が足りません";
+  if ($point < $_GET["money"]) {
+    $errors[] = "ポイントが足りません";
   }
   if($checked==0){
     $errors[] = 'メール認証が完了していないため購入できません';
