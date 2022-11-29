@@ -4,6 +4,7 @@ require_once('../lib/util.php');
 require_once "db_connect.php";
 date_default_timezone_set('Asia/Tokyo');
 $list_id=$_POST["list_id"];
+$myURL='chat.php';
 $gobackURL ="loan.php?id={$list_id}";
 $id=$_SESSION["id"];
 $text=$_POST["text"];

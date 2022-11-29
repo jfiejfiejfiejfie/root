@@ -1,5 +1,6 @@
 <?php
 session_start();
+$myURL='edit.php';
 $gobackURL = 'mypage.php';
 require_once "db_connect.php";
 ?>

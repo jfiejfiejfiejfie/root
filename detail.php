@@ -2,6 +2,7 @@
 session_start();
 require_once('../lib/util.php');
 require_once "db_connect.php";
+$myURL='detail.php';
 $gobackURL = 'index.php';
 $id = $_GET["id"];
 $list_id = $_GET["id"];

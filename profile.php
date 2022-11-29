@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "db_connect.php";
+$myURL='profile.php';
 $id = $_GET["id"];
 define('MAX', '6');
 if (isset($_SESSION["loggedin"])) {

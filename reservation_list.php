@@ -1,5 +1,6 @@
 <?php
 session_start();
+$myURL='reservation_list.php';
 require_once "db_connect.php";
 ?>
 <!DOCTYPE html>

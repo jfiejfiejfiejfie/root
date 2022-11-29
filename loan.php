@@ -1,5 +1,6 @@
 <?php
 session_start();
+$myURL='loan.php';
 require_once('../lib/util.php');
 require_once "db_connect.php";
 define('MAX', '5');

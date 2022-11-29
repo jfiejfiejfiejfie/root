@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../lib/util.php');
+$myURL='search_user.php';
 require_once "db_connect.php";
 $gobackURL = "user_chat_list.php";
 

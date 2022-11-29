@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../lib/util.php');
+$myURL='shop_form_check.php';
 $gobackURL = 'index.php';
 require_once "db_connect.php";
 ?>

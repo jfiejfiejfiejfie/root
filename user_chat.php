@@ -2,6 +2,7 @@
 session_start();
 require_once('../lib/util.php');
 require_once "db_connect.php";
+$myURL='user_chat.php';
 define('MAX', '10');
 $id = $_GET["id"];
 $myURL = 'user_chat.php';

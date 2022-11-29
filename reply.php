@@ -1,7 +1,7 @@
 <?php
 session_start();
 $gobackURL = 'index.php';
-$myURL = 'keijiban.php';
+$myURL = 'reply.php';
 $option = '';
 require_once "db_connect.php";
 ?>

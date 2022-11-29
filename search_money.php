@@ -2,6 +2,7 @@
 session_start();
 require_once('../lib/util.php');
 require_once "db_connect.php";
+$myURL='search_money.php';
 $gobackURL = "search_sp.php";
 define('MAX', '5');
 // 文字エンコードの検証

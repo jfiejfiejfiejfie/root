@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../lib/util.php');
+$myURL='search_kind.php';
 $gobackURL = "search_sp.php";
 require_once "db_connect.php";
 define('MAX', '5');

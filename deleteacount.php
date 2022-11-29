@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../lib/util.php');
+$myURL='deleteacount.php';
 $gobackURL = 'admin.php';
 require_once "db_connect.php";
 if(isset($_POST["id"])){

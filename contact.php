@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "db_connect.php";
+$myURL='contact.php';
 ?>
 <?php 
 //エスケープ処理やデータチェックを行う関数のファイルの読み込み

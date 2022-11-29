@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../lib/util.php');
+$myURL='user_search.php';
 $gobackURL = 'index.php';
 require_once "db_connect.php";
 ?>
