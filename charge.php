@@ -381,91 +381,22 @@ if (!isset($_SESSION["check"])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">出品商品</h1>
+                        <h1 class="h3 mb-0 text-gray-800">課金完了</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a>
+                                class="fas fa-download fa-sm text-white-50"></i> キャンセルはできません</a>
                     </div>
 
                     <div class="row">
-                        <?php
-                        $block = 0;
-                        require_once('block_check.php');
-                        try {
-                            $count = 0;
-                            if ($block_count != 0) {
-                                $block_list = implode(",", $block_list);
-                                $sql = "SELECT * FROM list WHERE user_id not in ($block_list) ORDER BY created_at desc";
-                            } else {
-                                $sql = "SELECT * FROM list ORDER BY created_at desc";
-                            }
-                            $stm = $pdo->prepare($sql);
-                            $stm->execute();
-                            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                            require_once("paging.php");
-                            // echo '<table>';
-                            // echo '<thead><tr>';
-                            // echo '</tr></thead>';
-                            // echo '<tbody>';
-                            // echo '<tr>';
-                            foreach ($disp_data as $row) {
-                                $count += 1;
-                                echo '<div class="col-xl-3 col-md-6 mb-4">';
-                                if($count%3==2){
-                                    echo '<div class="card border-left-success shadow h-100 py-2">';
-                                }else if($count%3==1){
-                                    echo '<div class="card border-left-primary shadow h-100 py-2">';
-                                }else{
-                                    echo '<div class="card border-left-danger shadow h-100 py-2">';
-                                }
-                                echo '<div class="card-body">';
-                                echo '<div class="row no-gutters align-items-center">';
-                                echo '<div class="container mt-3">';
-                                // echo '<td class="border border-dark">';
-                                echo '<div class="sample5"><a href=detail.php?', "id={$row["id"]}>";
-                                echo '<img id="parent" src="image.php?id=', $row["id"], ' alt="" height="232" width="232"/>';
-                                if ($row["loan"] == 1) {
-                                    echo '<img id="child" src="images/sold.png" height="232" width="232"/>';
-                                }
-                                echo '<div class="mask">';
-                                echo '<div class="caption">', $row["item"], '</div>';
-                                echo '<div class="bottom">  </div>';
-                                echo '<div class="price"><p class="rainbow">￥', number_format($row["money"]), '</p></div>';
-                                echo '</div></div></a></td></div>';
-                                echo '
-                            </div>
-                        </div>
-                    </div>
-                </div>';
-                            }
-                                while ($count % 8 != 0) {
-                                    $count+=1;
-                                    echo '<div class="col-xl-3 col-md-6 mb-4">';
-                                    if($count%3==2){
-                                        echo '<div class="card border-left-success shadow h-100 py-2">';
-                                    }else if($count%3==1){
-                                        echo '<div class="card border-left-primary shadow h-100 py-2">';
-                                    }else{
-                                        echo '<div class="card border-left-danger shadow h-100 py-2">';
-                                    }
-                                    echo '<div class="card-body">';
-                                    echo '<div class="row no-gutters align-items-center">';
-                                    echo "  ";
-                                    echo '
-                            </div>
-                        </div>
-                    </div>
-                </div>';
-                                }
-                            // echo "</tr>";
-                            // echo '</tbody>';
-                            // echo '</table>';
-                        } catch (Exception $e) {
-                            echo 'エラーがありました。';
-                            echo $e->getMessage();
-                            exit();
-                        }
-                        require_once('paging2.php');
-                        ?>
+                        Billing has been completed. Cancellation is not possible.
+                        <br>
+                        การเรียกเก็บเงินเสร็จสมบูรณ์แล้ว ไม่สามารถยกเลิกได้
+                        <br>
+                        Виставлення рахунків завершено. Скасування бронювання неможливе.
+                        <br>
+                        計費已完成。 取消係不可能嘅。
+                        <br>
+                        결제가 완료되었습니다. 취소는 불가능합니다.
+
                     </div>
 
                 </div>
