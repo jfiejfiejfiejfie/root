@@ -164,7 +164,7 @@ if (!isset($_SESSION["check"])) {
 
             <!-- Sidebar Message -->
             <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
+                <img class="sidebar-card-illustration mb-2" src="images/human.png" alt="...">
                 <p class="text-center mb-2"><strong>課金</strong>しろks</p>
                 <a class="btn btn-success btn-sm" href="charge.php">いますぐ課金だ!</a>
             </div>

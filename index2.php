@@ -345,8 +345,18 @@ if (!isset($_SESSION["check"])) {
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <?php
+                                    $main_id=$_SESSION["id"];
+                                    $sql = "SELECT * FROM users WHERE id=$main_id";
+                                    $stm = $pdo->prepare($sql);
+                                    $stm->execute();
+                                    $my_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($my_result as $my_row) {
+                                        echo $my_row['name'];
+                                    }
+                                ?>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                <img class="img-profile rounded-circle" src="<?php echo 'my_image.php?id='.$main_id;?>">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
