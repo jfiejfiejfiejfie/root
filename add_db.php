@@ -71,7 +71,7 @@ $point = 0;
           </li>
           <li>
             <label>金額　　:
-              <input type="number_format" name="money" placeholder="金額">
+              <input type="number_format" name="money" placeholder="100円～1000万円まで">
             </label>
           </li>
           <li>画像選択:
