@@ -14,7 +14,8 @@
             echo '<li><a href="notice.php"><img src="images/kanban.gif"></a></li>';
           } else {
             echo '<li><a href="notice.php"><img src="images/kanban.png"></a></li>';
-          } ?>
+          }
+           ?>
       <li><a href="keijiban.php"><img src="images/keijiban.png" style="width:90%;"></a></li>
       <li><a href="map.php"><img src="images/map.jpg" style="width:90%;"></a></li>
       <li><a href="../phpmyadmin" target="_blank"><img src="images/banner01.jpg" alt="ブルームブログ"></a></li>

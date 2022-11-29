@@ -89,7 +89,6 @@ if(isset($_GET["id"])){
           }
           try {
             $money = $money - $_GET["money"];
-
             $sql = "UPDATE users SET money=$money WHERE id=$data";
             $stm = $pdo->prepare($sql);
             $stm->execute();

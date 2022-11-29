@@ -1,5 +1,5 @@
 <?php
-echo '全件数' . $books_num . '件' . '　';
+echo '<div>全件数' . $books_num . '件' . '　';
 if ($books_num != 0) {
     if ($now > 1) { // リンクをつけるかの判定
         echo '<a href=' . $myURL . '?page_id=' . ($now - 1) . $option . '>前へ</a>' . '　';
@@ -21,4 +21,5 @@ if ($books_num != 0) {
         echo '次へ';
     }
 }
+echo '</div>';
 ?>
