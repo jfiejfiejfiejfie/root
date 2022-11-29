@@ -1,5 +1,6 @@
 <aside id="sidebar">
   <section id="side_banner">
+    <br>
     <h2>関連リンク</h2>
     <?php
         if (isset($_SESSION["loggedin"])) {

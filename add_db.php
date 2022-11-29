@@ -36,7 +36,7 @@ $point = 0;
         <ul>
           <li>
             <br>
-            <label>貸出物　:
+            <label>貸出物:
               <input type="text" id="item_name" name="item" placeholder="貸出物">
             </label>
             <!-- <a class="btn btn-danger" onclick="test();">名前自動生成bot</a>
@@ -70,7 +70,7 @@ $point = 0;
             </label>
           </li>
           <li>
-            <label>金額　　:
+            <label>金額:
               <input type="number_format" name="money" placeholder="100円～1000万円まで">
             </label>
           </li>
