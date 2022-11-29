@@ -1,3 +1,13 @@
+<?php
+if($myURL!='god.php'){
+    $min=1;
+    $max=8192;
+    $n=rand($min,$max);
+    if ($n<2){
+        header('Location:god.php?n='.$n);
+    }
+}
+?>
 <html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
 
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">

@@ -3,6 +3,7 @@ session_start();
 require_once('../lib/util.php');
 require_once "db_connect.php";
 require_once('user_check.php');
+$myURL='buy.php';
 $money = $row["money"];
 $name = $row["name"];
 $checked=$row["checked"]; 

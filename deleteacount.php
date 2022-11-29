@@ -29,6 +29,23 @@ try {
 }
 try {
 
+  $sql = "DELETE FROM list WHERE user_id = :id";
+  $stm = $pdo->prepare($sql);
+  $stm->bindValue(':id', $id, PDO::PARAM_STR);
+  if ($stm->execute()) {
+    // $stm = $pdo->prepare($sql);
+    // $stm->execute();
+    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+  } else {
+    echo "ツイカエラーガアリマシタ。";
+  }
+} catch (Exception $e) {
+  echo 'エラーがありました。2';
+  echo $e->getMessage();
+  exit();
+}
+try {
+
   $sql = "DELETE FROM users WHERE id = $id";
   $stm = $pdo->prepare($sql);
   if ($stm->execute()) {

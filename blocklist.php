@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "db_connect.php";
+$myURL='blocklist.php';
 ?>
 <!DOCTYPE html>
 <?php require_once("head.php") ?>
