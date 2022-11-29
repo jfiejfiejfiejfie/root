@@ -36,8 +36,8 @@ $point = 0;
         <ul>
           <li>
             <br>
-            <label>貸出物:
-              <input type="text" id="item_name" name="item" placeholder="貸出物">
+            <label>貸出物　:
+              <input type="text" id="item_name" name="item" placeholder="必須(30文字まで)">
             </label>
             <!-- <a class="btn btn-danger" onclick="test();">名前自動生成bot</a>
                     <button onclick="test()">名前自動生成bot</button> -->
@@ -65,13 +65,19 @@ $point = 0;
             </label>
           </li>
           <li>
-            <label>コメント:
-              <textarea id="message" name="comment" placeholder="コメント"></textarea>
+            <label>コメント(任意):
+              <script>
+                function countLength( text, field ) {
+                  document.getElementById(field).innerHTML = text.length + "文字/1000文字";
+                }
+                </script>
+              <textarea id="message" name="comment" placeholder="色、素材、重さ、定価、注意点など"onKeyUp="countLength(value, 'textlength2');"></textarea>
+              <p id="textlength2">0文字/1000文字</p>
             </label>
           </li>
           <li>
-            <label>金額:
-              <input type="number_format" name="money" placeholder="100円～1000万円まで">
+            <label>金額　　:
+              <input type="number_format" name="money" placeholder="￥100～10,000,000">
             </label>
           </li>
           <li>画像選択:
