@@ -2,7 +2,7 @@
 session_start();
 require_once('../lib/util.php');
 require_once "db_connect.php";
-$myURL='detail.php';
+$myURL = 'detail.php';
 $gobackURL = 'index.php';
 $id = $_GET["id"];
 $list_id = $_GET["id"];
@@ -218,13 +218,13 @@ if (isset($_SESSION["id"])) {
             }
             ?>
             <?php
-            $chat_count=0;
+            $chat_count = 0;
             $sql = "SELECT * FROM chat WHERE list_id=$list_id";
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $chat_result = $stm->fetchAll(PDO::FETCH_ASSOC);
             foreach ($chat_result as $chat_row) {
-              if($chat_count==0){
+              if ($chat_count == 0) {
                 echo '<h1>チャット</h1>';
               }
               echo '<table class="table table-striped">';
@@ -250,7 +250,7 @@ if (isset($_SESSION["id"])) {
               echo '</tr>';
               echo '</thead>';
               echo '</table>';
-              $chat_count+=1;
+              $chat_count += 1;
             }
             ?>
             <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
@@ -275,15 +275,33 @@ if (isset($_SESSION["id"])) {
                   $stm->execute();
                   $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
                   foreach ($result3 as $row3) {
-                    $checked = $row3["checked"];
+                    $checked = $row3["auth"];
+                  }
+                  $sql = "SELECT * FROM reservation_list WHERE list_id=" . $row["id"];
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result3 as $row3) {
+                    if($row3["user_id"]!=$id && $row3["auth"]==1){
+                      $checked=2;
+                    }
                   }
                   if ($checked == 100) {
                     echo "<a href='detail.php?id={$row["id"]}&reservation=1' class='btn btn-danger'>予約する</a>";
                   } else if ($checked == 0) {
                     echo "<a href='detail.php?id={$row["id"]}&reservation=1' class='btn btn-danger'>予約中</a>";
                   } else if ($checked == 1) {
+                    $sql = "SELECT * FROM users WHERE id=$id";
+                    $stm = $pdo->prepare($sql);
+                    $stm->execute();
+                    $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result3 as $row3) {
+                      echo '￥' . $row3["money"] . '<br>' . $row3["point"] . 'ポイント<br>';
+                    }
                     echo "<a href='buy.php?id={$row["id"]}&money={$row["money"]}&user_id={$row["user_id"]}' class='btn btn-danger'>購入する</a>";
                     echo "<a href='buyp.php?id={$row["id"]}&money={$row["money"]}&user_id={$row["user_id"]}' class='btn btn-danger'>ポイントで購入する</a>";
+                  } else if ($checked == 2) {
+                    echo "<a class='btn btn-danger'>予約は終了しました。</a>";
                   }
                 } else {
                   echo "<div style='color:red;'>※この商品は売り切れのため、チャットをすることはできません。</div><br>";

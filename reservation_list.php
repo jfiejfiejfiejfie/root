@@ -40,7 +40,7 @@ require_once "db_connect.php";
               if ($list_count > 0) {
                   $reservation_list = [];
                   $list_list = implode(",", $list_list);
-                  $sql = "SELECT * FROM reservation_list WHERE  list_id IN ($list_list) and checked=0";
+                  $sql = "SELECT * FROM reservation_list WHERE  list_id IN ($list_list) and auth=0";
                   $stm = $pdo->prepare($sql);
                   $stm->execute();
                   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
