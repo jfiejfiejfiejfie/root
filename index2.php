@@ -243,7 +243,10 @@ if (!isset($_SESSION["check"])) {
                                 <h6 class="dropdown-header">
                                     通知だよ
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                <?php
+                                    
+                                ?>
+                                <a class="dropdown-item d-flex align-items-center" href="followerlist.php">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-primary">
                                             <i class="fas fa-file-alt text-white"></i>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-$myURL='followerlist.php';
+$myURL = 'followerlist.php';
 require_once "db_connect.php";
 ?>
 <!DOCTYPE html>
@@ -24,14 +24,14 @@ require_once "db_connect.php";
 
       <h2>フォロワーリスト</h2>
       <?php
-        if(isset($_GET["id"])){
-          $id=$_GET["id"];
-        }else{
+        if (isset($_GET["id"])) {
+          $id = $_GET["id"];
+        } else {
           $id = $_SESSION["id"];
         }
         try {
 
-          $sql = "SELECT * FROM followlist WHERE user_id=:id";
+          $sql = "SELECT * FROM followlist WHERE user_id=:id ORDER BY id DESC";
           $stm = $pdo->prepare($sql);
           $stm->bindValue(':id', $id, PDO::PARAM_STR);
           $stm->execute();
@@ -45,8 +45,16 @@ require_once "db_connect.php";
             $stm->execute();
             $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
             foreach ($result2 as $row2) {
-                echo $row2["name"], "</td>";
+              echo $row2["name"];
+              if ($row["checked"] == 0) {
+                echo "<div style='color:red;'>New</div>";
+                if (!isset($_GET["id"])) {
+                  $sql = "UPDATE followlist SET checked=1 WHERE user_id=$id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                }
               }
+            }
             echo "<hr>";
             echo '</tr>';
           }
@@ -65,8 +73,8 @@ require_once "db_connect.php";
     <!--サイド-->
 
     <?php
-      require_once('side.php');
-      ?>
+    require_once('side.php');
+    ?>
 
 
     <!--/サイド-->
