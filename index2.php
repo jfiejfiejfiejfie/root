@@ -1,7 +1,8 @@
 <?php
 session_start();
 require_once('../lib/util.php');
-if("location:login.php");
+if ("location:login.php")
+    ;
 $myURL = 'index2.php';
 $option = '';
 $gobackURL = 'index2.php';
@@ -52,7 +53,7 @@ if (!isset($_SESSION["check"])) {
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i><img height='65px'src='images/human.png'></i>
+                    <i><img height='65px' src='images/human.png'></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">WACCA <sup>2</sup></div>
             </a>
@@ -293,7 +294,56 @@ if (!isset($_SESSION["check"])) {
                                 <h6 class="dropdown-header">
                                     メッセージが来てますよ
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                <?php
+                                $chat_count=0;
+                                $user_id_list = [];
+                                $id = $_SESSION["id"];
+                                $sql = "SELECT * FROM user_chat WHERE others_id=$id or user_id=$id ORDER BY created_at DESC";
+                                $stm = $pdo->prepare($sql);
+                                $stm->execute();
+                                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($result as $row) {
+                                    if (($row["others_id"] == $id) && ($chat_count < 3)) {
+                                        if (!in_array($row["user_id"], $user_id_list)) {
+                                            $chat_count+=1;
+                                            echo '<a class="dropdown-item d-flex align-items-center" href="user_chat.php?id=' . $row["user_id"] . '">';
+                                            echo '<div class="dropdown-list-image mr-3">';
+                                            echo '<img class="rounded-circle" src="my_image.php?id='.$row["user_id"].'" alt="...">';
+                                            echo '<div class="status-indicator bg-success"></div>';
+                                            echo '</div>';
+                                            echo '<div class="font-weight-bold">';
+                                            echo '<div class="text-truncate">';
+                                            $user_id_list[] = $row["user_id"];
+                                            $user_id = $row["user_id"];
+                                            $sql = "SELECT * FROM users WHERE id=$user_id";
+                                            $stm = $pdo->prepare($sql);
+                                            $stm->execute();
+                                            $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                            foreach ($result2 as $row2) {
+                                                //整形したい文字列
+                                                $text = $row["text"];
+                                                //文字数の上限
+                                                $limit = 120;
+                                                if (mb_strlen($text) > $limit) {
+                                                    $title = mb_substr($text, 0, $limit);
+                                                    echo $title . '･･･';
+                                                } else {
+                                                    echo $text;
+                                                }
+                                                if ($row["image"] != "") {
+                                                    echo '<br>画像が添付されています。';
+                                                }
+                                                echo '</div>';
+                                                echo '<div class="small text-gray-500">';
+                                                echo $row2["name"].' '.$row["created_at"].'</div>';
+                                                echo '</div>';
+                                                echo '</a>';
+                                            }
+                                        }
+                                    }
+                                }
+                                ?>
+                                <!-- <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
                                         <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
                                         <div class="status-indicator bg-success"></div>
@@ -302,41 +352,9 @@ if (!isset($_SESSION["check"])) {
                                         <div class="text-truncate">ちょっとお願いがあるんだな～</div>
                                         <div class="small text-gray-500">Yuna's Guard Wakka · 58m</div>
                                     </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="user_chat_list.php">Read More Messages</a>
+                                </a> -->
+                                <a class="dropdown-item text-center small text-gray-500" href="user_chat_list.php">Read
+                                    More Messages</a>
                             </div>
                         </li>
 
@@ -347,17 +365,18 @@ if (!isset($_SESSION["check"])) {
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <?php
-                                    $main_id=$_SESSION["id"];
-                                    $sql = "SELECT * FROM users WHERE id=$main_id";
-                                    $stm = $pdo->prepare($sql);
-                                    $stm->execute();
-                                    $my_result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach ($my_result as $my_row) {
-                                        echo $my_row['name'];
-                                    }
+                                $main_id = $_SESSION["id"];
+                                $sql = "SELECT * FROM users WHERE id=$main_id";
+                                $stm = $pdo->prepare($sql);
+                                $stm->execute();
+                                $my_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($my_result as $my_row) {
+                                    echo $my_row['name'];
+                                }
                                 ?>
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
-                                <img class="img-profile rounded-circle" src="<?php echo 'my_image.php?id='.$main_id;?>">
+                                <img class="img-profile rounded-circle"
+                                    src="<?php echo 'my_image.php?id=' . $main_id; ?>">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -375,7 +394,8 @@ if (!isset($_SESSION["check"])) {
                                     閲覧履歴
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="logout.php" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="logout.php" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     ログアウト
                                 </a>
@@ -421,11 +441,11 @@ if (!isset($_SESSION["check"])) {
                             foreach ($disp_data as $row) {
                                 $count += 1;
                                 echo '<div class="col-xl-3 col-md-6 mb-4">';
-                                if($count%3==2){
+                                if ($count % 3 == 2) {
                                     echo '<div class="card border-left-success shadow h-100 py-2">';
-                                }else if($count%3==1){
+                                } else if ($count % 3 == 1) {
                                     echo '<div class="card border-left-primary shadow h-100 py-2">';
-                                }else{
+                                } else {
                                     echo '<div class="card border-left-danger shadow h-100 py-2">';
                                 }
                                 echo '<div class="card-body">';
@@ -448,25 +468,25 @@ if (!isset($_SESSION["check"])) {
                     </div>
                 </div>';
                             }
-                                while ($count % 8 != 0) {
-                                    $count+=1;
-                                    echo '<div class="col-xl-3 col-md-6 mb-4">';
-                                    if($count%3==2){
-                                        echo '<div class="card border-left-success shadow h-100 py-2">';
-                                    }else if($count%3==1){
-                                        echo '<div class="card border-left-primary shadow h-100 py-2">';
-                                    }else{
-                                        echo '<div class="card border-left-danger shadow h-100 py-2">';
-                                    }
-                                    echo '<div class="card-body">';
-                                    echo '<div class="row no-gutters align-items-center">';
-                                    echo "  ";
-                                    echo '
+                            while ($count % 8 != 0) {
+                                $count += 1;
+                                echo '<div class="col-xl-3 col-md-6 mb-4">';
+                                if ($count % 3 == 2) {
+                                    echo '<div class="card border-left-success shadow h-100 py-2">';
+                                } else if ($count % 3 == 1) {
+                                    echo '<div class="card border-left-primary shadow h-100 py-2">';
+                                } else {
+                                    echo '<div class="card border-left-danger shadow h-100 py-2">';
+                                }
+                                echo '<div class="card-body">';
+                                echo '<div class="row no-gutters align-items-center">';
+                                echo "  ";
+                                echo '
                             </div>
                         </div>
                     </div>
                 </div>';
-                                }
+                            }
                             // echo "</tr>";
                             // echo '</tbody>';
                             // echo '</table>';

@@ -17,14 +17,16 @@ $point = 0;
 
   <!--ヘッダー-->
   <?php require_once("header.php"); ?>
-  <?php if(isset($_POST["kind"])){require_once('insert.php');}?>
+  <?php if (isset($_POST["kind"])) {
+    require_once('insert.php');
+  } ?>
 
   <div id="wrapper">
     <!--メイン-->
     <div id="main">
-    <br>
+      <br>
       <?php
-      if(isset($_SESSION["insert_text"])){
+      if (isset($_SESSION["insert_text"])) {
         echo $_SESSION["insert_text"];
       }
       if (!isset($_SESSION["loggedin"])) {
@@ -60,7 +62,7 @@ $point = 0;
         foreach ($kind as $row) {
           echo '<option value="', $row["id"], '">', $row["name"], "</option>";
         }
-                          ?>
+                ?>
               </select>
             </label>
           </li>
@@ -82,18 +84,19 @@ $point = 0;
         foreach ($state as $row) {
           echo '<option value="', $row["id"], '">', $row["name"], "</option>";
         }
-                          ?>
+                ?>
               </select>
             </label>
           </li>
           <li>
             <label>コメント(任意):
               <script>
-                function countLength( text, field ) {
+                function countLength(text, field) {
                   document.getElementById(field).innerHTML = text.length + "文字/1000文字";
                 }
-                </script>
-              <textarea id="message" name="comment" placeholder="色、素材、重さ、定価、注意点など"onKeyUp="countLength(value, 'textlength2');"></textarea>
+              </script>
+              <textarea id="message" name="comment" placeholder="色、素材、重さ、定価、注意点など"
+                onKeyUp="countLength(value, 'textlength2');"></textarea>
               <p id="textlength2">0文字/1000文字</p>
             </label>
           </li>
@@ -139,11 +142,11 @@ $point = 0;
     <!--サイド-->
 
     <?php
-      require_once('side.php');
-      ?>
+    require_once('side.php');
+    ?>
 
 
-<!--/サイド-->
+    <!--/サイド-->
   </div>
   <!--/wrapper-->
 
