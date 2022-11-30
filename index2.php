@@ -322,6 +322,7 @@ if (!isset($_SESSION["check"])) {
                                             foreach ($result2 as $row2) {
                                                 //整形したい文字列
                                                 $text = $row["text"];
+                                                $text =strip_tags($text);
                                                 //文字数の上限
                                                 $limit = 120;
                                                 if (mb_strlen($text) > $limit) {

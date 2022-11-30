@@ -91,7 +91,7 @@ $point = 0;
           <li>
             <label>コメント(任意):
               <script>
-                function countLength(text, field) {
+                function countLengt(text, fiel) {
                   document.getElementById(field).innerHTML = text.length + "文字/1000文字";
                 }
               </script>
