@@ -40,6 +40,20 @@
     echo $e->getMessage();
     exit();
   }
+  $state_id = $_POST["state"];
+  try {
+    $sql = "SELECT * FROM state WHERE id=$state_id";
+    $stm = $pdo->prepare($sql);
+    $stm->execute();
+    $state = $stm->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($state as $row) {
+      $state_name = $row["name"];
+    }
+  } catch (Exception $e) {
+    echo 'エラーがありました。';
+    echo $e->getMessage();
+    exit();
+  }
   ?>
   <?php
     $id = $_SESSION["id"];
@@ -59,7 +73,7 @@
     try {
 
 
-      $sql = "INSERT INTO list (created_at,user_id,item,comment,money,kind,image) VALUES(:created_at,:id,:item,:comment,:money,:kind,:imgdat)";
+      $sql = "INSERT INTO list (created_at,user_id,item,comment,money,kind,image,state) VALUES(:created_at,:id,:item,:comment,:money,:kind,:imgdat,:state)";
       $stm = $pdo->prepare($sql);
       $stm->bindValue(':created_at', $created_at, PDO::PARAM_STR);
       $stm->bindValue(':id', $id, PDO::PARAM_STR);
@@ -68,6 +82,7 @@
       $stm->bindValue(':money', $money, PDO::PARAM_STR);
       $stm->bindValue(':kind', $kind_name, PDO::PARAM_STR);
       $stm->bindValue(':imgdat', $imgdat, PDO::PARAM_STR);
+      $stm->bindValue(':state', $state_name, PDO::PARAM_STR);
       if ($stm->execute()) {
         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
         $sql = 'SELECT * FROM list WHERE created_at = :created_at';

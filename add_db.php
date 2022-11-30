@@ -65,6 +65,28 @@ $point = 0;
             </label>
           </li>
           <li>
+            <label>商品の状態:
+              <select name="state">
+                <?php
+        try {
+
+          $sql = "SELECT * FROM state";
+          $stm = $pdo->prepare($sql);
+          $stm->execute();
+          $state = $stm->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+          echo 'エラーがありました。';
+          echo $e->getMessage();
+          exit();
+        }
+        foreach ($state as $row) {
+          echo '<option value="', $row["id"], '">', $row["name"], "</option>";
+        }
+                          ?>
+              </select>
+            </label>
+          </li>
+          <li>
             <label>コメント(任意):
               <script>
                 function countLength( text, field ) {

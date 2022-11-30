@@ -169,6 +169,10 @@ if (isset($_SESSION["id"])) {
                 echo '<td><a href="search_kind.php?kind_name=', $row["kind"], '">', ($row['kind']), '</a></td>';
                 echo '</tr>';
                 echo '<tr>';
+                echo '<th>商品の状態</th>';
+                echo '<td>', $row["state"], '</td>';
+                echo '</tr>';
+                echo '<tr>';
                 echo '<th>金額</th>';
                 echo '<td>￥', number_format($row['money']), '</td>';
                 echo '</tr>';
