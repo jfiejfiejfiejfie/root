@@ -194,7 +194,10 @@ foreach ($result as $row) {
                 }
                 $text = $row["text"];
                 echo $text;
-                echo '<br>', $row["created_at"];
+                echo '<br><br><div style="padding-left: 500px;">', $row["created_at"];
+                if($row["checked"]==1){
+                  echo ' 既読</div> ';
+                }
                 echo '</td>';
                 echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
                 $user_id = $row["user_id"];

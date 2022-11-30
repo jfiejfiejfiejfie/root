@@ -1,93 +1,162 @@
-.rainbow{
-    font-weight:600;
-    animation:rainbow 3s infinite;
-    -webkit-animation:rainbow 0.5s infinite;
+.rainbow {
+    font-weight: 600;
+    animation: rainbow 3s infinite;
+    -webkit-animation: rainbow 0.5s infinite;
 }
-@keyframes rainbow{
-    12%{color:#ff5353;}
-    24%{color:#ffcf53;}
-    36%{color:#e8ff53;}
-    48%{color:#53ff5d;}
-    60%{color:#53ffbc;}
-    72%{color:#5393ff;}
-    84%{color:#ca53ff;}
-    100%{color:#ff53bd;}
+
+@keyframes rainbow {
+    12% {
+        color: #ff5353;
+    }
+
+    24% {
+        color: #ffcf53;
+    }
+
+    36% {
+        color: #e8ff53;
+    }
+
+    48% {
+        color: #53ff5d;
+    }
+
+    60% {
+        color: #53ffbc;
+    }
+
+    72% {
+        color: #5393ff;
+    }
+
+    84% {
+        color: #ca53ff;
+    }
+
+    100% {
+        color: #ff53bd;
+    }
 }
-@-webkit-keyframes rainbow{
-    12%{color:#ff5353;}
-    24%{color:#ffcf53;}
-    36%{color:#e8ff53;}
-    48%{color:#53ff5d;}
-    60%{color:#53ffbc;}
-    72%{color:#5393ff;}
-    84%{color:#ca53ff;}
-    100%{color:#ff53bd;}
+
+@-webkit-keyframes rainbow {
+    12% {
+        color: #ff5353;
+    }
+
+    24% {
+        color: #ffcf53;
+    }
+
+    36% {
+        color: #e8ff53;
+    }
+
+    48% {
+        color: #53ff5d;
+    }
+
+    60% {
+        color: #53ffbc;
+    }
+
+    72% {
+        color: #5393ff;
+    }
+
+    84% {
+        color: #ca53ff;
+    }
+
+    100% {
+        color: #ff53bd;
+    }
 }
+
 .sample5 {
-	width:			232px;
-	height:			232px;
-	overflow:		hidden;
-	/* margin:			10px 8px 10px 16px; */
-	position:		relative;
+    width: 232px;
+    height: 232px;
+    overflow: hidden;
+    /* margin:			10px 8px 10px 16px; */
+    position: relative;
 }
+
 .sample5 .caption {
-	font-size:		130%;
-	color:			#fff;
-	padding-top:		10px;
-	/* padding-left:		50px; */
+    font-size: 130%;
+    color: #fff;
+    padding-top: 10px;
+    /* padding-left:		50px; */
 }
+
 .sample5 .mask {
-	width:			100%;
-	height:			100%;
-	position:		absolute;
-	top:			0;
-	left:			0;
-	background-color:	rgba(0, 0, 0, 0.65);
-	-webkit-transition:	all 0.4s ease;
-	transition:		all 0.4s ease;
-	-webkit-transform:	scale(0);	/* 大きさを０にして表示しない */
-	transform:		scale(0);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.65);
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    -webkit-transform: scale(0);
+    /* 大きさを０にして表示しない */
+    transform: scale(0);
 }
-.sample5 .price{
-    font-size:		277%;
-	/* padding-bottom:		10px; */
-    padding-left:		auto;
+
+.sample5 .price {
+    font-size: 277%;
+    /* padding-bottom:		10px; */
+    padding-left: auto;
 }
-.sample5 .bottom{
-	padding-top:		100px;
+
+.sample5 .bottom {
+    padding-top: 100px;
 }
+
 .sample5:hover .mask {
-	-webkit-transform:	scale(1);	/* 大きさを１にして表示する */
-	transform:		scale(1);
+    -webkit-transform: scale(1);
+    /* 大きさを１にして表示する */
+    transform: scale(1);
 }
-#parent{
-	position: relative;
+
+#parent {
+    position: relative;
     display: inline-block;
-	display: block;
+    display: block;
 }
-#child{
-	position: absolute;
-	display: block;
+
+#child {
+    position: absolute;
+    display: block;
     max-width: 50%;
     max-height: 50%;
     height: 100%;
     bottom: 50%;
     width: 100%;
 }
-.test{
+
+.test {
     display: none;
-  }
-#image{
+}
+
+#image {
     border-radius: 50%;
 }
-#user_chat th{
-    width:350px;
+
+#user_chat th {
+    /* display:block; */
+    width: 200px;
 }
-#user_chat td{
-    width:650px;
+
+#user_chat td {
+    width: 800px;
     font-size: 20px;
+    margin-top: 16px;
+    margin-left: 16px;
+    margin-bottom: 16px;
+    margin-right: 16px;
+    word-break: break-word;
 }
-#button{
+
+#button {
     padding-left: 500px;
 
 }
