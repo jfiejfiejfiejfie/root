@@ -43,7 +43,7 @@ if (!isset($_SESSION["check"])) {
             <?php
             if (isset($_SESSION["loggedin"])) {
 
-              echo '<br><h2>チャット一覧</h2>';
+              echo '<br><h2>個人チャット一覧</h2>';
               $user_id_list = [];
               $id = $_SESSION["id"];
               $sql = "SELECT * FROM user_chat WHERE others_id=$id or user_id=$id ORDER BY created_at DESC";
@@ -163,6 +163,12 @@ if (!isset($_SESSION["check"])) {
             }
             ?>
           </div>
+          <?php
+          
+          echo '<div> <div class="container bg-light">
+                <br><h2>チャットルーム一覧
+                <div class="text-right"><a href="add_room.php" class="btn btn-primary" >作成する</a></h2></div></div>';
+          ?>
         </section>
       </div>
       <!--/メイン-->
