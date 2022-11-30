@@ -286,7 +286,18 @@ if (!isset($_SESSION["check"])) {
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
+                                <?php
+                                    $user_chat_count = 0;
+                                    $sql = "SELECT * FROM user_chat WHERE others_id=:id and checked=0";
+                                    $stm = $pdo->prepare($sql);
+                                    $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                                    $stm->execute();
+                                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($result as $row) {
+                                    $user_chat_count += 1;
+                                    }
+                                ?>
+                                <span class="badge badge-danger badge-counter"><?php echo $user_chat_count;?></span>
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -295,7 +306,7 @@ if (!isset($_SESSION["check"])) {
                                     メッセージが来てますよ
                                 </h6>
                                 <?php
-                                $chat_count=0;
+                                $chat_count = 0;
                                 $user_id_list = [];
                                 $id = $_SESSION["id"];
                                 $sql = "SELECT * FROM user_chat WHERE others_id=$id or user_id=$id ORDER BY created_at DESC";
@@ -305,13 +316,17 @@ if (!isset($_SESSION["check"])) {
                                 foreach ($result as $row) {
                                     if (($row["others_id"] == $id) && ($chat_count < 3)) {
                                         if (!in_array($row["user_id"], $user_id_list)) {
-                                            $chat_count+=1;
+                                            $chat_count += 1;
                                             echo '<a class="dropdown-item d-flex align-items-center" href="user_chat.php?id=' . $row["user_id"] . '">';
                                             echo '<div class="dropdown-list-image mr-3">';
-                                            echo '<img class="rounded-circle" src="my_image.php?id='.$row["user_id"].'" alt="...">';
+                                            echo '<img class="rounded-circle" src="my_image.php?id=' . $row["user_id"] . '" alt="...">';
                                             echo '<div class="status-indicator bg-success"></div>';
                                             echo '</div>';
-                                            echo '<div class="font-weight-bold">';
+                                            if ($row["checked"] == 0) {
+                                                echo '<div class="font-weight-bold">';
+                                            } else {
+                                                echo '<div>';
+                                            }
                                             echo '<div class="text-truncate">';
                                             $user_id_list[] = $row["user_id"];
                                             $user_id = $row["user_id"];
@@ -322,21 +337,14 @@ if (!isset($_SESSION["check"])) {
                                             foreach ($result2 as $row2) {
                                                 //整形したい文字列
                                                 $text = $row["text"];
-                                                $text =strip_tags($text);
-                                                //文字数の上限
-                                                $limit = 120;
-                                                if (mb_strlen($text) > $limit) {
-                                                    $title = mb_substr($text, 0, $limit);
-                                                    echo $title . '･･･';
-                                                } else {
-                                                    echo $text;
-                                                }
+                                                $text = strip_tags($text);
+                                                echo $text;
                                                 if ($row["image"] != "") {
                                                     echo '<br>画像が添付されています。';
                                                 }
                                                 echo '</div>';
                                                 echo '<div class="small text-gray-500">';
-                                                echo $row2["name"].' '.$row["created_at"].'</div>';
+                                                echo $row2["name"] . ' ' . $row["created_at"] . '</div>';
                                                 echo '</div>';
                                                 echo '</a>';
                                             }
