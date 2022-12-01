@@ -134,14 +134,17 @@ if (!isset($_SESSION["check"])) {
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.php">Login</a>
-                        <a class="collapse-item" href="register.php">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                        <h6 class="collapse-header">Users Page:</h6>
+                        <a class="collapse-item" href="mypage.php">マイページ</a>
+                        <a class="collapse-item" href="user_chat_list.php">チャット</a>
+                        <a class="collapse-item" href="buy_list.php">購入されたもの</a>
+                        <a class="collapse-item" href="reservation_list.php">予約されたもの</a>
+                        <a class="collapse-item" href="eturan.php">閲覧履歴</a>
+                        <a class="collapse-item" href="admin.php">管理者ページ</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
+                        <a class="collapse-item" href="add_db.php">商品登録</a>
+                        <a class="collapse-item" href="contact.php">お問い合わせ</a>
                     </div>
                 </div>
             </li>
