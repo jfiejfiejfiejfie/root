@@ -171,7 +171,7 @@ if (!isset($_SESSION["check"])) {
   <br><h2>チャットルーム一覧
   <div class="text-right"><a href="add_room.php" class="btn btn-primary" >作成する</a></h2></div></div>';
   try {
-    $sql = "SELECT * FROM room WHERE user_id=$id";
+    $sql = "SELECT * FROM room";
     $stm = $pdo->prepare($sql);
     $stm->execute();
     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
