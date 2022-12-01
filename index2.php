@@ -1,13 +1,13 @@
 <?php
 session_start();
 require_once('../lib/util.php');
-require_once('checked.php');
 // if ("location:login.php")
 //     ;
 $myURL = 'index2.php';
 $option = '';
 $gobackURL = 'index2.php';
 require_once "db_connect.php";
+require_once('checked.php');
 $block_count = 0;
 $block = 0;
 define('MAX', '8');
