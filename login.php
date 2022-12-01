@@ -70,111 +70,120 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 <!DOCTYPE html>
-<html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.faceboook.com/2008/fbml">
+<html lang="ja">
 
-<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
-    <meta charset="UTF-8">
-    <meta property="og:title" content="フラワーアレンジメント教室　Bloom【ブルーム】">
-    <meta property="og:description" content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】">
-    <meta property="og:url" content="http://bloom.ne.jp">
-    <meta property="og:image" content="images/main_visual.jpg">
-    <title>貸し借り|Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-        content="東京都千代田区にあるフラワーアレンジメント教室Bloom【ブルーム】。一人ひとりに向き合った、その人らしいアレンジメントを考えながら楽しく学べます。初心者の方も安心してご参加ください。">
-    <link rel="stylesheet" href="css/styled.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="favicon.ico">
-    <link rel="apple-touch-icon" href="webclip152.png">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/l.css">
-    <link rel="stylesheet" href="css/m.css">
-    <link rel="stylesheet" href="css/s.css">
-    <script src="js/original.js">
-    </script>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Login</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
 </head>
 
-<body>
-    <audio id="audio"></audio>
-    <div id="fb-root"></div>
+<body class="bg-gradient-primary">
 
+    <div class="container">
 
-    <!--ヘッダー-->
-    <?php require_once("header.php"); ?>
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
 
+            <div class="col-xl-10 col-lg-12 col-md-9">
 
-    <div id="wrapper">
-        <!--メイン-->
-        <div id="main">
-            <h2>ログイン画面</h2>
-            <p>認証情報を入力してログインしてください。</p>
-
-            <?php
-        if (!empty($login_err)) {
-            echo '<div class="alert alert-danger">' . $login_err . '</div>';
-        }
-        ?>
-
-            <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="post">
-                <div class="form-group">
-                    <label>ユーザーID</label>
-                    <input type="text" name="name"
-                        class="form-control <?php echo (!empty(h($errors['name']))) ? 'is-invalid' : ''; ?>"
-                        value="<?php echo h($datas['name']); ?>">
-                    <span class="invalid-feedback">
-                        <?php echo h($errors['name']); ?>
-                    </span>
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    </div>
+                                    <?php
+                                    if (!empty($login_err)) {
+                                        echo '<div class="alert alert-danger">' . $login_err . '</div>';
+                                    }
+                                    ?>
+                                    <form class="user" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="post">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="USERID" name="name"
+                                                class="form-control <?php echo (!empty(h($errors['name']))) ? 'is-invalid' : ''; ?>"
+                                                value="<?php echo h($datas['name']); ?>">
+                                            <span class="invalid-feedback">
+                                                <?php echo h($errors['name']); ?>
+                                            </span>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" placeholder="password" name="password"
+                                                class="form-control <?php echo (!empty(h($errors['password']))) ? 'is-invalid' : ''; ?>"
+                                                value="<?php echo h($datas['password']); ?>">
+                                            <span class="invalid-feedback">
+                                                <?php echo h($errors['password']); ?>
+                                            </span>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">Remember
+                                                    Me</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
+                                            <input type="submit" class="btn btn-primary btn btn-primary btn-user btn-block" value="ログイン">
+                                        </div>
+                                        <!-- <a href="login.php" class="btn btn-primary btn-user btn-block">
+                                            Login
+                                        </a> -->
+                                        <hr>
+                                        <a href="index.html" class="btn btn-google btn-user btn-block">
+                                            <i class="fab fa-google fa-fw"></i> Login with Google
+                                        </a>
+                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                                        </a>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="register.php">Create an Account!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>パスワード</label>
-                    <input type="password" name="password"
-                        class="form-control <?php echo (!empty(h($errors['password']))) ? 'is-invalid' : ''; ?>"
-                        value="<?php echo h($datas['password']); ?>">
-                    <span class="invalid-feedback">
-                        <?php echo h($errors['password']); ?>
-                    </span>
-                </div>
-                <div class="form-group">
-                    <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
-                    <input type="submit" class="btn btn-primary" value="ログイン">
-                </div>
-                <p>アカウントをお持ちでない方<a href="register.php">アカウント登録</a></p>
-            </form>
+
+            </div>
+
         </div>
-        <!--/メイン-->
 
-        <!--サイド-->
-
-        <?php
-      require_once('side.php');
-      ?>
-
-
-        <!--/サイド-->
     </div>
-    <!--/wrapper-->
 
-    <!--フッター-->
-    <footer>
-        <div id="footer_nav">
-            <ul>
-                <li class="current"><a href="index.php">HOME</a></li>
-                <li><a href="add_db.php">商品登録</a></li>
-                <li><a href="user_chat_list.php">一覧</a></li>
-                <li><a href="mypage.php">マイページ</a></li>
-                <li>
-                    <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?><a
-                        href="contact.php">お問い合わせ💛</a>
-                    <?php } else { ?><a href="register.php">アカウント登録</a>
-                    <?php } ?>
-                </li>
-                <li><a href="login.php">ログイン</a></li>
-            </ul>
-        </div>
-        <small>&copy; 2015 Bloom.</small>
-    </footer>
-    <!--/フッター-->
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 

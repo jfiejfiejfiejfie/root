@@ -30,7 +30,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             <?php echo htmlspecialchars($_SESSION["name"]); ?>
         </b>。</h1>
     <p>
-        <a href="index.php" class="btn btn-danger ml-3">HOME</a>
+        <a href="index2.php" class="btn btn-danger ml-3">HOME</a>
     </p>
 </body>
 

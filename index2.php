@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once('../lib/util.php');
+if(!isset($_SESSION["loggedin"])){
+    header('Location:login.php');
+}
 // if ("location:login.php")
 //     ;
 $myURL = 'index2.php';
