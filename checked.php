@@ -9,7 +9,7 @@ $stm->execute();
 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
     if ($created_at > $row["created_at"]) {
-        $sql = "INSERT INTO followlist WHERE user_id=:id ORDER BY id DESC";
+        $sql = "INSERT INTO followlist (checked) VALUES(1) WHERE user_id=:id";
         $stm = $pdo->prepare($sql);
         $stm->bindValue(':id', $id, PDO::PARAM_STR);
         $stm->execute();
