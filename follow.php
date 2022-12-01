@@ -24,11 +24,13 @@ try {
   exit();
 }
 if ($follow_count == 0) {
-
-  $sql = "INSERT INTO followlist (my_id,user_id) VALUES(:my_id,:user_id)";
+  date_default_timezone_set('Asia/Tokyo');
+  $created_at = date("Y/m/d H:i:s");
+  $sql = "INSERT INTO followlist (my_id,user_id,created_at) VALUES(:my_id,:user_id,:created_at)";
   $stm = $pdo->prepare($sql);
   $stm->bindValue(':my_id', $my_id, PDO::PARAM_STR);
   $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+  $stm->bindValue(':created_at', $created_at, PDO::PARAM_STR);
   $stm->execute();
   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 } else {

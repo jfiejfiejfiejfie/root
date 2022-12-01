@@ -35,10 +35,13 @@ if (isset($_GET["reservation"])) {
       $stm->execute();
       $result = $stm->fetchAll(PDO::FETCH_ASSOC);
     } else {
-      $sql = "INSERT INTO reservation_list (list_id,user_id) VALUES(:list_id,:user_id)";
+      date_default_timezone_set('Asia/Tokyo');
+      $created_at = date("Y/m/d H:i:s");
+      $sql = "INSERT INTO reservation_list (list_id,user_id,created_at) VALUES(:list_id,:user_id,:created_at)";
       $stm = $pdo->prepare($sql);
       $stm->bindValue(':list_id', $id, PDO::PARAM_STR);
       $stm->bindValue(':user_id', $my_id, PDO::PARAM_STR);
+      $stm->bindValue(':created_at', $created_at, PDO::PARAM_STR);
       $stm->execute();
       $result = $stm->fetchAll(PDO::FETCH_ASSOC);
     }

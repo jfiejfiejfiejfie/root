@@ -1,8 +1,9 @@
 <?php
 session_start();
 require_once('../lib/util.php');
-if ("location:login.php")
-    ;
+require_once('checked.php');
+// if ("location:login.php")
+//     ;
 $myURL = 'index2.php';
 $option = '';
 $gobackURL = 'index2.php';
@@ -244,30 +245,30 @@ if (!isset($_SESSION["check"])) {
                                     通知だよ
                                 </h6>
                                 <?php
-                                    $follow_count=0;
-                                    $sql = "SELECT * FROM followlist WHERE user_id=:id and checked=0 ORDER BY id DESC";
+                                $follow_count = 0;
+                                $sql = "SELECT * FROM followlist WHERE user_id=:id and checked=0 ORDER BY id DESC";
+                                $stm = $pdo->prepare($sql);
+                                $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                                $stm->execute();
+                                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($result as $row) {
+                                    $follow_count += 1;
+                                    $sql = "SELECT * FROM users WHERE id=" . $row["my_id"];
                                     $stm = $pdo->prepare($sql);
-                                    $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
                                     $stm->execute();
-                                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach ($result as $row) {
-                                        $follow_count+=1;
-                                        $sql = "SELECT * FROM users WHERE id=".$row["my_id"];
-                                        $stm = $pdo->prepare($sql);
-                                        $stm->execute();
-                                        $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach ($result2 as $row2) {
-                                            $name2=$row2["name"];
-                                        }
+                                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($result2 as $row2) {
+                                        $name2 = $row2["name"];
                                     }
-                                    if($follow_count>1){
-                                        $follow_count-=1;
-                                        $name=$name2."さん。他".$follow_count."人にフォローされました。";
-                                    }else if($follow_count==1){
-                                        $name=$name2."さんにフォローされました。";
-                                    }else{
-                                        $name='最近フォローされていません。';
-                                    }
+                                }
+                                if ($follow_count > 1) {
+                                    $follow_count -= 1;
+                                    $name = $name2 . "さん、他" . $follow_count . "人にフォローされました。";
+                                } else if ($follow_count == 1) {
+                                    $name = $name2 . "さんにフォローされました。";
+                                } else {
+                                    $name = '最近フォローされていません。';
+                                }
                                 ?>
                                 <a class="dropdown-item d-flex align-items-center" href="followerlist.php">
                                     <div class="mr-3">
@@ -277,28 +278,30 @@ if (!isset($_SESSION["check"])) {
                                     </div>
                                     <div>
                                         <div class="small text-gray-500">フォローについて</div>
-                                        <span class="font-weight-bold"><?php echo $name;?></span>
+                                        <span class="font-weight-bold">
+                                            <?php echo $name; ?>
+                                        </span>
                                     </div>
                                 </a>
                                 <?php
-                                    $buy_count=0;
-                                    $sql = "SELECT * FROM list WHERE user_id=:id and loan=1 and checked=0";
-                                    $stm = $pdo->prepare($sql);
-                                    $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
-                                    $stm->execute();
-                                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach ($result as $row) {
-                                        $buy_count+=1;
-                                        $name2=$row["item"];
-                                    }
-                                    if($follow_count>1){
-                                        $follow_count-=1;
-                                        $name=$name2."。他".$follow_count."件が購入されました。";
-                                    }else if($follow_count==1){
-                                        $name=$name2."が購入されました。";
-                                    }else{
-                                        $name='最近、購入されていません。';
-                                    }
+                                $buy_count = 0;
+                                $sql = "SELECT * FROM list WHERE user_id=:id and loan=1 and checked=0";
+                                $stm = $pdo->prepare($sql);
+                                $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                                $stm->execute();
+                                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($result as $row) {
+                                    $buy_count += 1;
+                                    $name2 = $row["item"];
+                                }
+                                if ($buy_count > 1) {
+                                    $buy_count -= 1;
+                                    $name = $name2 . "、他" . $buy_count . "件が購入されました。";
+                                } else if ($buy_count == 1) {
+                                    $name = $name2 . "が購入されました。";
+                                } else {
+                                    $name = '最近、購入されていません。';
+                                }
                                 ?>
                                 <a class="dropdown-item d-flex align-items-center" href="buy_list.php">
                                     <div class="mr-3">
@@ -308,18 +311,62 @@ if (!isset($_SESSION["check"])) {
                                     </div>
                                     <div>
                                         <div class="small text-gray-500">購入されたものについて</div>
-                                        $290.29 has been deposited into your account!
+                                        <?php echo $name; ?>
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                <?php
+                                $reservation_count = 0;
+                                $list_list = [];
+                                $list_count = 0;
+                                $sql = "SELECT * FROM list WHERE user_id=:id";
+                                $stm = $pdo->prepare($sql);
+                                $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                                $stm->execute();
+                                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($result as $row) {
+                                    $list_count += 1;
+                                    $list_list[] = $row["id"];
+                                }
+                                if ($list_count > 0) {
+                                    $reservation_list = [];
+                                    $list_list = implode(",", $list_list);
+                                    $sql = "SELECT * FROM reservation_list WHERE list_id in($list_list) and checked=0";
+                                    $stm = $pdo->prepare($sql);
+                                    $stm->execute();
+                                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($result as $row) {
+                                        $reservation_count += 1;
+                                        $reservation_list[] = $row["id"];
+                                    }
+                                    if ($reservation_count > 1) {
+                                        $reservation_list = implode(",", $reservation_list);
+                                        $sql = "SELECT * FROM list WHERE id in($reservation_list)";
+                                        $stm = $pdo->prepare($sql);
+                                        $stm->execute();
+                                        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                        foreach ($result as $row) {
+                                            $name2=$row["item"];
+                                        }
+                                    }
+                                }
+                                if ($reservation_count > 1) {
+                                    $reservation_count -= 1;
+                                    $name = $name2 . "、他" . $reservation_count . "件が予約されました。";
+                                } else if ($reservation_count == 1) {
+                                    $name = $name2 . "が予約されました。";
+                                } else {
+                                    $name = '最近、予約されていません。';
+                                }
+                                ?>
+                                <a class="dropdown-item d-flex align-items-center" href="reservation_list.php">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-warning">
                                             <i class="fas fa-exclamation-triangle text-white"></i>
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
+                                        <div class="small text-gray-500">予約されたものについて</div>
+                                        <?php echo $name; ?>
                                     </div>
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
@@ -333,17 +380,19 @@ if (!isset($_SESSION["check"])) {
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
                                 <?php
-                                    $user_chat_count = 0;
-                                    $sql = "SELECT * FROM user_chat WHERE others_id=:id and checked=0";
-                                    $stm = $pdo->prepare($sql);
-                                    $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
-                                    $stm->execute();
-                                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach ($result as $row) {
+                                $user_chat_count = 0;
+                                $sql = "SELECT * FROM user_chat WHERE others_id=:id and checked=0";
+                                $stm = $pdo->prepare($sql);
+                                $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                                $stm->execute();
+                                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($result as $row) {
                                     $user_chat_count += 1;
-                                    }
+                                }
                                 ?>
-                                <span class="badge badge-danger badge-counter"><?php echo $user_chat_count;?></span>
+                                <span class="badge badge-danger badge-counter">
+                                    <?php echo $user_chat_count; ?>
+                                </span>
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
