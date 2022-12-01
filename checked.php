@@ -9,7 +9,7 @@ $stm->bindValue(':id', $id, PDO::PARAM_STR);
 $stm->execute();
 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
-    if ($created_at > $row["created_at"]) {
+    if ($created_at < $row["created_at"]) {
         $sql = "UPDATE followlist SET checked=1 WHERE id=:id";
         $stm = $pdo->prepare($sql);
         $stm->bindValue(':id', $row["id"], PDO::PARAM_STR);
@@ -23,7 +23,7 @@ $stm->bindValue(':id', $id, PDO::PARAM_STR);
 $stm->execute();
 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
-    if ($created_at > $row["created_at"]) {
+    if ($created_at < $row["created_at"]) {
         $sql = "UPDATE list SET checked=1 WHERE id=:id";
         $stm = $pdo->prepare($sql);
         $stm->bindValue(':id', $row["id"], PDO::PARAM_STR);
@@ -61,7 +61,7 @@ if ($list_count > 0) {
         $stm->execute();
         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
         foreach ($result as $row) {
-            if ($created_at > $row["created_at"]) {
+            if ($created_at < $row["created_at"]) {
                 $sql = "UPDATE reservation_list SET checked=1 WHERE user_id=:id";
                 $stm = $pdo->prepare($sql);
                 $stm->bindValue(':id', $id, PDO::PARAM_STR);
