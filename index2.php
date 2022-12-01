@@ -330,22 +330,18 @@ if (!isset($_SESSION["check"])) {
                                 if ($list_count > 0) {
                                     $reservation_list = [];
                                     $list_list = implode(",", $list_list);
-                                    $sql = "SELECT * FROM reservation_list WHERE list_id in($list_list) and checked=0";
+                                    $sql = "SELECT * FROM reservation_list WHERE list_id in ($list_list) and checked=0";
                                     $stm = $pdo->prepare($sql);
                                     $stm->execute();
                                     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                                     foreach ($result as $row) {
                                         $reservation_count += 1;
-                                        $reservation_list[] = $row["id"];
-                                    }
-                                    if ($reservation_count > 1) {
-                                        $reservation_list = implode(",", $reservation_list);
-                                        $sql = "SELECT * FROM list WHERE id in($reservation_list)";
+                                        $sql = "SELECT * FROM list WHERE id =".$row["list_id"];
                                         $stm = $pdo->prepare($sql);
                                         $stm->execute();
-                                        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach ($result as $row) {
-                                            $name2=$row["item"];
+                                        $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                        foreach ($result2 as $row2) {
+                                            $name2=$row2["item"];
                                         }
                                     }
                                 }

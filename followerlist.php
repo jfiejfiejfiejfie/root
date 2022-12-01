@@ -48,11 +48,11 @@ require_once "db_connect.php";
               echo $row2["name"];
               if ($row["checked"] == 0) {
                 echo "<div style='color:red;'>New</div>";
-                if (!isset($_GET["id"])) {
-                  $sql = "UPDATE followlist SET checked=1 WHERE user_id=$id";
-                  $stm = $pdo->prepare($sql);
-                  $stm->execute();
-                }
+                // if (!isset($_GET["id"])) {
+                //   $sql = "UPDATE followlist SET checked=1 WHERE user_id=$id";
+                //   $stm = $pdo->prepare($sql);
+                //   $stm->execute();
+                // }
               }
             }
             echo "<hr>";

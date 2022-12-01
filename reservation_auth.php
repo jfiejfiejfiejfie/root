@@ -46,11 +46,11 @@ require_once "db_connect.php";
                         $stm->execute();
                         $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($result2 as $row2) {
-                            $sql = "UPDATE reservation_list SET checked=1 where list_id = :id and user_id=:user_id";
-                            $stm = $pdo->prepare($sql);
-                            $stm->bindValue(':id', $list_id, PDO::PARAM_STR);
-                            $stm->bindValue(':user_id', $row2["user_id"], PDO::PARAM_STR);
-                            $stm->execute();
+                            // $sql = "UPDATE reservation_list SET checked=1 where list_id = :id and user_id=:user_id";
+                            // $stm = $pdo->prepare($sql);
+                            // $stm->bindValue(':id', $list_id, PDO::PARAM_STR);
+                            // $stm->bindValue(':user_id', $row2["user_id"], PDO::PARAM_STR);
+                            // $stm->execute();
                             echo '<table class="table table-striped">';
                             echo "<a href='profile.php?id={$row2['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row2['user_id']}'></a><br>";
                             $user_id = $row2["user_id"];
