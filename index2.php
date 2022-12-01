@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once('../lib/util.php');
-if(!isset($_SESSION["loggedin"])){
+if (!isset($_SESSION["loggedin"])) {
     header('Location:login.php');
 }
 // if ("location:login.php")
@@ -130,6 +130,13 @@ if (!isset($_SESSION["check"])) {
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
+                <a class="nav-link" href="map.php">
+                    <i class="fas fa-fw fa-map"></i>
+                    <span>マップ</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
                 <a class="nav-link" href="contact.php">
                     <i class="fas fa-fw fa-envelope"></i>
                     <span>お問い合わせ</span></a>
@@ -214,15 +221,8 @@ if (!isset($_SESSION["check"])) {
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    通知だよ
-                                </h6>
                                 <?php
+                                $count=0;
                                 $follow_count = 0;
                                 $sql = "SELECT * FROM followlist WHERE user_id=:id and checked=0 ORDER BY id DESC";
                                 $stm = $pdo->prepare($sql);
@@ -230,6 +230,7 @@ if (!isset($_SESSION["check"])) {
                                 $stm->execute();
                                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                                 foreach ($result as $row) {
+                                    $count+=1;
                                     $follow_count += 1;
                                     $sql = "SELECT * FROM users WHERE id=" . $row["my_id"];
                                     $stm = $pdo->prepare($sql);
@@ -241,27 +242,13 @@ if (!isset($_SESSION["check"])) {
                                 }
                                 if ($follow_count > 1) {
                                     $follow_count -= 1;
-                                    $name = $name2 . "さん、他" . $follow_count . "人にフォローされました。";
+                                    $user_name = $name2 . "さん、他" . $follow_count . "人にフォローされました。";
                                 } else if ($follow_count == 1) {
-                                    $name = $name2 . "さんにフォローされました。";
+                                    $user_name = $name2 . "さんにフォローされました。";
                                 } else {
-                                    $name = '最近フォローされていません。';
+                                    $user_name = '最近フォローされていません。';
                                 }
-                                ?>
-                                <a class="dropdown-item d-flex align-items-center" href="followerlist.php">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">フォローについて</div>
-                                        <span class="font-weight-bold">
-                                            <?php echo $name; ?>
-                                        </span>
-                                    </div>
-                                </a>
-                                <?php
+                                $name2="";
                                 $buy_count = 0;
                                 $sql = "SELECT * FROM list WHERE user_id=:id and loan=1 and checked=0";
                                 $stm = $pdo->prepare($sql);
@@ -269,30 +256,19 @@ if (!isset($_SESSION["check"])) {
                                 $stm->execute();
                                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                                 foreach ($result as $row) {
+                                    $count+=1;
                                     $buy_count += 1;
                                     $name2 = $row["item"];
                                 }
                                 if ($buy_count > 1) {
                                     $buy_count -= 1;
-                                    $name = $name2 . "、他" . $buy_count . "件が購入されました。";
+                                    $buy_name = $name2 . "、他" . $buy_count . "件が購入されました。";
                                 } else if ($buy_count == 1) {
-                                    $name = $name2 . "が購入されました。";
+                                    $buy_name = $name2 . "が購入されました。";
                                 } else {
-                                    $name = '最近、購入されていません。';
+                                    $buy_name = '最近、購入されていません。';
                                 }
-                                ?>
-                                <a class="dropdown-item d-flex align-items-center" href="buy_list.php">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">購入されたものについて</div>
-                                        <?php echo $name; ?>
-                                    </div>
-                                </a>
-                                <?php
+                                $name2="";
                                 $reservation_count = 0;
                                 $list_list = [];
                                 $list_count = 0;
@@ -313,24 +289,66 @@ if (!isset($_SESSION["check"])) {
                                     $stm->execute();
                                     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                                     foreach ($result as $row) {
+                                        $count+=1;
                                         $reservation_count += 1;
-                                        $sql = "SELECT * FROM list WHERE id =".$row["list_id"];
+                                        $sql = "SELECT * FROM list WHERE id =" . $row["list_id"];
                                         $stm = $pdo->prepare($sql);
                                         $stm->execute();
                                         $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
                                         foreach ($result2 as $row2) {
-                                            $name2=$row2["item"];
+                                            $name2 = $row2["item"];
                                         }
                                     }
                                 }
                                 if ($reservation_count > 1) {
                                     $reservation_count -= 1;
-                                    $name = $name2 . "、他" . $reservation_count . "件が予約されました。";
+                                    $reservation_name = $name2 . "、他" . $reservation_count . "件が予約されました。";
                                 } else if ($reservation_count == 1) {
-                                    $name = $name2 . "が予約されました。";
+                                    $reservation_name = $name2 . "が予約されました。";
                                 } else {
-                                    $name = '最近、予約されていません。';
+                                    $reservation_name = '最近、予約されていません。';
                                 }
+                                ?>
+                                <span class="badge badge-danger badge-counter"><?php echo $count;?></span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    通知だよ
+                                </h6>
+                                <?php
+
+                                ?>
+                                <a class="dropdown-item d-flex align-items-center" href="followerlist.php">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">フォローについて</div>
+                                        <span class="font-weight-bold">
+                                            <?php echo $user_name; ?>
+                                        </span>
+                                    </div>
+                                </a>
+                                <?php
+                                
+                                ?>
+                                <a class="dropdown-item d-flex align-items-center" href="buy_list.php">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">購入されたものについて</div>
+                                        <?php echo $buy_name; ?>
+                                    </div>
+                                </a>
+                                <?php
+                                
                                 ?>
                                 <a class="dropdown-item d-flex align-items-center" href="reservation_list.php">
                                     <div class="mr-3">
@@ -340,7 +358,7 @@ if (!isset($_SESSION["check"])) {
                                     </div>
                                     <div>
                                         <div class="small text-gray-500">予約されたものについて</div>
-                                        <?php echo $name; ?>
+                                        <?php echo $reservation_name; ?>
                                     </div>
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
@@ -363,16 +381,19 @@ if (!isset($_SESSION["check"])) {
                                 foreach ($result as $row) {
                                     $user_chat_count += 1;
                                 }
+                                if ($user_chat_count > 0) {
                                 ?>
                                 <span class="badge badge-danger badge-counter">
                                     <?php echo $user_chat_count; ?>
                                 </span>
+                                <?php }
+                                ; ?>
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="messagesDropdown">
                                 <h6 class="dropdown-header">
-                                    メッセージが来てますよ
+                                    メッセージ
                                 </h6>
                                 <?php
                                 $chat_count = 0;
@@ -431,8 +452,8 @@ if (!isset($_SESSION["check"])) {
                                         <div class="small text-gray-500">Yuna's Guard Wakka · 58m</div>
                                     </div>
                                 </a> -->
-                                <a class="dropdown-item text-center small text-gray-500" href="user_chat_list.php">Read
-                                    More Messages</a>
+                                <a class="dropdown-item text-center small text-gray-500"
+                                    href="user_chat_list.php">一覧で見る</a>
                             </div>
                         </li>
 
@@ -540,8 +561,8 @@ if (!isset($_SESSION["check"])) {
                                 // echo '<div class="bottom">  </div>';
                                 // echo '<div class="price"><p class="rainbow">￥', number_format($row["money"]), '</p></div>';
                                 echo '</div></div></a></td></div>';
-                                echo '商品名:',$row["item"];
-                                echo '<br>金額:￥',number_format($row["money"]);
+                                echo '商品名:', $row["item"];
+                                echo '<br>金額:￥', number_format($row["money"]);
                                 echo '
                             </div>
                         </div>
