@@ -588,7 +588,13 @@ if (!isset($_SESSION["check"])) {
                                 }
                                 echo '<div class="card-body">';
                                 echo '<div class="row no-gutters align-items-center">';
-                                echo "  ";
+                                echo '<div class="container mt-3">';
+                                echo '<div class="sample5"><a href="http://www.jp.square-enix.com/DFF/character/10/tidus.html">';
+                                echo "<img id='parent' src='images/te.png' height='232' width='232'>";
+                                echo '<img id="child" src="images/PR.png" height="232" width="232"/>';
+                                echo '<div class="mask">';
+                                echo '</div>';
+                                echo '</a></div></div>';
                                 echo '
                             </div>
                         </div>
