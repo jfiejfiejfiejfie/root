@@ -244,7 +244,30 @@ if (!isset($_SESSION["check"])) {
                                     通知だよ
                                 </h6>
                                 <?php
-                                    
+                                    $follow_count=0;
+                                    $sql = "SELECT * FROM followlist WHERE user_id=:id and checked=0 ORDER BY id DESC";
+                                    $stm = $pdo->prepare($sql);
+                                    $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                                    $stm->execute();
+                                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($result as $row) {
+                                        $follow_count+=1;
+                                        $sql = "SELECT * FROM users WHERE id=".$row["my_id"];
+                                        $stm = $pdo->prepare($sql);
+                                        $stm->execute();
+                                        $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                        foreach ($result2 as $row2) {
+                                            $name2=$row2["name"];
+                                        }
+                                    }
+                                    if($follow_count>1){
+                                        $follow_count-=1;
+                                        $name=$name2."さん。他".$follow_count."人にフォローされました。";
+                                    }else if($follow_count==1){
+                                        $name=$name2."さんにフォローされました。";
+                                    }else{
+                                        $name='最近フォローされていません。';
+                                    }
                                 ?>
                                 <a class="dropdown-item d-flex align-items-center" href="followerlist.php">
                                     <div class="mr-3">
@@ -253,18 +276,38 @@ if (!isset($_SESSION["check"])) {
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">2022 5月3日 おとわっか投稿</div>
-                                        <span class="font-weight-bold">伝説の始まりだ</span>
+                                        <div class="small text-gray-500">フォローについて</div>
+                                        <span class="font-weight-bold"><?php echo $name;?></span>
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                <?php
+                                    $buy_count=0;
+                                    $sql = "SELECT * FROM list WHERE user_id=:id and loan=1 and checked=0";
+                                    $stm = $pdo->prepare($sql);
+                                    $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                                    $stm->execute();
+                                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($result as $row) {
+                                        $buy_count+=1;
+                                        $name2=$row["item"];
+                                    }
+                                    if($follow_count>1){
+                                        $follow_count-=1;
+                                        $name=$name2."。他".$follow_count."件が購入されました。";
+                                    }else if($follow_count==1){
+                                        $name=$name2."が購入されました。";
+                                    }else{
+                                        $name='最近、購入されていません。';
+                                    }
+                                ?>
+                                <a class="dropdown-item d-flex align-items-center" href="buy_list.php">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-success">
                                             <i class="fas fa-donate text-white"></i>
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        <div class="small text-gray-500">購入されたものについて</div>
                                         $290.29 has been deposited into your account!
                                     </div>
                                 </a>
