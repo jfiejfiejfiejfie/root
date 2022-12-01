@@ -137,6 +137,13 @@ if (!isset($_SESSION["check"])) {
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
+                <a class="nav-link" href="keijiban.php">
+                    <i class="fas fa-fw fa-newspaper"></i>
+                    <span>掲示板</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
                 <a class="nav-link" href="contact.php">
                     <i class="fas fa-fw fa-envelope"></i>
                     <span>お問い合わせ</span></a>
