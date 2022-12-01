@@ -163,13 +163,59 @@ if (!isset($_SESSION["check"])) {
             }
             ?>
           </div>
-          <?php
-          
-          echo '<div> <div class="container bg-light">
-                <br><h2>チャットルーム一覧
-                <div class="text-right"><a href="add_room.php" class="btn btn-primary" >作成する</a></h2></div></div>';
-          ?>
-        </section>
+          </section>
+      <div>
+      <?php
+
+  echo '<div> <div class="container bg-light">
+  <br><h2>チャットルーム一覧
+  <div class="text-right"><a href="add_room.php" class="btn btn-primary" >作成する</a></h2></div></div>';
+  try {
+    $sql = "SELECT * FROM room WHERE user_id=$id";
+    $stm = $pdo->prepare($sql);
+    $stm->execute();
+    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+    echo '<table class="table table-striped">';
+    echo '<thead><tr>';
+    echo '<th>', 'サムネ画像', '</th>';
+    echo '<th>', 'ルーム名', '</th>';
+    echo '<th>', '概要欄', '</th>';
+    echo '<th>', '参加人数', '</th>';
+    echo '</tr></thead>';
+    echo '<tbody>';
+    foreach ($result as $row) {
+      echo '<tr>';
+      echo "<td><a href=room.php?id={$row["id"]}>", '<img height="130" width="130" src="room_image.php?id=', $row['id'], '"></a>';
+      echo "<br><div id='button2'><a class='btn btn-primary' href='user_chat.php?id=$user_id'>参加する</a></td></div>";
+      echo '<td>', $row['item'], '</td>';
+      echo '<td>', $row['comment'], '</td>';
+      echo '<td>','実装中','</td>';
+      echo '</tr>';
+    }
+    echo '</tbody>';
+    echo '</table>';
+  } catch (Exception $e) {
+    echo 'エラーがありました。';
+    echo $e->getMessage();
+    exit();
+  }
+  try {
+    $count = 0;
+    $sql = "SELECT * FROM likes WHERE my_id=$id";
+    $stm = $pdo->prepare($sql);
+    $stm->execute();
+    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row) {
+      $count += 1;
+      $main_list[] = $row["list_id"];
+    }
+  } catch (Exception $e) {
+    echo 'エラーがありました。';
+    echo $e->getMessage();
+    exit();
+  }
+  ?>       
+      </div>
       </div>
       <!--/メイン-->
 

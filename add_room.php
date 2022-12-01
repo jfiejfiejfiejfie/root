@@ -17,8 +17,8 @@ $point = 0;
 
   <!--ヘッダー-->
   <?php require_once("header.php"); ?>
-  <?php if (isset($_POST["kind"])) {
-    require_once('insert.php');
+  <?php if (isset($_POST["item"])) {
+    require_once('create_room.php');
   } ?>
 
   <div id="wrapper">
@@ -26,15 +26,15 @@ $point = 0;
     <div id="main">
       <br>
       <?php
-      if (isset($_SESSION["insert_text"])) {
-        echo $_SESSION["insert_text"];
+      if (isset($_SESSION["create_text"])) {
+        echo $_SESSION["create_text"];
       }
       if (!isset($_SESSION["loggedin"])) {
         echo "<h2>この機能を利用するにはログインしてください。</h2>";
         echo "<a href='login.php' class='btn btn-danger'>ログイン</a>";
       } else { ?>
       <h2>チャットルーム登録</h2>
-      <form method="POST" action="add_db.php" enctype="multipart/form-data">
+      <form method="POST" action="add_room.php" enctype="multipart/form-data">
         <ul>
           <li>
             <br>
@@ -54,7 +54,7 @@ $point = 0;
               <p id="textlength2">0文字/1000文字</p>
             </label>
           </li>
-          <li>画像選択:
+          <li>サムネ画像選択:
           <li>
             <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
               <input type="file" name="image" class="test" accept="image/*" onchange="previewImage(this);" required>
@@ -64,7 +64,7 @@ $point = 0;
               <input type="checkbox" required>規約に同意する
             </label>
           </li>
-          <li><input type="submit" value="追加する">
+          <li><input type="submit" value="作成する">
           </li>
         </ul>
       </form>
