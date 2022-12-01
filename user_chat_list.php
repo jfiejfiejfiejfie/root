@@ -178,6 +178,7 @@ if (!isset($_SESSION["check"])) {
     echo '<table class="table table-striped">';
     echo '<thead><tr>';
     echo '<th>', 'サムネ画像', '</th>';
+    echo '<th>', 'ホストユーザー名', '</th>';
     echo '<th>', 'ルーム名', '</th>';
     echo '<th>', '概要欄', '</th>';
     echo '<th>', '参加人数', '</th>';
@@ -186,7 +187,15 @@ if (!isset($_SESSION["check"])) {
     foreach ($result as $row) {
       echo '<tr>';
       echo "<td><a href=room.php?id={$row["id"]}>", '<img height="130" width="130" src="room_image.php?id=', $row['id'], '"></a>';
-      echo "<br><div id='button2'><a class='btn btn-primary' href='user_chat.php?id=$user_id'>参加する</a></td></div>";
+      echo "<br><div id='button2'><a class='btn btn-primary'>参加する</a></td></div>";
+      $user_id = $row["user_id"];
+      $sql = "SELECT * FROM users WHERE id=$user_id";
+      $stm = $pdo->prepare($sql);
+      $stm->execute();
+      $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($result2 as $row2) {
+        echo '<td>', $row2["name"], "</td>";
+      }
       echo '<td>', $row['item'], '</td>';
       echo '<td>', $row['comment'], '</td>';
       echo '<td>','実装中','</td>';
