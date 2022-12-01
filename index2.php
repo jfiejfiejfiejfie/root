@@ -561,10 +561,12 @@ if (!isset($_SESSION["check"])) {
                                     echo '<img id="child" src="images/sold.png" height="232" width="232"/>';
                                 }
                                 echo '<div class="mask">';
-                                echo '<div class="caption">', $row["item"], '</div>';
-                                echo '<div class="bottom">  </div>';
-                                echo '<div class="price"><p class="rainbow">￥', number_format($row["money"]), '</p></div>';
+                                // echo '<div class="caption">', $row["item"], '</div>';
+                                // echo '<div class="bottom">  </div>';
+                                // echo '<div class="price"><p class="rainbow">￥', number_format($row["money"]), '</p></div>';
                                 echo '</div></div></a></td></div>';
+                                echo '商品名:',$row["item"];
+                                echo '<br>金額:￥',number_format($row["money"]);
                                 echo '
                             </div>
                         </div>
