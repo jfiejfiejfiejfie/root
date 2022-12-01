@@ -152,7 +152,7 @@ if (!isset($_SESSION["check"])) {
 
             <!-- Sidebar Message -->
             <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
+            <a href="../phpmyadmin" target="_blank"><img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="..."></a>
                 <p class="text-center mb-2"><strong>課金</strong>しろks</p>
                 <a class="btn btn-success btn-sm" href="charge.php">いますぐ課金だ!</a>
             </div>
@@ -308,8 +308,10 @@ if (!isset($_SESSION["check"])) {
                                 } else {
                                     $reservation_name = '最近、予約されていません。';
                                 }
+                                if($count>0){
                                 ?>
                                 <span class="badge badge-danger badge-counter"><?php echo $count;?></span>
+                                <?php };?>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
