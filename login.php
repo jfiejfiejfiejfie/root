@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION["user_id"] = $row['user_id'];
                 $_SESSION["admin"] = $row['admin'];
                 //ウェルカムページへリダイレクト
-                header("location:index2.php");
+                header("location:./");
                 exit();
             } else {
                 $login_err = 'Invalid username or password.';
