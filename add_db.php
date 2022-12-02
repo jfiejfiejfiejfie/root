@@ -74,18 +74,15 @@ if (isset($_POST["kind"])) {
 
           <div class="row">
             <form method="POST" action="add_db.php" enctype="multipart/form-data">
-              <ul>
                 <?php
               if (isset($_SESSION["insert_text"])) {
                 echo '<label>' . $_SESSION["insert_text"] . '</label>';
               } ?>
                 <br>
-                <label>貸出物　:
+                貸出物　:
                   <input type="text" id="item_name" class="form-control form-control-user" name="item"
                     placeholder="必須(30文字まで)" required>
-                </label>
-                <br>
-                <label>ジャンル:
+                ジャンル:
                   <select name="kind" class="form-control form-control-user">
                     <?php
                     try {
@@ -104,9 +101,7 @@ if (isset($_POST["kind"])) {
                     }
                     ?>
                   </select>
-                </label>
-                <br>
-                <label>商品の状態:
+                商品の状態:
                   <select name="state" class="form-control form-control-user">
                     <?php
                     try {
@@ -125,9 +120,7 @@ if (isset($_POST["kind"])) {
                     }
                     ?>
                   </select>
-                </label>
-                <br>
-                <label>コメント(任意):
+                コメント(任意):
                   <script>
                     function countLength(text, field) {
                       document.getElementById(field).innerHTML = text.length + "文字/1000文字";
@@ -136,13 +129,9 @@ if (isset($_POST["kind"])) {
                   <textarea id="message" name="comment" class="form-control form-control-user"
                     placeholder="色、素材、重さ、定価、注意点など" onKeyUp="countLength(value, 'textlength2');"></textarea>
                   <p id="textlength2">0文字/1000文字</p>
-                </label>
-                <br>
-                <label>金額:
+                金額:
                   <input type="number_format" name="money" class="form-control form-control-user"
                     placeholder="￥100～10,000,000">
-                </label>
-                <br>
                 画像選択:
                 <br>
                 <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
@@ -169,7 +158,6 @@ if (isset($_POST["kind"])) {
                 </label>
                 <br>
                 <input type="submit" class="btn btn-primary btn-user" value="追加する">
-              </ul>
             </form>
           </div>
 
