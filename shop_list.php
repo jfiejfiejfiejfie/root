@@ -1,10 +1,25 @@
 <?php
 session_start();
 require_once('../lib/util.php');
-$myURL='shop_list.php';
 $gobackURL = 'index.php';
 require_once "db_connect.php";
+$myURL='shop_list.php';
 ?>
+
+<?php
+session_start();
+session_regenerate_id(true);
+
+if(isset($_SESSION["menber_login"]) === true) {
+print "ようこそ";
+    print $_SESSION["menber_name"];
+    print "様　";
+    print "<a href='../menber_login/menber_logout.php'>ログアウト</a>";
+    print "<br><br>";
+}
+
+?>
+
 
 <!DOCTYPE html>
 <?php require_once("head.php") ?>
@@ -28,8 +43,9 @@ require_once "db_connect.php";
       <!--メイン-->
       <div id="main">
         <section id="point">
-        <h2>ポイントを使ってギフトと交換</h2>
-        <div>
+
+
+
         <?php
 try{
  
@@ -39,21 +55,15 @@ $password = "";
 $dbh = new PDO($dsn, $user, $password);
 $dbh -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-$sql = "SELECT code,name,price,gazou,explanation,enjoy FROM mst_product WHERE1";
+$sql = "SELECT code,name,price,gazou,explanation FROM mst_product WHERE1";
 $stmt = $dbh -> prepare($sql);
 $stmt -> execute();
     
 $dbh = null;
     
-if(empty($_SESSION["cart"]) !== true) {
-  echo '<br><a href="shop_cartlook.php"><img img height="100" width="100" src="images/カートレ点.png"></a>';
-  //print "<a href='shop_cartlook.php'>カートを見る</a>";
-  print "<br><br>";
-}else{
-  echo '<br><a href="shop_cartlook.php"><img img height="100" width="100" src="images/カート.png"></a>';
-  print "<br><br>";
-}
-
+print "販売商品一覧";
+print "　<a href='shop_cartlook.php'>カートを見る</a>";
+print "<br><br>";
     
 while(true) {
     $rec = $stmt -> fetch(PDO::FETCH_ASSOC);
@@ -69,10 +79,12 @@ while(true) {
     }
     print $gazou;
     print "<br>";
-    print $rec["name"];
+    print "商品名:".$rec["name"];
     print "<br>";
-    print $rec["price"]."p";
+    print "価格:".$rec["price"]."円";
     print "<br>";
+    print "詳細:".$rec["explanation"];
+    print "</a>";
     print "<br><br>";
 }
 print "<br>";
@@ -84,7 +96,9 @@ catch(Exception $e) {
 }
 ?>
 
-</div>
+
+
+
 
       </div>
       <!--/メイン-->
@@ -118,3 +132,17 @@ catch(Exception $e) {
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,20 +1,7 @@
 <?php
 session_start();
-require_once('../lib/util.php');
-if (!isset($_SESSION["loggedin"])) {
-  header('Location:login.php');
-}
-// if ("location:login.php")
-//     ;
 require_once "db_connect.php";
-require_once('checked.php');
-require_once "db_connect.php";
-$myURL = 'add_db.php';
-$gobackURL = 'index.php';
-$point = 0;
-if (isset($_POST["kind"])) {
-  require_once('insert.php');
-}
+$myURL='contact.php';
 ?>
 <?php 
 //エスケープ処理やデータチェックを行う関数のファイルの読み込み
@@ -130,61 +117,24 @@ if (isset($_POST['submitted'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="ja">
-
-<head>
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>貸し借りサイト　WACCA</title>
-
-  <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link
-    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-    rel="stylesheet">
-
-  <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/original.css">
-  <script src="js/original.js">
-  </script>
+<?php require_once("head.php") ?>
+<title>貸し借り|HOME</title>
+<link rel="stylesheet" href="css/top.css">
 </head>
 
-<body id="page-top">
+<body>
+	<audio id="audio"></audio>
+	<div id="fb-root"></div>
 
-  <!-- Page Wrapper -->
-  <div id="wrapper">
 
-    <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
-    <!-- End of Sidebar -->
+	<!--ヘッダー-->
+	<?php require_once("header.php"); ?>
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
-
-        <!-- Topbar -->
-        <?php require_once("nav.php");?>
-        <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">お問い合わせフォーム</h1>
-            <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
-          </div>
-
-          <div class="row">
+	<div id="wrapper">
+		<!--メイン-->
+		<div id="main">
+      <br>
+  <h2>お問い合わせフォーム</h2>
   <?php  if (filter_input(INPUT_GET, 'result') ) : // 送信が成功した場合?>
   <h4>送信完了!</h4>
   <p>送信完了いたしました。</p>
@@ -197,105 +147,65 @@ if (isset($_POST['submitted'])) {
   <hr>
   <?php endif; ?>
   <p>以下のフォームからお問い合わせください。</p>
-
+  <form id="form" method="post" enctype="multipart/form-data">
+    <div class="form-group">
       <label for="name">お名前（必須） 
         <span class="error-php"><?php if ( isset( $error['name'] ) ) echo h( $error['name'] ); ?></span>
       </label>
       <input type="text" class="form-control" id="name" name="name" placeholder="氏名" required value="<?php echo h($name); ?>">
-
-
+    </div>
+    <div class="form-group">
       <label for="email">Email（必須） 
         <span class="error-php"><?php if ( isset( $error['email'] ) ) echo h( $error['email'] ); ?></span>
       </label>
       <input type="email" class="form-control" id="email" name="email" pattern="([a-zA-Z0-9\+_\-]+)(\.[a-zA-Z0-9\+_\-]+)*@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,6}" placeholder="Email アドレス" required value="<?php echo h($email); ?>">
-
-
+    </div>
+    <div class="form-group">
       <label for="tel">お電話番号（半角英数字） 
         <span class="error-php"><?php if ( isset( $error['tel'] ) ) echo h( $error['tel'] ); ?></span>
-
+      </label>
       <input type="tel" class="form-control" id="tel" name="tel" pattern="\(?\d{2,5}\)?[-(\.\s]{0,2}\d{1,4}[-)\.\s]{0,2}\d{3,4}" value="<?php echo h($tel); ?>" placeholder="電話番号">
-
-
+    </div>
+    <div class="form-group">
        <label for="subject">件名（必須） 
         <span class="error-php"><?php if ( isset( $error['subject'] ) ) echo h( $error['subject'] ); ?></span> 
       </label>
       <input type="text" class="form-control" id="subject" name="subject" placeholder="件名" required maxlength="50" value="<?php echo h($subject); ?>">
-
-
+    </div>
+    <div class="form-group">
        <label for="body">お問い合わせ内容（必須） 
         <span class="error-php"><?php if ( isset( $error['body'] ) ) echo h( $error['body'] ); ?></span>
       </label>
       <textarea class="form-control" id="body" name="body" placeholder="お問い合わせ内容" required  maxlength="300" rows="3"><?php echo h($body); ?></textarea>
-
+    </div>
     <button name="submitted" type="submit" class="btn btn-primary">送信</button>
   </form>
-
-
-          </div>
-
-        </div>
-        <!-- /.container-fluid -->
-
-      </div>
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2021</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
-
-    </div>
-    <!-- End of Content Wrapper -->
-
   </div>
-  <!-- End of Page Wrapper -->
+  <?php
+      require_once('side.php');
+      ?>
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
+		<!--/サイド-->
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	</div>
+	<!--/wrapper-->
 
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
+	<!--フッター-->
+	<footer>
+		<div id="footer_nav">
+			<ul>
+				<li class="current"><a href="index.php">HOME</a></li>
+				<li><a href="add_db.php">商品登録</a></li>
+				<li><a href="user_chat_list.php">一覧</a></li>
+				<li><a href="mypage.php">マイページ</a></li>
+				<li><a href="register.php">アカウント登録</a></li>
+				<li><a href="login.php">ログイン</a></li>
+			</ul>
+		</div>
+		<small>&copy; 2015 Bloom.</small>
+	</footer>
+	<!--/フッター-->
 
 </body>
 

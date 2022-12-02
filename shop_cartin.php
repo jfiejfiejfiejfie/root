@@ -1,87 +1,59 @@
 <?php
+
 session_start();
-require_once('../lib/util.php');
-$myURL='shop_cartin.php';
-$gobackURL = 'index.php';
-require_once "db_connect.php";
+session_regenerate_id(true);
+
+if(isset($_SESSION["menber_login"]) === false) {
+    print "ログインしてく下さい。<br><br>";
+    print "<a href='../menber_login/menber_login.html'>ログイン画面へ<br><br></a>";
+    print "<a href='shop_list.php'>TOP画面へ</a>";
+    exit();
+}
+    if(isset($_SESSION["menber_login"]) === true) {
+    print "ようこそ";
+    print $_SESSION["menber_name"];
+    print "様　";
+    print "<a href='../menber_login/menber_logout.php'>ログアウト</a>";
+    print "<br><br>";
+    }
+
 ?>
 
 <!DOCTYPE html>
-<?php require_once("head.php") ?>
-<title>貸し借り|一覧</title>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>カートに追加</title>
+<link rel="stylesheet" href="../style.css">
 </head>
-
+    
 <body>
-  <script src="js/original.js"></script>
-  <div id="cursor"></div>
-  <audio id="audio"></audio>
-  <div id="fb-root"></div>
 
-
-  <!--ヘッダー-->
-  <?php require_once("header.php"); ?>
-
-  <div>
-    <!-- 入力フォームを作る -->
-
-    <div id="wrapper">
-      <!--メイン-->
-      <div id="main">
-        <section id="point">
-        <?php
+<?php
     
-    $code = $_GET["code"];
-    
-    if(isset($_SESSION["cart"]) === true) {
-        $cart = $_SESSION["cart"];
-        $kazu = $_SESSION["kazu"];
-            if(in_array($code, $cart) === true) {
-            print "すでにカートにあります。<br><br>";
-            print "<a href='shop_list.php'>ショップ一覧へ戻る</a>";
-            } 
-            }
-    if(empty($_SESSION["cart"]) === true or in_array($code, $cart) === false) {
-    $cart[] = $code;
-    $kazu[] = 1;
-    $_SESSION["cart"] = $cart;
-    $_SESSION["kazu"] = $kazu;
-    
-    print "カートに追加しました。<br><br>";
-    print "<a href='shop_list.php'>ショップ一覧へ戻る</a>";
-    }
-    
-    ?>
-    <br><br>
-    
-      </div>
-      <!--/メイン-->
+$code = $_GET["code"];
 
-      <!--サイド-->
+if(isset($_SESSION["cart"]) === true) {
+    $cart = $_SESSION["cart"];
+    $kazu = $_SESSION["kazu"];
+        if(in_array($code, $cart) === true) {
+        print "すでにカートにあります。<br><br>";
+        print "<a href='shop_list.php'>ショップ一覧へ戻る</a>";
+        } 
+        }
+if(empty($_SESSION["cart"]) === true or in_array($code, $cart) === false) {
+$cart[] = $code;
+$kazu[] = 1;
+$_SESSION["cart"] = $cart;
+$_SESSION["kazu"] = $kazu;
 
-      <?php
-      require_once('side.php');
-      ?>
+print "カートに追加しました。<br><br>";
+print "<a href='shop_list.php'>ショップ一覧へ戻る</a>";
+}
 
+?>
+<br><br>
 
-      <!--/サイド-->
-    </div>
-    <!--/wrapper-->
-
-    <!--フッター-->
-    <footer>
-      <div id="footer_nav">
-        <ul>
-          <li class="current"><a href="index.php">HOME</a></li>
-          <li><a href="add_db.php">商品登録</a></li>
-          <li><a href="user_chat_list.php">一覧</a></li>
-          <li><a href="mypage.php">マイページ</a></li>
-          <li><a href="register.php">アカウント登録</a></li>
-          <li><a href="login.php">ログイン</a></li>
-        </ul>
-      </div>
-      <small>&copy; 2015 Bloom.</small>
-    </footer>
-    <!--/フッター-->
 </body>
-
 </html>

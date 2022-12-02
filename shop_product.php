@@ -1,34 +1,29 @@
 <?php
+
 session_start();
-require_once('../lib/util.php');
-$myURL='shop_product.php';
-$gobackURL = 'index.php';
-require_once "db_connect.php";
+session_regenerate_id(true);
+
+if(isset($_SESSION["menber_login"]) === true) {
+print "ようこそ";
+    print $_SESSION["menber_name"];
+    print "様　";
+    print "<a href='../menber_login/menber_logout.php'>ログアウト</a>";
+    print "<br><br>";
+}
+
 ?>
 
 <!DOCTYPE html>
-<?php require_once("head.php") ?>
-<title>貸し借り|一覧</title>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>商品選択画面</title>
+<link rel="stylesheet" href="../style.css">
 </head>
-
+    
 <body>
-  <script src="js/original.js"></script>
-  <div id="cursor"></div>
-  <audio id="audio"></audio>
-  <div id="fb-root"></div>
-
-
-  <!--ヘッダー-->
-  <?php require_once("header.php"); ?>
-
-  <div>
-    <!-- 入力フォームを作る -->
-
-    <div id="wrapper">
-      <!--メイン-->
-      <div id="main">
-        <section id="point">
-            
+    
 <?php
 try{
 
@@ -40,7 +35,7 @@ $password = "";
 $dbh = new PDO($dsn, $user, $password);
 $dbh -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-$sql = "SELECT code, name, price, gazou, explanation ,enjoy FROM mst_product WHERE code=?";
+$sql = "SELECT code, name, price, gazou, explanation FROM mst_product WHERE code=?";
 $stmt = $dbh -> prepare($sql);
 $data[] = $code;
 $stmt -> execute($data);
@@ -61,14 +56,13 @@ catch(Exception $e) {
     print "<a href='../staff_login/staff_login.html'>ログイン画面へ</a>";
 }
 ?>
-<br>
 <a href="shop_cartin.php?code=<?php print $code;?>">カートに入れる</a>
 <br><br>
 <?php print $disp_gazou;?>
 <br>
-<?php print $rec['name'];?>
+商品名:<?php print $rec['name'];?>
 <br>
-<?php print $rec['price'];?>p
+価格:<?php print $rec['price'];?>円
 <br>
 詳細:<?php print $rec['explanation'];?>
 
@@ -77,35 +71,12 @@ catch(Exception $e) {
 <input type="button" onclick="history.back()" value="戻る">
 </form>
 
-      </div>
-      <!--/メイン-->
+<h3>カテゴリー</h3>
+<a href="shop_list_eart.php">食品</a><br>
+<a href="shop_list_kaden.php">家電</a><br>
+<a href="shop_list_book.php">書籍</a><br>
+<a href="shop_list_niti.php">日用品</a><br>
+<a href="shop_list_sonota.php">その他</a><br>
 
-      <!--サイド-->
-
-      <?php
-      require_once('side.php');
-      ?>
-
-
-      <!--/サイド-->
-    </div>
-    <!--/wrapper-->
-
-    <!--フッター-->
-    <footer>
-      <div id="footer_nav">
-        <ul>
-          <li class="current"><a href="index.php">HOME</a></li>
-          <li><a href="add_db.php">商品登録</a></li>
-          <li><a href="user_chat_list.php">一覧</a></li>
-          <li><a href="mypage.php">マイページ</a></li>
-          <li><a href="register.php">アカウント登録</a></li>
-          <li><a href="login.php">ログイン</a></li>
-        </ul>
-      </div>
-      <small>&copy; 2015 Bloom.</small>
-    </footer>
-    <!--/フッター-->
 </body>
-
 </html>
