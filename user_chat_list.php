@@ -249,7 +249,15 @@ if (!isset($_SESSION["check"])) {
           }
           echo '<td>', $row['item'], '</td>';
           echo '<td>', $row['comment'], '</td>';
-          echo '<td>', '実装中', '</td>';
+          $sql = "SELECT * FROM roomlist WHERE my_id =$id";
+          $stm = $pdo->prepare($sql);
+          $stm->execute();
+          $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+          $sth = $pdo->query($sql);
+          $count = $sth->rowCount();
+          echo '<td>','<font size="5">',"<a href='room_member.php?id=id={$row["id"]}'>";
+          echo $count."人</a></font>";
+          echo '</td>';
           echo '</tr>';
         }
         echo '</tbody>';
