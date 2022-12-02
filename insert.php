@@ -2,7 +2,7 @@
   // 簡単なエラー処理
   $errors = [];
   $money = $_POST["money"];
-  if(!isset($_POST["item"])){
+  if((!isset($_POST["item"]))){
     $errors[]="名前入れろカス";
   }
   if((!isset($_FILES["image"])) || ($_FILES["image"]["tmp_name"] == '')){
