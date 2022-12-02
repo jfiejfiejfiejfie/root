@@ -251,10 +251,9 @@ if (!isset($_SESSION["check"])) {
                 }
                 echo '<td>', $row['item'], '</td>';
                 echo '<td>', $row['comment'], '</td>';
-                $sql = "SELECT * FROM roomlist WHERE my_id =$id";
+                $sql = "SELECT * FROM roomlist WHERE room_id =".$row['id'];
                 $stm = $pdo->prepare($sql);
                 $stm->execute();
-                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 $sth = $pdo->query($sql);
                 $count = $sth->rowCount();
                 echo '<td>', '<font size="5">', "<a href='room_member.php?id={$row["id"]}'>";
