@@ -1,107 +1,183 @@
+
 <?php
 session_start();
 $myURL='reservation_list.php';
 require_once "db_connect.php";
 ?>
 <!DOCTYPE html>
-<?php require_once("head.php") ?>
-<title>貸し借り|マイページ</title>
+<html lang="ja">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>貸し借りサイト　WACCA</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/original.css">
+  <script src="js/original.js">
+  </script>
 </head>
 
-<body>
-    <audio id="audio"></audio>
-    <div id="fb-root"></div>
+<body id="page-top">
 
-    <!--ヘッダー-->
-    <?php require_once("header.php"); ?>
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <?php require_once("sidebar.php");?>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <?php require_once("nav.php");?>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">予約された商品</h1>
+            <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
+          </div>
+
+          <div class="row">
+          <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
 
 
-    <div id="wrapper">
-        <!--メイン-->
-        <div id="main">
-
-            <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
-
-            <h2>予約された商品</h2>
-            <?php
-          $id = $_SESSION["id"];
-          $list_list = [];
-          $list_count = 0;
-          $sql = "SELECT * FROM list WHERE  user_id=:id";
-          $stm = $pdo->prepare($sql);
-          $stm->bindValue(':id', $id, PDO::PARAM_STR);
-          $stm->execute();
-          $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-          foreach ($result as $row) {
-              $list_count += 1;
-              $list_list[] = $row["id"];
-          }
-          try {
-              if ($list_count > 0) {
-                  $reservation_list = [];
-                  $list_list = implode(",", $list_list);
-                  $sql = "SELECT * FROM reservation_list WHERE  list_id IN ($list_list) and auth=0";
-                  $stm = $pdo->prepare($sql);
-                  $stm->execute();
-                  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  foreach ($result as $row) {
-                      if (!in_array($row["list_id"], $reservation_list)) {
-                          $reservation_list[] = $row["list_id"];
-                          echo '<table class="table table-striped">';
-                          echo "<a href='reservation_auth.php?id={$row['list_id']}'><img id='image' height='100' width='100'src='image.php?id={$row['list_id']}'></a><br>";
-                          $list_id = $row["list_id"];
-                          $sql = "SELECT * FROM list WHERE id=$list_id";
-                          $stm = $pdo->prepare($sql);
-                          $stm->execute();
-                          $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                          foreach ($result2 as $row2) {
-                              echo $row2["item"], "</td>";
-                          }
-                          echo "<hr>";
-                          echo '</tr>';
-                      }
-                  }
-                  echo '</tbody>';
-                  echo '</table>';
-              } else {
-                  echo "<h1>現在予約はありません。</h1>";
+<?php
+$id = $_SESSION["id"];
+$list_list = [];
+$list_count = 0;
+$sql = "SELECT * FROM list WHERE  user_id=:id";
+$stm = $pdo->prepare($sql);
+$stm->bindValue(':id', $id, PDO::PARAM_STR);
+$stm->execute();
+$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+foreach ($result as $row) {
+  $list_count += 1;
+  $list_list[] = $row["id"];
+}
+try {
+  if ($list_count > 0) {
+      $reservation_list = [];
+      $list_list = implode(",", $list_list);
+      $sql = "SELECT * FROM reservation_list WHERE  list_id IN ($list_list) and auth=0";
+      $stm = $pdo->prepare($sql);
+      $stm->execute();
+      $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($result as $row) {
+          if (!in_array($row["list_id"], $reservation_list)) {
+              $reservation_list[] = $row["list_id"];
+              echo '<table class="table table-striped">';
+              echo "<a href='reservation_auth.php?id={$row['list_id']}'><img id='image' height='100' width='100'src='image.php?id={$row['list_id']}'></a><br>";
+              $list_id = $row["list_id"];
+              $sql = "SELECT * FROM list WHERE id=$list_id";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+              foreach ($result2 as $row2) {
+                  echo $row2["item"], "</td>";
               }
-          } catch (Exception $e) {
-              echo 'エラーがありました。';
-              echo $e->getMessage();
-              exit();
+              echo "<hr>";
+              echo '</tr>';
           }
       }
-      ?>
+      echo '</tbody>';
+      echo '</table>';
+  } else {
+      echo "<h1>現在予約はありません。</h1>";
+  }
+} catch (Exception $e) {
+  echo 'エラーがありました。';
+  echo $e->getMessage();
+  exit();
+}
+}
+?>
+          </div>
+
         </div>
-        <!--/メイン-->
+        <!-- /.container-fluid -->
 
-        <!--サイド-->
+      </div>
+      <!-- End of Main Content -->
 
-        <?php
-    require_once('side.php');
-    ?>
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2021</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
 
-
-        <!--/サイド-->
     </div>
-    <!--/wrapper-->
+    <!-- End of Content Wrapper -->
 
-    <!--フッター-->
-    <footer>
-        <div id="footer_nav">
-            <ul>
-                <li class="current"><a href="index.php">HOME</a></li>
-                <li><a href="add_db.php">商品登録</a></li>
-                <li><a href="user_chat_list.php">一覧</a></li>
-                <li><a href="mypage.php">マイページ</a></li>
-                <li><a href="register.php">アカウント登録</a></li>
-                <li><a href="login.php">ログイン</a></li>
-            </ul>
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
         </div>
-        <small>&copy; 2015 Bloom.</small>
-    </footer>
-    <!--/フッター-->
+        <div class="modal-body">ログアウトしますか？</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
+          <a class="btn btn-danger" href="logout.php">ログアウト</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/chart-area-demo.js"></script>
+  <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 
