@@ -197,7 +197,7 @@ if (isset($_POST['submitted'])) {
   <hr>
   <?php endif; ?>
   <p>以下のフォームからお問い合わせください。</p>
-
+      <div class="col-12"> </div>
       <label for="name">お名前（必須） 
         <span class="error-php"><?php if ( isset( $error['name'] ) ) echo h( $error['name'] ); ?></span>
       </label>
@@ -212,7 +212,7 @@ if (isset($_POST['submitted'])) {
 
       <label for="tel">お電話番号（半角英数字） 
         <span class="error-php"><?php if ( isset( $error['tel'] ) ) echo h( $error['tel'] ); ?></span>
-
+      </label>
       <input type="tel" class="form-control" id="tel" name="tel" pattern="\(?\d{2,5}\)?[-(\.\s]{0,2}\d{1,4}[-)\.\s]{0,2}\d{3,4}" value="<?php echo h($tel); ?>" placeholder="電話番号">
 
 
@@ -225,7 +225,7 @@ if (isset($_POST['submitted'])) {
        <label for="body">お問い合わせ内容（必須） 
         <span class="error-php"><?php if ( isset( $error['body'] ) ) echo h( $error['body'] ); ?></span>
       </label>
-      <textarea class="form-control" id="body" name="body" placeholder="お問い合わせ内容" required  maxlength="300" rows="3"><?php echo h($body); ?></textarea>
+      <textarea class="form-control" id="body" name="body" placeholder="お問い合わせ内容" required  maxlength="300" rows="7"><?php echo h($body); ?></textarea>
 
     <button name="submitted" type="submit" class="btn btn-primary">送信</button>
   </form>
