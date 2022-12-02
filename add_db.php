@@ -82,7 +82,7 @@ if (isset($_POST["kind"])) {
                 <br>
                 <label>貸出物　:
                   <input type="text" id="item_name" class="form-control form-control-user" name="item"
-                    placeholder="必須(30文字まで)">
+                    placeholder="必須(30文字まで)" required>
                 </label>
                 <br>
                 <label>ジャンル:
