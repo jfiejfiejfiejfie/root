@@ -171,6 +171,7 @@ if (!isset($_SESSION["check"])) {
   <br><h2>チャットルーム一覧
   <div class="text-right"><a href="add_room.php" class="btn btn-primary" >作成する</a></h2></div></div>';
   try {
+    $room_id = $row["id"];
     $sql = "SELECT * FROM room";
     $stm = $pdo->prepare($sql);
     $stm->execute();
@@ -185,9 +186,28 @@ if (!isset($_SESSION["check"])) {
     echo '</tr></thead>';
     echo '<tbody>';
     foreach ($result as $row) {
-      echo '<tr>';
-      echo "<td><a href=room.php?id={$row["id"]}>", '<img height="130" width="130" src="room_image.php?id=', $row['id'], '"></a>';
-      echo "<br><div id='button2'><a class='btn btn-primary'>参加する</a></td></div>";
+      ?>
+          <form action="attend.php" method="POST" enctype="multipart/form-data">
+          <?php
+          $attend_count=0;
+          $sql = "SELECT * FROM roomlist WHERE room_id =:room_id and my_id=:my_id";
+          $stm = $pdo->prepare($sql);
+          $stm->bindValue(':room_id', $row["id"], PDO::PARAM_STR);
+          $stm->bindValue(':my_id', $_SESSION["id"], PDO::PARAM_STR);
+          $stm->execute();
+          $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+          foreach ($result2 as $row2) {
+            $attend_count += 1;
+          }
+              echo '<tr>';
+              echo "<td><a href=room.php?id={$row["id"]}>", '<img height="130" width="130" src="room_image.php?id=', $row['id'], '"></a>';
+              if ($attend_count == 0) {
+                echo "<br><div id='button2'><a href='attend.php?id={$row["id"]}' class='btn btn-danger'>参加する</a></td></div>";
+              } else {
+                echo "<br><a href='attend.php?id={$row["id"]}' class='btn btn-primary'>脱退する</a>";
+              }
+          ?>
+      <?php
       $user_id = $row["user_id"];
       $sql = "SELECT * FROM users WHERE id=$user_id";
       $stm = $pdo->prepare($sql);
