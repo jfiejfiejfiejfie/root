@@ -90,7 +90,7 @@ if (isset($_POST["kind"])) {
             echo '<table class="table table-striped">';
             echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
             $room_id = $row["room_id"];
-            $sql = "SELECT * FROM users WHERE id=$user_id";
+            $sql = "SELECT * FROM users WHERE id=".$row["my_id"];
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
