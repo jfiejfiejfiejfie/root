@@ -251,13 +251,11 @@ if (!empty($_POST['btn_submit'])) {
 
               <body>
                 <form method="POST" action="search_comment.php">
-                  <ul>
                       <label>コメントを検索します（部分一致）：<br>
                         <input type="text" name="message" class="form-control form-control-user" placeholder="名前を入れてください。">
                       </label>
                       <br>
                       <input type="submit" class='btn btn-info'value="検索する">
-                  </ul>
                 </form>
                 <?php if (!empty($success_message)): ?>
                 <p class="success_message">
