@@ -65,15 +65,15 @@ if (isset($_POST["kind"])) {
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">商品登録</h1>
-            <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
-          </div>
+             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a>
+          </div> -->
 
           <div class="row">
           <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
-      <h2>ルームメンバーリスト</h2>
+      <h2>ルームメンバーリスト</h2><div class="col-12"></div>
       <?php
         if(isset($_GET["id"])){
           $id=$_GET["id"];
@@ -81,7 +81,6 @@ if (isset($_POST["kind"])) {
           $id = $_SESSION["id"];
         }
         try {
-
           $sql = "SELECT * FROM roomlist WHERE room_id=:id";
           $stm = $pdo->prepare($sql);
           $stm->bindValue(':id', $id, PDO::PARAM_STR);
@@ -89,8 +88,8 @@ if (isset($_POST["kind"])) {
           $result = $stm->fetchAll(PDO::FETCH_ASSOC);
           foreach ($result as $row) {
             echo '<table class="table table-striped">';
-            echo "<a href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
-            $user_id = $row["user_id"];
+            echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
+            $room_id = $row["room_id"];
             $sql = "SELECT * FROM users WHERE id=$user_id";
             $stm = $pdo->prepare($sql);
             $stm->execute();

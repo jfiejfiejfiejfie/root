@@ -202,8 +202,8 @@ if (!isset($_SESSION["check"])) {
             <?php
 
             echo '<div> <div class="">
-  <br><h2>チャットルーム一覧</h2>
-  <div class="text-right"><a href="add_room.php" class="btn btn-primary col-4" >作成する</a></div></div>';
+            <br><h2>チャットルーム一覧</h2>
+            <div class="text-right"><a href="add_room.php" class="btn btn-primary col-4" >作成する</a></div></div>';
             try {
               $sql = "SELECT * FROM room";
               $stm = $pdo->prepare($sql);
@@ -257,7 +257,7 @@ if (!isset($_SESSION["check"])) {
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 $sth = $pdo->query($sql);
                 $count = $sth->rowCount();
-                echo '<td>', '<font size="5">', "<a href='room_member.php?id=id={$row["id"]}'>";
+                echo '<td>', '<font size="5">', "<a href='room_member.php?id={$row["id"]}'>";
                 echo $count . "人</a></font>";
                 echo '</td>';
                 echo '</tr>';
