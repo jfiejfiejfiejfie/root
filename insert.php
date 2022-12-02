@@ -2,6 +2,12 @@
   // 簡単なエラー処理
   $errors = [];
   $money = $_POST["money"];
+  if(!isset($_POST["item"])){
+    $errors[]="名前入れろカス";
+  }
+  if((!isset($_FILES["image"])) || ($_FILES["image"]["tmp_name"] == '')){
+    $errors[]="画像入れろカス";
+  }
   if (!isset($_POST["money"]) || (!ctype_digit($_POST["money"]))) {
     $money = 100;
   }
@@ -59,17 +65,10 @@
     $id = $_SESSION["id"];
     date_default_timezone_set('Asia/Tokyo');
     $created_at = date("Y/m/d H:i:s");
-    if ($_POST["item"] != "") {
-      $item = $_POST["item"];
-    } else {
-      $lines = file("named1.txt", FILE_IGNORE_NEW_LINES);
-      $lines2 = file("named2.txt", FILE_IGNORE_NEW_LINES);
-      $item = "{$lines[rand(0, 7)]}{$lines2[rand(0, 6)]}";
-    }
+    $item = $_POST["item"];
     $comment = $_POST["comment"];
     $upfile = $_FILES["image"]["tmp_name"];
     $imgdat = file_get_contents($upfile);
-
     try {
 
 
