@@ -10,7 +10,7 @@ require_once "db_connect.php";
 require_once('checked.php');
 require_once "db_connect.php";
 $myURL = 'add_db.php';
-$gobackURL = 'index.php';
+$gobackURL = 'keijiban.php';
 $point = 0;
 if (isset($_POST["kind"])) {
   require_once('insert.php');
@@ -49,7 +49,7 @@ if (isset($_POST["kind"])) {
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -59,7 +59,7 @@ if (isset($_POST["kind"])) {
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -73,55 +73,52 @@ if (isset($_POST["kind"])) {
           </div>
 
           <div class="row">
-          <div>
-        <?php
-        $message = $_POST["message"];
-        try{
-            $sql = "SELECT * FROM message WHERE message LIKE(:message)";
-    // プリペアドステートメントを作る
-    $stm=$pdo->prepare($sql);
-    // プレースホルダに値をバインドする
-    $stm->bindValue(':message',"%{$message}%",PDO::PARAM_STR);
-    // SQL文を実行する
-    $stm->execute();
-    // 結果の取得（連想配列で受け取る）
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-    if(count($result)>0){
-      // echo "<script> final(); </script>";
-      echo "コメントに「{$message}」が含まれているレコード";
-      // テーブルのタイトル行
-    //   echo '<table class="table table-striped">';
-    //   echo '<thead><tr>';
-    //   echo '<th>','ユーザ','</th>';
-    //   echo '<th>','コメント','</th>';
-    //   echo '</tr></thead>';
-    //   echo '<tbody>';
-      foreach($result as $row){
-        echo '<table class="table table-striped">';
-        echo '<thead><tr>';
-        echo '<th>No',$row["id"],' ',$row["view_name"],':';
-        echo $row["post_date"],'</th>';
-        echo '</tr>';
-        echo '<tr>';
-        echo '<td>',$row["message"],'</td>';
-        echo '</tr>';
-        echo '</thead>';
-        echo '</table>';
-        }
-    } else {
-      echo "名前に「{$message}」は見つかりませんでした。";
-      // echo "<script> suteki(); </script>";
-    }
-  } catch (Exception $e) {
-    echo '<span class="error">エラーがありました。</span><br>';
-    echo $e->getMessage();
-  }
-    ?>
-      <hr>
-    <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
-</div>
-      </section>
-    </div>
+              <?php
+              $message = $_POST["message"];
+              try {
+                $sql = "SELECT * FROM message WHERE message LIKE(:message)";
+                // プリペアドステートメントを作る
+                $stm = $pdo->prepare($sql);
+                // プレースホルダに値をバインドする
+                $stm->bindValue(':message', "%{$message}%", PDO::PARAM_STR);
+                // SQL文を実行する
+                $stm->execute();
+                // 結果の取得（連想配列で受け取る）
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                if (count($result) > 0) {
+                  // echo "<script> final(); </script>";
+                  echo "コメントに「{$message}」が含まれているレコード";
+                  // テーブルのタイトル行
+                  //   echo '<table class="table table-striped">';
+                  //   echo '<thead><tr>';
+                  //   echo '<th>','ユーザ','</th>';
+                  //   echo '<th>','コメント','</th>';
+                  //   echo '</tr></thead>';
+                  //   echo '<tbody>';
+                  foreach ($result as $row) {
+                    echo '<table class="table table-striped">';
+                    echo '<thead><tr>';
+                    echo '<th>No', $row["id"], ' ', $row["view_name"], ':';
+                    echo $row["post_date"], '</th>';
+                    echo '</tr>';
+                    echo '<tr>';
+                    echo '<td>', $row["message"], '</td>';
+                    echo '</tr>';
+                    echo '</thead>';
+                    echo '</table>';
+                  }
+                } else {
+                  echo "名前に「{$message}」は見つかりませんでした。";
+                  // echo "<script> suteki(); </script>";
+                }
+              } catch (Exception $e) {
+                echo '<span class="error">エラーがありました。</span><br>';
+                echo $e->getMessage();
+              }
+              ?>
+              <hr>
+              <p><a class="btn btn-primary" href="<?php echo $gobackURL ?>">戻る</a></p>
+          </div>
         </div>
         <!-- /.container-fluid -->
 

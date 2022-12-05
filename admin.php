@@ -5,7 +5,7 @@ require_once('db_connect.php');
 require_once('user_check.php');
 $myURL = 'admin.php';
 if ($row["admin"] == 0) {
-    header('Location:index.php');
+    header('Location:./');
 }
 ?>
 
