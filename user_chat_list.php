@@ -145,7 +145,7 @@ if (!isset($_SESSION["check"])) {
                   $chat_count += 1;
                   echo '<table id="user_chat" class="table table-striped">';
                   echo '<thead><tr>';
-                  echo '<th><a href="profile.php?id=', $row["others_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["others_id"], '"></a>';
+                  echo '<th><a href="profile.php?id=', $row["others_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["others_id"], '"></a>';
                   $user_id = $row["others_id"];
                   $sql = "SELECT * FROM users WHERE id=$user_id";
                   $stm = $pdo->prepare($sql);
@@ -233,9 +233,9 @@ if (!isset($_SESSION["check"])) {
                   $attend_count += 1;
                 }
                 echo '<tr>';
-                echo "<td><a href=room.php?id={$row["id"]}>", '<img height="150" width="150" src="room_image.php?id=', $row['id'], '"></a>';
+                echo "<td><a href=room.php?id={$row["id"]}>", '<img height="200" width="200" src="room_image.php?id=', $row['id'], '"></a>';
                 if ($attend_count == 0) {
-                  echo "<br><div><a href='attend.php?id={$row["id"]}' class='btn btn-danger col-4'>参加する</a></td></div>";
+                  echo "<br><div><a href='attend.php?id={$row["id"]}' class='btn btn-danger col-5'>参加する</a></td></div>";
                 } else {
                   echo "<br><a href='attend.php?id={$row["id"]}' class='btn btn-primary'>脱退する</a>";
                 }
