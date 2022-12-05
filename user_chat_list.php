@@ -86,7 +86,7 @@ if (!isset($_SESSION["check"])) {
                   $chat_count += 1;
                   echo '<table id="user_chat" class="table table-striped">';
                   echo '<thead><tr>';
-                  echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
+                  echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
                   $user_id = $row["user_id"];
                   $sql = "SELECT * FROM users WHERE id=$user_id";
                   $stm = $pdo->prepare($sql);
