@@ -50,7 +50,7 @@ if (isset($_POST["kind"])) {
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -60,131 +60,126 @@ if (isset($_POST["kind"])) {
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-        <div class="row">
-          <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
-      <?php
-        if(isset($_GET["id"])){
-          $id=$_GET["id"];
-        }else{
-          $id = $_SESSION["id"];
-        }
-        try {
-          $sql = "SELECT * FROM roomlist WHERE room_id=:id";
-          $stm = $pdo->prepare($sql);
-          $stm->bindValue(':id', $id, PDO::PARAM_STR);
-          $stm->execute();
-          $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-          foreach ($result as $row) {
-            // echo '<table class="table table-striped">';
-            echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='50' width='50'src='my_image.php?id={$row['my_id']}'></a>";
-            $room_id = $row["room_id"];
-            $sql = "SELECT * FROM users WHERE id=".$row["my_id"];
-            $stm = $pdo->prepare($sql);
-            $stm->execute();
-            $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-            // foreach ($result2 as $row2) {
-            //   echo $row2["name"], "</td>";
-            // }
-            // echo "<hr>";
-            // echo '</tr>';
-          }
-          echo '</tbody>';
-          echo '</table>';
-        } catch (Exception $e) {
-          echo 'エラーがありました。';
-          echo $e->getMessage();
-          exit();
-        }
-      }
-      ?>
-          </div>
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800"><br>ルーム</h1>
-            <?php
-                $attend_count = 0;
-                $sql = "SELECT * FROM roomlist WHERE room_id =:room_id";
-                $stm = $pdo->prepare($sql);
-                $stm->bindValue(':room_id', $row["id"], PDO::PARAM_STR);
-                $stm->execute();
-                $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-              ?>
-            <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
-          </div>
           <div class="row">
-          <div>
-            <?php
-            $chat_count = 0;
-            $sql = "SELECT * FROM roomchat WHERE list_id=$list_id";
-            $stm = $pdo->prepare($sql);
-            $stm->execute();
-            $chat_result = $stm->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($chat_result as $chat_row) {
-              if ($chat_count == 0) {
-                echo '<h1>チャット</h1>';
+            <div class="col-12">
+              <?php
+              if (isset($_GET["id"])) {
+                $id = $_GET["id"];
+              } else {
+                $id = $_SESSION["id"];
               }
-              echo '<table class="table table-striped">';
-              echo '<thead><tr>';
-              echo '<th><a href="profile.php?id=', $chat_row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $chat_row["user_id"], '"></a>';
-              $chat_user_id = $chat_row["user_id"];
-              $sql = "SELECT * FROM users WHERE id=$chat_user_id";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $chat_result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-              foreach ($chat_result2 as $chat_row2) {
-                echo $chat_row2["name"], ":";
+              try {
+                $sql = "SELECT * FROM roomlist WHERE room_id=:id";
+                $stm = $pdo->prepare($sql);
+                $stm->bindValue(':id', $id, PDO::PARAM_STR);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($result as $row) {
+                  // echo '<table class="table table-striped">';
+                  echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='50' width='50'src='my_image.php?id={$row['my_id']}'></a>";
+                  $room_id = $row["room_id"];
+                  $sql = "SELECT * FROM users WHERE id=" . $row["my_id"];
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  // foreach ($result2 as $row2) {
+                  //   echo $row2["name"], "</td>";
+                  // }
+                  // echo "<hr>";
+                  // echo '</tr>';
+                }
+                echo '</tbody>';
+                echo '</table>';
+              } catch (Exception $e) {
+                echo 'エラーがありました。';
+                echo $e->getMessage();
+                exit();
               }
-              echo $chat_row["created_at"], '</th>';
-              echo '</tr>';
-              echo '<tr>';
-              if ($chat_row["image"] != "") {
-                echo '<td><img id="parent" src="chat_image.php?id=', $chat_row["id"], ' alt="" height="232" width="232"/></td>';
-                echo '</tr>';
-                echo '<tr>';
-              }
-              echo '<td>', $chat_row["text"], '</td>';
-              echo '</tr>';
-              echo '</thead>';
-              echo '</table>';
-              $chat_count += 1;
-            }
-            ?>
-            <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-              // echo "<a href='favorite.php?id={$row["id"]}' class='btn'><img src='images/good.png' style='max-width:50px'>$count</a><br>";
+              ?>
+            </div>
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+              <h1 class="h3 mb-0 text-gray-800"><br>ルーム名
+                <?php
+                try {
+                  $sql = "SELECT * FROM room WHERE id=$room_id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result as $row) {
+                    echo '「'.$row['item'].'」';
+                ?>
+                <form action="attend.php" method="POST" enctype="multipart/form-data">
+                  <?php
+                    $attend_count = 0;
+                    $sql = "SELECT * FROM roomlist WHERE room_id =:room_id and my_id=:my_id";
+                    $stm = $pdo->prepare($sql);
+                    $stm->bindValue(':room_id', $row["id"], PDO::PARAM_STR);
+                    $stm->bindValue(':my_id', $_SESSION["id"], PDO::PARAM_STR);
+                    $stm->execute();
+                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  ?>
+                  <?php
+                    $user_id = $row["user_id"];
+                    $sql = "SELECT * FROM users WHERE id=$user_id";
+                    $stm = $pdo->prepare($sql);
+                    $stm->execute();
+                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+                    $sql = "SELECT * FROM roomlist WHERE room_id =" . $row['id'];
+                    $stm = $pdo->prepare($sql);
+                    $stm->execute();
+                    $sth = $pdo->query($sql);
+                    $count = $sth->rowCount();
+                  }
+                } catch (Exception $e) {
+                  echo 'エラーがありました。';
+                  echo $e->getMessage();
+                  exit();
+                }
+                  ?>
+              </h1>
+
+              <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
+            </div>
+            <div class="col-12"></div>
+            <div class="col-12">
+              <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+                // echo "<a href='favorite.php?id={$row["id"]}' class='btn'><img src='images/good.png' style='max-width:50px'>$count</a><br>";
                 echo "<a href='loan2.php?id={$row["id"]}' class='btn btn-success'>チャットをする</a><br>";
                 echo '</form>';
-            } ?>
-            <hr>
-            <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
-          </div>
-        </section>
-      </div>
-          </div>
+              } ?>
+              <hr>
+              <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+            </div>
           </div>
         </div>
-        <!-- /.container-fluid -->
-
       </div>
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2021</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
-
     </div>
-    <!-- End of Content Wrapper -->
+  </div>
+  <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Your Website 2021</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
 
   </div>
   <!-- End of Page Wrapper -->
