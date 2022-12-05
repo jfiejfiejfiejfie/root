@@ -68,8 +68,14 @@ require_once "db_connect.php";
                 <ul>
                   <h1>商品検索</h1>
                   <label>名前を検索します（部分一致）：<br>
-                    <input type="text" name="item" class="form-control form-control-user" placeholder="名前を入れてください。">
-                    <input type="submit" class="btn btn-primary" value="検索する">
+                    <div class="input-group">
+                      <input type="text" name="item" class="form-control form-control-user" placeholder="名前を入れてください。">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                          <i class="fas fa-search fa-sm"></i>
+                        </button>
+                      </div>
+                    </div>
                   </label>
                 </ul>
               </form>
@@ -78,8 +84,9 @@ require_once "db_connect.php";
                 <ul>
                   <h1>ジャンル検索</h1>
                   <label>ジャンルで検索します：<br>
-                    <select name="kind_name" class="form-control form-control-user">
-                      <?php
+                    <div class="input-group">
+                      <select name="kind_name" class="form-control form-control-user">
+                        <?php
                         try {
 
                           $sql = "SELECT * FROM kind";
@@ -95,8 +102,13 @@ require_once "db_connect.php";
                           echo '<option value="', $row["id"], '">', $row["name"], "</option>";
                         }
                         ?>
-                    </select>
-                    <input type="submit" class="btn btn-primary" value="検索する">
+                      </select>
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                          <i class="fas fa-search fa-sm"></i>
+                        </button>
+                      </div>
+                    </div>
                   </label>
 
                 </ul>
@@ -105,19 +117,31 @@ require_once "db_connect.php";
                 <ul>
                   <h1>金額検索</h1>
                   <label>金額で検索します:<br>
-                    <input type="number_format" class="form-control form-control-user" name="money1">以上
-                    <input type="number_format" class="form-control form-control-user" name="money2">以下
-                    <input type="submit" class="btn btn-primary" value="検索する">
+                    <div class="input-group">
+                      <input type="number_format" class="form-control form-control-user" name="money1" placeholder="以上">
+                      <input type="number_format" class="form-control form-control-user" name="money2" placeholder="以下">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                          <i class="fas fa-search fa-sm"></i>
+                        </button>
+                      </div>
+                    </div>
                   </label>
                 </ul>
               </form>
               <form method="POST" action="search_user.php" class="form-inline">
                 <ul>
-                <h1>ユーザ検索</h1>
+                  <h1>ユーザ検索</h1>
                   <label>ユーザを検索します（部分一致）：<br>
-                    <input type="text" name="user_name" class="form-control form-control-user"
-                      placeholder="名前を入れてください。">
-                    <input type="submit" class="btn btn-primary" value="検索する">
+                    <div class="input-group">
+                      <input type="text" name="user_name" class="form-control form-control-user"
+                        placeholder="名前を入れてください。">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                          <i class="fas fa-search fa-sm"></i>
+                        </button>
+                      </div>
+                    </div>
                   </label>
                 </ul>
               </form>

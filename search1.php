@@ -79,94 +79,94 @@ $option = "&item=$item";
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">商品登録</h1>
+            <h1 class="h3 mb-0 text-gray-800">商品検索</h1>
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
 
           <div class="row">
-            <section id="point">
-              <form method="POST" action="search1.php">
-                <ul>
-                  <h2>検索</h2>
-                  <label>名前を検索します（部分一致）：<br>
-                    <input type="text" name="item" placeholder="名前を入れてください。"
-                      value="<?php echo htmlspecialchars($item); ?>">
-                    <input type="submit" value="検索する">
-                  </label>
-                </ul>
-              </form>
-            </section>
-            <div class="col-12"></div>
-            <section id="point">
-              <h2>出品物一覧</h2>
-              <div>
-                <?php
+            <form method="POST" action="search1.php" class="form-inline">
+              <!-- <h1>商品検索</h1> -->
+              <label>名前を検索します（部分一致）：<br>
+                <div class="input-group">
+                  <input type="text" name="item" class="form-control form-control-user" placeholder="名前を入れてください。">
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                      <i class="fas fa-search fa-sm"></i>
+                    </button>
+                  </div>
+                </div>
+              </label>
+            </form>
+            <!-- <div class="12"></div>  -->
+            <!-- <section id="point"> -->
+            <h2 class="col-12">出品物一覧</h2>
+            <div class="col-12">
+              <?php
 
                 //MySQLデータベースに接続する
-                try {
-                  $block = 0;
-                  require_once('block_check.php');
-                  if ($block_count != 0) {
-                    $block_list = implode(",", $block_list);
-                    $sql = "SELECT * FROM list WHERE item LIKE(:item) and user_id not in ($block_list)";
-                  } else {
-                    $sql = "SELECT * FROM list WHERE item LIKE(:item)";
-                  }
-                  $stm = $pdo->prepare($sql);
-                  $stm->bindValue(':item', "%{$item}%", PDO::PARAM_STR);
-                  $stm->execute();
-                  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  require_once('paging.php');
-                  if (count($disp_data) > 0) {
-                    echo "名前に「{$item}」が含まれているレコード";
-                    // テーブルのタイトル行
-                    echo '<table class="table">';
-                    echo '<thead class="col-12"><tr>';
-                    echo '<th class="col-3">', '貸出者', '</th>';
-                    echo '<th class="col-3">', '貸出物', '</th>';
-                    echo '<th class="col-3">', '金額', '</th>';
-                    echo '<th class="col-3">', '画像', '</th>';
-                    if ($_SESSION["admin"] == 1) {
-                      echo '<th class="col-3">', '削除', '</th>';
+                $block = 0;
+                require_once('block_check.php');
+                if ($block_count != 0) {
+                  $block_list = implode(",", $block_list);
+                  $sql = "SELECT * FROM list WHERE item LIKE(:item) and user_id not in ($block_list)";
+                } else {
+                  $sql = "SELECT * FROM list WHERE item LIKE(:item)";
+                }
+                $stm = $pdo->prepare($sql);
+                $stm->bindValue(':item', "%{$item}%", PDO::PARAM_STR);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                require_once('paging.php');
+                if (count($disp_data) > 0) {
+                  echo "名前に「{$item}」が含まれているレコード";
+                  // echo '<div class="col-12"></div>';
+                  // テーブルのタイトル行
+                  echo '<table class="table table-striped table-hover">';
+                  echo '<thead><tr>';
+                  echo '<th>', '貸出者', '</th>';
+                  echo '<th>', '貸出物', '</th>';
+                  echo '<th>', 'ジャンル', '</th>';
+                  echo '<th>', 'コメント', '</th>';
+                  echo '<th>', '金額', '</th>';
+                  echo '<th>', '画像', '</th>';
+                  echo '</tr></thead>';
+                  echo '<tbody>';
+                  foreach ($disp_data as $row) {
+                    echo '<tr><td>';
+                    echo "<a href='profile.php?id={$row['user_id']}'><img height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
+                    $user_id = $row["user_id"];
+                    $sql = "SELECT * FROM users WHERE id=$user_id";
+                    $stm = $pdo->prepare($sql);
+                    $stm->execute();
+                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result2 as $row2) {
+                      echo $row2["name"] . "</td>";
                     }
-                    echo '</tr></thead>';
-                    echo '<tbody>';
-                    foreach ($disp_data as $row) {
-                      echo '<tr>';
-                      $user_id = $row["user_id"];
-                      $sql = "SELECT * FROM users WHERE id=$user_id";
-                      $stm = $pdo->prepare($sql);
-                      $stm->execute();
-                      $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                      foreach ($result2 as $row2) {
-                        echo '<td class="col-3">', $row2["name"];
-                      }
-                      echo "<br><a href='profile.php?id={$row['user_id']}'><img height='100' width='100'src='my_image.php?id={$row['user_id']}'></a></td>";
-                      echo '<td class="col-3">', $row['item'], '</td>';
-                      echo '<td class="col-3">￥', number_format($row['money']), '</td>';
-                      echo "<td class='col-3'><a href=detail.php?id={$row["id"]}>", '<img height="100" width="100" src="image.php?id=', $row['id'], '"></a></td>';
-                      if ($_SESSION["admin"] == 1) {
-                        $row['id'] = rawurlencode($row['id']);
-                        echo "<td class='col-3'><a class = 'btn btn-primary' href=delete.php?id={$row["id"]}>", "消す", '</a></td>';
-                      }
-                      echo '</tr>';
+                    echo '<td class="col-2">', $row['item'], '</td>';
+                    echo '<td>', $row['kind'], '</td>';
+                    $text = $row["comment"];
+                    $text = strip_tags($text);
+                    $limit = 265;
+                    if (mb_strlen($text) > $limit) {
+                      $title = mb_substr($text, 0, $limit);
+                      $text= $title . '･･･';
                     }
-                    echo '</tbody>';
-                    echo '</table>';
-                  } else {
-                    echo "名前に「{$item}」は見つかりませんでした。";
+                    echo '<td class="col-4">', $text, '</td>';
+                    echo '<td>￥', number_format($row['money']), '</td>';
+                    echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="200" width="200" src="image.php?id=', $row['id'], '"></a></td>';
+                    echo '</tr>';
                   }
-                } catch (Exception $e) {
-                  echo '<span class="error">エラーがありました。</span><br>';
-                  echo $e->getMessage();
+                  echo '</tbody>';
+                  echo '</table>';
+                } else {
+                  echo "名前に「{$item}」は見つかりませんでした。";
                 }
                 require_once('paging2.php');
                 ?>
-                <hr>
-                <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
-              </div>
-            </section>
+              <hr>
+              <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+            </div>
           </div>
 
         </div>
