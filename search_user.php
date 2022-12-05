@@ -78,15 +78,15 @@ if (empty($_POST)) {
           <div class="row">
             <form method="POST" action="search_user.php">
               <label>ユーザ名を検索します（部分一致）：<br>
-                  <div class="input-group">
-                      <input type="text" name="user_name" class="form-control form-control-user"
-                        placeholder="名前を入れてください。" value="<?php echo htmlspecialchars($_POST["user_name"]); ?>">
-                      <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">
-                          <i class="fas fa-search fa-sm"></i>
-                        </button>
-                      </div>
-                    </div>
+                <div class="input-group">
+                  <input type="text" name="user_name" class="form-control form-control-user" placeholder="名前を入れてください。"
+                    value="<?php echo htmlspecialchars($_POST["user_name"]); ?>">
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                      <i class="fas fa-search fa-sm"></i>
+                    </button>
+                  </div>
+                </div>
               </label>
             </form>
             <div class="col-12"></div>
