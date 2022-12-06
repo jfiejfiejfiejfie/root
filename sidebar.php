@@ -51,6 +51,7 @@ if (!isset($_SESSION["loggedin"])) {
                         <a class="collapse-item" href="mypage.php">マイページ</a>
                         <a class="collapse-item" href="buy_list.php">購入されたもの</a>
                         <a class="collapse-item" href="reservation_list.php">予約されたもの</a>
+                        <a class="collapse-item" href="good_list.php">いいね一覧</a>
                         <a class="collapse-item" href="eturan.php">閲覧履歴</a>
                         <a class="collapse-item" href="admin.php">管理者ページ</a>
                         <div class="collapse-divider"></div>

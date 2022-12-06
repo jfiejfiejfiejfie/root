@@ -1,1 +1,1 @@
-deny from 172.16.31.24
+ErrorDocument 404 /test/404.php
