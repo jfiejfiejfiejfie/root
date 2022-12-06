@@ -136,7 +136,7 @@ $option = "&id=$id";
             <?php
             $id = $_GET["id"];
             ?>
-            <img id="image" height="150" width="150" src="my_image.php?id=<?php echo $id; ?>">
+            <img class="img-profile rounded-circle" height="150" width="150" src="my_image.php?id=<?php echo $id; ?>">
             <div class="col-12"></div>
             <?php
             if ($admin == 0) {

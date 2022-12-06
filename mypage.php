@@ -70,7 +70,7 @@ $myURL = 'mypage.php';
               $stm->execute();
               $result = $stm->fetchAll(PDO::FETCH_ASSOC);
               foreach ($result as $row) {
-                echo '<img id="image" height="150" width="150" src="my_image.php?id=', $row["id"], '"><div class="col-2"></div>';
+                echo '<img class="img-profile rounded-circle" height="150" width="150" src="my_image.php?id=', $row["id"], '"><div class="col-2"></div>';
                 echo '<div class="col-12"></div>';
                 echo '<font class="col-8" size="10">', $row["name"], '</font>';
                 echo '<div class="col-4"></div>';
