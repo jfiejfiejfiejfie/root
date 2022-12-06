@@ -183,33 +183,33 @@ $option = "&id=$id";
               echo $count2 . "人</a><br></font><hr><div class='col-12'></div>";
             ?>
             <?php
-              echo "<a href='user_chat.php?id={$row["id"]}' class='btn btn-success col-4'>チャットをする<div class='fa fa-comment'></div></a>";
+              echo "<a href='user_chat.php?id={$row["id"]}' class='btn btn-success col-2'>チャットをする<div class='fa fa-comment'></div></a>";
               echo '<form method="POST" action="detail.php?id=' . $row["id"] . '&good=1">';
               echo '</form>';
             ?>
             <?php
               // if ($_SESSION['id'] !== $id) {
               if ($follow_count2 == 0) {
-                echo "<br><a href='follow.php?id=$id' class='btn btn-primary col-4'>フォローする<div class='fa fa-user-plus'></div></a>";
+                echo "<br><a href='follow.php?id=$id' class='btn btn-primary col-2'>フォローする<div class='fa fa-user-plus'></div></a>";
               } else {
-                echo "<br><a href='follow.php?id=$id' class='btn btn-danger col-4'>フォロー解除する<div class='fa fa-user-times'></div></a>";
+                echo "<br><a href='follow.php?id=$id' class='btn btn-danger col-2'>フォロー解除する<div class='fa fa-user-times'></div></a>";
               }
-              echo "<div class='col-4'></div>";
+              echo "<div class='col-8'></div>";
               echo '<br>';
             } else if ($block_count != 0 && $block_count2 != 0) {
-              echo "<h1>相互ブロックです。</h1><div class='col-4'></div>";
+              echo "<h1>相互ブロックです。</h1><div class='col-12'></div>";
             } else if ($block_count2 != 0) {
-              echo "<h1>あなたはこのユーザにブロックされています。</h1><div class='col-4'></div>";
+              echo "<h1>あなたはこのユーザにブロックされています。</h1><div class='col-12'></div>";
             } else if ($block_count != 0) {
-              echo "<h1>あなたはこのユーザをブロックしています。</h1><div class='col-4'></div>";
+              echo "<h1>あなたはこのユーザをブロックしています。</h1><div class='col-12'></div>";
             }
             if ($block_count == 0) {
-              echo "<a href='block.php?id=$id' class='btn btn-danger col-4'>ブロックする<div class='fa fa-ban'></div></a>";
+              echo "<a href='block.php?id=$id' class='btn btn-danger col-2'>ブロックする<div class='fa fa-ban'></div></a>";
             } else {
-              echo "<a href='block.php?id=$id' class='btn btn-primary col-4'>ブロックを解除する<div class='fa fa-times-circle'></div></a>";
+              echo "<a href='block.php?id=$id' class='btn btn-primary col-2'>ブロックを解除する<div class='fa fa-times-circle'></div></a>";
             }
-            echo '<a class="btn btn-warning col-4" href="report.php?user_id=' . $id . '">通報<div class="fa fa-exclamation-triangle"></div></a></th>';
-            echo "<div class='col-4'></div>";
+            echo '<a class="btn btn-warning col-2" href="report.php?user_id=' . $id . '">通報<div class="fa fa-exclamation-triangle"></div></a></th>';
+            echo "<div class='col-8'></div>";
               // }
             ?>
             <h2>
