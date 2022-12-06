@@ -9,11 +9,11 @@ if (!isset($_SESSION["loggedin"])) {
 require_once "db_connect.php";
 require_once('checked.php');
 require_once "db_connect.php";
-$myURL = 'add_db.php';
+$myURL = 'add_room.php';
 $gobackURL = 'index.php';
 $point = 0;
-if (isset($_POST["kind"])) {
-  require_once('insert.php');
+if (isset($_POST["item"])) {
+  require_once('create_room.php');
 }
 ?>
 <!DOCTYPE html>
@@ -48,7 +48,7 @@ if (isset($_POST["kind"])) {
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -58,7 +58,7 @@ if (isset($_POST["kind"])) {
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -66,58 +66,43 @@ if (isset($_POST["kind"])) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <!-- <h1 class="h3 mb-0 text-gray-800">商品登録</h1> -->
+            <h1 class="h3 mb-0 text-gray-800">チャットルーム登録</h1>
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
 
           <div class="row">
-          <?php
-      if (isset($_SESSION["create_text"])) {
-        echo $_SESSION["create_text"];
-      }
-      if (!isset($_SESSION["loggedin"])) {
-        echo "<h2>この機能を利用するにはログインしてください。</h2>";
-        echo "<a href='login.php' class='btn btn-danger'>ログイン</a>";
-      } else { ?>
-      <h2>チャットルーム登録</h2>
-      <form method="POST" action="add_room.php" enctype="multipart/form-data">
-        <ul>
-          <li>
-            <br>
-            <label>ルーム名:
-              <input type="text" id="item_name" name="item" placeholder="必須(30文字まで)">
-            </label>
-          </li>
-          <li>
-            <label>コメント(任意):
+          <div class="col-6">
+            <form method="POST" action="add_room.php" enctype="multipart/form-data">
+              <?php
+              if (isset($_SESSION["create_text"])) {
+                echo '<label>' . $_SESSION["create_text"] . '</label>';
+              } ?>
+              <br>
+              ルーム名:
+              <input type="text" id="item_name" class="form-control form-control-user" name="item"
+                placeholder="必須(30文字まで)" required>
+              コメント(任意):
               <script>
                 function countLength(text, field) {
                   document.getElementById(field).innerHTML = text.length + "文字/1000文字";
                 }
               </script>
-              <textarea id="message" name="comment" placeholder="ルール、注意事項など"
+              <textarea id="message" name="comment" class="form-control form-control-user" placeholder="ルール、注意事項など"
                 onKeyUp="countLength(value, 'textlength2');"></textarea>
               <p id="textlength2">0文字/1000文字</p>
-            </label>
-          </li>
-          <li>サムネ画像選択:
-          <li>
-            <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-              <input type="file" name="image" class="test" accept="image/*" onchange="previewImage(this);" required>
-            </label>
-          <li>
-            <label>
+              サムネ画像選択:
+              <br>
+              <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+                <input type="file" name="image" class="test" accept="image/*" onchange="previewImage(this);" required>
+              </label><br>
               <input type="checkbox" required>規約に同意する
-            </label>
-          </li>
-          <li><input type="submit" value="作成する">
-          </li>
-        </ul>
-      </form>
-      <?php } ?>
+              </label>
+              <br>
+              <input type="submit" class="btn btn-primary btn-user" value="作成する">
+            </form>
           </div>
-
+        </div>
         </div>
         <!-- /.container-fluid -->
 

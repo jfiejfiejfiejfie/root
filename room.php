@@ -10,7 +10,7 @@ require_once "db_connect.php";
 require_once('checked.php');
 require_once "db_connect.php";
 $myURL = 'add_db.php';
-$gobackURL = 'user_chat_list.php';
+$gobackURL = 'chat_room.php';
 $id = $_GET["id"];
 $list_id = $_GET["id"];
 $point = 0;

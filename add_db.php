@@ -73,6 +73,7 @@ if (isset($_POST["kind"])) {
           </div>
 
           <div class="row">
+          <div class="col-6">
             <form method="POST" action="add_db.php" enctype="multipart/form-data">
                 <?php
               if (isset($_SESSION["insert_text"])) {
@@ -160,7 +161,7 @@ if (isset($_POST["kind"])) {
                 <input type="submit" class="btn btn-primary btn-user" value="追加する">
             </form>
           </div>
-
+                  </div>
         </div>
         <!-- /.container-fluid -->
 
