@@ -73,6 +73,13 @@ if (!isset($_SESSION["loggedin"])) {
             <span>チャット</span></a>
     </li>
 
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" href="chat_room.php">
+            <i class="fas fa-fw fa-comments"></i>
+            <span>チャットルーム</span></a>
+    </li>
+
     <!-- Nav Item - Tables -->
     <li class="nav-item">
         <a class="nav-link" href="add_db.php">
