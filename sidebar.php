@@ -3,7 +3,7 @@ if (!isset($_SESSION["loggedin"])) {
     header('Location:login.php');
 }
 ?>
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion sticky-top" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./">
@@ -71,13 +71,6 @@ if (!isset($_SESSION["loggedin"])) {
         <a class="nav-link" href="user_chat_list.php">
             <i class="fas fa-fw fa-comment"></i>
             <span>チャット</span></a>
-    </li>
-
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="chat_room.php">
-        <i class="fa fa-comments" ></i>
-            <span>チャットルーム</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
