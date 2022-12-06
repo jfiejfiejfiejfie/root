@@ -54,8 +54,8 @@ foreach ($result as $row) {
 //相手にフォローされているか
 $sql = "SELECT * FROM followlist WHERE user_id =:user_id and my_id=:my_id";
 $stm = $pdo->prepare($sql);
-$stm->bindValue(':user_id',$_GET["id"], PDO::PARAM_STR);
-$stm->bindValue(':my_id',$_SESSION["id"], PDO::PARAM_STR);
+$stm->bindValue(':user_id', $_GET["id"], PDO::PARAM_STR);
+$stm->bindValue(':my_id', $_SESSION["id"], PDO::PARAM_STR);
 $stm->execute();
 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
@@ -124,98 +124,97 @@ $option = "&id=$id";
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">商品登録</h1>
+            <h1 class="col-6 h3 mb-0 text-gray-800">プロフィール</h1>
+            <h1 class="col-6 h3 mb-0 text-gray-800">
+                  <?php echo htmlspecialchars($name); ?>が出品している物
+                </h1>
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
-
           <div class="row">
             <br>
-            <h2>プロフィール</h2>
-            <div class="col-12"></div>
-            <?php
-            $id = $_GET["id"];
-            ?>
-            <img class="img-profile rounded-circle" height="150" width="150" src="my_image.php?id=<?php echo $id; ?>">
-            <div class="col-12"></div>
-            <?php
-            if ($admin == 0) {
-              echo '<font size="10">', $name, '</font><br>';
-            } else {
-              echo '<font size="10">', $name, '<img src="images/admin.png" style="height:70px;"></font><br>';
-            }
-            echo '<div class="col-12"></div>';
-            if ($block_count == 0 && $block_count2 == 0) {
-              try {
-                $sql = "SELECT * FROM users WHERE id =:id";
+            <div class="col-4">
+              <?php
+              $id = $_GET["id"];
+              ?>
+              <img class="img-profile rounded-circle" height="150" width="150" src="my_image.php?id=<?php echo $id; ?>">
+              <div class="col-12"></div>
+              <?php
+              if ($admin == 0) {
+                echo '<font size="10">', $name, '</font><br>';
+              } else {
+                echo '<font size="10">', $name, '<img src="images/admin.png" style="height:70px;"></font><br>';
+              }
+              echo '<div class="col-12"></div>';
+              if ($block_count == 0 && $block_count2 == 0) {
+                try {
+                  $sql = "SELECT * FROM users WHERE id =:id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->bindValue(':id', $id, PDO::PARAM_STR);
+                  $stm->execute();
+                  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result as $row) {
+                    echo '<font size="5">', htmlspecialchars($row["age"]), '歳</font><div class="col-12"></div>';
+                    echo '<font size="5">', htmlspecialchars($row["sex"]), '</font><div class="col-12"></div>';
+                    // echo '<font size="3">', htmlspecialchars($row["email"]), '</font><div class="col-12"></div>';
+                    echo '<hr>コメント<div class="col-12"></div><font size="10">', htmlspecialchars($row["comment"]), '</font><div class="col-12"></div>';
+                  }
+                } catch (Exception $e) {
+                  echo 'エラーがありました。';
+                  echo $e->getMessage();
+                  exit();
+                }
+                $sql = "SELECT * FROM followlist WHERE my_id =$id";
                 $stm = $pdo->prepare($sql);
-                $stm->bindValue(':id', $id, PDO::PARAM_STR);
                 $stm->execute();
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($result as $row) {
-                  echo '<font size="5">', htmlspecialchars($row["age"]), '歳</font><div class="col-12"></div>';
-                  echo '<font size="5">', htmlspecialchars($row["sex"]), '</font><div class="col-12"></div>';
-                  echo '<font size="3">', htmlspecialchars($row["email"]), '</font><div class="col-12"></div>';
-                  echo '<hr>コメント<div class="col-12"></div><font size="10">', htmlspecialchars($row["comment"]), '</font><div class="col-12"></div>';
+                $sth = $pdo->query($sql);
+                $count = $sth->rowCount();
+                echo '<hr>フォロー<div class="col-12"></div><font size="5">', '<a href="followlist.php?id=' . $_GET["id"] . '">';
+                echo $count . "人</a><br></font><div class='col-12'></div>";
+              ?>
+              <?php
+                $sql = "SELECT * FROM followlist WHERE user_id =$id";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                $sth = $pdo->query($sql);
+                $count2 = $sth->rowCount();
+                echo 'フォロワー<div class="col-12"></div><font size="5">', '<a href="followerlist.php?id=' . $_GET["id"] . '">';
+                echo $count2 . "人</a><br></font><hr>";
+              ?>
+              <?php
+                echo "<a href='user_chat.php?id={$row["id"]}' class='btn btn-success col-6'>チャットをする<div class='fa fa-comment'></div></a>";
+                // echo '<form method="POST" action="detail.php?id=' . $row["id"] . '&good=1">';
+                // echo '</form>';
+                // if ($_SESSION['id'] !== $id) {
+                if ($follow_count2 == 0) {
+                  echo "<a href='follow.php?id=$id' class='btn btn-primary col-6'>フォローする<div class='fa fa-user-plus'></div></a>";
+                } else {
+                  echo "<a href='follow.php?id=$id' class='btn btn-danger col-6'>フォロー解除する<div class='fa fa-user-times'></div></a>";
                 }
-              } catch (Exception $e) {
-                echo 'エラーがありました。';
-                echo $e->getMessage();
-                exit();
+                // echo "<div class='col-12'></div>";
+                echo '<br>';
+              } else if ($block_count != 0 && $block_count2 != 0) {
+                echo "<h1>相互ブロックです。</h1><div class='col-12'></div>";
+              } else if ($block_count2 != 0) {
+                echo "<h1>あなたはこのユーザにブロックされています。</h1><div class='col-12'></div>";
+              } else if ($block_count != 0) {
+                echo "<h1>あなたはこのユーザをブロックしています。</h1><div class='col-12'></div>";
               }
-              $sql = "SELECT * FROM followlist WHERE my_id =$id";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              $sth = $pdo->query($sql);
-              $count = $sth->rowCount();
-              echo '<hr>フォロー<div class="col-12"></div><font size="5">', '<a href="followlist.php?id=' . $_GET["id"] . '">';
-              echo $count . "人</a><br></font><div class='col-12'></div>";
-            ?>
-            <?php
-              $sql = "SELECT * FROM followlist WHERE user_id =$id";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              $sth = $pdo->query($sql);
-              $count2 = $sth->rowCount();
-              echo 'フォロワー<div class="col-12"></div><font size="5">', '<a href="followerlist.php?id=' . $_GET["id"] . '">';
-              echo $count2 . "人</a><br></font><hr><div class='col-12'></div>";
-            ?>
-            <?php
-              echo "<a href='user_chat.php?id={$row["id"]}' class='btn btn-success col-2'>チャットをする<div class='fa fa-comment'></div></a>";
-              echo '<form method="POST" action="detail.php?id=' . $row["id"] . '&good=1">';
-              echo '</form>';
-            ?>
-            <?php
-              // if ($_SESSION['id'] !== $id) {
-              if ($follow_count2 == 0) {
-                echo "<br><a href='follow.php?id=$id' class='btn btn-primary col-2'>フォローする<div class='fa fa-user-plus'></div></a>";
+              if ($block_count == 0) {
+                echo "<a href='block.php?id=$id' class='btn btn-danger col-6'>ブロックする<div class='fa fa-ban'></div></a>";
               } else {
-                echo "<br><a href='follow.php?id=$id' class='btn btn-danger col-2'>フォロー解除する<div class='fa fa-user-times'></div></a>";
+                echo "<a href='block.php?id=$id' class='btn btn-primary col-6'>ブロックを解除する<div class='fa fa-times-circle'></div></a>";
               }
+              echo '<a class="btn btn-warning col-6" href="report.php?user_id=' . $id . '">通報<div class="fa fa-exclamation-triangle"></div></a></th>';
               echo "<div class='col-8'></div>";
-              echo '<br>';
-            } else if ($block_count != 0 && $block_count2 != 0) {
-              echo "<h1>相互ブロックです。</h1><div class='col-12'></div>";
-            } else if ($block_count2 != 0) {
-              echo "<h1>あなたはこのユーザにブロックされています。</h1><div class='col-12'></div>";
-            } else if ($block_count != 0) {
-              echo "<h1>あなたはこのユーザをブロックしています。</h1><div class='col-12'></div>";
-            }
-            if ($block_count == 0) {
-              echo "<a href='block.php?id=$id' class='btn btn-danger col-2'>ブロックする<div class='fa fa-ban'></div></a>";
-            } else {
-              echo "<a href='block.php?id=$id' class='btn btn-primary col-2'>ブロックを解除する<div class='fa fa-times-circle'></div></a>";
-            }
-            echo '<a class="btn btn-warning col-2" href="report.php?user_id=' . $id . '">通報<div class="fa fa-exclamation-triangle"></div></a></th>';
-            echo "<div class='col-8'></div>";
               // }
-            ?>
-            <h2>
-              <?php echo htmlspecialchars($name); ?>が出品している物
-            </h2>
-            <?php
+              ?>
+            </div>
+            <div class="col-8">
+              
+              <?php
               try {
                 $sql = "SELECT * FROM list WHERE user_id=:id AND loan=0";
                 $stm = $pdo->prepare($sql);
@@ -245,10 +244,8 @@ $option = "&id=$id";
                 exit();
               }
               require_once('paging2.php');
-            ?>
-            <form action="block.php" method="POST" enctype="multipart/form-data">
-              
-            </form>
+              ?>
+            </div>
           </div>
 
         </div>
