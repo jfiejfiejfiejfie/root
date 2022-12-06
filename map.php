@@ -62,14 +62,13 @@ require_once "db_connect.php";
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">商品登録</h1>
+            <h1 class="h3 mb-0 text-gray-800">現在の位置情報</h1>
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
 
           <div class="row">
 		  <section id="point">
-        <h2>現在の位置情報</h2>
 
 <!-- google mapを表示するdiv -->
 <div id="maps"></div>

@@ -89,10 +89,13 @@ if (isset($_SESSION["id"])) {
   <link
     href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
     rel="stylesheet">
-
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/original.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js"
+    type="text/javascript"></script>
   <script src="js/original.js">
   </script>
 </head>
@@ -103,7 +106,7 @@ if (isset($_SESSION["id"])) {
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -113,7 +116,7 @@ if (isset($_SESSION["id"])) {
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -127,9 +130,9 @@ if (isset($_SESSION["id"])) {
           </div>
 
           <div class="row">
-          <!-- <h2>出品物詳細</h2> -->
-          <div class="col-12">
-            <?php
+            <!-- <h2>出品物詳細</h2> -->
+            <div class="col-12">
+              <?php
             $data = $_GET["id"];
             try {
               $sql = "SELECT * FROM image_list WHERE list_id=$data";
@@ -249,7 +252,7 @@ if (isset($_SESSION["id"])) {
               exit();
             }
             ?>
-            <?php
+              <?php
             $chat_count = 0;
             $sql = "SELECT * FROM chat WHERE list_id=$list_id";
             $stm = $pdo->prepare($sql);
@@ -285,7 +288,7 @@ if (isset($_SESSION["id"])) {
               $chat_count += 1;
             }
             ?>
-            <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+              <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 
               // echo "<a href='favorite.php?id={$row["id"]}' class='btn'><img src='images/good.png' style='max-width:50px'>$count</a><br>";
               if ($row["buy_user_id"] === 0) {
@@ -314,8 +317,8 @@ if (isset($_SESSION["id"])) {
                   $stm->execute();
                   $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
                   foreach ($result3 as $row3) {
-                    if($row3["user_id"]!=$id && $row3["auth"]==1){
-                      $checked=2;
+                    if ($row3["user_id"] != $id && $row3["auth"] == 1) {
+                      $checked = 2;
                     }
                   }
                   if ($checked == 100) {
@@ -341,9 +344,9 @@ if (isset($_SESSION["id"])) {
                 }
               }
             } ?>
-            <hr>
-            <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
-          </div>
+              <hr>
+              <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+            </div>
           </div>
 
         </div>

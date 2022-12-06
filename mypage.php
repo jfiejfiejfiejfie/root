@@ -71,7 +71,7 @@ $myURL = 'mypage.php';
             $point=$row["point"];
           }
           ?>
-          <div class="col-12 d-sm-flex align-items-center justify-content-between mb-4">
+          <div class="col-12 d-sm-flex align-items-center justify-content-between mb-2">
             <h1 class="col-5 h3 mb-0 text-gray-800">プロフィール</h1>
             <div class="col-7">
             <?php
