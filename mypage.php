@@ -72,8 +72,8 @@ $myURL = 'mypage.php';
           }
           ?>
           <div class="col-12 d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="col-4 h3 mb-0 text-gray-800">プロフィール</h1>
-            <div class="col-8">
+            <h1 class="col-5 h3 mb-0 text-gray-800">プロフィール</h1>
+            <div class="col-7">
             <?php
             echo '<a href="edit.php"  class="btn btn-primary col-3">編集する <div class="fa fa-cog"></div></a>';
             echo '<a href="blocklist.php" class="btn btn-primary col-3">ブロックリスト <div class="fa fa-address-book"></div></a>';
@@ -87,7 +87,7 @@ $myURL = 'mypage.php';
           </div>
 
           <div class="row">
-            <div class="col-4">
+            <div class="col-5">
               <?php
               try {
                   echo '<img class="img-profile rounded-circle" height="150" width="150" src="my_image.php?id='.$id.'"><div class="col-2"></div>';
@@ -136,7 +136,7 @@ $myURL = 'mypage.php';
 
               ?>
             </div>
-            <div class="col-8">
+            <div class="col-7">
               <h2>出品中</h2>
               <?php
               try {
