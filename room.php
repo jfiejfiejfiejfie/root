@@ -107,7 +107,7 @@ if (isset($_POST["kind"])) {
               <h1 class="h3 mb-0 text-gray-800"><br>ルーム名
                 <?php
                 try {
-                  $sql = "SELECT * FROM room WHERE id=$room_id";
+                  $sql = "SELECT * FROM room WHERE id=$id";
                   $stm = $pdo->prepare($sql);
                   $stm->execute();
                   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -150,10 +150,20 @@ if (isset($_POST["kind"])) {
             </div>
             <div class="col-12"></div>
             <div class="col-12">
-              <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-                // echo "<a href='favorite.php?id={$row["id"]}' class='btn'><img src='images/good.png' style='max-width:50px'>$count</a><br>";
-                echo "<a href='loan2.php?id={$row["id"]}' class='btn btn-success'>チャットをする</a><br>";
-                echo '</form>';
+              <?php 
+              if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+                    $sql = "SELECT * FROM roomlist WHERE room_id =:room_id and my_id=:my_id and checked =:checked";
+                    $stm = $pdo->prepare($sql);
+                    $stm->bindValue(':room_id', $row["id"], PDO::PARAM_STR);
+                    $stm->bindValue(':my_id', $_SESSION["id"], PDO::PARAM_STR);
+                    $stm->bindValue(':checked', $checked, PDO::PARAM_STR);
+                    $stm->execute();
+                if ($checked == 1) {
+                  echo "<a href='loan2.php?id={$row["id"]}' class='btn btn-success'>チャットをする</a><br>";
+                  echo '</form>';
+                }else if ($checked == 0){
+                  echo '参加しろ';
+                }
               } ?>
               <hr>
               <p><a href="<?php echo $gobackURL ?>">戻る</a></p>

@@ -8,7 +8,6 @@ $my_id = $_SESSION["id"];
 $room_id = $_GET["id"];
 $attend_count = 0;
 try {
-
   $sql = "SELECT * FROM roomlist WHERE room_id =:room_id and my_id=:my_id";
   $stm = $pdo->prepare($sql);
   $stm->bindValue(':room_id', $room_id, PDO::PARAM_STR);
@@ -32,7 +31,12 @@ if ($attend_count == 0) {
   $stm->bindValue(':room_id', $room_id, PDO::PARAM_STR);
   $stm->bindValue(':created_at', $created_at, PDO::PARAM_STR);
   $stm->execute();
-  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+  $result = $stm->fetchAll(PDO::FETCH_ASSOC);{
+    $sql = "UPDATE roomlist set checked = '1' WHERE my_id=$my_id ";
+    $stm = $pdo->prepare($sql);
+    $stm->execute();
+    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+  }
 } else {
 
   $sql = "DELETE FROM roomlist WHERE my_id=$my_id and room_id=$room_id";

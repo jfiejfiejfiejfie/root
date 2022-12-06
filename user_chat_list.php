@@ -65,7 +65,7 @@ if (!isset($_SESSION["check"])) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">商品登録</h1>
+            <!-- <h1 class="h3 mb-0 text-gray-800">商品登録</h1> -->
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
@@ -184,7 +184,7 @@ if (!isset($_SESSION["check"])) {
                     echo '<br>画像が添付されています。';
                   }
                   echo '<br>', $row["created_at"] . '<d class="col-3"></d>';
-                  echo "<a class='btn btn-primary col-10' href='user_chat.php?id=$user_id'>チャット</a>";
+                  echo "<a class='btn btn-primary col-4' href='user_chat.php?id=$user_id'>チャット</a>";
                   echo '</td>';
                   echo '</tr>';
                   echo '</thead>';
@@ -198,94 +198,6 @@ if (!isset($_SESSION["check"])) {
             ?>
           </div>
           </section>
-          <div>
-            <?php
-
-            echo '<div> <div class="">
-            <br><h2>チャットルーム一覧</h2>
-            <div class="text-right"><a href="add_room.php" class="btn btn-primary col-4" >作成する</a></div></div>';
-            try {
-              $sql = "SELECT * FROM room";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              echo '<table class="table table-striped">';
-              echo '<thead><tr>';
-              echo '<th>', 'サムネ画像', '</th>';
-              echo '<th>', 'ホストユーザー名', '</th>';
-              echo '<th>', 'ルーム名', '</th>';
-              echo '<th>', '概要欄', '</th>';
-              echo '<th>', '参加人数', '</th>';
-              echo '</tr></thead>';
-              echo '<tbody>';
-              foreach ($result as $row) {
-            ?>
-            <form action="attend.php" method="POST" enctype="multipart/form-data">
-              <?php
-                $attend_count = 0;
-                $sql = "SELECT * FROM roomlist WHERE room_id =:room_id and my_id=:my_id";
-                $stm = $pdo->prepare($sql);
-                $stm->bindValue(':room_id', $row["id"], PDO::PARAM_STR);
-                $stm->bindValue(':my_id', $_SESSION["id"], PDO::PARAM_STR);
-                $stm->execute();
-                $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($result2 as $row2) {
-                  $attend_count += 1;
-                }
-                echo '<tr>';
-                echo "<td><a href=room.php?id={$row["id"]}>", '<img height="200" width="200" src="room_image.php?id=', $row['id'], '"></a>';
-                if ($attend_count == 0) {
-                  echo "<br><div><a href='attend.php?id={$row["id"]}' class='btn btn-danger col-5'>参加する</a></td></div>";
-                } else {
-                  echo "<br><a href='attend.php?id={$row["id"]}' class='btn btn-primary'>脱退する</a>";
-                }
-              ?>
-              <?php
-                $user_id = $row["user_id"];
-                $sql = "SELECT * FROM users WHERE id=$user_id";
-                $stm = $pdo->prepare($sql);
-                $stm->execute();
-                $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($result2 as $row2) {
-                  echo '<td>', $row2["name"], "</td>";
-                }
-                echo '<td>', $row['item'], '</td>';
-                echo '<td>', $row['comment'], '</td>';
-                $sql = "SELECT * FROM roomlist WHERE room_id =".$row['id'];
-                $stm = $pdo->prepare($sql);
-                $stm->execute();
-                $sth = $pdo->query($sql);
-                $count = $sth->rowCount();
-                echo '<td>', '<font size="5">', "<a href='room_member.php?id={$row["id"]}'>";
-                echo $count . "人</a></font>";
-                echo '</td>';
-                echo '</tr>';
-              }
-              echo '</tbody>';
-              echo '</table>';
-            } catch (Exception $e) {
-              echo 'エラーがありました。';
-              echo $e->getMessage();
-              exit();
-            }
-            try {
-              $count = 0;
-              $sql = "SELECT * FROM likes WHERE my_id=$id";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              foreach ($result as $row) {
-                $count += 1;
-                $main_list[] = $row["list_id"];
-              }
-            } catch (Exception $e) {
-              echo 'エラーがありました。';
-              echo $e->getMessage();
-              exit();
-            }
-              ?>
-          </div>
-
         </div>
         <!-- /.container-fluid -->
 
