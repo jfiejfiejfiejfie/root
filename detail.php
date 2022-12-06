@@ -363,58 +363,60 @@ if (isset($_SESSION["id"])) {
               </div>
             </div>
             <div class="col-4">
-              <?php
-              $chat_count = 0;
-              $sql = "SELECT * FROM chat WHERE list_id=$list_id";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $chat_result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              foreach ($chat_result as $chat_row) {
-                if ($chat_count == 0) {
-                  echo '<h1>チャット</h1>';
-                }
-                echo '<table class="table table-striped">';
-                echo '<thead>';
-                // echo '<th></th>';
-                // echo '<th></th>';
-                echo '</thead><tbody>';
-                echo '<tr>';
-                echo '<td class="col-5"><a href="profile.php?id=', $chat_row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $chat_row["user_id"], '"></a><br>';
-                $chat_user_id = $chat_row["user_id"];
-                $sql = "SELECT * FROM users WHERE id=$chat_user_id";
+              <div class="row">
+                <?php
+                $chat_count = 0;
+                $sql = "SELECT * FROM chat WHERE list_id=$list_id";
                 $stm = $pdo->prepare($sql);
                 $stm->execute();
-                $chat_result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($chat_result2 as $chat_row2) {
-                  echo $chat_row2["name"], "<br>";
-                }
-                echo $chat_row["created_at"], '</td>';
-                // echo '</tr>';
-                // echo '<tr>';
-                echo '<td>';
-                if ($chat_row["image"] != "") {
-                  echo '<img id="parent" src="chat_image.php?id=', $chat_row["id"], ' alt="" height="150" width="150"/>';
+                $chat_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($chat_result as $chat_row) {
+                  if ($chat_count == 0) {
+                    echo '<h1 class="col-12">チャット</h1>';
+                  }
+                  echo '<table class="table table-striped col-4">';
+                  echo '<thead>';
+                  echo '<tr>';
+                  echo '<td><a href="profile.php?id=', $chat_row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $chat_row["user_id"], '"></a><br>';
+                  $chat_user_id = $chat_row["user_id"];
+                  $sql = "SELECT * FROM users WHERE id=$chat_user_id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $chat_result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($chat_result2 as $chat_row2) {
+                    echo $chat_row2["name"], "<br>";
+                  }
+                  echo $chat_row["created_at"], '</td>';
                   // echo '</tr>';
                   // echo '<tr>';
+                  echo '</thead></table>';
+                  echo '<table class="table table-striped col-8"><tbody><td>';
+                  if ($chat_row["image"] != "") {
+                    echo '<img id="parent" src="chat_image.php?id=', $chat_row["id"], ' alt="" height="150" width="150"/>';
+                    // echo '</tr>';
+                    // echo '<tr>';
+                  }
+                  echo $chat_row["text"], '</td>';
+                  echo '</tr>';
+                  echo '</tbody>';
+                  echo '</table>';
+                  $chat_count += 1;
                 }
-                echo $chat_row["text"], '</td>';
-                echo '</tr>';
-                echo '</tbody>';
-                echo '</table>';
-                $chat_count += 1;
-              }
-              ?>
-              <form action="detail.php?id=<?php echo $_GET["id"]; ?>&chat=1" method="POST"
-                enctype="multipart/form-data">
-                <div class="col-12">チャット:<input type="text" name="text" class="form-control form-control-user" required>
-                </div>
-                <label class="col-12">画像選択:<br>
-                  <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-                  <input type="file" multiple name="image" class="test" accept="image/*" onchange="previewImage(this);">
-                </label>
-                <input type="hidden" name="list_id" value="<?php echo $id; ?>"><br>
-                <button type="submit" class="btn btn-primary col-12">送信</button>
-              </form>
+                ?>
+                <form action="detail.php?id=<?php echo $_GET["id"]; ?>&chat=1" method="POST"
+                  enctype="multipart/form-data">
+                  <div class="col-12">チャット:<input type="text" name="text" class="form-control form-control-user"
+                      required>
+                  </div>
+                  <label class="col-12">画像選択:<br>
+                    <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+                    <input type="file" multiple name="image" class="test" accept="image/*"
+                      onchange="previewImage(this);">
+                  </label>
+                  <input type="hidden" name="list_id" value="<?php echo $id; ?>"><br>
+                  <button type="submit" class="btn btn-primary col-12">送信</button>
+                </form>
+              </div>
             </div>
           </div>
 

@@ -184,7 +184,7 @@ if (!isset($_SESSION["check"])) {
                     echo '<br>画像が添付されています。';
                   }
                   echo '<br>', $row["created_at"] . '<d class="col-3"></d>';
-                  echo "<a class='btn btn-primary col-4' href='user_chat.php?id=$user_id'>チャット</a>";
+                  echo "<a class='btn btn-primary col-12' href='user_chat.php?id=$user_id'>チャット</a>";
                   echo '</td>';
                   echo '</tr>';
                   echo '</thead>';
