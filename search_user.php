@@ -3,7 +3,7 @@ session_start();
 require_once('../lib/util.php');
 $myURL = 'search_user.php';
 require_once "db_connect.php";
-$gobackURL = "user_chat_list.php";
+$gobackURL = "search_sp.php";
 
 // 文字エンコードの検証
 if (!cken($_POST)) {
@@ -13,7 +13,7 @@ if (!cken($_POST)) {
 
 // nameが未設定、空のときはエラー
 if (empty($_POST)) {
-  header("Location:searchform.html");
+  header("Location:search_sp.php");
   exit();
 } else if (!isset($_POST["user_name"]) || ($_POST["user_name"] === "")) {
   header("Location:{$gobackURL}");

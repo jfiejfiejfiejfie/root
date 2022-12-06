@@ -2,7 +2,7 @@
 session_start();
 require_once('../lib/util.php');
 $myURL = 'search1.php';
-$gobackURL = "user_chat_list.php";
+$gobackURL = "search_sp.php";
 require_once "db_connect.php";
 define('MAX', '5');
 // 文字エンコードの検証
