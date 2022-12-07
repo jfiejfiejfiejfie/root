@@ -170,7 +170,7 @@
     position: relative;
     padding: 10px;
     border-radius: 10px;
-    background-color: rgb(0, 17, 255);
+    background-color: #3fee5f;
     color: #fff;
     max-width: 700px;
     font-size: 15px;
@@ -186,7 +186,7 @@
     top: 3px;
     left: -19px;
     border: 8px solid transparent;
-    border-right: 18px solid rgb(0, 17, 255);
+    border-right: 18px solid #3fee5f;
     -webkit-transform: rotate(35deg);
     transform: rotate(35deg);
 }
@@ -196,7 +196,7 @@
     position: relative;
     padding: 10px;
     border-radius: 10px;
-    background-color: rgb(0, 17, 255);
+    background-color: #3fee5f;
     max-width: 700px;
     /* font-size: 15px; */
     word-wrap: break-word;
@@ -209,7 +209,7 @@
     top: 3px;
     right: -19px;
     border: 8px solid transparent;
-    border-left: 18px solid rgb(0, 17, 255);
+    border-left: 18px solid #3fee5f;
     -webkit-transform: rotate(-35deg);
     transform: rotate(-35deg);
 }
