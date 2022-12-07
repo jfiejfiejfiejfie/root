@@ -61,6 +61,7 @@
           </div>
 
           <div class="row">
+          <div class="col-6">
           <?php
     $data=$_GET["id"];
     $_SESSION["loan_id"]=$data;
@@ -120,16 +121,16 @@
         }
     ?><hr>
         <form method="POST" action="detail1.php" enctype="multipart/form-data">
-            <ul>
-                  <li>
-                    <label>貸出物　:
-                        <input type="text" name="item" value="<?php echo htmlspecialchars($item); ?>" placeholder="貸出物" required>
+                  
+                    <label>貸出物:
+                        <input type="text" name="item" class="form-control form-control-user" value="<?php echo htmlspecialchars($item); ?>" placeholder="貸出物" required>
                         <input type="hidden" name="id" value="<?php echo htmlspecialchars($_GET["id"]);?>">
                     </label>
-                  </li>
-                  <li>
-                    <label>ジャンル:
-                        <select name="kind">
+                  
+            
+
+                   <br> <label>ジャンル:
+                        <select name="kind" class="form-control form-control-user">
                           <?php
                                   try{
                                     
@@ -143,19 +144,47 @@
                                     exit();
                                 }
                             foreach($kind as $row){
-                              echo '<option value="',$row["name"],'">',$row["name"],"</option>";
+                              echo '<option value="',$row["name"],'" selected>',$row["name"],"</option>";
                             }
                           ?>
                         </select>
                     </label>
-                  </li>
-                  <li>
-                <label>金額　　:
-                        <input type="number_format" name="money" value="<?php echo htmlspecialchars($money); ?>" placeholder="金額" required>
+
+                    <br>商品の状態:
+                  <select name="state" class="form-control form-control-user">
+                    <?php
+                    try {
+
+                      $sql = "SELECT * FROM state";
+                      $stm = $pdo->prepare($sql);
+                      $stm->execute();
+                      $state = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    } catch (Exception $e) {
+                      echo 'エラーがありました。';
+                      echo $e->getMessage();
+                      exit();
+                    }
+                    foreach ($state as $row) {
+                      echo '<option value="', $row["name"], '">', $row["name"], "</option>";
+                    }
+                    ?>
+                  </select>
+                  コメント(任意):
+                  <script>
+                    function countLength(text, field) {
+                      document.getElementById(field).innerHTML = text.length + "文字/1000文字";
+                    }
+                  </script>
+                  <textarea id="message" name="comment" class="form-control form-control-user"
+                    placeholder="色、素材、重さ、定価、注意点など" onKeyUp="countLength(value, 'textlength2');"></textarea>
+                  <p id="textlength2">0文字/1000文字</p>
+                 
+                <label>金額:
+                        <input type="number_format" name="money" class="form-control form-control-user" value="<?php echo htmlspecialchars($money); ?>" placeholder="金額" required>
                     </label>
-                </li>
-                <li>
-                  <label>画像選択:<br>
+                
+                
+                  <br>画像選択:<br>
                 <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
                         <input type="file" name="image"class="test" accept="image/*"  onchange="previewImage(this);">
                           </label>
@@ -176,12 +205,12 @@
                         <input type="file" name="image5"class="test" accept="image/*"  onchange="previewImage5(this);">
                           </label>
                           <?php }}}}?>
-                <li><input type="submit" value="編集する">
-                </li>
-            </ul>
+                <br><input type="submit" value="編集する">
+                
+          
             <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
         </form>
-
+        </div>
           </div>
 
         </div>
