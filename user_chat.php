@@ -173,12 +173,27 @@ foreach ($result as $row) {
               <hr>
               <div>
                 <?php
+                $day = null;
+                $day_now = null;
+                $count = 0;
                 $sql = "SELECT * FROM user_chat WHERE (others_id=$users_id and user_id=$id) or (others_id = $id  and user_id = $users_id) ORDER BY created_at DESC";
                 $stm = $pdo->prepare($sql);
                 $stm->execute();
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 require_once('paging.php');
                 foreach ($disp_data as $row) {
+                  if ($count == 0) {
+                    $day_now = new DateTime($row["created_at"]);
+                    $day_now = $day_now->format("m月d日");
+                    echo $day_now . '<hr>';
+                  }
+                  $day = new DateTime($row["created_at"]);
+                  $day = $day->format("m月d日");
+                  if ($day_now !== $day) {
+                    $day_now = $day;
+                    echo $day_now . '<hr>';
+                  }
+                  // echo "<div class='center-block'>" . $day . "</div>";
                   if (($row["others_id"] == $users_id)) {
                     if ($row["checked"] == 0) {
                       $sql = "UPDATE user_chat SET checked=1 where id = " . $row["id"];
@@ -274,6 +289,7 @@ foreach ($result as $row) {
                       echo '</table>';
                     }
                   }
+                  $count += 1;
                 }
                 require_once('paging2.php');
                 ?>
