@@ -164,7 +164,7 @@ $myURL = 'mypage.php';
                 }
                 echo '</tbody>';
                 echo '</table>';
-                echo '<a class="btn btn-primary col-12" href="./">一覧で見る</a><hr>';
+                echo '<a class="btn btn-primary col-12" href="display.php">一覧で見る</a><hr>';
               } catch (Exception $e) {
                 echo 'エラーがありました。';
                 echo $e->getMessage();

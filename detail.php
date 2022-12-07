@@ -238,7 +238,6 @@ if (isset($_SESSION["id"])) {
                         echo '<th>購入者</th>';
                         echo '<td>';
                         echo "<a href='profile.php?id={$row['buy_user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['buy_user_id']}'></a><br>";
-                        $user_id = $row["buy_user_id"];
                         $sql = "SELECT * FROM users WHERE id=$user_id";
                         $stm = $pdo->prepare($sql);
                         $stm->execute();
@@ -246,7 +245,10 @@ if (isset($_SESSION["id"])) {
                         foreach ($result2 as $row2) {
                           echo $row2["name"], "</td>";
                         }
+                        $user_id = $row["buy_user_id"];
                         echo '</tr>';
+                      } else {
+                        $user_id = $row["buy_user_id"];
                       }
                       echo '</thead>';
                       echo '</table>';
@@ -272,7 +274,7 @@ if (isset($_SESSION["id"])) {
                       echo "<a href='mydelete.php?id={$row["id"]}' class='btn btn-danger col-2'>削除する</a>";
                     }
                   } else {
-                    if ($row["buy_user_id"] === 0) {
+                    if ($user_id === 0) {
                       $checked = 100;
                       $sql = "SELECT * FROM reservation_list WHERE user_id=$id and list_id=" . $row["id"];
                       $stm = $pdo->prepare($sql);
@@ -358,6 +360,7 @@ if (isset($_SESSION["id"])) {
                   echo '</table>';
                   $chat_count += 1;
                 }
+                if ($user_id === 0) {
                 ?>
                 <form action="detail.php?id=<?php echo $_GET["id"]; ?>&chat=1" method="POST"
                   enctype="multipart/form-data">
@@ -372,6 +375,9 @@ if (isset($_SESSION["id"])) {
                   <input type="hidden" name="list_id" value="<?php echo $id; ?>"><br>
                   <button type="submit" class="btn btn-primary col-12">送信</button>
                 </form>
+                <?php
+                }
+                ?>
               </div>
             </div>
           </div>
