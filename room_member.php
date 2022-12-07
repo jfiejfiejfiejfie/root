@@ -109,6 +109,18 @@ if (isset($_POST["kind"])) {
                     foreach ($result2 as $row2) {
                       echo $row2["name"], "</td>";
                     }
+                    $sql = "SELECT * FROM room WHERE user_id=:user_id";
+                    $stm = $pdo->prepare($sql);
+                    $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+                    $stm->execute();
+                    $result4 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result4 as $row2){
+                      $user_id = $row2["user_id"];
+                    }
+                    if ($host_id !== $row2["user_id"]) {
+                      echo '<div class="col-12">　</div>';
+                      echo '<a href="#"  class="btn btn-primary col-3">ルーム編集する <div class="fa fa-cog"></div></a>';
+                    }
                     echo '<div class="col-12">　</div>';
                     echo '<div class="col-12">ゲストユーザー</div>';
                   } else {
@@ -120,6 +132,18 @@ if (isset($_POST["kind"])) {
                     $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($result2 as $row2) {
                       echo $row2["name"], "</td>";
+                    }
+                    $sql = "SELECT * FROM room WHERE user_id=:user_id";
+                    $stm = $pdo->prepare($sql);
+                    $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+                    $stm->execute();
+                    $result4 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result4 as $row2){
+                      $user_id = $row2["user_id"];
+                    }
+                    if ($host_id !== $row2["user_id"]) {
+                      echo '<div class="col-12">　</div>';
+                      echo "<a href='leave_room.php?id=$id&my_id=".$row["my_id"]."'  class='btn btn-primary col-3'>脱退させる <div class='fa fa-times'></div></a>";
                     }
                   }
                   echo "<hr>";
