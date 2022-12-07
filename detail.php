@@ -39,11 +39,11 @@ if (isset($_SESSION["id"])) {
   $text = $_SERVER["REQUEST_URI"];
   // 部分一致
   if (preg_match("/&good=1/", $text)) {
-   exit;
-  } 
+    exit;
+  }
   if (preg_match("/&chat=1/", $text)) {
     exit;
-   } 
+  }
   $text = "{$row["id"]}";
   //  $text="{$row["id"]}:{$row["item"]}";
   $data_item = array($text); //ここに保存したいテキスト（配列にしとく）
@@ -372,42 +372,45 @@ if (isset($_SESSION["id"])) {
                 ?>
                 <form action="detail.php?id=<?php echo $_GET["id"]; ?>&chat=1" method="POST"
                   enctype="multipart/form-data">
-                  <div class="col-12">チャット:<input type="text" name="text" class="form-control form-control-user"
-                      required>
-                  </div>
-                  <label class="col-12">画像選択:<br>
+                  <label>画像選択:<br>
                     <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
                     <input type="file" multiple name="image" class="test" accept="image/*"
                       onchange="previewImage(this);">
-                  </label>
-                  <input type="hidden" name="list_id" value="<?php echo $id; ?>"><br>
-                  <button type="submit" class="btn btn-primary col-12">送信</button>
+                  </label><br>
+                  <div class="input-group col-12">
+                    <input type="text" name="text" class="form-control form-control-user" required>
+                    <!-- </div> -->
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"
+                          aria-hidden="true"></i></button>
+                    </div>
+                  </div>
                 </form>
-                <?php
+              <?php
                 }
                 ?>
-              </div>
             </div>
           </div>
-
         </div>
-        <!-- /.container-fluid -->
 
       </div>
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2021</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
+      <!-- /.container-fluid -->
 
     </div>
-    <!-- End of Content Wrapper -->
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Your Website 2021</span>
+        </div>
+      </div>
+    </footer>
+    <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
 
   </div>
   <!-- End of Page Wrapper -->

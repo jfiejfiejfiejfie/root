@@ -130,29 +130,29 @@ foreach ($result as $row) {
           </div>
 
           <div class="row">
-            <div class="col-12">
+            <div>
               <?php
-            $id = $_GET["id"];
-            $block_count = 0;
-            $block_list = [];
-            $sql = "SELECT * FROM blocklist WHERE my_id =:id";
-            $stm = $pdo->prepare($sql);
-            $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
-            $stm->execute();
-            $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($block_result as $block_row) {
-              $block_count += 1;
-              $block_list[] = $block_row["user_id"];
-            }
-            if (!in_array($id, $block_list)) {
-            ?>
+              $id = $_GET["id"];
+              $block_count = 0;
+              $block_list = [];
+              $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+              $stm = $pdo->prepare($sql);
+              $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+              $stm->execute();
+              $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              foreach ($block_result as $block_row) {
+                $block_count += 1;
+                $block_list[] = $block_row["user_id"];
+              }
+              if (!in_array($id, $block_list)) {
+              ?>
               <div>
                 <?php if (isset($_GET["page_id"])) {
-                echo '<form action="user_chat.php?id=' . $id . '&chat=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
-              } else {
-                echo '<form action="user_chat.php?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
-              }
-              ?>
+                  echo '<form action="user_chat.php?id=' . $id . '&chat=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
+                } else {
+                  echo '<form action="user_chat.php?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
+                }
+                ?>
                 <label>画像選択:<br>
                   <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
                   <input type="file" multiple name="image" class="test" accept="image/*" onchange="previewImage(this);">
@@ -173,109 +173,110 @@ foreach ($result as $row) {
               <hr>
               <div>
                 <?php
-              $sql = "SELECT * FROM user_chat WHERE (others_id=$users_id and user_id=$id) or (others_id = $id  and user_id = $users_id) ORDER BY created_at DESC";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              require_once('paging.php');
-              foreach ($disp_data as $row) {
-                if (($row["others_id"] == $users_id)) {
-                  if ($row["checked"] == 0) {
-                    $sql = "UPDATE user_chat SET checked=1 where id = " . $row["id"];
+                $sql = "SELECT * FROM user_chat WHERE (others_id=$users_id and user_id=$id) or (others_id = $id  and user_id = $users_id) ORDER BY created_at DESC";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                require_once('paging.php');
+                foreach ($disp_data as $row) {
+                  if (($row["others_id"] == $users_id)) {
+                    if ($row["checked"] == 0) {
+                      $sql = "UPDATE user_chat SET checked=1 where id = " . $row["id"];
+                      $stm = $pdo->prepare($sql);
+                      $stm->execute();
+                    }
+                    echo '<table id="user_chat">';
+                    echo '<thead><tr>';
+                    echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
+                    $user_id = $row["user_id"];
+                    $sql = "SELECT * FROM users WHERE id=$user_id";
                     $stm = $pdo->prepare($sql);
                     $stm->execute();
-                  }
-                  echo '<table id="user_chat">';
-                  echo '<thead><tr>';
-                  echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $row["user_id"], '"></a>';
-                  $user_id = $row["user_id"];
-                  $sql = "SELECT * FROM users WHERE id=$user_id";
-                  $stm = $pdo->prepare($sql);
-                  $stm->execute();
-                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  foreach ($result2 as $row2) {
-                    $block_list = [];
-                    $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result2 as $row2) {
+                      $block_list = [];
+                      $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+                      $stm = $pdo->prepare($sql);
+                      $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                      $stm->execute();
+                      $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                      foreach ($block_result as $block_row) {
+                        $block_list[] = $block_row["user_id"];
+                      }
+                      echo '<br>';
+                      if (in_array($user_id, $block_list)) {
+                        echo $row2["name"], "<c style='color:red;'>※ブロック中!</c></th>";
+                      } else {
+                        echo $row2["name"], "</th>";
+                      }
+                    }
+                    $user_id = $row["user_id"];
+                    $sql = "SELECT * FROM users WHERE id=$user_id";
                     $stm = $pdo->prepare($sql);
-                    $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
                     $stm->execute();
-                    $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($block_result as $block_row) {
-                      $block_list[] = $block_row["user_id"];
-                    }
-                    echo '<br>';
-                    if (in_array($user_id, $block_list)) {
-                      echo $row2["name"], "<c style='color:red;'>※ブロック中!</c></th>";
-                    } else {
-                      echo $row2["name"], "</th>";
-                    }
-                  }
-                  $user_id = $row["user_id"];
-                  $sql = "SELECT * FROM users WHERE id=$user_id";
-                  $stm = $pdo->prepare($sql);
-                  $stm->execute();
-                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  foreach ($result2 as $row2) {
-                    echo "<td>";
-                    //整形したい文字列
-                    $text = $row["text"];
-                    if ($row["image"] != "") {
-                      echo '<img style="width:25%;" src="user_chat_image.php?id=' . $row["id"] . '"><br>';
+                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result2 as $row2) {
+                      echo "<td>";
+                      //整形したい文字列
+                      $text = $row["text"];
+                      if ($row["image"] != "") {
+                        echo '<img style="width:25%;" src="user_chat_image.php?id=' . $row["id"] . '">';
 
+                      }
+                      echo '<div style="font-size:35px; font-family: serif; text-align: left;" class="balloon1">' . $text . '</div>';
+                      $time = new DateTime($row["created_at"]);
+                      $time = $time->format("H:i");
+                      echo '<div style="font-size:20px;">' . $time;
+                      echo '</div>';
+                      echo '</td>';
                     }
-                    echo '<div style="font-size:35px; font-family: serif;" class="balloon1">' . $text . '</div>';
-                    $time = new DateTime($row["created_at"]);
-                    $time = $time->format("H:i");
-                    echo '<div style="font-size:20px;">' . $time;
-                    echo '</div>';
-                    echo '</td>';
-                  }
-                  echo '</tr>';
-                  echo '</thead>';
-                  echo '</table>';
-                } else {
-                  echo '<table id="user_chat">';
-                  echo '<thead><tr>';
-                  echo '<td>';
-                  // echo '<div class="clearfix">';
-                  if ($row["image"] != "") {
-                    echo '<div style="text-align: right;"><img style="width:25%;" src="user_chat_image.php?id=' . $row["id"] . '"></div><br>';
-                  }
-                  $text = $row["text"];
-                  echo '<div style="text-align: right; font-size:35px; font-family: serif;" class="balloon2 float-right">' . $text . '</div>';
-                  $time = new DateTime($row["created_at"]);
-                  $time = $time->format("H:i");
-                  echo '<div style="font-size:20px;" class="float-right mt-5">' . $time;
-                  if ($row["checked"] == 1) {
-                    echo ' 既読';
-                  }
-                  echo '</div>';
-                  echo '</td>';
-                  echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
-                  $user_id = $row["user_id"];
-                  $sql = "SELECT * FROM users WHERE id=$user_id";
-                  $stm = $pdo->prepare($sql);
-                  $stm->execute();
-                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  foreach ($result2 as $row2) {
-                    $block_list = [];
-                    $sql = "SELECT * FROM blocklist WHERE my_id =:id";
-                    $stm = $pdo->prepare($sql);
-                    $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
-                    $stm->execute();
-                    $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($block_result as $block_row) {
-                      $block_list[] = $block_row["user_id"];
-                    }
-                    echo '<br></th>';
                     echo '</tr>';
                     echo '</thead>';
                     echo '</table>';
+                  } else {
+                    echo '<table id="user_chat2">';
+                    echo '<thead><tr>';
+                    echo '<th>';
+                    // echo '<div class="clearfix">';
+                    if ($row["image"] != "") {
+                      echo '<div style="text-align: right;"><img style="width:25%;" src="user_chat_image.php?id=' . $row["id"] . '"></div>';
+                    }
+                    $text = $row["text"];
+                    echo '<div style="text-align: right; font-size:35px; font-family: serif;" class="balloon2 float-right">' . $text . '</div>';
+                    $time = new DateTime($row["created_at"]);
+                    $time = $time->format("H:i");
+                    echo '<div style="font-size:20px; text-align: right;">' . $time;
+                    if ($row["checked"] == 1) {
+                      echo ' 既読';
+                    }
+                    echo '</div>';
+                    echo '</th>';
+                    echo '<td><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
+                    $user_id = $row["user_id"];
+                    $sql = "SELECT * FROM users WHERE id=$user_id";
+                    $stm = $pdo->prepare($sql);
+                    $stm->execute();
+                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result2 as $row2) {
+                      $block_list = [];
+                      $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+                      $stm = $pdo->prepare($sql);
+                      $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                      $stm->execute();
+                      $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                      foreach ($block_result as $block_row) {
+                        $block_list[] = $block_row["user_id"];
+                      }
+                      echo '<br></td>';
+
+                      echo '</tr>';
+                      echo '</thead>';
+                      echo '</table>';
+                    }
                   }
                 }
-              }
-              require_once('paging2.php');
-              ?>
+                require_once('paging2.php');
+                ?>
               </div>
               <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
             </div>

@@ -147,6 +147,16 @@
 }
 
 #user_chat td {
+    /* width: 2000px; */
+    font-size: 20px;
+    margin-top: 16px;
+    margin-left: 16px;
+    margin-bottom: 16px;
+    margin-right: 16px;
+    word-break: break-word;
+}
+#user_chat2 th {
+    /* display:block; */
     width: 2000px;
     font-size: 20px;
     margin-top: 16px;
@@ -154,6 +164,10 @@
     margin-bottom: 16px;
     margin-right: 16px;
     word-break: break-word;
+}
+
+#user_chat2 td {
+    width: 200px;
 }
 
 #button {
@@ -176,6 +190,7 @@
     font-size: 15px;
     word-wrap: break-word;
     margin-left: 10px;
+    text-align: right;
 }
 
 /* 三角アイコン左 */
