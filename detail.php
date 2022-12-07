@@ -36,6 +36,14 @@ if (isset($_SESSION["id"])) {
   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
   foreach ($result as $row) {
   }
+  $text = $_SERVER["REQUEST_URI"];
+  // 部分一致
+  if (preg_match("/&good=1/", $text)) {
+   exit;
+  } 
+  if (preg_match("/&chat=1/", $text)) {
+    exit;
+   } 
   $text = "{$row["id"]}";
   //  $text="{$row["id"]}:{$row["item"]}";
   $data_item = array($text); //ここに保存したいテキスト（配列にしとく）
