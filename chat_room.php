@@ -105,10 +105,13 @@ if (isset($_POST["kind"])) {
                   }
                   echo '<tr>';
                   echo "<td><a href=room.php?id={$row["id"]}>", '<img height="200" width="200" src="room_image.php?id=', $row['id'], '"></a>';
-                  if ($attend_count == 0) {
-                    echo "<br><div><a href='attend.php?id={$row["id"]}' class='btn btn-danger col-5'>参加する</a></td></div>";
-                  } else {
-                    echo "<br><a href='attend.php?id={$row["id"]}' class='btn btn-primary'>脱退する</a>";
+                  $user_id = $row["user_id"];
+                  if ($_SESSION["id"] !== $row["user_id"]) {
+                    if ($attend_count == 0) {
+                      echo "<br><div><a href='attend.php?id={$row["id"]}' class='btn btn-danger col-5'>参加する</a></td></div>";
+                    } else {
+                      echo "<br><a href='attend.php?id={$row["id"]}' class='btn btn-primary'>脱退する</a>";
+                    }
                   }
                 ?>
                 <?php

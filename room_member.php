@@ -48,7 +48,7 @@ if (isset($_POST["kind"])) {
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -58,7 +58,7 @@ if (isset($_POST["kind"])) {
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -72,43 +72,68 @@ if (isset($_POST["kind"])) {
           </div> -->
 
           <div class="row">
-          <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
-      <h2>ルームメンバーリスト</h2><div class="col-12"></div>
-      <?php
-        if(isset($_GET["id"])){
-          $id=$_GET["id"];
-        }else{
-          $id = $_SESSION["id"];
-        }
-        try {
-          $sql = "SELECT * FROM roomlist WHERE room_id=:id";
-          $stm = $pdo->prepare($sql);
-          $stm->bindValue(':id', $id, PDO::PARAM_STR);
-          $stm->execute();
-          $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-          foreach ($result as $row) {
-            echo '<table class="table table-striped">';
-            echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
-            $room_id = $row["room_id"];
-            $sql = "SELECT * FROM users WHERE id=".$row["my_id"];
-            $stm = $pdo->prepare($sql);
-            $stm->execute();
-            $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($result2 as $row2) {
-              echo $row2["name"], "</td>";
+            <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
+            <h2>ルームメンバーリスト</h2>
+            <div class="col-12"></div>
+            <?php
+              if (isset($_GET["id"])) {
+                $id = $_GET["id"];
+              } else {
+                $id = $_SESSION["id"];
+              }
+              try {
+                $sql = "SELECT * FROM roomlist WHERE room_id=:id";
+                $stm = $pdo->prepare($sql);
+                $stm->bindValue(':id', $id, PDO::PARAM_STR);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($result as $row) {
+                  echo '<table class="table table-striped">';
+
+                  $sql = "SELECT * FROM room WHERE id=:id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->bindValue(':id', $id, PDO::PARAM_STR);
+                  $stm->execute();
+                  $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result3 as $row3){
+                    $host_id = $row3["user_id"];
+                  }
+                  if ($host_id == $row["my_id"]) {
+                    echo '<div class="col-12">ホストユーザー</div>';
+                    echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
+                    $room_id = $row["room_id"];
+                    $sql = "SELECT * FROM users WHERE id=" . $row["my_id"];
+                    $stm = $pdo->prepare($sql);
+                    $stm->execute();
+                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result2 as $row2) {
+                      echo $row2["name"], "</td>";
+                    }
+                    echo '<div class="col-12">　</div>';
+                    echo '<div class="col-12">ゲストユーザー</div>';
+                  } else {
+                    echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
+                    $room_id = $row["room_id"];
+                    $sql = "SELECT * FROM users WHERE id=" . $row["my_id"];
+                    $stm = $pdo->prepare($sql);
+                    $stm->execute();
+                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result2 as $row2) {
+                      echo $row2["name"], "</td>";
+                    }
+                  }
+                  echo "<hr>";
+                  echo '</tr>';
+                }
+                echo '</tbody>';
+                echo '</table>';
+              } catch (Exception $e) {
+                echo 'エラーがありました。';
+                echo $e->getMessage();
+                exit();
+              }
             }
-            echo "<hr>";
-            echo '</tr>';
-          }
-          echo '</tbody>';
-          echo '</table>';
-        } catch (Exception $e) {
-          echo 'エラーがありました。';
-          echo $e->getMessage();
-          exit();
-        }
-      }
-      ?>
+            ?>
           </div>
 
         </div>
