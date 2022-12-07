@@ -80,18 +80,12 @@ if (isset($_POST["kind"])) {
                 $stm->execute();
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($result as $row) {
-                  // echo '<table class="table table-striped">';
                   echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='50' width='50'src='my_image.php?id={$row['my_id']}'></a>";
                   $room_id = $row["room_id"];
                   $sql = "SELECT * FROM users WHERE id=" . $row["my_id"];
                   $stm = $pdo->prepare($sql);
                   $stm->execute();
                   $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  // foreach ($result2 as $row2) {
-                  //   echo $row2["name"], "</td>";
-                  // }
-                  // echo "<hr>";
-                  // echo '</tr>';
                 }
                 echo '</tbody>';
                 echo '</table>';
@@ -149,22 +143,6 @@ if (isset($_POST["kind"])) {
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
             </div>
             <div class="col-12"></div>
-            <div class="col-12">
-              <?php 
-              if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-                    $sql = "SELECT * FROM roomlist WHERE room_id =:room_id and my_id=:my_id and checked =:checked";
-                    $stm = $pdo->prepare($sql);
-                    $stm->bindValue(':room_id', $row["id"], PDO::PARAM_STR);
-                    $stm->bindValue(':my_id', $_SESSION["id"], PDO::PARAM_STR);
-                    $stm->bindValue(':checked', $checked, PDO::PARAM_STR);
-                    $stm->execute();
-                if ($checked == 1) {
-                  echo "<a href='loan2.php?id={$row["id"]}' class='btn btn-success'>チャットをする</a><br>";
-                  echo '</form>';
-                }else if ($checked == 0){
-                  echo '参加しろ';
-                }
-              } ?>
               <hr>
               <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
             </div>

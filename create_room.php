@@ -36,7 +36,6 @@
       $stm = $pdo->prepare($sql);
       $stm->bindValue(':created_at', $created_at, PDO::PARAM_STR);
       $stm->bindValue(':id', $id, PDO::PARAM_STR);
-      // $stm->bindValue(':host_user_id', $host_user_id, PDO::PARAM_STR);
       $stm->bindValue(':item', $item, PDO::PARAM_STR);
       $stm->bindValue(':comment', $comment, PDO::PARAM_STR);
       $stm->bindValue(':imgdat', $imgdat, PDO::PARAM_STR);

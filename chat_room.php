@@ -118,7 +118,7 @@ if (isset($_POST["kind"])) {
                   $stm->execute();
                   $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
                   foreach ($result2 as $row2) {
-                    echo '<td>', $row2["name"], "</td>";
+                    echo '<td>',"<a href='profile.php?id={$row["user_id"]}'>", ($row2['name']), '</a></td>';
                   }
                   echo '<td>', $row['item'], '</td>';
                   echo '<td>', $row['comment'], '</td>';
