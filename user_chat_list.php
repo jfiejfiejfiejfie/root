@@ -169,7 +169,7 @@ if (!isset($_SESSION["check"])) {
                     }
                   }
                   $user_id_list[] = $row["others_id"];
-                  echo '<td>あなた:';
+                  echo '<td><a class="btn col-12" href="user_chat.php?id='.$user_id.'">あなた:';
                   $text = $row["text"];
                   $text = strip_tags($text);
                   //文字数の上限
@@ -184,8 +184,8 @@ if (!isset($_SESSION["check"])) {
                     echo '<br>画像が添付されています。';
                   }
                   echo '<br>', $row["created_at"] . '<d class="col-3"></d>';
-                  echo "<a class='btn btn-primary col-12' href='user_chat.php?id=$user_id'>チャット</a>";
-                  echo '</td>';
+                  // echo "<a class='btn btn-primary col-12' href='user_chat.php?id=$user_id'>チャット</a>";
+                  echo '</a></td>';
                   echo '</tr>';
                   echo '</thead>';
                   echo '</table>';
