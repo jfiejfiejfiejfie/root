@@ -91,9 +91,11 @@ require_once "db_connect.php";
   $item = $_POST["item"];
   $money = $_POST["money"];
   $kind = $_POST["kind"];
+  $state=$_POST["state"];
+  $comment=$_POST["comment"];
   try {
 
-    $sql = "UPDATE list SET item = :item, money = :money,created_at=:created_at,kind=:kind where id = $id";
+    $sql = "UPDATE list SET item = :item, money = :money,created_at=:created_at,kind=:kind,state=:state,comment=:comment where id = $id";
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':item', $item, PDO::PARAM_STR);
     // $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
@@ -101,6 +103,8 @@ require_once "db_connect.php";
     $stm->bindValue(':created_at', $created_at, PDO::PARAM_STR);
     $stm->bindValue(':money', $money, PDO::PARAM_STR);
     $stm->bindValue(':kind', $kind, PDO::PARAM_STR);
+    $stm->bindValue(':state', $state, PDO::PARAM_STR);
+    $stm->bindValue(':comment', $comment, PDO::PARAM_STR);
     if ($stm->execute()) {
       if (isset($_FILES["image"]) && ($_FILES["image"]["tmp_name"] != '')) {
         $upfile = $_FILES["image"]["tmp_name"];

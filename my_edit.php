@@ -144,7 +144,7 @@
                                     exit();
                                 }
                             foreach($kind as $row){
-                              echo '<option value="',$row["name"],'" selected>',$row["name"],"</option>";
+                              echo '<option value="',$row["name"],'">',$row["name"],"</option>";
                             }
                           ?>
                         </select>
@@ -176,7 +176,7 @@
                     }
                   </script>
                   <textarea id="message" name="comment" class="form-control form-control-user"
-                    placeholder="色、素材、重さ、定価、注意点など" onKeyUp="countLength(value, 'textlength2');"></textarea>
+                     onKeyUp="countLength(value, 'textlength2');"><?php echo htmlspecialchars($row["comment"]); ?></textarea>
                   <p id="textlength2">0文字/1000文字</p>
                  
                 <label>金額:
