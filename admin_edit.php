@@ -77,65 +77,49 @@ if($row["admin"]==0){
             echo "<img src=my_image.php?id=$id style='max-width:300px;'>";
             echo "<hr>";
           ?>
-        <ul>
-          <li>
             <label>ユーザID:
-                <input type="hidden" name="id" value="<?php echo $row['id'];?>">
-              <input type="text" name="user_id" placeholder="ユーザID" value="<?php echo htmlspecialchars($row["user_id"]); ?>"
+                <input type="hidden" name="id" class="form-control form-control-user" value="<?php echo $row['id'];?>">
+              <input type="text" name="user_id" class="form-control form-control-user" placeholder="ユーザID" value="<?php echo htmlspecialchars($row["user_id"]); ?>"
                 required>
             </label>
             <label>名前:
-              <input type="text" name="name" placeholder="名前" value="<?php echo htmlspecialchars($row["name"]); ?>"
+              <input type="text" name="name" class="form-control form-control-user" placeholder="名前" value="<?php echo htmlspecialchars($row["name"]); ?>"
                 required>
             </label>
-          </li>
-          </li>
             <label>年齢:
-              <input type="number" name="age" placeholder="年齢" value="<?php echo htmlspecialchars($row["age"]); ?>"
+              <input type="number" name="age" placeholder="年齢" class="form-control form-control-user" value="<?php echo htmlspecialchars($row["age"]); ?>"
                 required>
             </label>
-          </li>
-          <li>性別:
-            <label><input type="radio" name="sex" value="男" checked>男性</label>
-            <label><input type="radio" name="sex" value="女">女性</label>
-            <label><input type="radio" name="sex" value="無回答">無回答</label>
-          </li>
-          <li>
+            性別:
+            <label><input type="radio" name="sex"  value="男" checked>男性</label>
+            <label><input type="radio" name="sex"  value="女">女性</label>
+            <label><input type="radio" name="sex"  value="無回答">無回答</label>
             <label>E-mail:
-              <input type="text" name="email" placeholder="E-mail"
+              <input type="text" name="email" placeholder="E-mail" class="form-control form-control-user"
                 value="<?php echo htmlspecialchars($row["email"]); ?>">
             </label>
-          </li>
-          <li>
             <label>コメント:
-              <input type="text" name="comment" placeholder="comment"
+              <input type="text" name="comment" placeholder="comment" class="form-control form-control-user"
                 value="<?php echo htmlspecialchars($row["comment"]); ?>" required>
             </label>
-          </li>
-          <li>
             <label>画像選択:<br>
-              <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-              <input type="file" multiple name="image" class="test" accept="image/*" onchange="previewImage(this);">
+              <img src="images/imageplus.png" id="preview" style="max-width:200px;" ><br>
+              <input type="file" multiple name="image" class="test" class="form-control form-control-user" accept="image/*" onchange="previewImage(this);">
             </label>
-          </li>
-          <li>
             <label>金:
-              <input type="text" name="money" placeholder="money"
+              <input type="text" name="money" placeholder="money" class="form-control form-control-user"
                 value="<?php echo htmlspecialchars($row["money"]); ?>" required>
             </label>
-          </li>
-          <li><input type="submit" value="変更する"></li>
-        </ul>
+            <input type="submit" class="form-control form-control-user" value="変更する" >
       </form>
       
-      <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+      <br><p><a href="<?php echo $gobackURL ?>" class="form-control form-control-user">戻る</a></p>
       <br>
       <form method="POST" action="deleteacount.php" enctype="multipart/form-data">
-        <ul>
-          <li>
+
             <input type="hidden" name="id" value="<?php echo $_GET['id'];?>">
-            <input type="submit" value="垢BANする"></li>
-        </ul>
+            <input type="submit" value="垢BANする">
+
       </form>
           </div>
 
