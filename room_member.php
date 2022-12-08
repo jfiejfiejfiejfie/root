@@ -119,7 +119,7 @@ if (isset($_POST["kind"])) {
                     }
                     if ($host_id !== $row2["user_id"]) {
                       echo '<div class="col-12">　</div>';
-                      echo '<a href="#"  class="btn btn-primary col-3">ルーム編集する <div class="fa fa-cog"></div></a>';
+                      echo "<a href='room_edit.php?id={$row3["id"]}'  class='btn btn-primary col-3'>ルーム編集する <div class='fa fa-cog'></div></a>";
                     }
                     echo '<div class="col-12">　</div>';
                     echo '<div class="col-12">ゲストユーザー</div>';
