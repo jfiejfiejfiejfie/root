@@ -242,11 +242,12 @@ if (isset($_SESSION["id"])) {
                       echo '<td>', $row["comment"], '</td>';
                       echo '</tr>';
                       if ($row["buy_user_id"] !== 0) {
+                        $buy_user_id = $row["buy_user_id"];
                         echo '<tr>';
                         echo '<th>購入者</th>';
                         echo '<td>';
-                        echo "<a href='profile.php?id={$row['buy_user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['buy_user_id']}'></a><br>";
-                        $sql = "SELECT * FROM users WHERE id=$user_id";
+                        echo "<a href='profile.php?id=$buy_user_id'><img id='image' height='100' width='100'src='my_image.php?id=$buy_user_id'></a><br>";
+                        $sql = "SELECT * FROM users WHERE id=$buy_user_id";
                         $stm = $pdo->prepare($sql);
                         $stm->execute();
                         $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
