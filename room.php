@@ -10,13 +10,47 @@ require_once "db_connect.php";
 require_once('checked.php');
 require_once "db_connect.php";
 $myURL = 'add_db.php';
-$gobackURL = 'chat_room.php';
+define('MAX', '10');
 $id = $_GET["id"];
+$option = "&id=$id";
+$memo = "ルームチャット";
+$gobackURL = 'chat_room.php';
 $list_id = $_GET["id"];
 $point = 0;
 if (isset($_POST["kind"])) {
   require_once('insert.php');
 }
+if ($_FILES["image"]["tmp_name"] == "") {
+  $imgdat = "";
+} else {
+  $upfile = $_FILES["image"]["tmp_name"];
+  $imgdat = file_get_contents($upfile);
+}
+$name = $_SESSION["name"];
+$others_id = $_GET["id"];
+date_default_timezone_set('Asia/Tokyo');
+$date = date('Y-m-d H:i:s');
+try {
+  $sql = "INSERT INTO room_chat (user_id,created_at,text,image,others_id) VALUES(:user_id,:date,:text,:imgdat,:others_id)";
+  $stm = $pdo->prepare($sql);
+  $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+  $stm->bindValue(':date', $date, PDO::PARAM_STR);
+  $stm->bindValue(':text', $text, PDO::PARAM_STR);
+  $stm->bindValue(':imgdat', $imgdat, PDO::PARAM_STR);
+  $stm->bindValue(':others_id', $others_id, PDO::PARAM_STR);
+  $stm->execute();
+  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+  echo 'エラーがありました。';
+  echo $e->getMessage();
+  exit();
+}
+if (isset($_GET['page_id'])) {
+  header('Location:room.php?id=' . $id . '&page_id=' . $now);
+} else {
+  header('Location:room.php?id=' . $id);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
