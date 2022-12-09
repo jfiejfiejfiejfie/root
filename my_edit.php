@@ -208,7 +208,7 @@
                 <br><input type="submit" value="編集する">
                 
           
-            <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+            <p><br><a href="<?php echo $gobackURL ?>">戻る</a></p>
         </form>
         </div>
           </div>

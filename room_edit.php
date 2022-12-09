@@ -90,9 +90,9 @@
         ?><hr>
         <form method="POST" action="detail2.php" enctype="multipart/form-data">        
                     <label>貸出物:
-                        <input type="text" name="item" class="form-control form-control-user" value="<?php echo htmlspecialchars($item); ?>" placeholder="貸出物" required>
+                        <input type="text" name="item" class="form-control form-control-user " value="<?php echo htmlspecialchars($item); ?>" placeholder="貸出物" required>
                         <input type="hidden" name="id" value="<?php echo htmlspecialchars($_GET["id"]);?>">
-                    </label>
+                    </label><br>
                   <br>コメント(任意):
                   <script>
                     function countLength(text, field) {
@@ -106,9 +106,9 @@
                   <br>画像選択:<br>
                 <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
                         <input type="file" name="image"class="test" accept="image/*"  onchange="previewImage(this);">
-                          </label>
-                <br><input type="submit" value="編集する">
-            <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+                          </label><br>
+                <br><input type="submit" class="btn btn-primary col-2"value="編集する">
+            <p><br><a href="<?php echo $gobackURL ?>">戻る</a></p>
         </form>
         </div>
           </div>
