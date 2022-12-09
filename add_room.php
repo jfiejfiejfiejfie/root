@@ -96,6 +96,7 @@ if (isset($_POST["item"])) {
               <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
                 <input type="file" name="image" class="test" accept="image/*" onchange="previewImage(this);" required>
               </label><br>
+              <label>
               <input type="checkbox" required>規約に同意する
               </label>
               <br>
