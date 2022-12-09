@@ -66,51 +66,54 @@ require_once "db_connect.php";
               echo "<img src=my_image.php?id=$id style='max-width:200px;'>";
               echo "<hr>";
           ?>
-
+        <ul>
+          <li>
             <label>名前:
-              <input type="text" class="form-control form-control-user" name="name" placeholder="名前" value="<?php echo htmlspecialchars($row["name"]); ?>"
+              <input type="text" name="name" placeholder="名前" value="<?php echo htmlspecialchars($row["name"]); ?>"
                 required>
             </label>
-
+          </li>
+          </li>
             <label>年齢:
-              <input type="number" class="form-control form-control-user" name="age" placeholder="年齢" value="<?php echo htmlspecialchars($row["age"]); ?>"
+              <input type="number" name="age" placeholder="年齢" value="<?php echo htmlspecialchars($row["age"]); ?>"
                 required>
             </label>
-
-          性別:
+          </li>
+          <li>性別:
             <label><input type="radio" name="sex" value="男" checked>男性</label>
             <label><input type="radio" name="sex" value="女">女性</label>
             <label><input type="radio" name="sex" value="無回答">無回答</label>
-        
+          </li>
           <?php if($row["checked"]==0){?>
-        
+          <li>
             <label>E-mail:
-              <input type="text" class="form-control form-control-user" name="email" placeholder="E-mail"
+              <input type="text" name="email" placeholder="E-mail"
                 value="<?php echo htmlspecialchars($row["email"]); ?>">
             </label>
-       
+          </li>
           <?php }?>
-    
+          <li>
             <label>コメント:
-              <input type="text" class="form-control form-control-user" name="comment" placeholder="comment"
+              <input type="text" name="comment" placeholder="comment"
                 value="<?php echo htmlspecialchars($row["comment"]); ?>" required>
             </label>
-    
+          </li>
+          <li>
             <label>画像選択:<br>
-              <img src="images/imageplus.png"  id="preview" style="max-width:200px;"><br>
-              <input type="file" multiple name="image"  class="test" accept="image/*" onchange="previewImage(this);">
+              <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+              <input type="file" multiple name="image" class="test" accept="image/*" onchange="previewImage(this);">
             </label>
-    
-          <input type="submit" class="form-control form-control-user" value="変更する">
-
+          </li>
+          <li><input type="submit" value="変更する"></li>
+        </ul>
       </form>
       <hr>
       <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
       <br>
       <form method="POST" action="delete_conf.php" enctype="multipart/form-data">
-  
-          <input type="submit" value="退会する">
-     
+        <ul>
+          <li><input type="submit" value="退会する"></li>
+        </ul>
       </form>
           <div class="row">
 
