@@ -18,9 +18,9 @@ if (!isset($_SESSION["loggedin"])) {
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="./">
-            <i class="fas fa-fw fa-bars"></i>
-            <span>メニュー</span></a>
+        <a class="nav-link" href="mypage.php">
+            <i class="fa fa-user-circle" aria-hidden="true"></i>
+            <span>マイページ</span></a>
     </li>
 
     <!-- Divider -->
@@ -41,6 +41,12 @@ if (!isset($_SESSION["loggedin"])) {
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
+        <a class="nav-link" href="./">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span>HOME</span></a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
             aria-controls="collapsePages">
             <i class="fas fa-fw fa-user"></i>
@@ -48,7 +54,7 @@ if (!isset($_SESSION["loggedin"])) {
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="mypage.php">マイページ</a>
+                <a class="collapse-item" href="notice.php">通知一覧</a>
                 <a class="collapse-item" href="buy_list.php">購入されたもの</a>
                 <a class="collapse-item" href="reservation_list.php">予約されたもの</a>
                 <a class="collapse-item" href="good_list.php">いいね一覧</a>
