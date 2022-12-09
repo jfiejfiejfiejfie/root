@@ -13,7 +13,7 @@ require_once "db_connect.php";
 require_once('checked.php');
 $block_count = 0;
 $block = 0;
-define('MAX', '8');
+define('MAX', '12');
 // require_once("block_check.php");
 if (!isset($_SESSION["check"])) {
     $check = 0;
@@ -116,9 +116,6 @@ if (!isset($_SESSION["check"])) {
                                     echo '<img id="child" src="images/sold.png" height="232" width="232"/>';
                                 }
                                 echo '<div class="mask">';
-                                // echo '<div class="caption">', $row["item"], '</div>';
-                                // echo '<div class="bottom">  </div>';
-                                // echo '<div class="price"><p class="rainbow">￥', number_format($row["money"]), '</p></div>';
                                 echo '</div></div></a></td></div>';
                                 echo '商品名:', $row["item"];
                                 echo '<br>金額:￥', number_format($row["money"]);
@@ -128,7 +125,7 @@ if (!isset($_SESSION["check"])) {
                     </div>
                 </div>';
                             }
-                            while ($count % 8 != 0) {
+                            while ($count % 12 != 0) {
                                 $count += 1;
                                 echo '<div class="col-xl-3 col-md-6 mb-4">';
                                 if ($count % 3 == 2) {

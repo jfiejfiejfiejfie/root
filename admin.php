@@ -1,11 +1,10 @@
-
 <?php
 session_start();
 require_once('db_connect.php');
 require_once('user_check.php');
 $myURL = 'admin.php';
 if ($row["admin"] == 0) {
-    header('Location:./');
+  header('Location:./');
 }
 ?>
 
@@ -43,7 +42,7 @@ if ($row["admin"] == 0) {
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -53,7 +52,7 @@ if ($row["admin"] == 0) {
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -67,21 +66,29 @@ if ($row["admin"] == 0) {
           </div>
 
           <div class="row">
-          <?php
-            echo "<h1>商品の削除</h1>";
+            <?php
+            echo "<h1>商品の削除</h1><div class='col-12'></div>";
             $sql = "SELECT * FROM list";
             $stm = $pdo->prepare($sql);
             $stm->execute();
             $result = $stm->fetchAll(PDO::FETCH_ASSOC);
             foreach ($result as $row) {
-                echo "<table>";
-                echo "<tr>";
-                echo '<div class="col-12"></div>';
-                echo $row["id"];
-                echo $row["item"];
-                echo "<a href='mydelete.php?id=" . $row['id'] . "'>消す</a>";
-                echo "</tr>";
-                echo "</table>";
+              echo '<div class="col-2">';
+              echo "<table>";
+              echo "<tr>";
+              echo '<div class="col-12"></div>';
+              echo $row["id"] . '<br>商品名:';
+              echo $row["item"] . '<br><div class="col-12"></div>';
+              echo '<div class="sample5"><a href=detail.php?', "id={$row["id"]}>";
+              echo '<img id="parent" src="image.php?id=', $row["id"], ' alt="" height="155" width="155"/>';
+              if ($row["loan"] == 1) {
+                echo '<img id="child" src="images/sold.png" height="155" width="155"/>';
+              }
+              echo "<div class='col-12'></div><a class='btn btn-danger col-8' href='mydelete.php?id=" . $row['id'] . "'>消す</a>";
+              echo '</div></a></div>';
+              echo "</tr>";
+              echo "</table>";
+              echo '</div>';
             }
             echo '<div class="col-12"><br></div>';
             echo "<h1>ユーザを編集する</h1>";
@@ -90,71 +97,71 @@ if ($row["admin"] == 0) {
             $stm->execute();
             $result = $stm->fetchAll(PDO::FETCH_ASSOC);
             foreach ($result as $row) {
-                echo "<table>";
-                echo "<tr>";
-                echo '<div class="col-12"></div>';
-                echo $row["id"];
-                echo $row["name"];
-                echo "<a href='admin_edit.php?id=" . $row['id'] . "'>編集する</a>";
-                echo "</tr>";
-                echo "</table>";
+              echo "<table>";
+              echo "<tr>";
+              echo '<div class="col-12"></div>';
+              echo $row["id"];
+              echo $row["name"];
+              echo "<a href='admin_edit.php?id=" . $row['id'] . "'>編集する</a>";
+              echo "</tr>";
+              echo "</table>";
             }
             echo '<div class="col-12"><br></div>';
             echo '<h1>ユーザを永久追放する</h1>';
             $filename = "report.txt";
             $data = array();
             if (is_readable($filename) === TRUE) {
-                if (($fp = fopen($filename, 'r')) !== FALSE) {
-                    while (($tmp = fgets($fp)) !== FALSE) {
-                        echo '<div class="col-12"></div>';
-                        $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
-                    }
-                    fclose($fp);
+              if (($fp = fopen($filename, 'r')) !== FALSE) {
+                while (($tmp = fgets($fp)) !== FALSE) {
+                  echo '<div class="col-12"></div>';
+                  $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
                 }
+                fclose($fp);
+              }
             } else {
-                $data[] = 'ファイルがありません';
+              $data[] = 'ファイルがありません';
             }
             foreach ($data as $line) {
-                echo '<div class="col-12"></div>';
-                echo 'IPアドレス->'.$line . '<a href="report.php?IP=' . $line . '">永久追放する</a><br>';
+              echo '<div class="col-12"></div>';
+              echo 'IPアドレス->' . $line . '<a href="report.php?IP=' . $line . '">永久追放する</a><br>';
             }
             // echo '<h1>ユーザを永久追放する</h1>';
             $filename = "user_report.txt";
             $data = array();
             if (is_readable($filename) === TRUE) {
-                if (($fp = fopen($filename, 'r')) !== FALSE) {
-                    while (($tmp = fgets($fp)) !== FALSE) {
-                        $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
-                    }
-                    fclose($fp);
+              if (($fp = fopen($filename, 'r')) !== FALSE) {
+                while (($tmp = fgets($fp)) !== FALSE) {
+                  $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
                 }
+                fclose($fp);
+              }
             } else {
-                $data[] = 'ファイルがありません';
+              $data[] = 'ファイルがありません';
             }
             foreach ($data as $line) {
-                echo '<div class="col-12"></div>';
-                echo 'ユーザーID->'.$line . '<a href="deleteacount.php?id=' . $line . '">永久追放する</a><br>';
+              echo '<div class="col-12"></div>';
+              echo 'ユーザーID->' . $line . '<a href="deleteacount.php?id=' . $line . '">永久追放する</a><br>';
             }
             echo '<div class="col-12"><br></div>';
             echo '<h1>IP追放編集</h1>';
             $filename = ".htaccess";
             $data = array();
             if (is_readable($filename) === TRUE) {
-                if (($fp = fopen($filename, 'r')) !== FALSE) {
-                    while (($tmp = fgets($fp)) !== FALSE) {
-                        echo '<div class="col-12"></div>';
-                        $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
-                    }
-                    fclose($fp);
+              if (($fp = fopen($filename, 'r')) !== FALSE) {
+                while (($tmp = fgets($fp)) !== FALSE) {
+                  echo '<div class="col-12"></div>';
+                  $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
                 }
+                fclose($fp);
+              }
             } else {
-                $data[] = 'ファイルがありません';
+              $data[] = 'ファイルがありません';
             }
             $data_count = 0;
             foreach ($data as $line) {
-                echo '<div class="col-12"></div>';
-                echo $line . '<a href="report.php?line=' . $data_count . '">削除</a><br>';
-                $data_count += 1;
+              echo '<div class="col-12"></div>';
+              echo $line . '<a href="report.php?line=' . $data_count . '">削除</a><br>';
+              $data_count += 1;
             }
             ?>
           </div>
@@ -226,11 +233,3 @@ if ($row["admin"] == 0) {
 </body>
 
 </html>
-
-
-
-
-
-
-
-
