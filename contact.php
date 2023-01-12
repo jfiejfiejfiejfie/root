@@ -186,7 +186,7 @@ if (isset($_POST['submitted'])) {
 
           <div class="row">
   <?php  if (filter_input(INPUT_GET, 'result') ) : // 送信が成功した場合?>
-  <h4>送信完了!</h4>
+  <h4>送信完了!</h4><div class="col-12"></div>
   <p>送信完了いたしました。</p>
   <hr>
   <?php elseif (isset($result) && !$result ): // 送信が失敗した場合 ?>
@@ -195,9 +195,9 @@ if (isset($_POST['submitted'])) {
   <p>しばらくしてもう一度お試しになるか、メールにてご連絡ください。</p>
   <p>メール：<a href="fki2166220@stu.o-hara.ac.jp">Contact</a></p>
   <hr>
-  <?php endif; ?>
-  <p>以下のフォームからお問い合わせください。</p>
-      <div class="col-12"> </div>
+  <?php endif; ?><div class="col-12"></div>
+  <p>以下のフォームからお問い合わせください。</p><div class="col-12"></div>
+  <form id="form" method="post" enctype="multipart/form-data">
       <label for="name">お名前（必須） 
         <span class="error-php"><?php if ( isset( $error['name'] ) ) echo h( $error['name'] ); ?></span>
       </label>
