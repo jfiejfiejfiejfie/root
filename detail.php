@@ -28,8 +28,8 @@ if (isset($_SESSION["id"])) {
     echo $e->getMessage();
     exit();
   }
-?>
-<?php
+  ?>
+  <?php
   $sql = "SELECT * FROM list WHERE id =$list_id";
   $stm = $pdo->prepare($sql);
   $stm->execute();
@@ -177,27 +177,29 @@ if (isset($_SESSION["id"])) {
                   }
 
                   try {
-                    $sql = "SELECT * FROM list WHERE id=$data";
+                    $sql = "SELECT item,kind,state,point,
+                      buy_user_id,list.id as list_id,list.created_at as time,list.money as price,users.id as user_id,users.name as name,list.comment as comment
+                     FROM list,users WHERE list.id=$data && users.id=list.user_id";
                     $stm = $pdo->prepare($sql);
                     $stm->execute();
                     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($result as $row) {
                       echo '<table class="table table-striped">';
                       echo '<thead><tr><th class="col-1">画像一覧</th>';
-                      echo '<td class="col-3"><a img data-lightbox="group" height="200" width="200  "href="image.php?id=', $row['id'], '">
-                  <img src="image.php?id=', $row['id'], '"height="150" width="150"></a>';
+                      echo '<td class="col-3"><a img data-lightbox="group" height="200" width="200  "href="image.php?id=', $row['list_id'], '">
+                  <img src="image.php?id=', $row['list_id'], '"height="150" width="150"></a>';
                       if ($image_count > 0) {
-                        echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['id'], '&number=1">
-                        <img src="image_next.php?id=', $row['id'], '&number=1"height="150" width="150"></a>';
+                        echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['list_id'], '&number=1">
+                        <img src="image_next.php?id=', $row['list_id'], '&number=1"height="150" width="150"></a>';
                         if ($image_count > 1) {
-                          echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['id'], '&number=2">
-                          <img src="image_next.php?id=', $row['id'], '&number=2"height="150" width="150"></a>';
+                          echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['list_id'], '&number=2">
+                          <img src="image_next.php?id=', $row['list_id'], '&number=2"height="150" width="150"></a>';
                           if ($image_count > 2) {
-                            echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['id'], '&number=3">
-                            <img src="image_next.php?id=', $row['id'], '&number=3"height="150" width="150"></a>';
+                            echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['list_id'], '&number=3">
+                            <img src="image_next.php?id=', $row['list_id'], '&number=3"height="150" width="150"></a>';
                             if ($image_count > 3) {
-                              echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['id'], '&number=4">
-                              <img src="image_next.php?id=', $row['id'], '&number=4"height="150" width="150"></a></td>';
+                              echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['list_id'], '&number=4">
+                              <img src="image_next.php?id=', $row['list_id'], '&number=4"height="150" width="150"></a></td>';
                             }
                           }
                         }
@@ -206,7 +208,7 @@ if (isset($_SESSION["id"])) {
                       // echo '<tr>';
                       echo '<tr>';
                       echo '<th>最終編集時間</th>';
-                      echo '<td>', $row["created_at"], '</td>';
+                      echo '<td>', $row["time"], '</td>';
                       echo '</tr>';
                       echo '<tr>';
                       echo '<th>商品名</th>';
@@ -222,20 +224,14 @@ if (isset($_SESSION["id"])) {
                       echo '</tr>';
                       echo '<tr>';
                       echo '<th>金額</th>';
-                      echo '<td>￥', number_format($row['money']), '</td>';
+                      echo '<td>￥', number_format($row['price']), '</td>';
                       echo '</tr>';
                       echo '<tr>';
                       echo '<th>出品者</th>';
                       echo '<td>';
                       echo "<a href='profile.php?id={$row['user_id']}'><img class='img-profile rounded-circle' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
-                      $user_id = $row["user_id"];
-                      $sql = "SELECT * FROM users WHERE id=$user_id";
-                      $stm = $pdo->prepare($sql);
-                      $stm->execute();
-                      $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                      foreach ($result2 as $row2) {
-                        echo $row2["name"], "</td>";
-                      }
+                      echo $row["name"], "</td>";
+
                       echo '</tr>';
                       echo '<tr>';
                       echo '<th>コメント</th>';
@@ -247,13 +243,6 @@ if (isset($_SESSION["id"])) {
                         echo '<th>購入者</th>';
                         echo '<td>';
                         echo "<a href='profile.php?id=$buy_user_id'><img id='image' height='100' width='100'src='my_image.php?id=$buy_user_id'></a><br>";
-                        $sql = "SELECT * FROM users WHERE id=$buy_user_id";
-                        $stm = $pdo->prepare($sql);
-                        $stm->execute();
-                        $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                        foreach ($result2 as $row2) {
-                          echo $row2["name"], "</td>";
-                        }
                         $user_id = $row["buy_user_id"];
                         echo '</tr>';
                       } else {
@@ -272,27 +261,27 @@ if (isset($_SESSION["id"])) {
                   // echo "<a href='favorite.php?id={$row["id"]}' class='btn'><img src='images/good.png' style='max-width:50px'>$count</a><br>";
                   if ($row["buy_user_id"] === 0) {
                     // echo "<a href='loan.php?id={$row["id"]}' class='btn btn-success col-2'>チャットをする</a><br>";
-                    echo '<form method="POST" action="detail.php?id=' . $row["id"] . '&good=1">';
+                    echo '<form method="POST" action="detail.php?id=' . $row["list_id"] . '&good=1">';
                     echo "<button type='submit'><div class='w-100 mw-100'><i class='fa fa-thumbs-up' aria-hidden='true'>$count</i></div></button><br>";
                     echo '</form>';
                     echo "<div class='col-12'></div>";
                   }
-                  if ($_SESSION['id'] === $row2["id"]) {
+                  if ($_SESSION['id'] === $row["user_id"]) {
                     if ($row["buy_user_id"] === 0) {
-                      echo "<a href='my_edit.php?id={$row["id"]}' class='btn btn-primary col-2'>編集する</a>";
-                      echo "<a href='mydelete.php?id={$row["id"]}' class='btn btn-danger col-2'>削除する</a>";
+                      echo "<a href='my_edit.php?id={$row["list_id"]}' class='btn btn-primary col-2'>編集する</a>";
+                      echo "<a href='mydelete.php?id={$row["list_id"]}' class='btn btn-danger col-2'>削除する</a>";
                     }
                   } else {
                     if ($user_id === 0) {
                       $checked = 100;
-                      $sql = "SELECT * FROM reservation_list WHERE user_id=$id and list_id=" . $row["id"];
+                      $sql = "SELECT * FROM reservation_list WHERE user_id=$id and list_id=" . $row["list_id"];
                       $stm = $pdo->prepare($sql);
                       $stm->execute();
                       $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
                       foreach ($result3 as $row3) {
                         $checked = $row3["auth"];
                       }
-                      $sql = "SELECT * FROM reservation_list WHERE list_id=" . $row["id"];
+                      $sql = "SELECT * FROM reservation_list WHERE list_id=" . $row["list_id"];
                       $stm = $pdo->prepare($sql);
                       $stm->execute();
                       $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -302,19 +291,13 @@ if (isset($_SESSION["id"])) {
                         }
                       }
                       if ($checked == 100) {
-                        echo "<a href='detail.php?id={$row["id"]}&reservation=1' class='btn btn-danger'>予約する</a>";
+                        echo "<a href='detail.php?id={$row["list_id"]}&reservation=1' class='btn btn-danger'>予約する</a>";
                       } else if ($checked == 0) {
-                        echo "<a href='detail.php?id={$row["id"]}&reservation=1' class='btn btn-danger'>予約中</a>";
+                        echo "<a href='detail.php?id={$row["list_id"]}&reservation=1' class='btn btn-danger'>予約中</a>";
                       } else if ($checked == 1) {
-                        $sql = "SELECT * FROM users WHERE id=$id";
-                        $stm = $pdo->prepare($sql);
-                        $stm->execute();
-                        $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                        foreach ($result3 as $row3) {
-                          echo '￥' . $row3["money"] . '<br>' . $row3["point"] . 'ポイント<br>';
-                        }
-                        echo "<a href='buy.php?id={$row["id"]}&money={$row["money"]}&user_id={$row["user_id"]}' class='btn btn-danger'>購入する</a>";
-                        echo "<a href='buyp.php?id={$row["id"]}&money={$row["money"]}&user_id={$row["user_id"]}' class='btn btn-danger'>ポイントで購入する</a>";
+                        echo '￥' . $row["price"] . '<br>' . $row["point"] . 'ポイント<br>';
+                        echo "<a href='buy.php?id={$row["list_id"]}&money={$row["price"]}&user_id={$row["user_id"]}' class='btn btn-danger'>購入する</a>";
+                        echo "<a href='buyp.php?id={$row["list_id"]}&money={$row["price"]}&user_id={$row["user_id"]}' class='btn btn-danger'>ポイントで購入する</a>";
                       } else if ($checked == 2) {
                         echo "<a class='btn btn-danger'>予約は終了しました。</a>";
                       }
@@ -370,48 +353,48 @@ if (isset($_SESSION["id"])) {
                   $chat_count += 1;
                 }
                 if ($user_id === 0) {
-                ?>
-                <form action="detail.php?id=<?php echo $_GET["id"]; ?>&chat=1" method="POST"
-                  enctype="multipart/form-data">
-                  <label>画像選択:<br>
-                    <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-                    <input type="file" multiple name="image" class="test" accept="image/*"
-                      onchange="previewImage(this);">
-                  </label><br>
-                  <div class="input-group col-12">
-                    <input type="text" name="text" class="form-control form-control-user" required>
-                    <!-- </div> -->
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"
-                          aria-hidden="true"></i></button>
+                  ?>
+                  <form action="detail.php?id=<?php echo $_GET["id"]; ?>&chat=1" method="POST"
+                    enctype="multipart/form-data">
+                    <label>画像選択:<br>
+                      <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+                      <input type="file" multiple name="image" class="test" accept="image/*"
+                        onchange="previewImage(this);">
+                    </label><br>
+                    <div class="input-group col-12">
+                      <input type="text" name="text" class="form-control form-control-user" required>
+                      <!-- </div> -->
+                      <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"
+                            aria-hidden="true"></i></button>
+                      </div>
                     </div>
-                  </div>
-                </form>
-              <?php
+                  </form>
+                  <?php
                 }
                 ?>
+              </div>
             </div>
           </div>
+
         </div>
+        <!-- /.container-fluid -->
 
       </div>
-      <!-- /.container-fluid -->
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2021</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
 
     </div>
-    <!-- End of Main Content -->
-
-    <!-- Footer -->
-    <footer class="sticky-footer bg-white">
-      <div class="container my-auto">
-        <div class="copyright text-center my-auto">
-          <span>Copyright &copy; Your Website 2021</span>
-        </div>
-      </div>
-    </footer>
-    <!-- End of Footer -->
-
-  </div>
-  <!-- End of Content Wrapper -->
+    <!-- End of Content Wrapper -->
 
   </div>
   <!-- End of Page Wrapper -->
