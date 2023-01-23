@@ -316,7 +316,7 @@ if (isset($_SESSION["id"])) {
               <div class="row">
                 <?php
                 $chat_count = 0;
-                $sql = "SELECT * FROM chat WHERE list_id=$list_id";
+                $sql = "SELECT text,chat.image as chat_image,chat.id as chat_id,chat.created_at as time,chat.user_id as user_id,users.name as name FROM chat,users WHERE chat.list_id=$list_id && users.id=chat.user_id";
                 $stm = $pdo->prepare($sql);
                 $stm->execute();
                 $chat_result = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -328,21 +328,14 @@ if (isset($_SESSION["id"])) {
                   echo '<thead>';
                   echo '<tr>';
                   echo '<td><a href="profile.php?id=', $chat_row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $chat_row["user_id"], '"></a><br>';
-                  $chat_user_id = $chat_row["user_id"];
-                  $sql = "SELECT * FROM users WHERE id=$chat_user_id";
-                  $stm = $pdo->prepare($sql);
-                  $stm->execute();
-                  $chat_result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  foreach ($chat_result2 as $chat_row2) {
-                    echo $chat_row2["name"], "<br>";
-                  }
-                  echo $chat_row["created_at"], '</td>';
+                  echo $chat_row["name"], "<br>";
+                  echo $chat_row["time"], '</td>';
                   // echo '</tr>';
                   // echo '<tr>';
                   echo '</thead></table>';
                   echo '<table class="table table-striped col-8"><tbody><td>';
-                  if ($chat_row["image"] != "") {
-                    echo '<img id="parent" src="chat_image.php?id=', $chat_row["id"], ' alt="" height="150" width="150"/>';
+                  if ($chat_row["chat_image"] != "") {
+                    echo '<img id="parent" src="chat_image.php?id=', $chat_row["chat_id"], ' alt="" height="150" width="150"/>';
                     // echo '</tr>';
                     // echo '<tr>';
                   }
