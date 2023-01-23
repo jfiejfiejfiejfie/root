@@ -260,7 +260,7 @@ if (isset($_GET["chat"])) {
                     //整形したい文字列
                     $text = $row["text"];
                     if ($row["image"] != "") {
-                      echo '<img style="width:25%;" src="user_chat_image.php?id=' . $row["id"] . '">';
+                      echo '<img style="width:25%;" src="room_chat_image.php?id=' . $row["id"] . '">';
 
                     }
                     echo '<div style="font-size:35px; font-family: serif; text-align: left;" class="balloon1">' . $text . '</div>';
@@ -279,7 +279,7 @@ if (isset($_GET["chat"])) {
                   echo '<th>';
                   // echo '<div class="clearfix">';
                   if ($row["image"] != "") {
-                    echo '<div style="text-align: right;"><img style="width:25%;" src="user_chat_image.php?id=' . $row["id"] . '"></div>';
+                    echo '<div style="text-align: right;"><img style="width:25%;" src="room_chat_image.php?id=' . $row["id"] . '"></div>';
                   }
                   $text = $row["text"];
                   echo '<div style="text-align: right; font-size:35px; font-family: serif;" class="balloon2 float-right">' . $text . '</div>';
