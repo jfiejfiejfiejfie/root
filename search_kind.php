@@ -136,12 +136,12 @@ $option = "&kind_name=$kind_name";
                   require_once('block_check.php');
                   if ($block_count != 0) {
                     $block_list = implode(",", $block_list);
-                    $sql = "SELECT * FROM list WHERE kind LIKE(:item) and loan=0 and user_id not in ($block_list)";
+                    $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment,list.money as money FROM list,users WHERE users.id = list.user_id && kind LIKE(:item) and loan=0 and user_id not in ($block_list)";
                   } else {
-                    $sql = "SELECT * FROM list WHERE kind LIKE(:item) and loan=0";
+                    $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment,list.money as money FROM list,users WHERE users.id = list.user_id && kind LIKE(:item) and loan=0";
                   }
                 } else {
-                  $sql = "SELECT * FROM list WHERE kind LIKE(:item) and loan=0";
+                  $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment,list.money as money FROM list,users WHERE users.id = list.user_id && kind LIKE(:item) and loan=0";
                 }
                 $stm = $pdo->prepare($sql);
                 $stm->bindValue(':item', $kind_name, PDO::PARAM_STR);
@@ -163,15 +163,8 @@ $option = "&kind_name=$kind_name";
                   echo '<tbody>';
                   foreach ($disp_data as $row) {
                     echo '<tr><td>';
-                    echo "<a href='profile.php?id={$row['user_id']}'><img height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
-                    $user_id = $row["user_id"];
-                    $sql = "SELECT * FROM users WHERE id=$user_id";
-                    $stm = $pdo->prepare($sql);
-                    $stm->execute();
-                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($result2 as $row2) {
-                      echo $row2["name"] . "</td>";
-                    }
+                    echo "<a href='profile.php?id={$row['user_id']}'><img class='img-profile rounded-circle' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
+                    echo $row["name"] . "</td>";
                     echo '<td class="col-2">', $row['item'], '</td>';
                     echo '<td>', $row['kind'], '</td>';
                     $text = $row["comment"];
@@ -183,7 +176,7 @@ $option = "&kind_name=$kind_name";
                     }
                     echo '<td class="col-4">', $text, '</td>';
                     echo '<td>￥', number_format($row['money']), '</td>';
-                    echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="200" width="200" src="image.php?id=', $row['id'], '"></a></td>';
+                    echo "<td><a href=detail.php?id={$row["list_id"]}>", '<img height="200" width="200" src="image.php?id=', $row['list_id'], '"></a></td>';
                     echo '</tr>';
                   }
                   echo '</tbody>';

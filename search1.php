@@ -109,7 +109,8 @@ $option = "&item=$item";
               require_once('block_check.php');
               if ($block_count != 0) {
                 $block_list = implode(",", $block_list);
-                $sql = "SELECT * FROM list WHERE item LIKE(:item) and user_id not in ($block_list)";
+                // $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment,list.money as money FROM list,users WHERE users.id = list.user_id && list.item LIKE(:item)";
+                $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment,list.money as money FROM list,users WHERE users.id = list.user_id && item LIKE(:item) and list.user_id not in ($block_list)";
               } else {
                 $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment,list.money as money FROM list,users WHERE users.id = list.user_id && list.item LIKE(:item)";
               }
@@ -134,7 +135,7 @@ $option = "&item=$item";
                 echo '<tbody>';
                 foreach ($disp_data as $row) {
                   echo '<tr><td>';
-                  echo "<a href='profile.php?id={$row['user_id']}'><img class='img-profile rounded-circle'height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
+                  echo "<a href='profile.php?id={$row['user_id']}'><img class='img-profile rounded-circle' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
                   echo $row["name"] . "</td>";
                   echo '<td class="col-2">', $row['item'], '</td>';
                   echo '<td>', $row['kind'], '</td>';

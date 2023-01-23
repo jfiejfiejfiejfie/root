@@ -132,12 +132,12 @@ $option = "&money1=$money1&money2=$money2";
                   require_once('block_check.php');
                   if ($block_count != 0) {
                     $block_list = implode(",", $block_list);
-                    $sql = "SELECT * FROM list WHERE money BETWEEN $money1 AND $money2  AND loan=0 and user_id not in ($block_list) ORDER BY money";
+                    $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment,list.money as money FROM list,users WHERE users.id = list.user_id && list.money BETWEEN $money1 AND $money2  AND loan=0 and user_id not in ($block_list) ORDER BY list.money";
                   } else {
-                    $sql = "SELECT * FROM list WHERE money BETWEEN $money1 AND $money2  AND loan=0 ORDER BY money";
+                    $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment,list.money as money FROM list,users WHERE users.id = list.user_id && list.money BETWEEN $money1 AND $money2  AND loan=0 ORDER BY list.money";
                   }
                 } else {
-                  $sql = "SELECT * FROM list WHERE money BETWEEN $money1 AND $money2  AND loan=0 ORDER BY money";
+                  $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment,list.money as money FROM list,users WHERE users.id = list.user_id && list.money BETWEEN $money1 AND $money2  AND loan=0 ORDER BY list.money";
                 }
                 $stm = $pdo->prepare($sql);
                 $stm->execute();
@@ -160,14 +160,14 @@ $option = "&money1=$money1&money2=$money2";
                   foreach ($disp_data as $row) {
                     echo '<tr><td>';
                     echo "<a href='profile.php?id={$row['user_id']}'><img height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
-                    $user_id = $row["user_id"];
-                    $sql = "SELECT * FROM users WHERE id=$user_id";
-                    $stm = $pdo->prepare($sql);
-                    $stm->execute();
-                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($result2 as $row2) {
+                    // $user_id = $row["user_id"];
+                    // $sql = "SELECT * FROM users WHERE id=$user_id";
+                    // $stm = $pdo->prepare($sql);
+                    // $stm->execute();
+                    // $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    // foreach ($result2 as $row2) {
                       echo $row2["name"] . "</td>";
-                    }
+                    // }
                     echo '<td class="col-2">', $row['item'], '</td>';
                     echo '<td>', $row['kind'], '</td>';
                     $text = $row["comment"];
@@ -179,7 +179,7 @@ $option = "&money1=$money1&money2=$money2";
                     }
                     echo '<td class="col-4">', $text, '</td>';
                     echo '<td>￥', number_format($row['money']), '</td>';
-                    echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="200" width="200" src="image.php?id=', $row['id'], '"></a></td>';
+                    echo "<td><a href=detail.php?id={$row["list_id"]}>", '<img height="200" width="200" src="image.php?id=', $row['list_id'], '"></a></td>';
                     echo '</tr>';
                   }
                   echo '</tbody>';
