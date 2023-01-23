@@ -113,6 +113,9 @@
             //echo "<td><a href=detail.php?id={$row["id"]}>"
             $item=$row["item"];
             $money=$row["money"];
+            $text=$row["comment"];
+            $list_kind = $row["kind"];
+            $list_state = $row["state"];
             }
         }catch(Exception $e){
             echo 'エラーがありました。';
@@ -144,7 +147,11 @@
                                     exit();
                                 }
                             foreach($kind as $row){
-                              echo '<option value="',$row["name"],'">',$row["name"],"</option>";
+                              if($list_kind==$row["name"]){
+                                echo '<option value="',$row["name"],'" selected>',$row["name"],"</option>";
+                              }else{
+                                echo '<option value="',$row["name"],'">',$row["name"],"</option>";
+                              }
                             }
                           ?>
                         </select>
@@ -165,7 +172,11 @@
                       exit();
                     }
                     foreach ($state as $row) {
-                      echo '<option value="', $row["name"], '">', $row["name"], "</option>";
+                      if($list_state==$row["name"]){
+                        echo '<option value="',$row["name"],'" selected>',$row["name"],"</option>";
+                      } else {
+                        echo '<option value="', $row["name"], '">', $row["name"], "</option>";
+                      }
                     }
                     ?>
                   </select>
@@ -176,7 +187,7 @@
                     }
                   </script>
                   <textarea id="message" name="comment" class="form-control form-control-user"
-                    placeholder="色、素材、重さ、定価、注意点など" onKeyUp="countLength(value, 'textlength2');"></textarea>
+                    placeholder="色、素材、重さ、定価、注意点など" onKeyUp="countLength(value, 'textlength2');"><?php echo htmlspecialchars($text);?></textarea>
                   <p id="textlength2">0文字/1000文字</p>
                  
                 <label>金額:
