@@ -94,11 +94,11 @@ if (!isset($_SESSION["loggedin"])) {
     </li>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link" href="map.php">
             <i class="fas fa-fw fa-map"></i>
             <span>マップ</span></a>
-    </li>
+    </li> -->
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
