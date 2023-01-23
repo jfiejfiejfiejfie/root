@@ -9,7 +9,7 @@ if (!isset($_SESSION["loggedin"])) {
 require_once "db_connect.php";
 require_once('checked.php');
 require_once "db_connect.php";
-$myURL = 'add_db.php';
+$myURL = 'room.php';
 define('MAX', '10');
 $id = $_GET["id"];
 $option = "&id=$id";
