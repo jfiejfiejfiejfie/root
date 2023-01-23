@@ -95,7 +95,7 @@ require_once "db_connect.php";
       if (isset($_FILES["image"]) && ($_FILES["image"]["tmp_name"] != '')) {
         $upfile = $_FILES["image"]["tmp_name"];
         $imgdat = file_get_contents($upfile);
-        $sql = "UPDATE list SET image = :imgdat WHERE id=$id";
+        $sql = "UPDATE room SET image = :imgdat WHERE id=$id";
         $stm = $pdo->prepare($sql);
         $stm->bindValue(':imgdat', $imgdat, PDO::PARAM_STR);
         $stm->execute();

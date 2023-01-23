@@ -20,37 +20,38 @@ $point = 0;
 if (isset($_POST["kind"])) {
   require_once('insert.php');
 }
-if ($_FILES["image"]["tmp_name"] == "") {
-  $imgdat = "";
-} else {
-  $upfile = $_FILES["image"]["tmp_name"];
-  $imgdat = file_get_contents($upfile);
+if (isset($_GET["chat"])) {
+  if ($_FILES["image"]["tmp_name"] == "") {
+    $imgdat = "";
+  } else {
+    $upfile = $_FILES["image"]["tmp_name"];
+    $imgdat = file_get_contents($upfile);
+  }
+  $name = $_SESSION["name"];
+  $room_id = $_GET["id"];
+  date_default_timezone_set('Asia/Tokyo');
+  $date = date('Y-m-d H:i:s');
+  try {
+    $sql = "INSERT INTO roomchat (user_id,room_id,created_at,text,image) VALUES(:user_id,:room_id,:date,:text,:imgdat)";
+    $stm = $pdo->prepare($sql);
+    $stm->bindValue(':user_id', $_SESSION["id"], PDO::PARAM_STR);
+    $stm->bindValue(':room_id', $room_id, PDO::PARAM_STR);
+    $stm->bindValue(':date', $date, PDO::PARAM_STR);
+    $stm->bindValue(':text', $_POST["text"], PDO::PARAM_STR);
+    $stm->bindValue(':imgdat', $imgdat, PDO::PARAM_STR);
+    $stm->execute();
+    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+  } catch (Exception $e) {
+    echo 'エラーがありました。';
+    echo $e->getMessage();
+    exit();
+  }
+  if (isset($_GET['page_id'])) {
+    header('Location:room.php?id=' . $id . '&page_id=' . $now);
+  } else {
+    header('Location:room.php?id=' . $id);
+  }
 }
-$name = $_SESSION["name"];
-$others_id = $_GET["id"];
-date_default_timezone_set('Asia/Tokyo');
-$date = date('Y-m-d H:i:s');
-try {
-  $sql = "INSERT INTO room_chat (user_id,created_at,text,image,others_id) VALUES(:user_id,:date,:text,:imgdat,:others_id)";
-  $stm = $pdo->prepare($sql);
-  $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
-  $stm->bindValue(':date', $date, PDO::PARAM_STR);
-  $stm->bindValue(':text', $text, PDO::PARAM_STR);
-  $stm->bindValue(':imgdat', $imgdat, PDO::PARAM_STR);
-  $stm->bindValue(':others_id', $others_id, PDO::PARAM_STR);
-  $stm->execute();
-  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-  echo 'エラーがありました。';
-  echo $e->getMessage();
-  exit();
-}
-if (isset($_GET['page_id'])) {
-  header('Location:room.php?id=' . $id . '&page_id=' . $now);
-} else {
-  header('Location:room.php?id=' . $id);
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -100,7 +101,7 @@ if (isset($_GET['page_id'])) {
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <div class="row">
-            <div class="col-12">
+            <div class="col-4">
               <?php
               if (isset($_GET["id"])) {
                 $id = $_GET["id"];
@@ -131,59 +132,204 @@ if (isset($_GET['page_id'])) {
               ?>
             </div>
             <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-              <h1 class="h3 mb-0 text-gray-800"><br>ルーム名
-                <?php
-                try {
-                  $sql = "SELECT * FROM room WHERE id=$id";
-                  $stm = $pdo->prepare($sql);
-                  $stm->execute();
-                  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  foreach ($result as $row) {
-                    echo '「'.$row['item'].'」';
-                ?>
-                <form action="attend.php" method="POST" enctype="multipart/form-data">
+            <div class="d-sm-flex align-items-center justify-content-between mb-4 col-12">
+              <h1 class="h3 mb-0 text-gray-800"><br>
+                <div>ルーム名
                   <?php
-                    $attend_count = 0;
-                    $sql = "SELECT * FROM roomlist WHERE room_id =:room_id and my_id=:my_id";
-                    $stm = $pdo->prepare($sql);
-                    $stm->bindValue(':room_id', $row["id"], PDO::PARAM_STR);
-                    $stm->bindValue(':my_id', $_SESSION["id"], PDO::PARAM_STR);
-                    $stm->execute();
-                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  ?>
-                  <?php
-                    $user_id = $row["user_id"];
-                    $sql = "SELECT * FROM users WHERE id=$user_id";
+                  try {
+                    $sql = "SELECT * FROM room WHERE id=$id";
                     $stm = $pdo->prepare($sql);
                     $stm->execute();
-                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result as $row) {
+                      echo '「' . $row['item'] . '」';
+                      ?>
+                      <!-- <form action="attend.php" method="POST" enctype="multipart/form-data"> -->
+                      <?php
+                      $attend_count = 0;
+                      $sql = "SELECT * FROM roomlist WHERE room_id =:room_id and my_id=:my_id";
+                      $stm = $pdo->prepare($sql);
+                      $stm->bindValue(':room_id', $row["id"], PDO::PARAM_STR);
+                      $stm->bindValue(':my_id', $_SESSION["id"], PDO::PARAM_STR);
+                      $stm->execute();
+                      $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                      ?>
+                      <?php
+                      $user_id = $row["user_id"];
+                      $sql = "SELECT * FROM users WHERE id=$user_id";
+                      $stm = $pdo->prepare($sql);
+                      $stm->execute();
+                      $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
 
-                    $sql = "SELECT * FROM roomlist WHERE room_id =" . $row['id'];
-                    $stm = $pdo->prepare($sql);
-                    $stm->execute();
-                    $sth = $pdo->query($sql);
-                    $count = $sth->rowCount();
+                      $sql = "SELECT * FROM roomlist WHERE room_id =" . $row['id'];
+                      $stm = $pdo->prepare($sql);
+                      $stm->execute();
+                      $sth = $pdo->query($sql);
+                      $count = $sth->rowCount();
+                    }
+                  } catch (Exception $e) {
+                    echo 'エラーがありました。';
+                    echo $e->getMessage();
+                    exit();
                   }
-                } catch (Exception $e) {
-                  echo 'エラーがありました。';
-                  echo $e->getMessage();
-                  exit();
-                }
                   ?>
               </h1>
+            </div>
+            <div class="col-12">
+              <?php if (isset($_GET["page_id"])) {
+                echo '<form action="room.php?id=' . $id . '&chat=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
+              } else {
+                echo '<form action="room.php?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
+              }
+              ?>
+              <label>画像選択:<br>
+                <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+                <input type="file" multiple name="image" class="test" accept="image/*" onchange="previewImage(this);">
+              </label><br>
+              <div class="input-group col-12">
+                <input type="text" name="text" class="form-control form-control-user" required>
+                <!-- </div> -->
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"
+                      aria-hidden="true"></i></button>
+                </div>
+              </div>
+              </form>
+            </div>
+            <div>
+              <?php
+              $day = null;
+              $day_now = null;
+              $count = 0;
+              $sql = "SELECT * FROM roomchat WHERE room_id=$id ORDER BY created_at DESC";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              require_once('paging.php');
+              foreach ($disp_data as $row) {
+                if ($count == 0) {
+                  $day_now = new DateTime($row["created_at"]);
+                  $day_now = $day_now->format("m月d日");
+                  echo $day_now . '<hr>';
+                }
+                $day = new DateTime($row["created_at"]);
+                $day = $day->format("m月d日");
+                if ($day_now !== $day) {
+                  $day_now = $day;
+                  echo $day_now . '<hr>';
+                }
+                // echo "<div class='center-block'>" . $day . "</div>";
+                if (($row["user_id"] != $_SESSION["id"])) {
+                  // if ($row["checked"] == 0) {
+                  //   $sql = "UPDATE user_chat SET checked=1 where id = " . $row["id"];
+                  //   $stm = $pdo->prepare($sql);
+                  //   $stm->execute();
+                  // }
+                  echo '<table id="user_chat">';
+                  echo '<thead><tr>';
+                  echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
+                  $user_id = $row["user_id"];
+                  $sql = "SELECT * FROM users WHERE id=$user_id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result2 as $row2) {
+                    $block_list = [];
+                    $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+                    $stm = $pdo->prepare($sql);
+                    $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                    $stm->execute();
+                    $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($block_result as $block_row) {
+                      $block_list[] = $block_row["user_id"];
+                    }
+                    echo '<br>';
+                    if (in_array($user_id, $block_list)) {
+                      echo $row2["name"], "<c style='color:red;'>※ブロック中!</c></th>";
+                    } else {
+                      echo $row2["name"], "</th>";
+                    }
+                  }
+                  $user_id = $row["user_id"];
+                  $sql = "SELECT * FROM users WHERE id=$user_id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result2 as $row2) {
+                    echo "<td>";
+                    //整形したい文字列
+                    $text = $row["text"];
+                    if ($row["image"] != "") {
+                      echo '<img style="width:25%;" src="user_chat_image.php?id=' . $row["id"] . '">';
 
-              <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                    }
+                    echo '<div style="font-size:35px; font-family: serif; text-align: left;" class="balloon1">' . $text . '</div>';
+                    $time = new DateTime($row["created_at"]);
+                    $time = $time->format("H:i");
+                    echo '<div style="font-size:20px;">' . $time;
+                    echo '</div>';
+                    echo '</td>';
+                  }
+                  echo '</tr>';
+                  echo '</thead>';
+                  echo '</table>';
+                } else {
+                  echo '<table id="user_chat2">';
+                  echo '<thead><tr>';
+                  echo '<th>';
+                  // echo '<div class="clearfix">';
+                  if ($row["image"] != "") {
+                    echo '<div style="text-align: right;"><img style="width:25%;" src="user_chat_image.php?id=' . $row["id"] . '"></div>';
+                  }
+                  $text = $row["text"];
+                  echo '<div style="text-align: right; font-size:35px; font-family: serif;" class="balloon2 float-right">' . $text . '</div>';
+                  $time = new DateTime($row["created_at"]);
+                  $time = $time->format("H:i");
+                  echo '<div style="font-size:20px; text-align: right;">' . $time;
+                  // if ($row["checked"] == 1) {
+                  //   echo ' 既読';
+                  // }
+                  echo '</div>';
+                  echo '</th>';
+                  echo '<td><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
+                  $user_id = $row["user_id"];
+                  $sql = "SELECT * FROM users WHERE id=$user_id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result2 as $row2) {
+                    $block_list = [];
+                    $sql = "SELECT * FROM blocklist WHERE my_id =:id";
+                    $stm = $pdo->prepare($sql);
+                    $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                    $stm->execute();
+                    $block_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($block_result as $block_row) {
+                      $block_list[] = $block_row["user_id"];
+                    }
+                    echo '<br></td>';
+
+                    echo '</tr>';
+                    echo '</thead>';
+                    echo '</table>';
+                  }
+                }
+                $count += 1;
+              }
+              require_once('paging2.php');
+              ?>
+            </div>
+            <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
-            </div>
-            <div class="col-12"></div>
-              <hr>
-              <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
-            </div>
           </div>
+          <div class="col-12"></div>
+          <hr>
+          <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
         </div>
       </div>
     </div>
+  </div>
+  </div>
   </div>
   <!-- /.container-fluid -->
 
