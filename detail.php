@@ -177,8 +177,8 @@ if (isset($_SESSION["id"])) {
                   }
 
                   try {
-                    $sql = "SELECT item,kind,state,point,
-                      buy_user_id,list.id as list_id,list.created_at as time,list.money as price,users.id as user_id,users.name as name,list.comment as comment
+                    $sql = "SELECT item,kind,state,users.point,
+                      buy_user_id,list.id as list_id,list.created_at as time,list.money as price,users.money as money,users.id as user_id,users.name as name,list.comment as comment
                      FROM list,users WHERE list.id=$data && users.id=list.user_id";
                     $stm = $pdo->prepare($sql);
                     $stm->execute();
@@ -225,6 +225,7 @@ if (isset($_SESSION["id"])) {
                       echo '<tr>';
                       echo '<th>金額</th>';
                       echo '<td>￥', number_format($row['price']), '</td>';
+                      $price = $row["price"];
                       echo '</tr>';
                       echo '<tr>';
                       echo '<th>出品者</th>';
@@ -290,14 +291,21 @@ if (isset($_SESSION["id"])) {
                           $checked = 2;
                         }
                       }
+
                       if ($checked == 100) {
-                        echo "<a href='detail.php?id={$row["list_id"]}&reservation=1' class='btn btn-danger'>予約する</a>";
+                        echo "<a href='detail.php?id={$_GET['id']}&reservation=1' class='btn btn-danger'>予約する</a>";
                       } else if ($checked == 0) {
-                        echo "<a href='detail.php?id={$row["list_id"]}&reservation=1' class='btn btn-danger'>予約中</a>";
+                        echo "<a href='detail.php?id={$_GET['id']}&reservation=1' class='btn btn-danger'>予約中</a>";
                       } else if ($checked == 1) {
-                        echo '￥' . $row["price"] . '<br>' . $row["point"] . 'ポイント<br>';
-                        echo "<a href='buy.php?id={$row["list_id"]}&money={$row["price"]}&user_id={$row["user_id"]}' class='btn btn-danger'>購入する</a>";
-                        echo "<a href='buyp.php?id={$row["list_id"]}&money={$row["price"]}&user_id={$row["user_id"]}' class='btn btn-danger'>ポイントで購入する</a>";
+                        $sql = "SELECT * FROM users WHERE id=" . $_SESSION["id"];
+                        $stm = $pdo->prepare($sql);
+                        $stm->execute();
+                        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($result as $row) {
+                          echo '￥' . $row["money"] . '<br>' . $row["point"] . 'ポイント<br>';
+                          echo "<a href='buy.php?id={$_GET['id']}&money={$price}&user_id={$row["id"]}' class='btn btn-danger'>購入する</a>";
+                          echo "<a href='buyp.php?id={$_GET['id']}&money={$price}&user_id={$row["id"]}' class='btn btn-danger'>ポイントで購入する</a>";
+                        }
                       } else if ($checked == 2) {
                         echo "<a class='btn btn-danger'>予約は終了しました。</a>";
                       }
