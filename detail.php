@@ -186,7 +186,7 @@ if (isset($_SESSION["id"])) {
                     foreach ($result as $row) {
                       echo '<table class="table table-striped">';
                       echo '<thead><tr><th class="col-1">画像一覧</th>';
-                      echo '<td class="col-3"><a img data-lightbox="group" height="200" width="200  "href="image.php?id=', $row['list_id'], '">
+                      echo '<td class="col-3"><a img data-lightbox="group" height="200" width="200" href="image.php?id=', $row['list_id'], '">
                   <img src="image.php?id=', $row['list_id'], '"height="150" width="150"></a>';
                       if ($image_count > 0) {
                         echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['list_id'], '&number=1">

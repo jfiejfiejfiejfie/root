@@ -88,6 +88,10 @@ foreach ($result as $row) {
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/original.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js"
+    type="text/javascript"></script>
   <script src="js/original.js">
   </script>
 </head>
@@ -233,7 +237,7 @@ foreach ($result as $row) {
                       //整形したい文字列
                       $text = $row["text"];
                       if ($row["image"] != "") {
-                        echo '<img height="232" width="232" src="user_chat_image.php?id=' . $row["id"] . '">';
+                        echo '<a img data-lightbox="group" height="200" width="200" href="user_chat_image.php?id=', $row['id'], '"><img height="232" width="232" src="user_chat_image.php?id=' . $row["id"] . '"></a>';
 
                       }
                       if ($row["text"] != "") {
@@ -254,7 +258,7 @@ foreach ($result as $row) {
                     echo '<th>';
                     // echo '<div class="clearfix">';
                     if ($row["image"] != "") {
-                      echo '<div style="text-align: right;"><img height="232" width="232" src="user_chat_image.php?id=' . $row["id"] . '"></div>';
+                      echo '<div style="text-align: right;"><a img data-lightbox="group" height="200" width="200" href="user_chat_image.php?id=', $row['id'], '"><img height="232" width="232" src="user_chat_image.php?id=' . $row["id"] . '"></a></div>';
                       $time = new DateTime($row["created_at"]);
                       $time = $time->format("H:i");
                       echo '<div style="font-size:20px; text-align: right;">' . $time;
