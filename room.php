@@ -190,10 +190,18 @@ if (isset($_GET["chat"])) {
               <label>画像選択:<br>
                 <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
                 <input type="file" multiple name="image" class="test" accept="image/*" onchange="previewImage(this);">
-              </label><br>
+              </label>
+              <div class="col-12">
+                <!-- <img src="images/aaaa.png"> -->
+              </div>
+              <br>
               <div class="input-group col-12">
                 <input type="text" name="text" class="form-control form-control-user">
                 <!-- </div> -->
+                <div class="input-group-append">
+                  <a class="btn btn-danger"><i class="fa fa-smile" aria-hidden="true"></i></a>
+                  <!-- <div style="position:absolute; left:20px; top:20px; background-color:#fbff96;">レイヤーです。</div> -->
+                </div>
                 <div class="input-group-append">
                   <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"
                       aria-hidden="true"></i></button>
