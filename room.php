@@ -36,7 +36,7 @@ if (isset($_GET["chat"])) {
   $room_id = $_GET["id"];
   date_default_timezone_set('Asia/Tokyo');
   $date = date('Y-m-d H:i:s');
-  if (($text != "") || ($imgdat != "")) {
+  if (($_POST["text"] != "") || ($imgdat != "")) {
     $sql = "INSERT INTO roomchat (user_id,room_id,created_at,text,image) VALUES(:user_id,:room_id,:date,:text,:imgdat)";
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':user_id', $_SESSION["id"], PDO::PARAM_STR);
