@@ -17,6 +17,11 @@ $memo = "ルームチャット";
 $gobackURL = 'chat_room.php';
 $list_id = $_GET["id"];
 $point = 0;
+if (!isset($_GET['page_id'])) {
+  $now = 1;
+} else {
+  $now = $_GET['page_id'];
+}
 if (isset($_POST["kind"])) {
   require_once('insert.php');
 }
@@ -31,7 +36,7 @@ if (isset($_GET["chat"])) {
   $room_id = $_GET["id"];
   date_default_timezone_set('Asia/Tokyo');
   $date = date('Y-m-d H:i:s');
-  try {
+  if (($text != "") || ($imgdat != "")) {
     $sql = "INSERT INTO roomchat (user_id,room_id,created_at,text,image) VALUES(:user_id,:room_id,:date,:text,:imgdat)";
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':user_id', $_SESSION["id"], PDO::PARAM_STR);
@@ -41,10 +46,6 @@ if (isset($_GET["chat"])) {
     $stm->bindValue(':imgdat', $imgdat, PDO::PARAM_STR);
     $stm->execute();
     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-  } catch (Exception $e) {
-    echo 'エラーがありました。';
-    echo $e->getMessage();
-    exit();
   }
   if (isset($_GET['page_id'])) {
     header('Location:room.php?id=' . $id . '&page_id=' . $now);
@@ -187,7 +188,7 @@ if (isset($_GET["chat"])) {
                 <input type="file" multiple name="image" class="test" accept="image/*" onchange="previewImage(this);">
               </label><br>
               <div class="input-group col-12">
-                <input type="text" name="text" class="form-control form-control-user" required>
+                <input type="text" name="text" class="form-control form-control-user">
                 <!-- </div> -->
                 <div class="input-group-append">
                   <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"
@@ -220,11 +221,6 @@ if (isset($_GET["chat"])) {
                 }
                 // echo "<div class='center-block'>" . $day . "</div>";
                 if (($row["user_id"] != $_SESSION["id"])) {
-                  // if ($row["checked"] == 0) {
-                  //   $sql = "UPDATE user_chat SET checked=1 where id = " . $row["id"];
-                  //   $stm = $pdo->prepare($sql);
-                  //   $stm->execute();
-                  // }
                   echo '<table id="user_chat">';
                   echo '<thead><tr>';
                   echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
@@ -260,10 +256,12 @@ if (isset($_GET["chat"])) {
                     //整形したい文字列
                     $text = $row["text"];
                     if ($row["image"] != "") {
-                      echo '<img style="width:25%;" src="room_chat_image.php?id=' . $row["id"] . '">';
+                      echo '<img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '">';
 
                     }
-                    echo '<div style="font-size:35px; font-family: serif; text-align: left;" class="balloon1">' . $text . '</div>';
+                    if ($row["text"] != "") {
+                      echo '<div style="font-size:35px; font-family: serif; text-align: left;" class="balloon1">' . $text . '</div>';
+                    }
                     $time = new DateTime($row["created_at"]);
                     $time = $time->format("H:i");
                     echo '<div style="font-size:20px;">' . $time;
@@ -279,16 +277,21 @@ if (isset($_GET["chat"])) {
                   echo '<th>';
                   // echo '<div class="clearfix">';
                   if ($row["image"] != "") {
-                    echo '<div style="text-align: right;"><img style="width:25%;" src="room_chat_image.php?id=' . $row["id"] . '"></div>';
+                    echo '<div style="text-align: right;"><img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '"></div>';
+                    $time = new DateTime($row["created_at"]);
+                    $time = $time->format("H:i");
+                    echo '<div style="font-size:20px; text-align: right;">' . $time;
                   }
                   $text = $row["text"];
-                  echo '<div style="text-align: right; font-size:35px; font-family: serif;" class="balloon2 float-right">' . $text . '</div>';
-                  $time = new DateTime($row["created_at"]);
-                  $time = $time->format("H:i");
-                  echo '<div style="font-size:20px; text-align: right;">' . $time;
-                  // if ($row["checked"] == 1) {
-                  //   echo ' 既読';
-                  // }
+                  if ($row["text"] != "") {
+                    echo '<div style="text-align: right; font-size:35px; font-family: serif;" class="balloon2 float-right">' . $text . '</div>';
+                    if ($row["image"] == "") {
+                      $time = new DateTime($row["created_at"]);
+                      $time = $time->format("H:i");
+                      echo '<div style="font-size:20px; text-align: right;">' . $time;
+                      
+                    }
+                  }
                   echo '</div>';
                   echo '</th>';
                   echo '<td><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
