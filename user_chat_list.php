@@ -117,7 +117,7 @@ if (!isset($_SESSION["check"])) {
                   $stm->execute();
                   $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
                   foreach ($result2 as $row2) {
-                    echo "<td>" . $row2["name"] . ':';
+                    echo "<td><a class='btn col-12' href='user_chat.php?id=".$user_id."'>" . $row2["name"] . ':';
                     //整形したい文字列
                     $text = $row["text"];
                     $text = strip_tags($text);
@@ -132,9 +132,9 @@ if (!isset($_SESSION["check"])) {
                     if ($row["image"] != "") {
                       echo '<br>画像が添付されています。';
                     }
-                    echo '<br>', $row["created_at"] . '<d class="col-3"></d>';
-                    echo "<a class='btn btn-primary col-5' href='user_chat.php?id=$user_id'>チャット</a>";
-                    echo '</td>';
+                    echo '<br><br><br><br><br><br>', $row["created_at"];
+                    // echo "<a class='btn btn-primary col-5' href='user_chat.php?id=$user_id'>チャット</a>";
+                    echo '</a></td>';
                   }
                   echo '</tr>';
                   echo '</thead>';
