@@ -10,7 +10,7 @@ require_once "db_connect.php";
 require_once('checked.php');
 require_once "db_connect.php";
 $myURL = 'room.php';
-define('MAX', '10');
+define('MAX', '30');
 $id = $_GET["id"];
 $option = "&id=$id";
 $memo = "ルームチャット";
