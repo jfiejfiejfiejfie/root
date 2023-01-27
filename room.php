@@ -245,16 +245,16 @@ if (isset($_GET["chat"])) {
               </div>
               <div class="B">
                 <?php
-                for ($i = 0; $i < 15; $i++) {
+                for ($i = 0; $i < 17; $i++) {
                   if ($key == 0) {
                     echo "<a href='room.php?id=$id&chat=1&img=$i'>";
                   } else {
                     echo "<a href='room.php?id=$id&chat=1&page_id=$now&img=$i'>";
                   }
                   if ($i == 0) {
-                    echo '<img src="stamp/' . $i . '.gif" height="150"></a>';
+                    echo '<img src="stamp/' . $i . '.gif" height="116" width="116"></a>';
                   } else {
-                    echo '<img src="stamp/' . $i . '.png" height="150"></a>';
+                    echo '<img src="stamp/' . $i . '.png" height="116" width="116"></a>';
                   }
                 }
                 ?>
