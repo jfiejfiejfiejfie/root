@@ -3,19 +3,19 @@ session_start();
 require_once("db_connect.php");
 mb_language("Japanese");
 mb_internal_encoding("UTF-8");
-$id=$_SESSION["id"];
-$sql = "SELECT * FROM users where id = $id";
-$stm = $pdo->prepare($sql);
-$stm->execute();
-$result = $stm->fetchAll(PDO::FETCH_ASSOC);
-foreach($result as $row){
-	$name=$row["name"];
-}
-$to=$_GET["email"];
+// $id=$_SESSION["id"];
+// $sql = "SELECT * FROM users where id = $id";
+// $stm = $pdo->prepare($sql);
+// $stm->execute();
+// $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+// foreach($result as $row){
+// 	$name=$row["name"];
+// }
+$to=$_POST["email"];
 // $to = "fki2166301@stu.o-hara.ac.jp"; // 送信先のアドレス
 $subject = "メール認証の件"; // 件名
-$message = "$name さんのメール認証をするには以下のURLに接続してください。
-		http://172.16.31.28/root/auth.php?id=$id&email=$to
+$message = "メール認証をするには以下のURLに接続してください。
+		http://172.16.31.28/root/auth.php?email=$to
 		もし関係ない場合はスルーしろks"; // 本文
 $additional_headers = ""; // ヘッダーオプション
 

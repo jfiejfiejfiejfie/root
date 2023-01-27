@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION["loggedin"])) {
+if (!isset($_SESSION["loggedin"])&& $myURL != "auth.php") {
     header('Location:login.php');
 }
 ?>

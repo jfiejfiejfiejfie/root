@@ -75,9 +75,12 @@ require_once "db_connect.php";
                   <input type="number" name="age" class="form-control form-control-user col-1" placeholder="年齢"
                     value="<?php echo htmlspecialchars($row["age"]); ?>" required>
                 <div>性別:
-                  <label><input type="radio" name="sex" value="男" checked>男性</label>
-                  <label><input type="radio" name="sex" value="女">女性</label>
-                  <label><input type="radio" name="sex" value="無回答">無回答</label>
+                  <label><input type="radio" name="sex" value="男" <?php if ($row["sex"] == "男")
+                    echo 'checked';?>>男性</label>
+                  <label><input type="radio" name="sex" value="女"<?php if ($row["sex"] == "女")
+                    echo 'checked';?>>女性</label>
+                  <label><input type="radio" name="sex" value="無回答"<?php if ($row["sex"] == "無回答")
+                    echo 'checked';?>>無回答</label>
                 </div>
                 <?php if ($row["checked"] == 0) { ?>
                 <div>E-mail:
@@ -100,7 +103,7 @@ require_once "db_connect.php";
               <a class="btn btn-primary" href="<?php echo $gobackURL ?>">戻る</a>
               <div class="col-12"><br></div>
               <form method="POST" action="delete_conf.php" enctype="multipart/form-data">
-                <button type="submit" class="btn btn-primary">退会する</button>
+                <button type="submit" class="btn btn-danger">退会する</button>
               </form>
             </div>
           </div>

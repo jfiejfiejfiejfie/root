@@ -10,7 +10,10 @@ session_start();
 $datas = [
     'name' => '',
     'password' => '',
-    'confirm_password' => ''
+    'confirm_password' => '',
+    'age' => '',
+    'sex' => '',
+    'email' => ''
 ];
 
 //GET通信だった場合はセッション変数にトークンを追加
@@ -34,6 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (preg_match("/[ぁ-ん]+|[ァ-ヴー]+|[一-龠]/u", $datas['name'])) {
         $errors['name'] = '英数字にしてください。';
     }
+    if ($datas['age'] < 0) {
+        $errors['age'] = '正しい年齢を入力してください。';
+    }
     //データベースの中に同一ユーザー名が存在していないか確認
     if (empty($errors['name'])) {
         $sql = "SELECT id FROM users WHERE user_id = :name";
@@ -46,43 +52,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     //エラーがなかったらDBへの新規登録を実行
     if (empty($errors)) {
-        $url = "https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg";
-        $img = file_get_contents($url);
-        $enc_img = base64_encode($img);
-        $imginfo = getimagesize('data:application/octet-stream;base64,' . $enc_img);
-        $params = [
-            'id' => null,
-            'user_id' => $datas['name'],
-            'name' => $datas['name'],
-            'password' => password_hash($datas['password'], PASSWORD_DEFAULT),
-            'created_at' => null,
-            'image' => $img,
-        ];
-
-        $count = 0;
-        $columns = '';
-        $values = '';
-        foreach (array_keys($params) as $key) {
-            if ($count > 0) {
-                $columns .= ',';
-                $values .= ',';
+        // $params = [
+        //     'user_id' => $datas['name'],
+        //     'name' => $datas['name'],
+        //     'password' => password_hash($datas['password'], PASSWORD_DEFAULT),
+        //     'age' => $datas['age'],
+        //     'sex' => $datas['sex']
+        // ];
+        $name = $datas['name'];
+        $pass = password_hash($datas['password'], PASSWORD_DEFAULT);
+        $age = $datas["age"];
+        $sex = $datas["sex"];
+        $email = $datas["email"];
+        $sql = "SELECT * FROM users";
+        $stm = $pdo->prepare($sql);
+        $stm->execute();
+        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $row) {
+            if ($email == $row["email"] ) {
+                $update_id = $row["id"];
             }
-            $columns .= $key;
-            $values .= ':' . $key;
-            $count++;
         }
-
-        $pdo->beginTransaction(); //トランザクション処理
+        // $pdo->beginTransaction(); //トランザクション処理 
         try {
-            $sql = 'insert into users (' . $columns . ')values(' . $values . ')';
+            $sql = "UPDATE users SET user_id=:name,name=:name2,password=:pass,age=:age,sex=:sex WHERE id=:id";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute($params);
-            $pdo->commit();
-            header("location: login.php");
-            exit;
-        } catch (PDOException $e) {
-            echo 'ERROR: Could not register.';
-            $pdo->rollBack();
+            $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+            $stmt->bindValue(':name2', $name, PDO::PARAM_STR);
+            $stmt->bindValue(':pass', $pass, PDO::PARAM_STR);
+            $stmt->bindValue(':age', $age, PDO::PARAM_STR);
+            $stmt->bindValue(':sex', $sex, PDO::PARAM_STR);
+            $stmt->bindValue(':id', $update_id, PDO::PARAM_STR);
+            $stmt->execute();
+            header("Location:login.php");
+            // $pdo->commit();
+        } catch (Exception $e) {
+            echo 'エラーがありました。';
+            echo $e->getMessage();
+            exit();
         }
     }
 }
@@ -123,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">アカウント作成</h1>
                             </div>
                             <form class="user" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="post">
                                 <div class="form-group">
@@ -135,10 +142,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </span>
                                     <div style="color:gray;">※英数字20文字以内にしてください。</div>
                                 </div>
-                                <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
-                                </div>
+                                <!-- <div class="form-group">
+                                    <input type="email" class="form-control form-control-user"
+                                     id="exampleInputEmail" placeholder="Email Address" 
+                                    >
+                                    <span class="invalid-feedback">
+                                        <?php echo h($errors['e-email']); ?>
+                                    </span>
+                                </div> -->
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" name="password" placeholder="Password"
@@ -157,24 +168,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </span>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-12 mb-3 mb-sm-0">
+                                        <input type="hidden" name="email" placeholder=""
+                                            class="form-control form-control-user" value="<?php if (isset($_GET['email'])) {
+                                                echo h($_GET['email']);
+                                            } else {
+                                                echo h($_POST['email']);
+                                            } ?>">
+                                    </div>
+                                    <div class="col-sm-12 mb-3 mb-sm-0">
+                                        <input type="number" name="age" placeholder="年齢"
+                                            class="form-control form-control-user <?php echo (!empty(h($errors['age']))) ? 'is-invalid' : ''; ?>"
+                                            value="<?php echo h($datas['age']); ?>">
+                                        <span class="invalid-feedback">
+                                            <?php echo h($errors['age']); ?>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label><input type="radio" name="sex" value="男" checked>男性</label>
+                                        <label><input type="radio" name="sex" value="女">女性</label>
+                                        <label><input type="radio" name="sex" value="無回答">無回答</label>
+                                        <span class="invalid-feedback">
+                                            <?php echo h($errors['sex']); ?>
+                                        </span>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
                                     <input type="submit" class="btn btn-primary btn-user btn-block" value="作成">
                                 </div>
-                                <hr>
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Register with Google
-                                </a>
-                                <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                                </a>
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="login.php">Already have an account? Login!</a>
+                                <a class="small" href="login.php">既にアカウントをお持ちの方はこちら</a>
                             </div>
                         </div>
                     </div>

@@ -1,13 +1,59 @@
 <?php
-session_start();
+//ファイルの読み込み
 require_once "db_connect.php";
+require_once "functions.php";
 $myURL = 'auth.php';
-$id=$_GET["id"];
-$sql = "UPDATE users SET checked=1 where id = $id";
-$stm = $pdo->prepare($sql);
-$stm->execute();
-require_once('user_check.php');
-$email=$row["email"];
+$email = $_GET["email"];
+//セッションの開始
+session_start();
+$flag = 0;
+if (empty($errors['email'])) {
+  $sql = "SELECT email FROM users WHERE email = :email";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+  $stmt->execute();
+  if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $flag = 1;
+  }
+}
+if (empty($errors)) {
+
+  $url = "https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg";
+  $img = file_get_contents($url);
+  $enc_img = base64_encode($img);
+  $imginfo = getimagesize('data:application/octet-stream;base64,' . $enc_img);
+  $params = [
+    'id' => null,
+    'user_id' => '',
+    'name' => '',
+    'password' => '',
+    'created_at' => null,
+    'image' => $img,
+    'email' => $email,
+    'checked' =>'1'
+  ];
+
+  $count = 0;
+  $columns = '';
+  $values = '';
+  foreach (array_keys($params) as $key) {
+    if ($count > 0) {
+      $columns .= ',';
+      $values .= ',';
+    }
+    $columns .= $key;
+    $values .= ':' . $key;
+    $count++;
+  }
+
+  $pdo->beginTransaction(); //トランザクション処理
+  if ($flag == 0) {
+    $sql = 'insert into users (' . $columns . ')values(' . $values . ')';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    $pdo->commit();
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -20,7 +66,7 @@ $email=$row["email"];
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>貸し借りサイト　WACCA</title>
+  <title>SB Admin 2 - Register</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -30,89 +76,40 @@ $email=$row["email"];
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/original.css">
-  <script src="js/original.js">
-  </script>
+
 </head>
 
-<body id="page-top">
+<body class="bg-gradient-primary">
 
-  <!-- Page Wrapper -->
-  <div id="wrapper">
+  <div class="container">
 
-    <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
-    <!-- End of Sidebar -->
-
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
-
-        <!-- Topbar -->
-        <?php require_once("nav.php");?>
-        <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800"><?php echo $email;?>のメールアドレスを認証しました。</h1>
-            <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
+    <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+          <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+          <div class="col-lg-7">
+            <div class="p-5">
+              <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">メール認証完了</h1>
+              </div>
+              <form class="user" action="register.php" method="post">
+                <!-- <div class="form-group">
+                  <input type="hidden" name="email" class="form-control form-control-user" id="exampleInputEmail"
+                    placeholder="Email Address" value="<?php echo $email; ?>">
+                </div> -->
+                <div class="form-group">
+                  <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
+                  <a href="register.php?email=<?php echo $email;?>" class="btn btn-primary btn-user btn-block">基礎情報入力</a>
+                </div>
+              </form>
+              <hr>
+            </div>
           </div>
-
-          <div class="row">
-			<div><a class="btn btn-primary" href="./">戻る</a></div>
-          </div>
-
-        </div>
-        <!-- /.container-fluid -->
-
-      </div>
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2021</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
-
-    </div>
-    <!-- End of Content Wrapper -->
-
-  </div>
-  <!-- End of Page Wrapper -->
-
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
         </div>
       </div>
     </div>
+
   </div>
 
   <!-- Bootstrap core JavaScript-->
@@ -124,13 +121,6 @@ $email=$row["email"];
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 
