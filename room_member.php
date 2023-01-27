@@ -12,8 +12,17 @@ require_once "db_connect.php";
 $myURL = 'add_db.php';
 $gobackURL = 'index.php';
 $point = 0;
-if (isset($_POST["kind"])) {
-  require_once('insert.php');
+if (isset($_GET["delete"])) {
+  $sql = "DELETE FROM room WHERE id =".$_GET['id'];
+  $stm = $pdo->prepare($sql);
+  $stm->execute();
+  $sql = "DELETE FROM roomlist WHERE room_id =".$_GET['id'];
+  $stm = $pdo->prepare($sql);
+  $stm->execute();
+  $sql = "DELETE FROM roomchat WHERE room_id =".$_GET['id'];
+  $stm = $pdo->prepare($sql);
+  $stm->execute();
+  header("Location:chat_room.php");
 }
 ?>
 <!DOCTYPE html>
@@ -65,89 +74,47 @@ if (isset($_POST["kind"])) {
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">商品登録</h1>
-             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a>
-          </div> -->
 
           <div class="row">
             <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
-            <h2>ルームメンバーリスト</h2>
-            <div class="col-12"></div>
-            <?php
+              <h2>ルームメンバーリスト</h2>
+              <div class="col-12"></div>
+              <?php
               if (isset($_GET["id"])) {
                 $id = $_GET["id"];
-              } else {
-                $id = $_SESSION["id"];
               }
               try {
-                $sql = "SELECT * FROM roomlist WHERE room_id=:id";
+                $sql = "SELECT roomlist.id as roomlist_id,my_id,room.user_id as host_id,users.name as name FROM roomlist,room,users WHERE room.id=:id && roomlist.room_id=room.id && roomlist.my_id=users.id";
                 $stm = $pdo->prepare($sql);
                 $stm->bindValue(':id', $id, PDO::PARAM_STR);
                 $stm->execute();
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                echo '<table class="table table-striped">';
                 foreach ($result as $row) {
-                  echo '<table class="table table-striped">';
-
-                  $sql = "SELECT * FROM room WHERE id=:id";
-                  $stm = $pdo->prepare($sql);
-                  $stm->bindValue(':id', $id, PDO::PARAM_STR);
-                  $stm->execute();
-                  $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  foreach ($result3 as $row3){
-                    $host_id = $row3["user_id"];
-                  }
-                  if ($host_id == $row["my_id"]) {
+                  if ($row["host_id"] == $row["my_id"]) {
                     echo '<div class="col-12">ホストユーザー</div>';
                     echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
-                    $room_id = $row["room_id"];
-                    $sql = "SELECT * FROM users WHERE id=" . $row["my_id"];
-                    $stm = $pdo->prepare($sql);
-                    $stm->execute();
-                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($result2 as $row2) {
-                      echo $row2["name"], "</td>";
-                    }
-                    $sql = "SELECT * FROM room WHERE user_id=:user_id";
-                    $stm = $pdo->prepare($sql);
-                    $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
-                    $stm->execute();
-                    $result4 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($result4 as $row2){
-                      $user_id = $row2["user_id"];
-                    }
-                    if ($host_id !== $row2["user_id"]) {
+                    echo $row["name"];
+                    if ($row["host_id"] == $_SESSION["id"]) {
                       echo '<div class="col-12">　</div>';
-                      echo "<a href='room_edit.php?id={$row3["id"]}'  class='btn btn-primary col-3'>ルーム編集する <div class='fa fa-cog'></div></a>";
+                      echo "<a href='room_edit.php?id={$_GET["id"]}'  class='btn btn-primary col-3'>ルーム編集する <div class='fa fa-cog'></div></a>";
                     }
-                    echo '<div class="col-12">　</div>';
+                    echo '<div class="col-12">　</div><hr>';
                     echo '<div class="col-12">ゲストユーザー</div>';
                   } else {
                     echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
-                    $room_id = $row["room_id"];
-                    $sql = "SELECT * FROM users WHERE id=" . $row["my_id"];
-                    $stm = $pdo->prepare($sql);
-                    $stm->execute();
-                    $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($result2 as $row2) {
-                      echo $row2["name"], "</td>";
-                    }
-                    $sql = "SELECT * FROM room WHERE user_id=:user_id";
-                    $stm = $pdo->prepare($sql);
-                    $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
-                    $stm->execute();
-                    $result4 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($result4 as $row2){
-                      $user_id = $row2["user_id"];
-                    }
-                    if ($host_id !== $row2["user_id"]) {
+                    echo $row["name"];
+                    if ($row["host_id"] == $_SESSION["id"]) {
                       echo '<div class="col-12">　</div>';
-                      echo "<a href='leave_room.php?id=$id&my_id=".$row["my_id"]."'  class='btn btn-primary col-3'>脱退させる <div class='fa fa-times'></div></a>";
+                      echo "<a href='leave_room.php?id=$id&my_id=" . $row["my_id"] . "'  class='btn btn-primary col-3'>脱退させる <div class='fa fa-times'></div></a>";
                     }
                   }
                   echo "<hr>";
                   echo '</tr>';
+                }
+                if ($row["host_id"] == $_SESSION["id"]) {
+                  echo '<div class="col-12">　</div>';
+                  echo "<a href='room_member.php?id={$_GET["id"]}&delete=1'  class='btn btn-danger col-3'>ルームを削除する <div class='fa fa-times'></div></a>";
                 }
                 echo '</tbody>';
                 echo '</table>';
