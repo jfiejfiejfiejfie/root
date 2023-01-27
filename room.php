@@ -120,7 +120,7 @@ if (isset($_GET["chat"])) {
     }
 
     .B {
-      background: #ffaf74;
+      /* background: #ffaf74; */
       height: 300px;
     }
 
