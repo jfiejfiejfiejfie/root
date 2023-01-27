@@ -32,7 +32,11 @@ if (isset($_GET["chat"])) {
   $date = date('Y-m-d H:i:s');
   if (isset($_GET["img"])) {
     $text = "";
-    $img = file_get_contents("stamp/" . $_GET["img"] . ".png");
+    if ($_GET["img"] == 0) {
+      $img = file_get_contents("stamp/" . $_GET["img"] . ".gif");
+    } else {
+      $img = file_get_contents("stamp/" . $_GET["img"] . ".png");
+    }
     $sql = "INSERT INTO roomchat (user_id,room_id,created_at,text,image) VALUES(:user_id,:room_id,:date,:text,:imgdat)";
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':user_id', $_SESSION["id"], PDO::PARAM_STR);
@@ -241,13 +245,17 @@ if (isset($_GET["chat"])) {
               </div>
               <div class="B">
                 <?php
-                for ($i = 1; $i < 7; $i++) {
-                  if ($key = 0) {
+                for ($i = 0; $i < 15; $i++) {
+                  if ($key == 0) {
                     echo "<a href='room.php?id=$id&chat=1&img=$i'>";
                   } else {
                     echo "<a href='room.php?id=$id&chat=1&page_id=$now&img=$i'>";
                   }
-                  echo '<img src="stamp/' . $i . '.png" height="150"></a>';
+                  if ($i == 0) {
+                    echo '<img src="stamp/' . $i . '.gif" height="150"></a>';
+                  } else {
+                    echo '<img src="stamp/' . $i . '.png" height="150"></a>';
+                  }
                 }
                 ?>
               </div>
