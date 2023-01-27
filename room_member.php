@@ -102,7 +102,7 @@ if (isset($_GET["delete"])) {
                     echo '<div class="col-12">　</div><hr>';
                     echo '<div class="col-12">ゲストユーザー</div>';
                   } else {
-                    echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
+                    echo "<div class='col-12'>　</div><a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
                     echo $row["name"];
                     if ($row["host_id"] == $_SESSION["id"]) {
                       echo '<div class="col-12">　</div>';
