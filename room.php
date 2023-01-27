@@ -245,7 +245,7 @@ if (isset($_GET["chat"])) {
               </div>
               <div class="B">
                 <?php
-                for ($i = 0; $i < 18; $i++) {
+                for ($i = 0; $i < 19; $i++) {
                   if ($key == 0) {
                     echo "<a href='room.php?id=$id&chat=1&img=$i'>";
                   } else {
