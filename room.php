@@ -26,16 +26,33 @@ if (isset($_POST["kind"])) {
   require_once('insert.php');
 }
 if (isset($_GET["chat"])) {
+  // $name = $_SESSION["name"];
+  $room_id = $_GET["id"];
+  date_default_timezone_set('Asia/Tokyo');
+  $date = date('Y-m-d H:i:s');
+  if (isset($_GET["img"])) {
+    $text = "";
+    $img = file_get_contents("stamp/" . $_GET["img"] . ".png");
+    $sql = "INSERT INTO roomchat (user_id,room_id,created_at,text,image) VALUES(:user_id,:room_id,:date,:text,:imgdat)";
+    $stm = $pdo->prepare($sql);
+    $stm->bindValue(':user_id', $_SESSION["id"], PDO::PARAM_STR);
+    $stm->bindValue(':room_id', $room_id, PDO::PARAM_STR);
+    $stm->bindValue(':date', $date, PDO::PARAM_STR);
+    $stm->bindValue(':text', $text, PDO::PARAM_STR);
+    $stm->bindValue(':imgdat', $img, PDO::PARAM_STR);
+    $stm->execute();
+    if (isset($_GET['page_id'])) {
+      header('Location:room.php?id=' . $id . '&page_id=' . $now);
+    } else {
+      header('Location:room.php?id=' . $id);
+    }
+  }
   if ($_FILES["image"]["tmp_name"] == "") {
     $imgdat = "";
   } else {
     $upfile = $_FILES["image"]["tmp_name"];
     $imgdat = file_get_contents($upfile);
   }
-  $name = $_SESSION["name"];
-  $room_id = $_GET["id"];
-  date_default_timezone_set('Asia/Tokyo');
-  $date = date('Y-m-d H:i:s');
   if (($_POST["text"] != "") || ($imgdat != "")) {
     $sql = "INSERT INTO roomchat (user_id,room_id,created_at,text,image) VALUES(:user_id,:room_id,:date,:text,:imgdat)";
     $stm = $pdo->prepare($sql);
@@ -82,6 +99,31 @@ if (isset($_GET["chat"])) {
     type="text/javascript"></script>
   <script src="js/original.js">
   </script>
+  <script>
+    $(function () {
+      $(".B").toggleClass("C");
+      $(".A").click(function () {
+        $(".B").toggleClass("C");
+      });
+    });
+  </script>
+  <style>
+    .A {
+      display: inline-block;
+      /* background: #b6beff;
+      padding: 5px 10px; */
+      cursor: pointer;
+    }
+
+    .B {
+      background: #ffaf74;
+      height: 300px;
+    }
+
+    .C {
+      display: none;
+    }
+  </style>
 </head>
 
 <body id="page-top">
@@ -181,8 +223,11 @@ if (isset($_GET["chat"])) {
               </h1>
             </div>
             <div class="col-12">
-              <?php if (isset($_GET["page_id"])) {
+              <?php
+              $key = 0;
+              if (isset($_GET["page_id"])) {
                 echo '<form action="room.php?id=' . $id . '&chat=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
+                $key = 1;
               } else {
                 echo '<form action="room.php?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
               }
@@ -194,12 +239,25 @@ if (isset($_GET["chat"])) {
               <div class="col-12">
                 <!-- <img src="images/aaaa.png"> -->
               </div>
+              <div class="B">
+                <?php
+                for ($i = 1; $i < 7; $i++) {
+                  if ($key = 0) {
+                    echo "<a href='room.php?id=$id&chat=1&img=$i'>";
+                  } else {
+                    echo "<a href='room.php?id=$id&chat=1&page_id=$now&img=$i'>";
+                  }
+                  echo '<img src="stamp/' . $i . '.png" height="150"></a>';
+                }
+                ?>
+              </div>
               <br>
               <div class="input-group col-12">
                 <input type="text" name="text" class="form-control form-control-user">
                 <!-- </div> -->
                 <div class="input-group-append">
-                  <a class="btn btn-danger"><i class="fa fa-smile" aria-hidden="true"></i></a>
+
+                  <a class="A btn btn-danger"><i class="fa fa-smile" aria-hidden="true"></i></a>
                   <!-- <div style="position:absolute; left:20px; top:20px; background-color:#fbff96;">レイヤーです。</div> -->
                 </div>
                 <div class="input-group-append">
@@ -301,7 +359,7 @@ if (isset($_GET["chat"])) {
                       $time = new DateTime($row["created_at"]);
                       $time = $time->format("H:i");
                       echo '<div style="font-size:20px; text-align: right;">' . $time;
-                      
+
                     }
                   }
                   echo '</div>';
@@ -337,6 +395,7 @@ if (isset($_GET["chat"])) {
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
+
           <div class="col-12"></div>
           <hr>
           <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
