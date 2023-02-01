@@ -69,13 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stm->execute();
         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
         foreach ($result as $row) {
-            if ($email == $row["email"] ) {
+            if ($email == $row["email"]) {
                 $update_id = $row["id"];
             }
         }
         // $pdo->beginTransaction(); //トランザクション処理 
         try {
-            $sql = "UPDATE users SET user_id=:name,name=:name2,password=:pass,age=:age,sex=:sex WHERE id=:id";
+            $sql = "UPDATE users SET user_id=:name,name=:name2,password=:pass,age=:age,sex=:sex,checked=1 WHERE id=:id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindValue(':name', $name, PDO::PARAM_STR);
             $stmt->bindValue(':name2', $name, PDO::PARAM_STR);

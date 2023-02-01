@@ -31,7 +31,7 @@ if (isset($_GET["chat"])) {
   date_default_timezone_set('Asia/Tokyo');
   $date = date('Y-m-d H:i:s');
   if (isset($_GET["img"])) {
-    $text = "";
+    $text = "stamp_123456789";
     if ($_GET["img"] == 0) {
       $img = file_get_contents("stamp/" . $_GET["img"] . ".gif");
     } else {
@@ -57,7 +57,7 @@ if (isset($_GET["chat"])) {
     $upfile = $_FILES["image"]["tmp_name"];
     $imgdat = file_get_contents($upfile);
   }
-  if (($_POST["text"] != "") || ($imgdat != "")) {
+  if ((($_POST["text"] != "") || ($imgdat != "")) && ($_POST["text"] != "stamp_123456789")) {
     $sql = "INSERT INTO roomchat (user_id,room_id,created_at,text,image) VALUES(:user_id,:room_id,:date,:text,:imgdat)";
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':user_id', $_SESSION["id"], PDO::PARAM_STR);
@@ -333,12 +333,15 @@ if (isset($_GET["chat"])) {
                     echo "<td>";
                     //整形したい文字列
                     $text = $row["text"];
-                    if ($row["image"] != "") {
-                      echo '<a img data-lightbox="group" height="200" width="200" href="room_chat_image.php?id=', $row['id'], '"><img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '"></a>';
-
-                    }
-                    if ($row["text"] != "") {
-                      echo '<div style="font-size:35px; font-family: serif; text-align: left;" class="balloon1">' . $text . '</div>';
+                    if ($text != "stamp_123456789") {
+                      if ($row["image"] != "") {
+                        echo '<a img data-lightbox="group" height="200" width="200" href="room_chat_image.php?id=', $row['id'], '"><img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '"></a>';
+                      }
+                      if ($row["text"] != "") {
+                        echo '<div style="font-size:35px; font-family: serif; text-align: left;" class="balloon1">' . $text . '</div>';
+                      }
+                    } else {
+                      echo '<img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '">';
                     }
                     $time = new DateTime($row["created_at"]);
                     $time = $time->format("H:i");
@@ -354,21 +357,24 @@ if (isset($_GET["chat"])) {
                   echo '<thead><tr>';
                   echo '<th>';
                   // echo '<div class="clearfix">';
-                  if ($row["image"] != "") {
-                    echo '<div style="text-align: right;"><a img data-lightbox="group" height="200" width="200" href="room_chat_image.php?id=', $row['id'], '"><img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '"></a></div>';
-                    $time = new DateTime($row["created_at"]);
-                    $time = $time->format("H:i");
-                    echo '<div style="font-size:20px; text-align: right;">' . $time;
-                  }
                   $text = $row["text"];
-                  if ($row["text"] != "") {
-                    echo '<div style="text-align: right; font-size:35px; font-family: serif;" class="balloon2 float-right">' . $text . '</div>';
-                    if ($row["image"] == "") {
-                      $time = new DateTime($row["created_at"]);
-                      $time = $time->format("H:i");
+                  $time = new DateTime($row["created_at"]);
+                  $time = $time->format("H:i");
+                  if ($text != "stamp_123456789") {
+                    if ($row["image"] != "") {
+                      echo '<div style="text-align: right;"><a img data-lightbox="group" height="200" width="200" href="room_chat_image.php?id=', $row['id'], '"><img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '"></a></div>';
                       echo '<div style="font-size:20px; text-align: right;">' . $time;
-
                     }
+                    if ($row["text"] != "") {
+                      echo '<div style="text-align: right; font-size:35px; font-family: serif;" class="balloon2 float-right">' . $text . '</div>';
+                      if ($row["image"] == "") {
+                        echo '<div style="font-size:20px; text-align: right;">' . $time;
+
+                      }
+                    }
+                  } else {
+                    echo '<div style="text-align: right;"><img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '"></div>';
+                    echo '<div style="font-size:20px; text-align: right;">' . $time;
                   }
                   echo '</div>';
                   echo '</th>';

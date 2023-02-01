@@ -6,6 +6,13 @@ $myURL = 'auth.php';
 $email = $_GET["email"];
 //セッションの開始
 session_start();
+$sql = "SELECT * FROM users WHERE email = :email && checked = 1";
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(':email', $email, PDO::PARAM_STR);
+$stmt->execute();
+if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+  header("Location:404.php");
+}
 $flag = 0;
 if (empty($errors['email'])) {
   $sql = "SELECT email FROM users WHERE email = :email";
@@ -30,7 +37,7 @@ if (empty($errors)) {
     'created_at' => null,
     'image' => $img,
     'email' => $email,
-    'checked' =>'1'
+    'checked' => '0'
   ];
 
   $count = 0;
@@ -100,7 +107,8 @@ if (empty($errors)) {
                 </div> -->
                 <div class="form-group">
                   <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
-                  <a href="register.php?email=<?php echo $email;?>" class="btn btn-primary btn-user btn-block">基礎情報入力</a>
+                  <a href="register.php?email=<?php echo $email; ?>"
+                    class="btn btn-primary btn-user btn-block">基礎情報入力</a>
                 </div>
               </form>
               <hr>
