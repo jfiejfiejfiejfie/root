@@ -52,7 +52,7 @@ if (!isset($_SESSION["check"])) {
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php require_once("sidebar.php");?>
+        <?php require_once("sidebar.php"); ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -62,7 +62,7 @@ if (!isset($_SESSION["check"])) {
             <div id="content">
 
                 <!-- Topbar -->
-                    <?php require_once("nav.php");?>
+                <?php require_once("nav.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -83,19 +83,24 @@ if (!isset($_SESSION["check"])) {
                             $count = 0;
                             if ($block_count != 0) {
                                 $block_list = implode(",", $block_list);
-                                $sql = "SELECT * FROM list WHERE user_id not in ($block_list) ORDER BY created_at desc";
+                                $sql = "SELECT A.id as main_id,A.item,A.loan,A.money,A.created_at,A.user_id,COUNT(B.list_id) as likes_count 
+                                FROM list as A
+                                LEFT JOIN likes as B
+                                ON A.id=B.list_id WHERE A.user_id not in ($block_list)
+                                GROUP BY A.id,A.item,A.loan,A.money,A.created_at,A.user_id
+                                ORDER BY A.created_at desc";
                             } else {
-                                $sql = "SELECT * FROM list ORDER BY created_at desc";
+                                $sql = "SELECT A.id as main_id,A.item,A.loan,A.money,A.created_at,COUNT(B.list_id) as likes_count 
+                                FROM list as A
+                                LEFT JOIN likes as B
+                                ON A.id=B.list_id
+                                GROUP BY A.id,A.item,A.loan,A.money,A.created_at
+                                 ORDER BY A.created_at desc";
                             }
                             $stm = $pdo->prepare($sql);
                             $stm->execute();
                             $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                             require_once("paging.php");
-                            // echo '<table>';
-                            // echo '<thead><tr>';
-                            // echo '</tr></thead>';
-                            // echo '<tbody>';
-                            // echo '<tr>';
                             foreach ($disp_data as $row) {
                                 $count += 1;
                                 echo '<div class="col-xl-3 col-md-6 mb-4">';
@@ -110,8 +115,8 @@ if (!isset($_SESSION["check"])) {
                                 echo '<div class="row no-gutters align-items-center">';
                                 echo '<div class="container mt-3">';
                                 // echo '<td class="border border-dark">';
-                                echo '<div class="sample5"><a href=detail.php?', "id={$row["id"]}>";
-                                echo '<img id="parent" src="image.php?id=', $row["id"], ' alt="" height="232" width="232"/>';
+                                echo '<div class="sample5"><a href=detail.php?', "id={$row["main_id"]}>";
+                                echo '<img id="parent" src="image.php?id=', $row["main_id"], ' alt="" height="232" width="232"/>';
                                 if ($row["loan"] == 1) {
                                     echo '<img id="child" src="images/sold.png" height="232" width="232"/>';
                                 }
@@ -119,6 +124,7 @@ if (!isset($_SESSION["check"])) {
                                 echo '</div></div></a></td></div>';
                                 echo '商品名:', $row["item"];
                                 echo '<br>金額:￥', number_format($row["money"]);
+                                echo '<br>いいね:', $row["likes_count"];
                                 echo '
                             </div>
                         </div>
