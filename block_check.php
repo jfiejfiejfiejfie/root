@@ -2,7 +2,6 @@
 if (isset($_SESSION["id"])) {
     $block_count=0;
     if($block==0){
-        // echo "ちんちん<br>";
         $sql = "SELECT * FROM blocklist WHERE my_id =:id";
         $stm = $pdo->prepare($sql);
         $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);

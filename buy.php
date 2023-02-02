@@ -4,9 +4,8 @@ require_once('../lib/util.php');
 require_once "db_connect.php";
 require_once('user_check.php');
 $myURL = 'buy.php';
-$money = $row["money"];
+// $money = $row["money"];
 $name = $row["name"];
-$checked = $row["checked"];
 if (isset($_GET["id"])) {
   $id = $_GET["id"];
   $data = $_SESSION["id"];
@@ -28,12 +27,9 @@ if (isset($_GET["id"])) {
   // 簡単なエラー処理
   $errors = [];
   $memo = "購入";
-  if ($money < $_GET["money"]) {
-    $errors[] = "お金が足りません";
-  }
-  if ($checked == 0) {
-    $errors[] = 'メール認証が完了していないため購入できません';
-  }
+  // if ($money < $_GET["money"]) {
+  //   $errors[] = "お金が足りません";
+  // }
   require_once('error.php');
   //エラーがあったとき
   if (count($errors) > 0) {
@@ -129,41 +125,41 @@ if (isset($_GET["id"])) {
                 echo $e->getMessage();
                 exit();
               }
-              try {
-                $money = $money - $_GET["money"];
-                $sql = "UPDATE users SET money=$money WHERE id=$data";
-                $stm = $pdo->prepare($sql);
-                $stm->execute();
-                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              } catch (Exception $e) {
-                echo 'エラーがありました。';
-                echo $e->getMessage();
-                exit();
-              }
-              try {
-                $point = $_GET["money"] / 100;
-                $sql = "UPDATE users SET point=point+$point WHERE id=$data";
-                $stm = $pdo->prepare($sql);
-                $stm->execute();
-                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              } catch (Exception $e) {
-                echo 'エラーがありました。';
-                echo $e->getMessage();
-                exit();
-              }
-              try {
-                $user_id = $_GET["user_id"];
-                $money = $_GET["money"];
-
-                $sql = "UPDATE users SET money=money+$money WHERE id=$user_id";
-                $stm = $pdo->prepare($sql);
-                $stm->execute();
-                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              } catch (Exception $e) {
-                echo 'エラーがありました。';
-                echo $e->getMessage();
-                exit();
-              }
+              // try {
+              //   $money = $money - $_GET["money"];
+              //   $sql = "UPDATE users SET money=$money WHERE id=$data";
+              //   $stm = $pdo->prepare($sql);
+              //   $stm->execute();
+              //   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              // } catch (Exception $e) {
+              //   echo 'エラーがありました。';
+              //   echo $e->getMessage();
+              //   exit();
+              // }
+              // try {
+              //   $point = $_GET["money"] / 100;
+              //   $sql = "UPDATE users SET point=point+$point WHERE id=$data";
+              //   $stm = $pdo->prepare($sql);
+              //   $stm->execute();
+              //   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              // } catch (Exception $e) {
+              //   echo 'エラーがありました。';
+              //   echo $e->getMessage();
+              //   exit();
+              // }
+              // try {
+              //   $user_id = $_GET["user_id"];
+              //   $money = $_GET["money"];
+            
+              //   $sql = "UPDATE users SET money=money+$money WHERE id=$user_id";
+              //   $stm = $pdo->prepare($sql);
+              //   $stm->execute();
+              //   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              // } catch (Exception $e) {
+              //   echo 'エラーがありました。';
+              //   echo $e->getMessage();
+              //   exit();
+              // }
               try {
                 $text = "<a href='detail.php?id=" . $id . "'>" . $item . "</a>を購入しました。
             ※これは自動送信です。";
@@ -189,8 +185,8 @@ if (isset($_GET["id"])) {
             }
             // echo '<div>出品者に通知が届きました。</div>';
             ?>
-            <!-- <hr>
-            <p><a href="<?php echo $gobackURL; ?>">戻る</a></p> -->
+            <!-- <hr> -->
+            <p><a  class="btn btn-primary" href="<?php echo "loan_chat.php?id=" . $id ?>">貸出チャットに行く</a></p>
           </div>
 
         </div>

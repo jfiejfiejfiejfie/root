@@ -185,7 +185,7 @@ if (isset($_POST['submitted'])) {
           </div>
 
           <div class="row">
-  <?php  if (filter_input(INPUT_GET, 'result') ) : // 送信が成功した場合?>
+  <?php  if (filter_input(INPUT_GET, 'result') ) : // 送信が成功した場合?> 
   <h4>送信完了!</h4><div class="col-12"></div>
   <p>送信完了いたしました。</p>
   <hr>

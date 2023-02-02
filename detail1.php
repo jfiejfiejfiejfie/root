@@ -47,12 +47,12 @@ $gobackURL = "my_edit.php?id={$_POST["id"]}";
       <?php
 // 簡単なエラー処理
 $errors = [];
-if (!isset($_POST["money"]) || (!ctype_digit($_POST["money"]))) {
-  $errors[] = "金額が整数値ではありません。";
-}
-if ($_POST["money"] < 100) {
-  $errors[] = "金額を100円以上にしてください。";
-}
+// if (!isset($_POST["money"]) || (!ctype_digit($_POST["money"]))) {
+//   $errors[] = "金額が整数値ではありません。";
+// }
+// if ($_POST["money"] < 100) {
+//   $errors[] = "金額を100円以上にしてください。";
+// }
 //エラーがあったとき
 if (count($errors) > 0) {
   echo "<script> rikki(); </script>";
@@ -89,19 +89,19 @@ require_once "db_connect.php";
   $created_at = date("Y/m/d H:i:s");
   $id = $_SESSION["loan_id"];
   $item = $_POST["item"];
-  $money = $_POST["money"];
+  // $money = $_POST["money"];
   $kind = $_POST["kind"];
   $state=$_POST["state"];
   $comment=$_POST["comment"];
   try {
 
-    $sql = "UPDATE list SET item = :item, money = :money,created_at=:created_at,kind=:kind,state=:state,comment=:comment where id = $id";
+    $sql = "UPDATE list SET item = :item,created_at=:created_at,kind=:kind,state=:state,comment=:comment where id = $id";
     $stm = $pdo->prepare($sql);
     $stm->bindValue(':item', $item, PDO::PARAM_STR);
     // $stm->bindValue(':imgdat',$imgdat,PDO::PARAM_STR);
   
     $stm->bindValue(':created_at', $created_at, PDO::PARAM_STR);
-    $stm->bindValue(':money', $money, PDO::PARAM_STR);
+    // $stm->bindValue(':money', $money, PDO::PARAM_STR);
     $stm->bindValue(':kind', $kind, PDO::PARAM_STR);
     $stm->bindValue(':state', $state, PDO::PARAM_STR);
     $stm->bindValue(':comment', $comment, PDO::PARAM_STR);

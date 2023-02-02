@@ -130,9 +130,9 @@ if (isset($_POST["kind"])) {
                   <textarea id="message" name="comment" class="form-control form-control-user"
                     placeholder="色、素材、重さ、定価、注意点など" onKeyUp="countLength(value, 'textlength2');"></textarea>
                   <p id="textlength2">0文字/1000文字</p>
-                金額:
+                <!-- 金額:
                   <input type="number_format" name="money" class="form-control form-control-user"
-                    placeholder="￥100～10,000,000">
+                    placeholder="￥100～10,000,000"> -->
                 画像選択:
                 <br>
                 <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>

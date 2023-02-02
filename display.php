@@ -84,7 +84,7 @@ if (isset($_POST["kind"])) {
                             echo '<th>', '掲載日', '</th>';
                             echo '<th>', '貸出物', '</th>';
                             echo '<th>', 'ジャンル', '</th>';
-                            echo '<th>', '金額', '</th>';
+                            // echo '<th>', '金額', '</th>';
                             echo '<th>', '画像', '</th>';
                             echo '</tr></thead>';
                             echo '<tbody>';
@@ -93,7 +93,7 @@ if (isset($_POST["kind"])) {
                                 echo '<td>', $row['created_at'], '</td>';
                                 echo '<td>', $row['item'], '</td>';
                                 echo '<td>', $row['kind'], '</td>';
-                                echo '<td>￥', number_format($row['money']), '</td>';
+                                // echo '<td>￥', number_format($row['money']), '</td>';
                                 echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="200" width="200" src="image.php?id=', $row['id'], '"></a></td>';
                                 echo '</tr>';
                             }

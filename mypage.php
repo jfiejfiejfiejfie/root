@@ -67,7 +67,7 @@ $myURL = 'mypage.php';
             $email=$row["email"];
             $check=$row["checked"];
             $comment=$row["comment"];
-            $money=$row["money"];
+            $evaluation=$row["evaluation"];
             $point=$row["point"];
           }
           ?>
@@ -99,11 +99,8 @@ $myURL = 'mypage.php';
                   echo '<font class="col-8" size="5">'.$sex.'</font>';
                   echo '<div class="col-4"></div>';
                   echo '<font class="col-8" size="5">'.$email.'</font>';
-                  if ($check == 0 && $email != "") {
-                    echo "<div style='color:red;' class='col-2'>認証してください。</div><a class='btn btn-primary' href='mb_send_mail.php?email=" .$email. "'>認証する</a><div class='col-10'></div>";
-                  }
                   echo '<hr><div class="col-12">コメント<br><font size="10">', $comment, '</font></div>';
-                  echo '<hr><div class="col-6">残金<font size="10">￥', number_format($money), '</font></div>';
+                  echo '<hr><div class="col-6">評価<font size="10">', number_format($evaluation), ' 点</font></div>';
                   echo '<div class="col-6">ポイント<font size="10">', number_format($point), 'p</font></div>';
                   //echo '<br><a href="shop_list.php"><img src="images/point.png"></a>';
               ?>
@@ -149,7 +146,6 @@ $myURL = 'mypage.php';
                 echo '<th>', '掲載日', '</th>';
                 echo '<th>', '貸出物', '</th>';
                 echo '<th>', 'ジャンル', '</th>';
-                echo '<th>', '金額', '</th>';
                 echo '<th>', '画像', '</th>';
                 echo '</tr></thead>';
                 echo '<tbody>';
@@ -158,7 +154,6 @@ $myURL = 'mypage.php';
                   echo '<td>', $row['created_at'], '</td>';
                   echo '<td>', $row['item'], '</td>';
                   echo '<td>', $row['kind'], '</td>';
-                  echo '<td>￥', number_format($row['money']), '</td>';
                   echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="200" width="200" src="image.php?id=', $row['id'], '"></a></td>';
                   echo '</tr>';
                 }

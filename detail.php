@@ -12,22 +12,22 @@ require_once('detail_chat.php');
 ?>
 <?php
 if (isset($_SESSION["id"])) {
-  try {
-    $id = $_SESSION["id"];
-    $sql = "SELECT * FROM users WHERE id =:id";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':id', $id, PDO::PARAM_STR);
-    $stm->execute();
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($result as $row) {
-    }
-    $money = $row["money"];
-    $point = $row["point"];
-  } catch (Exception $e) {
-    echo 'エラーがありました。';
-    echo $e->getMessage();
-    exit();
-  }
+  // try {
+  //   $id = $_SESSION["id"];
+  //   $sql = "SELECT * FROM users WHERE id =:id";
+  //   $stm = $pdo->prepare($sql);
+  //   $stm->bindValue(':id', $id, PDO::PARAM_STR);
+  //   $stm->execute();
+  //   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+  //   foreach ($result as $row) {
+  //   }
+  //   // $money = $row["money"];
+  //   // $point = $row["point"];
+  // } catch (Exception $e) {
+  //   echo 'エラーがありました。';
+  //   echo $e->getMessage();
+  //   exit();
+  // }
   ?>
   <?php
   $sql = "SELECT * FROM list WHERE id =$list_id";
@@ -178,7 +178,7 @@ if (isset($_SESSION["id"])) {
 
                   try {
                     $sql = "SELECT item,kind,state,users.point,
-                      buy_user_id,list.id as list_id,list.created_at as time,list.money as price,users.money as money,users.id as user_id,users.name as name,list.comment as comment
+                      buy_user_id,list.id as list_id,list.created_at as time,users.id as user_id,users.name as name,list.comment as comment
                      FROM list,users WHERE list.id=$data && users.id=list.user_id";
                     $stm = $pdo->prepare($sql);
                     $stm->execute();
@@ -222,11 +222,11 @@ if (isset($_SESSION["id"])) {
                       echo '<th>商品の状態</th>';
                       echo '<td>', $row["state"], '</td>';
                       echo '</tr>';
-                      echo '<tr>';
-                      echo '<th>金額</th>';
-                      echo '<td>￥', number_format($row['price']), '</td>';
-                      $price = $row["price"];
-                      echo '</tr>';
+                      // echo '<tr>';
+                      // echo '<th>金額</th>';
+                      // echo '<td>￥', number_format($row['price']), '</td>';
+                      // $price = $row["price"];
+                      // echo '</tr>';
                       echo '<tr>';
                       echo '<th>出品者</th>';
                       echo '<td>';
@@ -259,8 +259,9 @@ if (isset($_SESSION["id"])) {
                   }
                   ?>
                   <?php
+                  $buy_user_id = $row["buy_user_id"];
                   // echo "<a href='favorite.php?id={$row["id"]}' class='btn'><img src='images/good.png' style='max-width:50px'>$count</a><br>";
-                  if ($row["buy_user_id"] === 0) {
+                  if ($buy_user_id === 0) {
                     // echo "<a href='loan.php?id={$row["id"]}' class='btn btn-success col-2'>チャットをする</a><br>";
                     echo '<form method="POST" action="detail.php?id=' . $row["list_id"] . '&good=1">';
                     echo "<button type='submit'><div class='w-100 mw-100'><i class='fa fa-thumbs-up' aria-hidden='true'>$count</i></div></button><br>";
@@ -268,10 +269,12 @@ if (isset($_SESSION["id"])) {
                     echo "<div class='col-12'></div>";
                   }
                   if ($_SESSION['id'] === $row["user_id"]) {
-                    if ($row["buy_user_id"] === 0) {
+                    if ($buy_user_id === 0) {
                       echo "<a href='my_edit.php?id={$row["list_id"]}' class='btn btn-primary col-2'>編集する</a>";
                       echo "<a href='mydelete.php?id={$row["list_id"]}' class='btn btn-danger col-2'>削除する</a>";
                     }
+                    echo '<div class="col-12"></div>';
+                    echo "<a href='loan_chat.php?id={$row["list_id"]}' class='btn btn-success col-4'>取引チャット</a>";
                   } else {
                     if ($user_id === 0) {
                       $checked = 100;
@@ -302,9 +305,9 @@ if (isset($_SESSION["id"])) {
                         $stm->execute();
                         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($result as $row) {
-                          echo '￥' . $row["money"] . '<br>' . $row["point"] . 'ポイント<br>';
-                          echo "<a href='buy.php?id={$_GET['id']}&money={$price}&user_id={$row["id"]}' class='btn btn-danger'>購入する</a>";
-                          echo "<a href='buyp.php?id={$_GET['id']}&money={$price}&user_id={$row["id"]}' class='btn btn-danger'>ポイントで購入する</a>";
+                          // echo '￥' . $row["money"] . '<br>' . $row["point"] . 'ポイント<br>';
+                          echo "<a href='buy.php?id={$_GET['id']}&user_id={$row["id"]}' class='btn btn-danger'>購入する</a>";
+                          // echo "<a href='buyp.php?id={$_GET['id']}&user_id={$row["id"]}' class='btn btn-danger'>ポイントで購入する</a>";
                         }
                       } else if ($checked == 2) {
                         echo "<a class='btn btn-danger'>予約は終了しました。</a>";
@@ -312,6 +315,10 @@ if (isset($_SESSION["id"])) {
                     } else {
                       echo "<div style='color:red;'>※この商品は売り切れのため、チャットをすることはできません。</div><br>";
                       echo "<a href='#' class='btn btn-danger'>売り切れ</a>";
+                      echo '<div class="col-12"></div>';
+                      if ($buy_user_id === $_SESSION["id"]) {
+                        echo "<a href='loan_chat.php?id={$row["list_id"]}' class='btn btn-success col-4'>取引チャット</a>";
+                      }
                     }
                   }
                   ?>

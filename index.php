@@ -109,68 +109,68 @@ if (!isset($_SESSION["check"])) {
                                 $block_list = implode(",", $block_list);
                                 if (!isset($_GET["sold"])) {
                                     if (!isset($_GET["good"])) {
-                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.money,A.created_at,A.user_id,COUNT(B.list_id) as likes_count 
+                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.created_at,A.user_id,COUNT(B.list_id) as likes_count 
                                 FROM list as A
                                 LEFT JOIN likes as B
                                 ON A.id=B.list_id WHERE A.user_id not in ($block_list)
-                                GROUP BY A.id,A.item,A.loan,A.money,A.created_at,A.user_id
+                                GROUP BY A.id,A.item,A.loan,A.created_at,A.user_id
                                 ORDER BY A.created_at desc";
                                     } else {
-                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.money,A.created_at,A.user_id,COUNT(B.list_id) as likes_count 
+                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.created_at,A.user_id,COUNT(B.list_id) as likes_count 
                                 FROM list as A
                                 LEFT JOIN likes as B
                                 ON A.id=B.list_id WHERE A.user_id not in ($block_list)
-                                GROUP BY A.id,A.item,A.loan,A.money,A.created_at,A.user_id
+                                GROUP BY A.id,A.item,A.loan,A.created_at,A.user_id
                                 ORDER BY likes_count desc";
                                     }
                                 } else {
                                     if (!isset($_GET["good"])) {
-                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.money,A.created_at,A.user_id,COUNT(B.list_id) as likes_count 
+                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.created_at,A.user_id,COUNT(B.list_id) as likes_count 
                                 FROM list as A
                                 LEFT JOIN likes as B
                                 ON A.id=B.list_id WHERE A.user_id not in ($block_list) && A.loan=0
-                                GROUP BY A.id,A.item,A.loan,A.money,A.created_at,A.user_id
+                                GROUP BY A.id,A.item,A.loan,A.created_at,A.user_id
                                 ORDER BY A.created_at desc";
                                     } else {
-                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.money,A.created_at,A.user_id,COUNT(B.list_id) as likes_count 
+                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.created_at,A.user_id,COUNT(B.list_id) as likes_count 
                                 FROM list as A
                                 LEFT JOIN likes as B
                                 ON A.id=B.list_id WHERE A.user_id not in ($block_list) && A.loan=0
-                                GROUP BY A.id,A.item,A.loan,A.money,A.created_at,A.user_id
+                                GROUP BY A.id,A.item,A.loan,A.created_at,A.user_id
                                 ORDER BY likes_count desc";
                                     }
                                 }
                             } else {
                                 if (!isset($_GET["sold"])) {
                                     if (!isset($_GET["good"])) {
-                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.money,A.created_at,COUNT(B.list_id) as likes_count 
+                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.created_at,COUNT(B.list_id) as likes_count 
                                 FROM list as A
                                 LEFT JOIN likes as B
                                 ON A.id=B.list_id
-                                GROUP BY A.id,A.item,A.loan,A.money,A.created_at
+                                GROUP BY A.id,A.item,A.loan,A.created_at
                                  ORDER BY A.created_at desc";
                                     } else {
-                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.money,A.created_at,COUNT(B.list_id) as likes_count 
+                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.created_at,COUNT(B.list_id) as likes_count 
                                 FROM list as A
                                 LEFT JOIN likes as B
                                 ON A.id=B.list_id
-                                GROUP BY A.id,A.item,A.loan,A.money,A.created_at
+                                GROUP BY A.id,A.item,A.loan,A.created_at
                                  ORDER BY likes_count desc";
                                     }
                                 } else {
                                     if (!isset($_GET["good"])) {
-                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.money,A.created_at,COUNT(B.list_id) as likes_count 
+                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.created_at,COUNT(B.list_id) as likes_count 
                                 FROM list as A
                                 LEFT JOIN likes as B
                                 ON A.id=B.list_id WHERE A.loan=0
-                                GROUP BY A.id,A.item,A.loan,A.money,A.created_at
+                                GROUP BY A.id,A.item,A.loan,A.created_at
                                  ORDER BY A.created_at desc";
                                     } else {
-                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.money,A.created_at,COUNT(B.list_id) as likes_count 
+                                        $sql = "SELECT A.id as main_id,A.item,A.loan,A.created_at,COUNT(B.list_id) as likes_count 
                                 FROM list as A
                                 LEFT JOIN likes as B
                                 ON A.id=B.list_id WHERE A.loan=0
-                                GROUP BY A.id,A.item,A.loan,A.money,A.created_at
+                                GROUP BY A.id,A.item,A.loan,A.created_at
                                  ORDER BY likes_count desc";
                                     }
                                 }
@@ -201,7 +201,7 @@ if (!isset($_SESSION["check"])) {
                                 echo '<div class="mask">';
                                 echo '</div></div></a></td></div>';
                                 echo '商品名:', $row["item"];
-                                echo '<br>金額:￥', number_format($row["money"]);
+                                // echo '<br>金額:￥', number_format($row["money"]);
                                 echo '<br>いいね:', $row["likes_count"];
                                 echo '
                             </div>

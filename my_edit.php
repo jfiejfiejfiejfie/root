@@ -112,7 +112,7 @@
             echo '</table>';
             //echo "<td><a href=detail.php?id={$row["id"]}>"
             $item=$row["item"];
-            $money=$row["money"];
+            // $money=$row["money"];
             $text=$row["comment"];
             $list_kind = $row["kind"];
             $list_state = $row["state"];
@@ -190,9 +190,9 @@
                     placeholder="色、素材、重さ、定価、注意点など" onKeyUp="countLength(value, 'textlength2');"><?php echo htmlspecialchars($text);?></textarea>
                   <p id="textlength2">0文字/1000文字</p>
                  
-                <label>金額:
+                <!-- <label>金額:
                         <input type="number_format" name="money" class="form-control form-control-user" value="<?php echo htmlspecialchars($money); ?>" placeholder="金額" required>
-                    </label>
+                    </label> -->
                 
                 
                   <br>画像選択:<br>

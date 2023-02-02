@@ -1,23 +1,23 @@
 <?php
   // 簡単なエラー処理
   $errors = [];
-  $money = $_POST["money"];
+  // $money = $_POST["money"];
   if((!isset($_POST["item"]))){
     $errors[]="名前入れろカス";
   }
   if((!isset($_FILES["image"])) || ($_FILES["image"]["tmp_name"] == '')){
     $errors[]="画像入れろカス";
   }
-  if (!isset($_POST["money"]) || (!ctype_digit($_POST["money"]))) {
-    $money = 100;
-  }
-  if ($money < 100 || 10000000 <= $money) {
-    $errors[] = "金額を100円以上10,000,000未満にしてください。";
-  }
+  // if (!isset($_POST["money"]) || (!ctype_digit($_POST["money"]))) {
+  //   $money = 100;
+  // }
+  // if ($money < 100 || 10000000 <= $money) {
+  //   $errors[] = "金額を100円以上10,000,000未満にしてください。";
+  // }
   require_once('user_check.php');
-  if($row["checked"]==0){
-    $errors[] = "メール認証をしてください。";
-  }
+  // if($row["checked"]==0){
+  //   $errors[] = "メール認証をしてください。";
+  // }
   //エラーがあったとき
   if (count($errors) > 0) {
     echo "<script> rikki(); </script>";
@@ -72,13 +72,13 @@
     try {
 
 
-      $sql = "INSERT INTO list (created_at,user_id,item,comment,money,kind,image,state) VALUES(:created_at,:id,:item,:comment,:money,:kind,:imgdat,:state)";
+      $sql = "INSERT INTO list (created_at,user_id,item,comment,kind,image,state) VALUES(:created_at,:id,:item,:comment,:kind,:imgdat,:state)";
       $stm = $pdo->prepare($sql);
       $stm->bindValue(':created_at', $created_at, PDO::PARAM_STR);
       $stm->bindValue(':id', $id, PDO::PARAM_STR);
       $stm->bindValue(':item', $item, PDO::PARAM_STR);
       $stm->bindValue(':comment', $comment, PDO::PARAM_STR);
-      $stm->bindValue(':money', $money, PDO::PARAM_STR);
+      // $stm->bindValue(':money', $money, PDO::PARAM_STR);
       $stm->bindValue(':kind', $kind_name, PDO::PARAM_STR);
       $stm->bindValue(':imgdat', $imgdat, PDO::PARAM_STR);
       $stm->bindValue(':state', $state_name, PDO::PARAM_STR);
