@@ -123,12 +123,4 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
 
-    <!-- Sidebar Message -->
-    <div class="sidebar-card d-none d-lg-flex">
-        <a href="../phpmyadmin" target="_blank"><img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg"
-                alt="..."></a>
-        <p class="text-center mb-2"><strong>課金</strong>しろks</p>
-        <a class="btn btn-success btn-sm" href="charge.php">いますぐ課金だ!</a>
-    </div>
-
 </ul>
