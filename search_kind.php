@@ -5,12 +5,6 @@ $myURL = 'search_kind.php';
 $gobackURL = "search_sp.php";
 require_once "db_connect.php";
 define('MAX', '5');
-// 文字エンコードの検証
-if (!cken($_POST)) {
-  header("Location:{$gobackURL}");
-  exit();
-}
-
 // nameが未設定、空のときはエラー
 if (isset($_GET["kind_name"])) {
   $kind_name = $_GET["kind_name"];

@@ -5,11 +5,6 @@ $myURL = 'search_user.php';
 require_once "db_connect.php";
 $gobackURL = "search_sp.php";
 
-// 文字エンコードの検証
-if (!cken($_POST)) {
-  header("Location:{$gobackURL}");
-  exit();
-}
 
 // nameが未設定、空のときはエラー
 if (empty($_POST)) {

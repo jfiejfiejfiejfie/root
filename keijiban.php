@@ -149,12 +149,12 @@ if (!empty($_POST['btn_submit'])) {
 
       // SQLクエリの実行
       $res = $stmt->execute();
-
-      if ($res) {
-        $success_message = 'メッセージを書き込みました。';
-      } else {
-        $error_message[] = '書き込みに失敗しました。';
-      }
+      header('Location:keijiban.php');
+      // if ($res) {
+      //   $success_message = 'メッセージを書き込みました。';
+      // } else {
+      //   $error_message[] = '書き込みに失敗しました。';
+      // }
       // プリペアドステートメントを削除
       $stmt = null;
     }

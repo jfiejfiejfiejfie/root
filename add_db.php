@@ -87,7 +87,6 @@ if (isset($_POST["kind"])) {
                   <select name="kind" class="form-control form-control-user">
                     <?php
                     try {
-
                       $sql = "SELECT * FROM kind";
                       $stm = $pdo->prepare($sql);
                       $stm->execute();
