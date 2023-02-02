@@ -137,10 +137,10 @@
           $reservation_name = '最近、予約されていません。';
         }
         if ($count > 0) {
-        ?>
-        <span class="badge badge-danger badge-counter">
-          <?php echo $count; ?>
-        </span>
+          ?>
+          <span class="badge badge-danger badge-counter">
+            <?php echo $count; ?>
+          </span>
         <?php }
         ; ?>
       </a>
@@ -215,10 +215,10 @@
           $user_chat_count += 1;
         }
         if ($user_chat_count > 0) {
-        ?>
-        <span class="badge badge-danger badge-counter">
-          <?php echo $user_chat_count; ?>
-        </span>
+          ?>
+          <span class="badge badge-danger badge-counter">
+            <?php echo $user_chat_count; ?>
+          </span>
         <?php }
         ; ?>
       </a>

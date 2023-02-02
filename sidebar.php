@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION["loggedin"])&& $myURL != "auth.php") {
+if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
     header('Location:login.php');
 }
 ?>
@@ -8,9 +8,9 @@ if (!isset($_SESSION["loggedin"])&& $myURL != "auth.php") {
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./">
         <div class="sidebar-brand-icon rotate-n-15">
-            <i><img height='65px' src='images/human.png'></i>
+            <i class="fas fa-fw fa-comments"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">WACCA <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">OSAKA</div>
     </a>
 
     <!-- Divider -->

@@ -1,8 +1,7 @@
-
 <?php
 session_start();
 
-$myURL='mydelete.php';
+$myURL = 'mydelete.php';
 $gobackURL = 'admin.php';
 require_once "db_connect.php";
 ?>
@@ -39,7 +38,7 @@ require_once "db_connect.php";
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -49,7 +48,7 @@ require_once "db_connect.php";
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -63,38 +62,41 @@ require_once "db_connect.php";
           </div>
 
           <div class="row">
-          <div>
-            <?php
-            $data = $_GET["id"];
-            try {
-              echo $data, 'を';
+            <div>
+              <?php
+              $data = $_GET["id"];
+              try {
+                echo $data, 'を';
 
-              $sql = "DELETE FROM list WHERE id =$data";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $sql = "DELETE FROM chat WHERE list_id = $data";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $sql = "DELETE FROM image_list WHERE list_id = $data";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $sql = "DELETE FROM likes WHERE list_id = $data";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $sql = "DELETE FROM reservation_list WHERE list_id = $data";
-              $stm = $pdo->prepare($sql);
-              $stm->execute();
-              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              echo "削除しました。";
-            } catch (Exception $e) {
-              echo 'エラーがありました。';
-              echo $e->getMessage();
-              exit();
-            }
-            ?>
-            <hr>
-            <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
-          </div>
+                $sql = "DELETE FROM list WHERE id =$data";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $sql = "DELETE FROM chat WHERE list_id = $data";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $sql = "DELETE FROM image_list WHERE list_id = $data";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $sql = "DELETE FROM likes WHERE list_id = $data";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $sql = "DELETE FROM reservation_list WHERE list_id = $data";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                $sql = "DELETE FROM loan_chat WHERE list_id = $data";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                echo "削除しました。";
+              } catch (Exception $e) {
+                echo 'エラーがありました。';
+                echo $e->getMessage();
+                exit();
+              }
+              ?>
+              <hr>
+              <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+            </div>
           </div>
 
         </div>
@@ -164,9 +166,3 @@ require_once "db_connect.php";
 </body>
 
 </html>
-
-
-
-
-
-

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$myURL='delete.php';
+$myURL = 'delete.php';
 $gobackURL = 'user_chat_list.php';
 require_once "db_connect.php";
 
@@ -33,13 +33,13 @@ if ($_SESSION["admin"] == 0) {
           </div>
         </div>
         <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-        ?>
-        <a href="javascript:if(confirm('ログアウトしますか？')) location.href='logout.php';" style="width:30px;"><img height="30"
-            src="my_image.php?id=<?php echo $_SESSION["id"]; ?>" style="border-radius: 50%" /></a>
+          ?>
+          <a href="javascript:if(confirm('ログアウトしますか？')) location.href='logout.php';" style="width:30px;"><img height="30"
+              src="my_image.php?id=<?php echo $_SESSION["id"]; ?>" style="border-radius: 50%" /></a>
 
         <?php } else { ?>
-        <a href="javascript:void(0);" style="width:30px;" class="open_login_menu pl5 pr5"><img
-            src="https://cdn08.net/pokemongo/wiki/login.png" alt="ログイン"></a>
+          <a href="javascript:void(0);" style="width:30px;" class="open_login_menu pl5 pr5"><img
+              src="https://cdn08.net/pokemongo/wiki/login.png" alt="ログイン"></a>
         <?php } ?>
       </div>
       <div id="menu_s">
@@ -66,38 +66,52 @@ if ($_SESSION["admin"] == 0) {
           <h2>お知らせ</h2>
           <div>
             <?php
-    $data = $_GET["id"];
-    try {
-      echo $data, 'を';
+            $data = $_GET["id"];
+            try {
+              echo $data, 'を';
 
-      $sql = "DELETE FROM list WHERE id =$data";
-      $stm = $pdo->prepare($sql);
-      $stm->execute();
-      $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-      echo "削除しました。";
-    } catch (Exception $e) {
-      echo 'エラーがありました。';
-      echo $e->getMessage();
-      exit();
-    }
+              $sql = "DELETE FROM list WHERE id =$data";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $sql = "DELETE FROM chat WHERE list_id = $data";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $sql = "DELETE FROM image_list WHERE list_id = $data";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $sql = "DELETE FROM likes WHERE list_id = $data";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $sql = "DELETE FROM reservation_list WHERE list_id = $data";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $sql = "DELETE FROM loan_chat WHERE list_id = $data";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              echo "削除しました。";
+            } catch (Exception $e) {
+              echo 'エラーがありました。';
+              echo $e->getMessage();
+              exit();
+            }
 
-    $sql = "DELETE FROM chat WHERE chat_id = $data";
-    $stm = $pdo->prepare($sql);
-    $stm->execute();
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+            $sql = "DELETE FROM chat WHERE chat_id = $data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 
-    $sql = "DELETE FROM image_list WHERE list_id = $data";
-    $stm = $pdo->prepare($sql);
-    $stm->execute();
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+            $sql = "DELETE FROM image_list WHERE list_id = $data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 
-    $sql = "DELETE FROM likes WHERE list_id = $data";
-    $stm = $pdo->prepare($sql);
-    $stm->execute();
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-    ?>
+            $sql = "DELETE FROM likes WHERE list_id = $data";
+            $stm = $pdo->prepare($sql);
+            $stm->execute();
+            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+            ?>
             <hr>
             <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
           </div>

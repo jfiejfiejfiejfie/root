@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $subject = "メール認証の件"; // 件名
         $message = "メール認証をするには以下のURLに接続してください。
 		http://172.16.31.28/root/auth.php?email=$to
-		もし関係ない場合はスルーしろks"; // 本文
+		関係のない場合は削除してください。"; // 本文
         $additional_headers = ""; // ヘッダーオプション
 
         if (mb_send_mail($to, $subject, $message, $additional_headers)) {
