@@ -82,12 +82,6 @@ require_once "db_connect.php";
                   <label><input type="radio" name="sex" value="無回答"<?php if ($row["sex"] == "無回答")
                     echo 'checked';?>>無回答</label>
                 </div>
-                <?php if ($row["checked"] == 0) { ?>
-                <div>E-mail:
-                  <input type="text" name="email" placeholder="E-mail" class="form-control form-control-user"
-                    value="<?php echo htmlspecialchars($row["email"]); ?>">
-                </div>
-                <?php } ?>
                 <div>コメント:
                   <input type="text" name="comment" placeholder="comment" class="form-control form-control-user col-4"
                     value="<?php echo htmlspecialchars($row["comment"]); ?>" required>

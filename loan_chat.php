@@ -19,26 +19,28 @@ if (!isset($_GET['page_id'])) {
 }
 if (isset($_GET["ev"])) {
     $score = $_POST["score"];
-    $sql = "UPDATE list SET score=:score WHERE id=:id";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':score', $score, PDO::PARAM_STR);
-    $stm->bindValue(':id', $_GET["id"], PDO::PARAM_STR);
-    $stm->execute();
+    if ($score <= 100 || $score >= -100) {
+        $sql = "UPDATE list SET score=:score WHERE id=:id";
+        $stm = $pdo->prepare($sql);
+        $stm->bindValue(':score', $score, PDO::PARAM_STR);
+        $stm->bindValue(':id', $_GET["id"], PDO::PARAM_STR);
+        $stm->execute();
 
-    $sql = "SELECT * FROM list WHERE id=:id";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':id', $_GET["id"], PDO::PARAM_STR);
-    $stm->execute();
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($result as $row) {
-        $user_id = $row["user_id"];
+        $sql = "SELECT * FROM list WHERE id=:id";
+        $stm = $pdo->prepare($sql);
+        $stm->bindValue(':id', $_GET["id"], PDO::PARAM_STR);
+        $stm->execute();
+        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $row) {
+            $user_id = $row["user_id"];
+        }
+
+        $sql = "UPDATE users SET evaluation=:score+evaluation WHERE id=:id";
+        $stm = $pdo->prepare($sql);
+        $stm->bindValue(':score', $score, PDO::PARAM_STR);
+        $stm->bindValue(':id', $user_id, PDO::PARAM_STR);
+        $stm->execute();
     }
-
-    $sql = "UPDATE users SET evaluation=:score+evaluation WHERE id=:id";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':score', $score, PDO::PARAM_STR);
-    $stm->bindValue(':id', $user_id, PDO::PARAM_STR);
-    $stm->execute();
     if (isset($_GET['page_id'])) {
         header('Location:loan_chat.php?id=' . $id . '&page_id=' . $now);
     } else {

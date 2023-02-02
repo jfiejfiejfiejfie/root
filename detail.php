@@ -272,9 +272,10 @@ if (isset($_SESSION["id"])) {
                     if ($buy_user_id === 0) {
                       echo "<a href='my_edit.php?id={$row["list_id"]}' class='btn btn-primary col-2'>編集する</a>";
                       echo "<a href='mydelete.php?id={$row["list_id"]}' class='btn btn-danger col-2'>削除する</a>";
+                    } else {
+                      echo '<div class="col-12"></div>';
+                      echo "<a href='loan_chat.php?id={$row["list_id"]}' class='btn btn-success col-4'>取引チャット</a>";
                     }
-                    echo '<div class="col-12"></div>';
-                    echo "<a href='loan_chat.php?id={$row["list_id"]}' class='btn btn-success col-4'>取引チャット</a>";
                   } else {
                     if ($user_id === 0) {
                       $checked = 100;

@@ -161,6 +161,7 @@ if (isset($_GET["id"])) {
               //   exit();
               // }
               try {
+                $user_id = $_GET["user_id"];
                 $text = "<a href='detail.php?id=" . $id . "'>" . $item . "</a>を購入しました。
             ※これは自動送信です。";
                 date_default_timezone_set('Asia/Tokyo');

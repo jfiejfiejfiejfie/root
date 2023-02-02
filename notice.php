@@ -155,7 +155,7 @@ if (isset($_GET["check"])) {
               echo '<table class="table table-striped">';
               echo '<thead><tr>';
               echo '<th>', '貸出物', '</th>';
-              echo '<th>', '金額', '</th>';
+              // echo '<th>', '金額', '</th>';
               echo '<th>', '画像', '</th>';
               echo '<th>', 'いいね数', '</th>';
               echo '<th>', '既読にする', '</th>';
@@ -165,7 +165,7 @@ if (isset($_GET["check"])) {
                 $good_count = 0;
                 echo '<tr>';
                 echo '<td>', $row['item'], '</td>';
-                echo '<td>￥', number_format($row['money']), '</td>';
+                // echo '<td>￥', number_format($row['money']), '</td>';
                 echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="100" width="100" src="image.php?id=', $row['id'], '"></a></td>';
                 $sql = "SELECT * FROM likes WHERE list_id=" . $row["id"];
                 $stm = $pdo->prepare($sql);
@@ -206,7 +206,7 @@ if (isset($_GET["check"])) {
               echo '<th>', '掲載日', '</th>';
               echo '<th>', '貸出物', '</th>';
               echo '<th>', 'ジャンル', '</th>';
-              echo '<th>', '金額', '</th>';
+              // echo '<th>', '金額', '</th>';
               echo '<th>', '画像', '</th>';
               echo '<th>', '既読にする', '</th>';
               echo '</tr></thead>';
@@ -216,7 +216,7 @@ if (isset($_GET["check"])) {
                 echo '<td>', $row['created_at'], '</td>';
                 echo '<td>', $row['item'], '</td>';
                 echo '<td>', $row['kind'], '</td>';
-                echo '<td>￥', number_format($row['money']), '</td>';
+                // echo '<td>￥', number_format($row['money']), '</td>';
                 echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="100" width="100" src="image.php?id=', $row['id'], '"></a></td>';
                 echo '<td><form method="POST" action="notice.php?loan=' . $row["id"] . '&check=2"><input id="check" type="submit" value="〆" name="#" ></form></td>';
                 echo '</tr>';
