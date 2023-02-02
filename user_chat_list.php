@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../lib/util.php');
+
 $myURL = 'user_chat_list.php';
 $option = '';
 $gobackURL = 'index.php';

@@ -66,34 +66,16 @@ if (isset($_POST["kind"])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">「いいね」した商品</h1>
+                        <h1 class="h3 mb-0 text-gray-800">購入されたもの</h1>
                         <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
                     </div>
 
                     <div class="row">
                         <?php
-                        $id = $_SESSION["id"];
                         try {
-                            $count = 0;
-                            $sql = "SELECT * FROM likes WHERE my_id=$id";
-                            $stm = $pdo->prepare($sql);
-                            $stm->execute();
-                            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($result as $row) {
-                                $count += 1;
-                                $main_list[] = $row["list_id"];
-                            }
-                        } catch (Exception $e) {
-                            echo 'エラーがありました。';
-                            echo $e->getMessage();
-                            exit();
-                        }
-                        ?>
-                        <?php
-                        if ($count != 0) {
-                            $main_list = implode(",", $main_list);
-                            $sql = "SELECT * FROM list WHERE id IN ($main_list)";
+                            $id = $_SESSION["id"];
+                            $sql = "SELECT * FROM list WHERE user_id=$id and loan=1";
                             $stm = $pdo->prepare($sql);
                             $stm->execute();
                             $result = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -102,7 +84,7 @@ if (isset($_POST["kind"])) {
                             echo '<th>', '掲載日', '</th>';
                             echo '<th>', '貸出物', '</th>';
                             echo '<th>', 'ジャンル', '</th>';
-                            // echo '<th>', '金額', '</th>';
+                            echo '<th>', '評価', '</th>';
                             echo '<th>', '画像', '</th>';
                             echo '</tr></thead>';
                             echo '<tbody>';
@@ -111,12 +93,16 @@ if (isset($_POST["kind"])) {
                                 echo '<td>', $row['created_at'], '</td>';
                                 echo '<td>', $row['item'], '</td>';
                                 echo '<td>', $row['kind'], '</td>';
-                                // echo '<td>￥', number_format($row['money']), '</td>';
+                                echo '<td>', number_format($row['score']), '点</td>';
                                 echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="200" width="200" src="image.php?id=', $row['id'], '"></a></td>';
                                 echo '</tr>';
                             }
                             echo '</tbody>';
                             echo '</table>';
+                        } catch (Exception $e) {
+                            echo 'エラーがありました。';
+                            echo $e->getMessage();
+                            exit();
                         }
                         ?>
                     </div>

@@ -1,6 +1,6 @@
 <?php
 session_start(); 
-require_once('../lib/util.php');
+
 $gobackURL ='user_chat_list.php';
 require_once "db_connect.php";
 $id=$_GET["id"];

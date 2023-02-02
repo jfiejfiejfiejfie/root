@@ -1,6 +1,6 @@
 <?php
 session_start(); 
-require_once('../lib/util.php');
+
 require_once "db_connect.php";
 date_default_timezone_set('Asia/Tokyo');
 $list_id=$_POST["list_id"];

@@ -55,7 +55,8 @@ if (!isset($_SESSION["loggedin"])&& $myURL != "auth.php") {
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="notice.php">通知一覧</a>
-                <a class="collapse-item" href="buy_list.php">購入されたもの</a>
+                <a class="collapse-item" href="buy_list.php">購入したもの</a>
+                <a class="collapse-item" href="bought_list.php">購入されたもの</a>
                 <a class="collapse-item" href="reservation_list.php">予約されたもの</a>
                 <a class="collapse-item" href="good_list.php">いいね一覧</a>
                 <a class="collapse-item" href="eturan.php">閲覧履歴</a>

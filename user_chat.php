@@ -2,7 +2,7 @@
 use Vtiful\Kernel\Format;
 
 session_start();
-require_once('../lib/util.php');
+
 require_once "db_connect.php";
 $myURL = 'user_chat.php';
 define('MAX', '10');

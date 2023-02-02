@@ -1,6 +1,6 @@
 <?php
 session_start(); 
-require_once('../lib/util.php');
+
 // $gobackURL ="blocklist.php?id={$_SESSION["my_id"]}&user_id={$_SESSION["user_id"]}";
 require_once "db_connect.php";
 $list_id=$_GET["id"];

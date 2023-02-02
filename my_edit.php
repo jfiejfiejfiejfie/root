@@ -1,6 +1,6 @@
 <?php
   session_start(); 
-  require_once('../lib/util.php');
+  
   $myURL='my_edit.php';
   $gobackURL ='detail.php?id='.$_GET['id'];
   require_once "db_connect.php";

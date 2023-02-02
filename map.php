@@ -1,7 +1,7 @@
 
 <?php
 session_start();
-require_once('../lib/util.php');
+
 $myURL='map.php';
 $gobackURL = 'index.php';
 require_once "db_connect.php";

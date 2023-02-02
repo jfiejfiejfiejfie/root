@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../lib/util.php');
+
 require_once "db_connect.php";
 require_once('user_check.php');
 $myURL = 'buy.php';
@@ -196,7 +196,7 @@ if (isset($_GET["id"])) {
             // echo '<div>出品者に通知が届きました。</div>';
             ?>
             <!-- <hr> -->
-            <p><a  class="btn btn-primary" href="<?php echo "loan_chat.php?id=" . $id ?>">貸出チャットに行く</a></p>
+            <p><a  class="btn btn-primary" href="<?php echo "loan_chat.php?id=" . $id ?>">取引チャットに行く</a></p>
           </div>
 
         </div>

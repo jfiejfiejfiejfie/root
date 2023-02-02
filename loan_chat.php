@@ -2,7 +2,7 @@
 use Vtiful\Kernel\Format;
 
 session_start();
-require_once('../lib/util.php');
+
 require_once "db_connect.php";
 $myURL = 'loan_chat.php';
 define('MAX', '10');
@@ -19,7 +19,7 @@ if (!isset($_GET['page_id'])) {
 }
 if (isset($_GET["ev"])) {
     $score = $_POST["score"];
-    if ($score <= 100 || $score >= -100) {
+    if ($score <= 100 && $score >= -100) {
         $sql = "UPDATE list SET score=:score WHERE id=:id";
         $stm = $pdo->prepare($sql);
         $stm->bindValue(':score', $score, PDO::PARAM_STR);
@@ -224,6 +224,7 @@ foreach ($result as $row) {
                                                             aria-hidden="true"></i></button>
                                                 </div>
                                             </div>
+                                            <div style="color:red">※点数は-100~-1,1~100点まで付けれます</div>
                                             </form>
                                         </div>
                                     <?php } else {

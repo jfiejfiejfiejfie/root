@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../lib/util.php');
+
 $myURL = 'admin_edit_db.php';
 $gobackURL = 'mypage.php';
 require_once "db_connect.php";

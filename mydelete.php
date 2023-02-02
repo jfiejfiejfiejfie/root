@@ -1,7 +1,7 @@
 
 <?php
 session_start();
-require_once('../lib/util.php');
+
 $myURL='mydelete.php';
 $gobackURL = 'admin.php';
 require_once "db_connect.php";

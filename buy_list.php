@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../lib/util.php');
+
 if (!isset($_SESSION["loggedin"])) {
     header('Location:login.php');
 }
@@ -66,7 +66,7 @@ if (isset($_POST["kind"])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">購入されたもの</h1>
+                        <h1 class="h3 mb-0 text-gray-800">購入したもの</h1>
                         <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
                     </div>
@@ -75,7 +75,7 @@ if (isset($_POST["kind"])) {
                         <?php
                         try {
                             $id = $_SESSION["id"];
-                            $sql = "SELECT * FROM list WHERE user_id=$id and loan=1";
+                            $sql = "SELECT * FROM list WHERE buy_user_id=$id";
                             $stm = $pdo->prepare($sql);
                             $stm->execute();
                             $result = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -93,7 +93,11 @@ if (isset($_POST["kind"])) {
                                 echo '<td>', $row['created_at'], '</td>';
                                 echo '<td>', $row['item'], '</td>';
                                 echo '<td>', $row['kind'], '</td>';
-                                echo '<td>', number_format($row['score']), '点</td>';
+                                echo '<td>', number_format($row['score']), '点';
+                                if($row["score"]==0){
+                                    echo '<br><div style="color:red">※評価をつけてください！</div>';
+                                }
+                                echo '</td>';
                                 echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="200" width="200" src="image.php?id=', $row['id'], '"></a></td>';
                                 echo '</tr>';
                             }

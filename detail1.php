@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../lib/util.php');
+
 $myURL='detail1.php';
 $gobackURL = "my_edit.php?id={$_POST["id"]}";
 ?>

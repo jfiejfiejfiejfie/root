@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../lib/util.php');
+
 if (!isset($_SESSION["loggedin"])) {
     header('Location:login.php');
 }

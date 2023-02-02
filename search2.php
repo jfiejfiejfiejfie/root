@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../lib/util.php');
+
 $gobackURL = "searchform.php";
 
 // 文字エンコードの検証

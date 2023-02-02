@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../lib/util.php');
+
 $myURL='detail2.php';
 $gobackURL = "room_member.php?id={$_POST["id"]}";
 ?>
