@@ -31,10 +31,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // バリデーション
     $errors = validation($datas);
+    $email = $datas["email"];
     //エラーがなかったらDBへの新規登録を実行
     if (empty($errors)) {
-        $pass = password_hash($datas['password'], PASSWORD_DEFAULT);
-        $email = $datas["email"];
+        $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
         $sql = "SELECT * FROM users";
         $stm = $pdo->prepare($sql);
         $stm->execute();
@@ -42,22 +43,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($result as $row) {
             if ($email == $row["email"]) {
                 $update_id = $row["id"];
+                // require_once('test.php');
             }
         }
-        // $pdo->beginTransaction(); //トランザクション処理 
-        try {
-            $sql = "UPDATE users SET password=:pass WHERE id=:id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(':pass', $pass, PDO::PARAM_STR);
-            $stmt->bindValue(':id', $update_id, PDO::PARAM_STR);
-            $stmt->execute();
-            header("Location:login.php");
-            // $pdo->commit();
-        } catch (Exception $e) {
-            echo 'エラーがありました。';
-            echo $e->getMessage();
-            exit();
+        if (isset($update_id)) {
+            require_once('test.php');
         }
+        // $pdo->beginTransaction(); //トランザクション処理 
+        // try {
+        // $sql = "UPDATE users SET password=:pass WHERE id=:id";
+        // $stmt = $pdo->prepare($sql);
+        // $stmt->bindValue(':pass', $pass, PDO::PARAM_STR);
+        // $stmt->bindValue(':id', $update_id, PDO::PARAM_STR);
+        // $stmt->execute();
+        // header("Location:login.php");
+        // $pdo->commit();
+        // }
     }
 }
 ?>
@@ -123,17 +124,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <input type="text" disabled name="email" placeholder=""
                                             class="form-control form-control-user" value="<?php if (isset($_GET['email'])) {
                                                 echo h($_GET['email']);
-                                            } 
-                                            if(isset($_POST["email"])) {
-                                                echo h($_POST['email']);
-                                            } ?> " >
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-12">
-                                    <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
-                                    <input type="submit" class="btn btn-primary btn-user btn-block" value="変更">
+                                            } else {
+                                                echo h($datas['email']);
+                                            } ?> ">
                                     </div>
-                                </div>
+                                    <div class="form-group">
+                                        <div class="col-12">
+                                            <input type="hidden" name="token"
+                                                value="<?php echo h($_SESSION['token']); ?>">
+                                            <input type="submit" class="btn btn-primary btn-user btn-block" value="変更">
+                                        </div>
+                                    </div>
                             </form>
                         </div>
                     </div>

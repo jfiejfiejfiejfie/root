@@ -119,9 +119,9 @@ if($row["admin"]==0){
             </label>
           </li>
           <li>
-            <label>金:
-              <input type="text" name="money" placeholder="money"
-                value="<?php echo htmlspecialchars($row["money"]); ?>" required>
+            <label>評価:
+              <input type="text" name="evaluation" placeholder="evaluation"
+                value="<?php echo htmlspecialchars($row["evaluation"]); ?>" required>
             </label>
           </li>
           <li><input type="submit" value="変更する"></li>

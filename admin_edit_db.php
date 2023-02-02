@@ -72,17 +72,17 @@ if($row["admin"]==0){
     $age = $_POST["age"];
     $sex = $_POST["sex"];
     $comment = $_POST["comment"];
-    $money = $_POST["money"];
+    $evaluation = $_POST["evaluation"];
     try {
 
-      $sql = "UPDATE users SET user_id=:user_id,name=:name ,age = :age,sex = :sex,comment = :comment,money=:money where id = $id";
+      $sql = "UPDATE users SET user_id=:user_id,name=:name ,age = :age,sex = :sex,comment = :comment,evaluation=:evaluation where id = $id";
       $stm = $pdo->prepare($sql);
       $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
       $stm->bindValue(':name', $name, PDO::PARAM_STR);
       $stm->bindValue(':age', $age, PDO::PARAM_STR);
       $stm->bindValue(':sex', $sex, PDO::PARAM_STR);
       $stm->bindValue(':comment', $comment, PDO::PARAM_STR);
-      $stm->bindValue(':money', $money, PDO::PARAM_STR);
+      $stm->bindValue(':evaluation', $evaluation, PDO::PARAM_STR);
       if ($stm->execute()) {
         if (isset($_FILES["image"]) && $_FILES["image"]["tmp_name"] != "") {
           $upfile = $_FILES["image"]["tmp_name"];

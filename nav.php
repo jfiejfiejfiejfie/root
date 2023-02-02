@@ -169,7 +169,7 @@
         <?php
 
         ?>
-        <a class="dropdown-item d-flex align-items-center" href="buy_list.php">
+        <a class="dropdown-item d-flex align-items-center" href="bought_list.php">
           <div class="mr-3">
             <div class="icon-circle bg-success">
               <i class="fas fa-donate text-white"></i>
