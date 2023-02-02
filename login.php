@@ -134,13 +134,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 <?php echo h($errors['password']); ?>
                                             </span>
                                         </div>
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" id="customCheck">
                                                 <label class="custom-control-label" for="customCheck">Remember
                                                     Me</label>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="form-group">
                                             <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
                                             <input type="submit" class="btn btn-primary btn btn-primary btn-user btn-block" value="ログイン">
@@ -162,6 +162,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </div> -->
                                     <div class="text-center">
                                         <a class="small" href="email.php">アカウントをお持ちでない方はこちら</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="passchange.php">パスワードを忘れた場合はこちら</a>
                                     </div>
                                 </div>
                             </div>
