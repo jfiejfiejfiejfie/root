@@ -113,22 +113,6 @@ require_once "db_connect.php";
 
                 </ul>
               </form>
-              <form method="POST" action="search_money.php" class="form-inline">
-                <ul>
-                  <h1>金額検索</h1>
-                  <label>金額で検索します:<br>
-                    <div class="input-group">
-                      <input type="number_format" class="form-control form-control-user" name="money1" placeholder="以上">
-                      <input type="number_format" class="form-control form-control-user" name="money2" placeholder="以下">
-                      <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">
-                          <i class="fas fa-search fa-sm"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </label>
-                </ul>
-              </form>
               <form method="POST" action="search_user.php" class="form-inline">
                 <ul>
                   <h1>ユーザ検索</h1>
