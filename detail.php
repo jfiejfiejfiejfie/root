@@ -12,22 +12,7 @@ require_once('detail_chat.php');
 ?>
 <?php
 if (isset($_SESSION["id"])) {
-  // try {
-  //   $id = $_SESSION["id"];
-  //   $sql = "SELECT * FROM users WHERE id =:id";
-  //   $stm = $pdo->prepare($sql);
-  //   $stm->bindValue(':id', $id, PDO::PARAM_STR);
-  //   $stm->execute();
-  //   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-  //   foreach ($result as $row) {
-  //   }
-  //   // $money = $row["money"];
-  //   // $point = $row["point"];
-  // } catch (Exception $e) {
-  //   echo 'エラーがありました。';
-  //   echo $e->getMessage();
-  //   exit();
-  // }
+
   ?>
   <?php
   $sql = "SELECT * FROM list WHERE id =$list_id";
@@ -301,15 +286,7 @@ if (isset($_SESSION["id"])) {
                       } else if ($checked == 0) {
                         echo "<a href='detail.php?id={$_GET['id']}&reservation=1' class='btn btn-danger'>予約中</a>";
                       } else if ($checked == 1) {
-                        $sql = "SELECT * FROM users WHERE id=" . $_SESSION["id"];
-                        $stm = $pdo->prepare($sql);
-                        $stm->execute();
-                        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                        foreach ($result as $row) {
-                          // echo '￥' . $row["money"] . '<br>' . $row["point"] . 'ポイント<br>';
-                          echo "<a href='buy.php?id={$_GET['id']}&user_id={$row["id"]}' class='btn btn-danger'>購入する</a>";
-                          // echo "<a href='buyp.php?id={$_GET['id']}&user_id={$row["id"]}' class='btn btn-danger'>ポイントで購入する</a>";
-                        }
+                          echo "<a href='buy.php?id={$_GET['id']}&user_id={$_SESSION["id"]}' class='btn btn-danger'>購入する</a>";
                       } else if ($checked == 2) {
                         echo "<a class='btn btn-danger'>予約は終了しました。</a>";
                       }

@@ -45,6 +45,8 @@ if (isset($_GET["id"])) {
     echo "<a href=", $gobackURL, ">戻る</a><br>";
     exit();
   }
+}else{
+  header('Location:404.php');
 }
 ?>
 <!DOCTYPE html>
@@ -161,6 +163,13 @@ if (isset($_GET["id"])) {
               //   exit();
               // }
               try {
+                $sql = "SELECT * FROM list WHERE id=$id";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach($result as $row){
+                  $others_id = $row["user_id"];
+                }
                 $user_id = $_GET["user_id"];
                 $text = "<a href='detail.php?id=" . $id . "'>" . $item . "</a>を購入しました。
             ※これは自動送信です。";
@@ -168,10 +177,10 @@ if (isset($_GET["id"])) {
                 $date = date('Y-m-d H:i:s');
                 $sql = "INSERT INTO user_chat (user_id,created_at,text,others_id) VALUES(:user_id,:date,:text,:others_id)";
                 $stm = $pdo->prepare($sql);
-                $stm->bindValue(':user_id', $data, PDO::PARAM_STR);
+                $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
                 $stm->bindValue(':date', $date, PDO::PARAM_STR);
                 $stm->bindValue(':text', $text, PDO::PARAM_STR);
-                $stm->bindValue(':others_id', $user_id, PDO::PARAM_STR);
+                $stm->bindValue(':others_id', $others_id, PDO::PARAM_STR);
                 $stm->execute();
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
               } catch (Exception $e) {
