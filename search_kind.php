@@ -136,12 +136,12 @@ $option = "&kind_name=$kind_name";
                   require_once('block_check.php');
                   if ($block_count != 0) {
                     $block_list = implode(",", $block_list);
-                    $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment,list.money as money FROM list,users WHERE users.id = list.user_id && kind LIKE(:item) and loan=0 and user_id not in ($block_list)";
+                    $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment FROM list,users WHERE users.id = list.user_id && kind LIKE(:item) and loan=0 and user_id not in ($block_list)";
                   } else {
-                    $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment,list.money as money FROM list,users WHERE users.id = list.user_id && kind LIKE(:item) and loan=0";
+                    $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment FROM list,users WHERE users.id = list.user_id && kind LIKE(:item) and loan=0";
                   }
                 } else {
-                  $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment,list.money as money FROM list,users WHERE users.id = list.user_id && kind LIKE(:item) and loan=0";
+                  $sql = "SELECT item,kind,list.user_id,users.name,list.id as list_id,list.comment as comment FROM list,users WHERE users.id = list.user_id && kind LIKE(:item) and loan=0";
                 }
                 $stm = $pdo->prepare($sql);
                 $stm->bindValue(':item', $kind_name, PDO::PARAM_STR);
@@ -157,7 +157,7 @@ $option = "&kind_name=$kind_name";
                   echo '<th>', '貸出物', '</th>';
                   echo '<th>', 'ジャンル', '</th>';
                   echo '<th>', 'コメント', '</th>';
-                  echo '<th>', '金額', '</th>';
+                  // echo '<th>', '金額', '</th>';
                   echo '<th>', '画像', '</th>';
                   echo '</tr></thead>';
                   echo '<tbody>';
@@ -175,7 +175,7 @@ $option = "&kind_name=$kind_name";
                       $text = $title . '･･･';
                     }
                     echo '<td class="col-4">', $text, '</td>';
-                    echo '<td>￥', number_format($row['money']), '</td>';
+                    // echo '<td>￥', number_format($row['money']), '</td>';
                     echo "<td><a href=detail.php?id={$row["list_id"]}>", '<img height="200" width="200" src="image.php?id=', $row['list_id'], '"></a></td>';
                     echo '</tr>';
                   }
