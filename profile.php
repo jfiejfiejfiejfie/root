@@ -160,18 +160,18 @@ $option = "&id=$id";
                     echo '<hr>コメント<div class="col-12"></div><font size="10">', htmlspecialchars($row["comment"]), '</font><div class="col-12"></div>';
                     echo '<hr>評価<div class="col-12"></div><font size="10">';
                     $score = $row["evaluation"];
-                    if($score>9500){
+                    if($score>=9500){
                       echo '<div class="rainbow">S+</div>';
-                    }else if($score>7700){
+                    }else if($score>=7700){
                       echo '<div style="color:gold">S</div>';
                     }
-                    else if($score>5800){
+                    else if($score>=5800){
                       echo '<div style="color:red">A</div>';
                     }
-                    else if($score>3500){
+                    else if($score>=3500){
                       echo '<div style="color:blue">B</div>';
                     }
-                    else if($score>1300){
+                    else if($score>=1300){
                       echo '<div style="color:green">C</div>';
                     }
                     else{
