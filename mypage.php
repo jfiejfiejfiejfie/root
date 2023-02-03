@@ -61,28 +61,28 @@ $myURL = 'mypage.php';
           $stm->execute();
           $result = $stm->fetchAll(PDO::FETCH_ASSOC);
           foreach ($result as $row) {
-            $name=$row["name"];
-            $age=$row["age"];
-            $sex=$row["sex"];
-            $email=$row["email"];
-            $check=$row["checked"];
-            $comment=$row["comment"];
-            $evaluation=$row["evaluation"];
-            $point=$row["point"];
+            $name = $row["name"];
+            $age = $row["age"];
+            $sex = $row["sex"];
+            $email = $row["email"];
+            $check = $row["checked"];
+            $comment = $row["comment"];
+            $score = $row["evaluation"];
+            $point = $row["point"];
           }
           ?>
           <div class="col-12 d-sm-flex align-items-center justify-content-between mb-2">
             <h1 class="col-5 h3 mb-0 text-gray-800">プロフィール</h1>
             <div class="col-7">
-            <?php
-            echo '<a href="edit.php"  class="btn btn-primary col-3">編集する <div class="fa fa-cog"></div></a>';
-            echo '<a href="blocklist.php" class="btn btn-primary col-3">ブロックリスト <div class="fa fa-address-book"></div></a>';
-            echo '<a href="reservation_list.php" class="btn btn-primary col-3">予約された商品 <div class="fa fa-gavel"></div></a>';
-            echo '<a href="eturan.php" class="btn btn-primary col-3">閲覧履歴 <i class="fa fa-list"></i></a>';
-            if ($row["admin"] == 1) {
-              echo "<a href='admin.php' class='btn btn-danger col-12'>管理者ページに行く <i class='fa fa-user-secret'></i></a>";
-            }
-            ?>
+              <?php
+              echo '<a href="edit.php"  class="btn btn-primary col-3">編集する <div class="fa fa-cog"></div></a>';
+              echo '<a href="blocklist.php" class="btn btn-primary col-3">ブロックリスト <div class="fa fa-address-book"></div></a>';
+              echo '<a href="reservation_list.php" class="btn btn-primary col-3">予約された商品 <div class="fa fa-gavel"></div></a>';
+              echo '<a href="eturan.php" class="btn btn-primary col-3">閲覧履歴 <i class="fa fa-list"></i></a>';
+              if ($row["admin"] == 1) {
+                echo "<a href='admin.php' class='btn btn-danger col-12'>管理者ページに行く <i class='fa fa-user-secret'></i></a>";
+              }
+              ?>
             </div>
           </div>
 
@@ -90,41 +90,63 @@ $myURL = 'mypage.php';
             <div class="col-5">
               <?php
               try {
-                  echo '<img class="img-profile rounded-circle" height="150" width="150" src="my_image.php?id='.$id.'"><div class="col-2"></div>';
-                  echo '<div class="col-12"></div>';
-                  echo '<font class="col-8" size="10">'.$name.'</font>';
-                  echo '<div class="col-4"></div>';
-                  echo '<font class="col-8" size="5">'.$age.'歳</font>';
-                  echo '<div class="col-4"></div>';
-                  echo '<font class="col-8" size="5">'.$sex.'</font>';
-                  echo '<div class="col-4"></div>';
-                  echo '<font class="col-8" size="5">'.$email.'</font>';
-                  echo '<hr><div class="col-12">コメント<br><font size="10">', $comment, '</font></div>';
-                  echo '<hr><div class="col-6">評価<font size="10">', number_format($evaluation), ' 点</font></div>';
-                  echo '<div class="col-6">ポイント<font size="10">', number_format($point), 'p</font></div>';
-                  //echo '<br><a href="shop_list.php"><img src="images/point.png"></a>';
-              ?>
-              <?php
-                  $sql = "SELECT * FROM followlist WHERE my_id =$id";
-                  $stm = $pdo->prepare($sql);
-                  $stm->execute();
-                  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  $sth = $pdo->query($sql);
-                  $count = $sth->rowCount();
-                  echo '<hr><div class="col-12">フォロー中<font size="5"><a href="followlist.php">';
-                  echo $count . "人</a></font>";
-              ?>
-              <?php
-                  $sql = "SELECT * FROM followlist WHERE user_id =$id";
-                  $stm = $pdo->prepare($sql);
-                  $stm->execute();
-                  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  $sth = $pdo->query($sql);
-                  $count2 = $sth->rowCount();
-                  echo 'フォロワー<font size="5"><a href="followerlist.php">';
-                  echo $count2 . "人</a></font></div>";
-              ?>
-              <?php
+                echo '<img class="img-profile rounded-circle" height="150" width="150" src="my_image.php?id=' . $id . '"><div class="col-2"></div>';
+                echo '<div class="col-12"></div>';
+                echo '<font class="col-8" size="10">' . $name . '</font>';
+                echo '<div class="col-4"></div>';
+                echo '<font class="col-8" size="5">' . $age . '歳</font>';
+                echo '<div class="col-4"></div>';
+                echo '<font class="col-8" size="5">' . $sex . '</font>';
+                echo '<div class="col-4"></div>';
+                echo '<font class="col-8" size="5">' . $email . '</font>';
+                echo '<hr><div class="col-12">コメント<br><font size="10">', $comment, '</font></div>';
+                echo '<hr><div class="col-6">評価<font size="10">';
+                if ($score >= 9500) {
+                  echo '<div class="rainbow">S+</div>';
+                } else if ($score >= 7700) {
+                  echo '<div style="color:gold">S</div>';
+                  $next = 9500;
+                } else if ($score >= 5800) {
+                  echo '<div style="color:red">A</div>';
+                  $next = 7700;
+                } else if ($score >= 3500) {
+                  echo '<div style="color:blue">B</div>';
+                  $next = 5800;
+                } else if ($score >= 1300) {
+                  echo '<div style="color:green">C</div>';
+                  $next = 3500;
+                } else {
+                  echo '<div style="color:black">D</div>';
+                  $next = 1300;
+                }
+                echo number_format($score), ' 点</font></div>';
+                if (isset($next)) {
+                  echo '次のクラスまで残り' . ($next - $score) . '点';
+                }
+                echo '<div class="col-6">ポイント<font size="10">', number_format($point), 'p</font></div>';
+                //echo '<br><a href="shop_list.php"><img src="images/point.png"></a>';
+                ?>
+                <?php
+                $sql = "SELECT * FROM followlist WHERE my_id =$id";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                $sth = $pdo->query($sql);
+                $count = $sth->rowCount();
+                echo '<hr><div class="col-12">フォロー中<font size="5"><a href="followlist.php">';
+                echo $count . "人</a></font>";
+                ?>
+                <?php
+                $sql = "SELECT * FROM followlist WHERE user_id =$id";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                $sth = $pdo->query($sql);
+                $count2 = $sth->rowCount();
+                echo 'フォロワー<font size="5"><a href="followerlist.php">';
+                echo $count2 . "人</a></font></div>";
+                ?>
+                <?php
               } catch (Exception $e) {
                 echo 'エラーがありました。';
                 echo $e->getMessage();
@@ -166,7 +188,7 @@ $myURL = 'mypage.php';
                 exit();
               }
               ?>
-            
+
             </div>
 
           </div>
