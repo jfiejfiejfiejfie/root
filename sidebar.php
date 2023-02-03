@@ -75,6 +75,13 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
+        <a class="nav-link" href="ranking.php">
+        <i class="fa fa-road" aria-hidden="true"></i>
+            <span>ランキング</span></a>
+    </li>
+
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
         <a class="nav-link" href="user_chat_list.php">
             <i class="fas fa-fw fa-comment"></i>
             <span>チャット</span></a>
