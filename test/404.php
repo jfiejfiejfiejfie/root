@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["loggedin"])) {
-  header('Location:login.php');
-}
+// if (!isset($_SESSION["loggedin"])) {
+//   header('Location:login.php');
+// }
 // if ("location:login.php")
 //     ;
 require_once "db_connect.php";
