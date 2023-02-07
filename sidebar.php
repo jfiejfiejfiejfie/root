@@ -65,6 +65,13 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
             </div>
         </div>
     </li>
+        
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" href="add_db.php">
+            <i class="fas fa-fw fa-download"></i>
+            <span>商品登録</span></a>
+    </li>
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
@@ -76,7 +83,7 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
     <!-- Nav Item - Charts -->
     <li class="nav-item">
         <a class="nav-link" href="ranking.php">
-        <i class="fa fa-road" aria-hidden="true"></i>
+            <i class="fa fa-road" aria-hidden="true"></i>
             <span>ランキング</span></a>
     </li>
 
@@ -94,12 +101,7 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
             <span>チャットルーム</span></a>
     </li>
 
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="add_db.php">
-            <i class="fas fa-fw fa-download"></i>
-            <span>商品登録</span></a>
-    </li>
+
 
     <!-- Nav Item - Tables -->
     <!-- <li class="nav-item">
