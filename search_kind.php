@@ -108,7 +108,11 @@ $option = "&kind_name=$kind_name";
                       exit();
                     }
                     foreach ($kind as $row) {
-                      echo '<option value="', $row["id"], '">', $row["name"], "</option>";
+                      if ($row["id"] == $kind_id) {
+                        echo '<option value="', $row["id"], '" selected>', $row["name"], "</option>";
+                      } else {
+                        echo '<option value="', $row["id"], '">', $row["name"], "</option>";
+                      }
                     }
                     ?>
                   </select>

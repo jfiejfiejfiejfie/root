@@ -251,8 +251,9 @@ if (isset($_SESSION["id"])) {
                     echo '<form method="POST" action="detail.php?id=' . $row["list_id"] . '&good=1">';
                     echo "<button type='submit'><div class='w-100 mw-100'><i class='fa fa-thumbs-up' aria-hidden='true'>$count</i></div></button><br>";
                     echo '</form>';
+                    echo '<a class="btn btn-success col-3" data-toggle="modal" data-target="#chat">チャット</div>';
                   }
-                  echo '<a class="btn btn-success col-3" data-toggle="modal" data-target="#chat">チャット</div>';
+                  
                   if ($_SESSION['id'] === $row["user_id"]) {
                     if ($buy_user_id === 0) {
                       echo "<a href='my_edit.php?id={$row["list_id"]}' class='btn btn-primary col-2'>編集する</a>";
