@@ -20,7 +20,7 @@ $stm = $pdo->prepare($sql);
 $stm->execute();
 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
-  $users_name=$row["name"];
+  $user_ID=$row["user_id"];
   $user_email=$row["email"];
 }
 ?>
@@ -83,7 +83,7 @@ if (isset($_POST['submitted'])) {
 
     //メール本文の組み立て
     $mail_body = 'コンタクトページからのお問い合わせ' . "\n\n";
-    $mail_body .= "ユーザ名： " . h($name) . "\n";
+    $mail_body .= "ユーザID： " . h($name) . "\n";
     $mail_body .= "Email： " . h($email) . "\n";
     $mail_body .= "お電話番号： " . h($tel) . "\n\n";
     $mail_body .= "＜お問い合わせ内容＞" . "\n" . h($body);
@@ -207,14 +207,14 @@ if (isset($_POST['submitted'])) {
             <p>以下のフォームからお問い合わせください。</p>
             <div class="col-12">
               <form id="form" method="post" enctype="multipart/form-data">
-                <label for="name">ユーザ名
+                <label for="name">ユーザID
                   <span class="error-php">
                     <?php if (isset($error['name']))
                       echo h($error['name']); ?>
                   </span>
                 </label>
                 <input type="text" class="form-control form-control-user" readonly id="name" name="name"
-                  placeholder="氏名" required value="<?php echo h($users_name); ?>">
+                  placeholder="氏名" required value="<?php echo h($user_ID); ?>">
 
 
                 <label for="email">Email
