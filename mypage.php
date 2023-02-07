@@ -77,7 +77,7 @@ $myURL = 'mypage.php';
               <?php
               echo '<a href="edit.php"  class="btn btn-primary col-3">編集する <div class="fa fa-cog"></div></a>';
               echo '<a href="blocklist.php" class="btn btn-primary col-3">ブロックリスト <div class="fa fa-address-book"></div></a>';
-              echo '<a href="reservation_list.php" class="btn btn-primary col-3">予約された商品 <div class="fa fa-gavel"></div></a>';
+              echo '<a href="reservation_list.php" class="btn btn-primary col-3">予約されたレンタル品 <div class="fa fa-gavel"></div></a>';
               echo '<a href="eturan.php" class="btn btn-primary col-3">閲覧履歴 <i class="fa fa-list"></i></a>';
               if ($row["admin"] == 1) {
                 echo "<a href='admin.php' class='btn btn-danger col-12'>管理者ページに行く <i class='fa fa-user-secret'></i></a>";

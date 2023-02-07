@@ -68,7 +68,7 @@ if (!isset($_SESSION["check"])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">出品商品</h1>
+                        <h1 class="h3 mb-0 text-gray-800">出品レンタル品</h1>
                         <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
                     </div>
@@ -198,7 +198,7 @@ if (!isset($_SESSION["check"])) {
                                 }
                                 echo '<div class="mask">';
                                 echo '</div></div></a></td></div>';
-                                echo '商品名:', $row["item"];
+                                echo 'レンタル品名:', $row["item"];
                                 // echo '<br>金額:￥', number_format($row["money"]);
                                 echo '<br>いいね:', $row["likes_count"];
                                 echo '

@@ -196,7 +196,7 @@ if (isset($_SESSION["id"])) {
                       echo '<td>', $row["time"], '</td>';
                       echo '</tr>';
                       echo '<tr>';
-                      echo '<th>商品名</th>';
+                      echo '<th>レンタル品名</th>';
                       echo '<td>', $row["item"], '</td>';
                       echo '</tr>';
                       echo '<tr>';
@@ -204,7 +204,7 @@ if (isset($_SESSION["id"])) {
                       echo '<td><a href="search_kind.php?kind_name=', $row["kind"], '">', ($row['kind']), '</a></td>';
                       echo '</tr>';
                       echo '<tr>';
-                      echo '<th>商品の状態</th>';
+                      echo '<th>レンタル品の状態</th>';
                       echo '<td>', $row["state"], '</td>';
                       echo '</tr>';
                       // echo '<tr>';
@@ -293,7 +293,7 @@ if (isset($_SESSION["id"])) {
                         echo "<a class='btn btn-danger'>予約は終了しました。</a>";
                       }
                     } else {
-                      echo "<div style='color:red;'>※この商品は売り切れのため、チャットをすることはできません。</div><br>";
+                      echo "<div style='color:red;'>※このレンタル品は売り切れのため、チャットをすることはできません。</div><br>";
                       echo "<a href='#' class='btn btn-danger'>売り切れ</a>";
                       echo '<div class="col-12"></div>';
                       if ($buy_user_id === $_SESSION["id"]) {

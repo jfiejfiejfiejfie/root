@@ -157,7 +157,7 @@
                         </select>
                     </label>
 
-                    <br>商品の状態:
+                    <br>レンタル品の状態:
                   <select name="state" class="form-control form-control-user">
                     <?php
                     try {

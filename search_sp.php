@@ -66,7 +66,7 @@ require_once "db_connect.php";
               <form method="POST" action="search1.php" class="form-inline">
 
                 <ul>
-                  <h1>商品検索</h1>
+                  <h1>レンタル品検索</h1>
                   <label>名前を検索します（部分一致）：<br>
                     <div class="input-group">
                       <input type="text" name="item" class="form-control form-control-user" placeholder="名前を入れてください。">

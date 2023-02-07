@@ -196,7 +196,7 @@ if (isset($_POST['submitted'])) {
 		<div id="footer_nav">
 			<ul>
 				<li class="current"><a href="index.php">HOME</a></li>
-				<li><a href="add_db.php">商品登録</a></li>
+				<li><a href="add_db.php">レンタル品登録</a></li>
 				<li><a href="user_chat_list.php">一覧</a></li>
 				<li><a href="mypage.php">マイページ</a></li>
 				<li><a href="register.php">アカウント登録</a></li>

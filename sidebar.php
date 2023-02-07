@@ -70,7 +70,7 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
     <li class="nav-item">
         <a class="nav-link" href="add_db.php">
             <i class="fas fa-fw fa-download"></i>
-            <span>商品登録</span></a>
+            <span>レンタル品登録</span></a>
     </li>
 
     <!-- Nav Item - Charts -->

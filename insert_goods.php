@@ -24,10 +24,10 @@ if (!cken($_POST)) {
   // 簡単なエラー処理
   $errors = [];
   if (!isset($_POST["id"]) || ($_POST["id"] === "")) {
-    $errors[] = "商品IDが空です。";
+    $errors[] = "レンタル品IDが空です。";
   }
   if (!isset($_POST["name"]) || ($_POST["name"] === "")) {
-    $errors[] = "商品名が空です。";
+    $errors[] = "レンタル品名が空です。";
   }
   if (!isset($_POST["brand"]) || ($_POST["brand"] === "")) {
     $errors[] = "ブランドが空です。";
@@ -89,7 +89,7 @@ if (!cken($_POST)) {
     // トランザクション処理を完了する
     $pdo->commit();
     // 結果報告
-    echo "商品データ／在庫データを追加しました。";
+    echo "レンタル品データ／在庫データを追加しました。";
   } catch (Exception $e) {
     // エラーがあったならば元の状態に戻す
     $pdo->rollBack();

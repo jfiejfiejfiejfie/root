@@ -151,7 +151,7 @@ if (isset($_GET["check"])) {
               $stm = $pdo->prepare($sql);
               $stm->execute();
               $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              echo "<h2>この商品が「いいね」されました。</h2>";
+              echo "<h2>このレンタル品が「いいね」されました。</h2>";
               echo '<table class="table table-striped">';
               echo '<thead><tr>';
               echo '<th>', '貸出物', '</th>';
@@ -200,7 +200,7 @@ if (isset($_GET["check"])) {
               $stm->bindValue(':id', $id, PDO::PARAM_STR);
               $stm->execute();
               $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              echo "<h2>この商品が「レンタル」されました。</h2>";
+              echo "<h2>このレンタル品が「レンタル」されました。</h2>";
               echo '<table class="table table-striped">';
               echo '<thead><tr>';
               echo '<th>', '掲載日', '</th>';
@@ -279,7 +279,7 @@ if (isset($_GET["check"])) {
               // $stm->bindValue(':id',$id,PDO::PARAM_STR);
               $stm->execute();
               $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              echo "<h2>この商品に「チャット」が届きました。</h2>";
+              echo "<h2>このレンタル品に「チャット」が届きました。</h2>";
               echo '<table class="table table-striped">';
               echo '<thead><tr>';
               echo '<th>', '時間', '</th>';

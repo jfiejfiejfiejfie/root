@@ -74,14 +74,14 @@ $option = "&item=$item";
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">商品検索</h1>
+            <h1 class="h3 mb-0 text-gray-800">レンタル品検索</h1>
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
 
           <div class="row">
             <form method="POST" action="search1.php" class="form-inline">
-              <!-- <h1>商品検索</h1> -->
+              <!-- <h1>レンタル品検索</h1> -->
               <label>名前を検索します（部分一致）：<br>
                 <div class="input-group">
                   <input type="text" name="item" class="form-control form-control-user" placeholder="名前を入れてください。">

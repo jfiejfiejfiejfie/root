@@ -72,7 +72,7 @@ try{
 			<div id="menu_s">
 				<div>
 				<div><a href="index.php"><img src="images/home.png" alt="最新情報" style="width:70px" /><span>HOME</span></a></div>
-				<div><a href="add_db.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>商品登録</span></span></a></div>
+				<div><a href="add_db.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>レンタル品登録</span></span></a></div>
 				<div><a href="search_sp.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>検索</span></span></a></div>
 				<div><a href="user_chat_list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1" alt="掲示板" style="width:70px" /><span>一覧</span></a></div>
 =======
@@ -81,7 +81,7 @@ try{
 			<div id="menu_s">
 				<div>
 				<div><a href="all.php"><img src="images/home.png" alt="最新情報" style="width:70px" /><span>HOME</span></a></div>
-				<div><a href="add_db.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>商品登録</span></span></a></div>
+				<div><a href="add_db.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>レンタル品登録</span></span></a></div>
 				<div><a href="search_sp.php"><img src="images/register.png" alt="ツール" style="width:70px" /><span>検索</span></span></a></div>
 				<div><a href="list.php"><img src="https://cdn08.net/dqwalk/data/img0/img2_5.png?6e1" alt="掲示板" style="width:70px" /><span>一覧</span></a></div>
 >>>>>>> root/master
@@ -126,11 +126,11 @@ try{
     <ul>
 <<<<<<< HEAD
         <li class="current"><a href="index.php">HOME</a></li>
-        <li><a href="add_db.php">商品登録</a></li>
+        <li><a href="add_db.php">レンタル品登録</a></li>
         <li><a href="user_chat_list.php">一覧</a></li>
 =======
         <li class="current"><a href="all.php">HOME</a></li>
-        <li><a href="add_db.php">商品登録</a></li>
+        <li><a href="add_db.php">レンタル品登録</a></li>
         <li><a href="list.php">一覧</a></li>
 >>>>>>> root/master
         <li><a href="mypage.php">マイページ</a></li>

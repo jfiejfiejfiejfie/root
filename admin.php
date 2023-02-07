@@ -67,7 +67,7 @@ if ($row["admin"] == 0) {
 
           <div class="row">
             <?php
-            echo "<h1>商品の削除</h1><div class='col-12'></div>";
+            echo "<h1>レンタル品の削除</h1><div class='col-12'></div>";
             $sql = "SELECT * FROM list";
             $stm = $pdo->prepare($sql);
             $stm->execute();
@@ -77,7 +77,7 @@ if ($row["admin"] == 0) {
               echo "<table>";
               echo "<tr>";
               echo '<div class="col-12"></div>';
-              echo $row["id"] . '<br>商品名:';
+              echo $row["id"] . '<br>レンタル品名:';
               echo $row["item"] . '<br><div class="col-12"></div>';
               echo '<div class="sample5"><a href=detail.php?', "id={$row["id"]}>";
               echo '<img id="parent" src="image.php?id=', $row["id"], ' alt="" height="155" width="155"/>';
