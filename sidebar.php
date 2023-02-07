@@ -3,133 +3,160 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
     header('Location:login.php');
 }
 ?>
+
+<head>
+    <style>
+        .wrap {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+        }
+
+        .main_content {
+            background: #e0efff;
+        }
+
+        .side {
+            background: #e0ffe0;
+        }
+
+        .side_content {
+            position: sticky;
+            top: 0px;
+            background: #ffe0ff;
+        }
+    </style>
+</head>
+<div class="side">
+        <div class="side_content">
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion sticky-top" id="accordionSidebar">
 
-    <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-fw fa-comments"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">OSAKA</div>
-    </a>
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-fw fa-comments"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">OSAKA</div>
+            </a>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
 
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
-        <a class="nav-link" href="mypage.php">
-            <i class="fa fa-user-circle" aria-hidden="true"></i>
-            <span>マイページ</span></a>
-    </li>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="mypage.php">
+                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                    <span>マイページ</span></a>
+            </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+            <!-- Divider -->
+            <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        貸し借り情報
-    </div>
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                貸し借り情報
+            </div>
 
-    <!-- Divider -->
-    <!-- <hr class="sidebar-divider"> -->
+            <!-- Divider -->
+            <!-- <hr class="sidebar-divider"> -->
 
-    <!-- Heading -->
-    <!-- <div class="sidebar-heading">
+            <!-- Heading -->
+            <!-- <div class="sidebar-heading">
                 Addons
             </div> -->
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link" href="./">
-            <i class="fa fa-home" aria-hidden="true"></i>
-            <span>ホーム</span></a>
-    </li>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="./">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    <span>ホーム</span></a>
+            </li>
 
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
-            aria-controls="collapsePages">
-            <i class="fas fa-fw fa-user"></i>
-            <span>ユーザー</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="notice.php">通知一覧</a>
-                <a class="collapse-item" href="buy_list.php">レンタルしたもの</a>
-                <a class="collapse-item" href="bought_list.php">レンタルされたもの</a>
-                <a class="collapse-item" href="reservation_list.php">予約されたもの</a>
-                <a class="collapse-item" href="good_list.php">いいね一覧</a>
-                <a class="collapse-item" href="eturan.php">閲覧履歴</a>
-                <a class="collapse-item" href="admin.php">管理者ページ</a>
-                <div class="collapse-divider"></div>
-            </div>
-        </div>
-    </li>
-        
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="add_db.php">
-            <i class="fas fa-fw fa-download"></i>
-            <span>レンタル品登録</span></a>
-    </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>ユーザー</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="notice.php">通知一覧</a>
+                        <a class="collapse-item" href="buy_list.php">レンタルしたもの</a>
+                        <a class="collapse-item" href="bought_list.php">レンタルされたもの</a>
+                        <a class="collapse-item" href="reservation_list.php">予約されたもの</a>
+                        <a class="collapse-item" href="good_list.php">いいね一覧</a>
+                        <a class="collapse-item" href="eturan.php">閲覧履歴</a>
+                        <a class="collapse-item" href="admin.php">管理者ページ</a>
+                        <div class="collapse-divider"></div>
+                    </div>
+                </div>
+            </li>
 
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="search_sp.php">
-            <i class="fas fa-fw fa-search"></i>
-            <span>検索</span></a>
-    </li>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="add_db.php">
+                    <i class="fas fa-fw fa-download"></i>
+                    <span>レンタル品登録</span></a>
+            </li>
 
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="ranking.php">
-            <i class="fa fa-road" aria-hidden="true"></i>
-            <span>ランキング</span></a>
-    </li>
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="search_sp.php">
+                    <i class="fas fa-fw fa-search"></i>
+                    <span>検索</span></a>
+            </li>
 
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="user_chat_list.php">
-            <i class="fas fa-fw fa-comment"></i>
-            <span>チャット</span></a>
-    </li>
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="ranking.php">
+                    <i class="fa fa-road" aria-hidden="true"></i>
+                    <span>ランキング</span></a>
+            </li>
 
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="chat_room.php">
-            <i class="fas fa-fw fa-comments"></i>
-            <span>チャットルーム</span></a>
-    </li>
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="user_chat_list.php">
+                    <i class="fas fa-fw fa-comment"></i>
+                    <span>チャット</span></a>
+            </li>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="chat_room.php">
+                    <i class="fas fa-fw fa-comments"></i>
+                    <span>チャットルーム</span></a>
+            </li>
 
 
 
-    <!-- Nav Item - Tables -->
-    <!-- <li class="nav-item">
+            <!-- Nav Item - Tables -->
+            <!-- <li class="nav-item">
         <a class="nav-link" href="map.php">
             <i class="fas fa-fw fa-map"></i>
             <span>マップ</span></a>
     </li> -->
 
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="keijiban.php">
-            <i class="fas fa-fw fa-newspaper"></i>
-            <span>掲示板</span></a>
-    </li>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="keijiban.php">
+                    <i class="fas fa-fw fa-newspaper"></i>
+                    <span>掲示板</span></a>
+            </li>
 
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="contact.php">
-            <i class="fas fa-fw fa-envelope"></i>
-            <span>お問い合わせ</span></a>
-    </li>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="contact.php">
+                    <i class="fas fa-fw fa-envelope"></i>
+                    <span>お問い合わせ</span></a>
+            </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
 
-    <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+            </div>
+		</div>
 
 </ul>
