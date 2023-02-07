@@ -26,7 +26,7 @@ if (isset($_GET["id"])) {
   }
   // 簡単なエラー処理
   $errors = [];
-  $memo = "購入";
+  $memo = "レンタル";
   // if ($money < $_GET["money"]) {
   //   $errors[] = "お金が足りません";
   // }
@@ -99,7 +99,7 @@ if (isset($_GET["id"])) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">購入完了</h1>
+            <h1 class="h3 mb-0 text-gray-800">レンタル完了</h1>
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
@@ -171,7 +171,7 @@ if (isset($_GET["id"])) {
                   $others_id = $row["user_id"];
                 }
                 $user_id = $_GET["user_id"];
-                $text = "<a href='detail.php?id=" . $id . "'>" . $item . "</a>を購入しました。
+                $text = "<a href='detail.php?id=" . $id . "'>" . $item . "</a>をレンタルしました。
             ※これは自動送信です。";
                 date_default_timezone_set('Asia/Tokyo');
                 $date = date('Y-m-d H:i:s');
@@ -190,7 +190,7 @@ if (isset($_GET["id"])) {
               }
               // header('Location:buy.php');
             } else {
-              echo "<h1>購入しました。</h1>";
+              echo "<h1>レンタルしました。</h1>";
               $gobackURL = "list.php";
             }
             // echo '<div>出品者に通知が届きました。</div>';

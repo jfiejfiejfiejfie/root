@@ -90,11 +90,11 @@
         }
         if ($buy_count > 1) {
           $buy_count -= 1;
-          $buy_name = $name2 . "、他" . $buy_count . "件が購入されました。";
+          $buy_name = $name2 . "、他" . $buy_count . "件がレンタルされました。";
         } else if ($buy_count == 1) {
-          $buy_name = $name2 . "が購入されました。";
+          $buy_name = $name2 . "がレンタルされました。";
         } else {
-          $buy_name = '最近、購入されていません。';
+          $buy_name = '最近、レンタルされていません。';
         }
         $name2 = "";
         $reservation_count = 0;
@@ -176,7 +176,7 @@
             </div>
           </div>
           <div>
-            <div class="small text-gray-500">購入されたものについて</div>
+            <div class="small text-gray-500">レンタルされたものについて</div>
             <?php echo $buy_name; ?>
           </div>
         </a>

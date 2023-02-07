@@ -28,12 +28,12 @@ if (isset($_GET["id"])) {
   }
   // 簡単なエラー処理
   $errors = [];
-  $memo = "購入";
+  $memo = "レンタル";
   if ($point < $_GET["money"]) {
     $errors[] = "ポイントが足りません";
   }
   if ($checked == 0) {
-    $errors[] = 'メール認証が完了していないため購入できません';
+    $errors[] = 'メール認証が完了していないためレンタルできません';
   }
   require_once('error.php');
   //エラーがあったとき
@@ -153,7 +153,7 @@ if (isset($_GET["id"])) {
               exit();
             }
             try {
-              $text = "<a href='detail.php?id=" . $id . "'>" . $item . "</a>を購入しました。
+              $text = "<a href='detail.php?id=" . $id . "'>" . $item . "</a>をレンタルしました。
             ※これは自動送信です。";
               date_default_timezone_set('Asia/Tokyo');
               $date = date('Y-m-d H:i:s');
@@ -172,7 +172,7 @@ if (isset($_GET["id"])) {
             }
             header('Location:buyp.php');
           } else {
-            echo "<h1>購入しました。</h1>";
+            echo "<h1>レンタルしました。</h1>";
             $gobackURL = "list.php";
           }
           ?>

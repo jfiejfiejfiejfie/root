@@ -226,7 +226,7 @@ if (isset($_SESSION["id"])) {
                       if ($row["buy_user_id"] !== 0) {
                         $buy_user_id = $row["buy_user_id"];
                         echo '<tr>';
-                        echo '<th>購入者</th>';
+                        echo '<th>レンタル者</th>';
                         echo '<td>';
                         echo "<a href='profile.php?id=$buy_user_id'><img id='image' height='100' width='100'src='my_image.php?id=$buy_user_id'></a><br>";
                         $user_id = $row["buy_user_id"];
@@ -288,7 +288,7 @@ if (isset($_SESSION["id"])) {
                       } else if ($checked == 0) {
                         echo "<a href='detail.php?id={$_GET['id']}&reservation=1' class='btn btn-danger'>予約中</a>";
                       } else if ($checked == 1) {
-                          echo "<a href='buy.php?id={$_GET['id']}&user_id={$_SESSION["id"]}' class='btn btn-danger'>購入する</a>";
+                          echo "<a href='buy.php?id={$_GET['id']}&user_id={$_SESSION["id"]}' class='btn btn-danger'>レンタルする</a>";
                       } else if ($checked == 2) {
                         echo "<a class='btn btn-danger'>予約は終了しました。</a>";
                       }

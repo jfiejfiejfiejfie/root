@@ -12,7 +12,7 @@ if (isset($_SESSION["id"])) {
             $block_list[] = $row["user_id"];
         }
     }else{
-        //購入時に使う
+        //レンタル時に使う
         $sql = "SELECT * FROM blocklist WHERE user_id =:my_id and my_id=:user_id";
         $stm = $pdo->prepare($sql);
         $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);

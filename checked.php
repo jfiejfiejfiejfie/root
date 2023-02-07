@@ -16,7 +16,7 @@ foreach ($result as $row) {
         $stm->execute();
     }
 }
-//購入を確認
+//レンタルを確認
 $sql = "SELECT * FROM list WHERE user_id=:id and loan=1 ORDER BY id DESC";
 $stm = $pdo->prepare($sql);
 $stm->bindValue(':id', $id, PDO::PARAM_STR);

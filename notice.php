@@ -200,7 +200,7 @@ if (isset($_GET["check"])) {
               $stm->bindValue(':id', $id, PDO::PARAM_STR);
               $stm->execute();
               $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-              echo "<h2>この商品が「購入」されました。</h2>";
+              echo "<h2>この商品が「レンタル」されました。</h2>";
               echo '<table class="table table-striped">';
               echo '<thead><tr>';
               echo '<th>', '掲載日', '</th>';
