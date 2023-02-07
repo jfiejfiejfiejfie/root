@@ -50,10 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mb_language("Japanese");
         mb_internal_encoding("UTF-8");
         $to = $_POST["email"];
+        $http_host = $_SERVER['HTTP_HOST'];
         // $to = "fki2166301@stu.o-hara.ac.jp"; // 送信先のアドレス
         $subject = "メール認証の件"; // 件名
         $message = "メール認証をするには以下のURLに接続してください。
-		http://172.16.31.28/root/auth.php?email=$to
+		http://".$http_host."/root/auth.php?email=$to
 		関係のない場合は削除してください。"; // 本文
         $additional_headers = ""; // ヘッダーオプション
 
