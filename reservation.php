@@ -59,8 +59,8 @@ if (isset($_GET["reservation"])) {
     $to = $email;
     // $to = "fki2166301@stu.o-hara.ac.jp"; // 送信先のアドレス
     $subject = "予約の件"; // 件名
-    $message = $user_name."さんが".$list_name."を予約しました。
-		http://172.16.31.28/root/detail.php?id=$id
+    $message = $user_name."さんが「".$list_name."」を予約しました。
+		http://172.16.31.28/root/reservation_auth.php?id=$id
 		関係のない場合は削除してください。"; // 本文
     $additional_headers = ""; // ヘッダーオプション
 
