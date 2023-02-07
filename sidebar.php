@@ -26,7 +26,7 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
         }
     </style>
 </head>
-<div class="side">
+<div class="side"style="z-index:10000">
         <div class="side_content">
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion sticky-top" id="accordionSidebar">
 
