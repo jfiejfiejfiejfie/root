@@ -2,6 +2,17 @@
 session_start();
 $myURL = 'reservation_auth.php';
 require_once "db_connect.php";
+$sql = "SELECT * FROM list WHERE id=:id";
+$stm = $pdo->prepare($sql);
+$stm->bindValue(':id', $_GET["id"], PDO::PARAM_STR);
+$stm->execute();
+$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+foreach ($result as $row) {
+  $user_id = $row["user_id"];
+}
+if ($_SESSION["id"] !== $user_id) {
+  header("Location:404.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
