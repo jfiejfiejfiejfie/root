@@ -363,7 +363,7 @@ if (isset($_SESSION["id"])) {
                 echo '</thead></table>';
                 echo '<table class="table table-striped col-8"><tbody><td>';
                 if ($chat_row["chat_image"] != "") {
-                  echo '<img id="parent" src="chat_image.php?id=', $chat_row["chat_id"], ' alt="" height="150" width="150"/>';
+                  echo '<img id="parent" src="chat_image.php?id=', $chat_row["chat_id"], '" alt="" height="150" width="150"/>';
                   // echo '</tr>';
                   // echo '<tr>';
                 }
