@@ -73,51 +73,51 @@ if (isset($_POST["kind"])) {
           </div>
 
           <div class="row">
-              <?php
-              $message = $_POST["message"];
-              try {
-                $sql = "SELECT * FROM message WHERE message LIKE(:message)";
-                // プリペアドステートメントを作る
-                $stm = $pdo->prepare($sql);
-                // プレースホルダに値をバインドする
-                $stm->bindValue(':message', "%{$message}%", PDO::PARAM_STR);
-                // SQL文を実行する
-                $stm->execute();
-                // 結果の取得（連想配列で受け取る）
-                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                if (count($result) > 0) {
-                  // echo "<script> final(); </script>";
-                  echo "コメントに「{$message}」が含まれているレコード";
-                  // テーブルのタイトル行
-                  //   echo '<table class="table table-striped">';
-                  //   echo '<thead><tr>';
-                  //   echo '<th>','ユーザ','</th>';
-                  //   echo '<th>','コメント','</th>';
-                  //   echo '</tr></thead>';
-                  //   echo '<tbody>';
-                  foreach ($result as $row) {
-                    echo '<table class="table table-striped">';
-                    echo '<thead><tr>';
-                    echo '<th>No', $row["id"], ' ', $row["view_name"], ':';
-                    echo $row["post_date"], '</th>';
-                    echo '</tr>';
-                    echo '<tr>';
-                    echo '<td>', $row["message"], '</td>';
-                    echo '</tr>';
-                    echo '</thead>';
-                    echo '</table>';
-                  }
-                } else {
-                  echo "名前に「{$message}」は見つかりませんでした。";
-                  // echo "<script> suteki(); </script>";
+            <?php
+            $message = $_POST["message"];
+            try {
+              $sql = "SELECT * FROM message WHERE message LIKE(:message)";
+              // プリペアドステートメントを作る
+              $stm = $pdo->prepare($sql);
+              // プレースホルダに値をバインドする
+              $stm->bindValue(':message', "%{$message}%", PDO::PARAM_STR);
+              // SQL文を実行する
+              $stm->execute();
+              // 結果の取得（連想配列で受け取る）
+              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              if (count($result) > 0) {
+                // echo "<script> final(); </script>";
+                echo "コメントに「{$message}」が含まれているレコード";
+                // テーブルのタイトル行
+                //   echo '<table class="table table-striped">';
+                //   echo '<thead><tr>';
+                //   echo '<th>','ユーザ','</th>';
+                //   echo '<th>','コメント','</th>';
+                //   echo '</tr></thead>';
+                //   echo '<tbody>';
+                foreach ($result as $row) {
+                  echo '<table class="table table-striped">';
+                  echo '<thead><tr>';
+                  echo '<th>No', $row["id"], ' ', $row["view_name"], ':';
+                  echo $row["post_date"], '</th>';
+                  echo '</tr>';
+                  echo '<tr>';
+                  echo '<td>', $row["message"], '</td>';
+                  echo '</tr>';
+                  echo '</thead>';
+                  echo '</table>';
                 }
-              } catch (Exception $e) {
-                echo '<span class="error">エラーがありました。</span><br>';
-                echo $e->getMessage();
+              } else {
+                echo "名前に「{$message}」は見つかりませんでした。";
+                // echo "<script> suteki(); </script>";
               }
-              ?>
-              <hr>
-              <p><a class="btn btn-primary" href="<?php echo $gobackURL ?>">戻る</a></p>
+            } catch (Exception $e) {
+              echo '<span class="error">エラーがありました。</span><br>';
+              echo $e->getMessage();
+            }
+            ?>
+            <hr>
+            <p><a class="btn btn-primary" href="<?php echo $gobackURL ?>">戻る</a></p>
           </div>
         </div>
         <!-- /.container-fluid -->
@@ -141,48 +141,7 @@ if (isset($_POST["kind"])) {
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>

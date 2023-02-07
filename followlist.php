@@ -1,6 +1,6 @@
 <?php
 session_start();
-$myURL='followlist.php';
+$myURL = 'followlist.php';
 require_once "db_connect.php";
 ?>
 <!DOCTYPE html>
@@ -35,7 +35,7 @@ require_once "db_connect.php";
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -45,7 +45,7 @@ require_once "db_connect.php";
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -59,45 +59,45 @@ require_once "db_connect.php";
           </div>
 
           <div class="row">
-          <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
+            <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
 
 
-<?php
-  if(isset($_GET["id"])){
-    $id=$_GET["id"];
-  }else{
-    $id = $_SESSION["id"];
-  }
-  try {
+              <?php
+              if (isset($_GET["id"])) {
+                $id = $_GET["id"];
+              } else {
+                $id = $_SESSION["id"];
+              }
+              try {
 
-    $sql = "SELECT * FROM followlist WHERE  my_id=:id";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':id', $id, PDO::PARAM_STR);
-    $stm->execute();
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($result as $row) {
-      echo '<table class="table table-striped">';
-      echo "<a href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
-      $user_id = $row["user_id"];
-      $sql = "SELECT * FROM users WHERE id=$user_id";
-      $stm = $pdo->prepare($sql);
-      $stm->execute();
-      $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-      foreach ($result2 as $row2) {
-        echo $row2["name"], "</td>";
-      }
-      echo "<hr>";
-      echo '</tr>';
-    }
-    echo '</tbody>';
-    echo '</table>';
-  } catch (Exception $e) {
-    echo 'エラーがありました。';
-    echo $e->getMessage();
-    exit();
-  }
-}
-?>
+                $sql = "SELECT * FROM followlist WHERE  my_id=:id";
+                $stm = $pdo->prepare($sql);
+                $stm->bindValue(':id', $id, PDO::PARAM_STR);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($result as $row) {
+                  echo '<table class="table table-striped">';
+                  echo "<a href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
+                  $user_id = $row["user_id"];
+                  $sql = "SELECT * FROM users WHERE id=$user_id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result2 as $row2) {
+                    echo $row2["name"], "</td>";
+                  }
+                  echo "<hr>";
+                  echo '</tr>';
+                }
+                echo '</tbody>';
+                echo '</table>';
+              } catch (Exception $e) {
+                echo 'エラーがありました。';
+                echo $e->getMessage();
+                exit();
+              }
+            }
+            ?>
           </div>
 
         </div>
@@ -122,49 +122,7 @@ require_once "db_connect.php";
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>
-

@@ -288,7 +288,7 @@ if (isset($_SESSION["id"])) {
                       } else if ($checked == 0) {
                         echo "<a href='detail.php?id={$_GET['id']}&reservation=1' class='btn btn-danger'>予約中</a>";
                       } else if ($checked == 1) {
-                          echo "<a href='buy.php?id={$_GET['id']}&user_id={$_SESSION["id"]}' class='btn btn-danger'>レンタルする</a>";
+                        echo "<a href='buy.php?id={$_GET['id']}&user_id={$_SESSION["id"]}' class='btn btn-danger'>レンタルする</a>";
                       } else if ($checked == 2) {
                         echo "<a class='btn btn-danger'>予約は終了しました。</a>";
                       }
@@ -387,48 +387,7 @@ if (isset($_SESSION["id"])) {
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>

@@ -48,7 +48,7 @@ if (isset($_POST["kind"])) {
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -58,7 +58,7 @@ if (isset($_POST["kind"])) {
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         </nav>
         <!-- End of Topbar -->
 
@@ -73,62 +73,62 @@ if (isset($_POST["kind"])) {
           </div>
 
           <div class="row">
-          <div class="col-6">
-            <form method="POST" action="add_db.php" enctype="multipart/form-data">
+            <div class="col-6">
+              <form method="POST" action="add_db.php" enctype="multipart/form-data">
                 <?php
-              if (isset($_SESSION["insert_text"])) {
-                echo '<label>' . $_SESSION["insert_text"] . '</label>';
-              } ?>
+                if (isset($_SESSION["insert_text"])) {
+                  echo '<label>' . $_SESSION["insert_text"] . '</label>';
+                } ?>
                 <br>
                 貸出物　:
-                  <input type="text" id="item_name" class="form-control form-control-user" name="item"
-                    placeholder="必須(30文字まで)" required>
+                <input type="text" id="item_name" class="form-control form-control-user" name="item"
+                  placeholder="必須(30文字まで)" required>
                 ジャンル:
-                  <select name="kind" class="form-control form-control-user">
-                    <?php
-                    try {
-                      $sql = "SELECT * FROM kind";
-                      $stm = $pdo->prepare($sql);
-                      $stm->execute();
-                      $kind = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    } catch (Exception $e) {
-                      echo 'エラーがありました。';
-                      echo $e->getMessage();
-                      exit();
-                    }
-                    foreach ($kind as $row) {
-                      echo '<option value="', $row["id"], '">', $row["name"], "</option>";
-                    }
-                    ?>
-                  </select>
+                <select name="kind" class="form-control form-control-user">
+                  <?php
+                  try {
+                    $sql = "SELECT * FROM kind";
+                    $stm = $pdo->prepare($sql);
+                    $stm->execute();
+                    $kind = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  } catch (Exception $e) {
+                    echo 'エラーがありました。';
+                    echo $e->getMessage();
+                    exit();
+                  }
+                  foreach ($kind as $row) {
+                    echo '<option value="', $row["id"], '">', $row["name"], "</option>";
+                  }
+                  ?>
+                </select>
                 商品の状態:
-                  <select name="state" class="form-control form-control-user">
-                    <?php
-                    try {
+                <select name="state" class="form-control form-control-user">
+                  <?php
+                  try {
 
-                      $sql = "SELECT * FROM state";
-                      $stm = $pdo->prepare($sql);
-                      $stm->execute();
-                      $state = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    } catch (Exception $e) {
-                      echo 'エラーがありました。';
-                      echo $e->getMessage();
-                      exit();
-                    }
-                    foreach ($state as $row) {
-                      echo '<option value="', $row["id"], '">', $row["name"], "</option>";
-                    }
-                    ?>
-                  </select>
+                    $sql = "SELECT * FROM state";
+                    $stm = $pdo->prepare($sql);
+                    $stm->execute();
+                    $state = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  } catch (Exception $e) {
+                    echo 'エラーがありました。';
+                    echo $e->getMessage();
+                    exit();
+                  }
+                  foreach ($state as $row) {
+                    echo '<option value="', $row["id"], '">', $row["name"], "</option>";
+                  }
+                  ?>
+                </select>
                 コメント(任意):
-                  <script>
-                    function countLength(text, field) {
-                      document.getElementById(field).innerHTML = text.length + "文字/1000文字";
-                    }
-                  </script>
-                  <textarea id="message" name="comment" class="form-control form-control-user"
-                    placeholder="色、素材、重さ、定価、注意点など" onKeyUp="countLength(value, 'textlength2');"></textarea>
-                  <p id="textlength2">0文字/1000文字</p>
+                <script>
+                  function countLength(text, field) {
+                    document.getElementById(field).innerHTML = text.length + "文字/1000文字";
+                  }
+                </script>
+                <textarea id="message" name="comment" class="form-control form-control-user"
+                  placeholder="色、素材、重さ、定価、注意点など" onKeyUp="countLength(value, 'textlength2');"></textarea>
+                <p id="textlength2">0文字/1000文字</p>
                 <!-- 金額:
                   <input type="number_format" name="money" class="form-control form-control-user"
                     placeholder="￥100～10,000,000"> -->
@@ -158,9 +158,9 @@ if (isset($_POST["kind"])) {
                 </label>
                 <br>
                 <input type="submit" class="btn btn-primary btn-user" value="追加する">
-            </form>
+              </form>
+            </div>
           </div>
-                  </div>
         </div>
         <!-- /.container-fluid -->
 
@@ -182,49 +182,7 @@ if (isset($_POST["kind"])) {
 
   </div>
   <!-- End of Page Wrapper -->
-
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>

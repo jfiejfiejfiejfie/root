@@ -1,7 +1,6 @@
-
 <?php
 session_start();
-$myURL='reservation_list.php';
+$myURL = 'reservation_list.php';
 require_once "db_connect.php";
 ?>
 <!DOCTYPE html>
@@ -36,7 +35,7 @@ require_once "db_connect.php";
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -46,7 +45,7 @@ require_once "db_connect.php";
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -60,59 +59,59 @@ require_once "db_connect.php";
           </div>
 
           <div class="row">
-          <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
+            <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
 
 
-<?php
-$id = $_SESSION["id"];
-$list_list = [];
-$list_count = 0;
-$sql = "SELECT * FROM list WHERE  user_id=:id";
-$stm = $pdo->prepare($sql);
-$stm->bindValue(':id', $id, PDO::PARAM_STR);
-$stm->execute();
-$result = $stm->fetchAll(PDO::FETCH_ASSOC);
-foreach ($result as $row) {
-  $list_count += 1;
-  $list_list[] = $row["id"];
-}
-try {
-  if ($list_count > 0) {
-      $reservation_list = [];
-      $list_list = implode(",", $list_list);
-      $sql = "SELECT * FROM reservation_list WHERE  list_id IN ($list_list) and auth=0";
-      $stm = $pdo->prepare($sql);
-      $stm->execute();
-      $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-      foreach ($result as $row) {
-          if (!in_array($row["list_id"], $reservation_list)) {
-              $reservation_list[] = $row["list_id"];
-              echo '<table class="table table-striped">';
-              echo "<a href='reservation_auth.php?id={$row['list_id']}'><img id='image' height='100' width='100'src='image.php?id={$row['list_id']}'></a><br>";
-              $list_id = $row["list_id"];
-              $sql = "SELECT * FROM list WHERE id=$list_id";
+              <?php
+              $id = $_SESSION["id"];
+              $list_list = [];
+              $list_count = 0;
+              $sql = "SELECT * FROM list WHERE  user_id=:id";
               $stm = $pdo->prepare($sql);
+              $stm->bindValue(':id', $id, PDO::PARAM_STR);
               $stm->execute();
-              $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-              foreach ($result2 as $row2) {
-                  echo $row2["item"], "</td>";
+              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              foreach ($result as $row) {
+                $list_count += 1;
+                $list_list[] = $row["id"];
               }
-              echo "<hr>";
-              echo '</tr>';
-          }
-      }
-      echo '</tbody>';
-      echo '</table>';
-  } else {
-      echo "<h1>現在予約はありません。</h1>";
-  }
-} catch (Exception $e) {
-  echo 'エラーがありました。';
-  echo $e->getMessage();
-  exit();
-}
-}
-?>
+              try {
+                if ($list_count > 0) {
+                  $reservation_list = [];
+                  $list_list = implode(",", $list_list);
+                  $sql = "SELECT * FROM reservation_list WHERE  list_id IN ($list_list) and auth=0";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result as $row) {
+                    if (!in_array($row["list_id"], $reservation_list)) {
+                      $reservation_list[] = $row["list_id"];
+                      echo '<table class="table table-striped">';
+                      echo "<a href='reservation_auth.php?id={$row['list_id']}'><img id='image' height='100' width='100'src='image.php?id={$row['list_id']}'></a><br>";
+                      $list_id = $row["list_id"];
+                      $sql = "SELECT * FROM list WHERE id=$list_id";
+                      $stm = $pdo->prepare($sql);
+                      $stm->execute();
+                      $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                      foreach ($result2 as $row2) {
+                        echo $row2["item"], "</td>";
+                      }
+                      echo "<hr>";
+                      echo '</tr>';
+                    }
+                  }
+                  echo '</tbody>';
+                  echo '</table>';
+                } else {
+                  echo "<h1>現在予約はありません。</h1>";
+                }
+              } catch (Exception $e) {
+                echo 'エラーがありました。';
+                echo $e->getMessage();
+                exit();
+              }
+            }
+            ?>
           </div>
 
         </div>
@@ -137,48 +136,7 @@ try {
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>

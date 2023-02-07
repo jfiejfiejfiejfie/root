@@ -85,32 +85,32 @@ $gobackURL = 'index.php';
                             foreach ($result as $row) {
                                 if ($id == $row["id"]) {
                                     echo '<tr style="background-color:skyblue;">';
-                                }else{
+                                } else {
                                     echo '<tr>';
                                 }
                                 echo '<td>', $count, '位</td>';
                                 $score = $row["evaluation"];
-                                if($score>=9500){
+                                if ($score >= 9500) {
                                     $rank = '<div class="rainbow">S+</div>';
-                                }else if($score>=7700){
+                                } else if ($score >= 7700) {
                                     $rank = '<div style="color:gold">S</div>';
-                                }else if($score>=5800){
+                                } else if ($score >= 5800) {
                                     $rank = '<div style="color:red">A</div>';
-                                }else if($score>=3500){
+                                } else if ($score >= 3500) {
                                     $rank = '<div style="color:blue">B</div>';
-                                }else if($score>=1300){
-                                    $rank ='<div style="color:green">C</div>';
-                                }else{
+                                } else if ($score >= 1300) {
+                                    $rank = '<div style="color:green">C</div>';
+                                } else {
                                     $rank = '<div style="color:black">D</div>';
                                 }
                                 // if ($id == $row["id"]) {
                                 //     echo '<td style="color:red">', $row['name'], '</td>';
                                 //     echo '<td style="color:red">', number_format($score), '点</td>';
                                 // } else {
-                                    echo '<td>', $row['name'], '</td>';
-                                    echo '<td>', number_format($score), '点</td>';
+                                echo '<td>', $row['name'], '</td>';
+                                echo '<td>', number_format($score), '点</td>';
                                 // }
-                                echo '<td>',$rank, '</td>';
+                                echo '<td>', $rank, '</td>';
                                 echo '</tr>';
                                 $count += 1;
                             }
@@ -146,48 +146,7 @@ $gobackURL = 'index.php';
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">ログアウトしますか？</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-                    <a class="btn btn-danger" href="logout.php">ログアウト</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-
+    <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>

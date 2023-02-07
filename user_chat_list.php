@@ -117,7 +117,7 @@ if (!isset($_SESSION["check"])) {
                   $stm->execute();
                   $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
                   foreach ($result2 as $row2) {
-                    echo "<td><a class='btn col-12' href='user_chat.php?id=".$user_id."'>" . $row2["name"] . ':';
+                    echo "<td><a class='btn col-12' href='user_chat.php?id=" . $user_id . "'>" . $row2["name"] . ':';
                     //整形したい文字列
                     $text = $row["text"];
                     $text = strip_tags($text);
@@ -169,7 +169,7 @@ if (!isset($_SESSION["check"])) {
                     }
                   }
                   $user_id_list[] = $row["others_id"];
-                  echo '<td><a class="btn col-12" href="user_chat.php?id='.$user_id.'">あなた:';
+                  echo '<td><a class="btn col-12" href="user_chat.php?id=' . $user_id . '">あなた:';
                   $text = $row["text"];
                   $text = strip_tags($text);
                   //文字数の上限
@@ -183,7 +183,7 @@ if (!isset($_SESSION["check"])) {
                   if ($row["image"] != "") {
                     echo '<br>画像が添付されています。';
                   }
-                  echo '<br><br><br><br><br><br>'. $row["created_at"];
+                  echo '<br><br><br><br><br><br>' . $row["created_at"];
                   // echo "<a class='btn btn-primary col-12' href='user_chat.php?id=$user_id'>チャット</a>";
                   echo '</a></td>';
                   echo '</tr>';
@@ -220,48 +220,7 @@ if (!isset($_SESSION["check"])) {
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>

@@ -1,12 +1,11 @@
-
 <?php
 session_start();
 $gobackURL = 'mypage.php';
 $myURL = 'admin_edit.php';
 require_once "db_connect.php";
 require_once('user_check.php');
-if($row["admin"]==0){
-    header('Location:index.php');
+if ($row["admin"] == 0) {
+  header('Location:index.php');
 }
 ?>
 <!DOCTYPE html>
@@ -41,7 +40,7 @@ if($row["admin"]==0){
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -51,7 +50,7 @@ if($row["admin"]==0){
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -65,78 +64,80 @@ if($row["admin"]==0){
           </div>
 
           <div class="row">
-          <form method="POST" action="admin_edit_db.php" enctype="multipart/form-data">
-        <?php
-            $id=$_GET["id"];
-            $sql = "SELECT * FROM users WHERE id=$id";
-            $stm = $pdo->prepare($sql);
-            $stm->execute();
-            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($result as $row) {
-            }
-            echo "<img src=my_image.php?id=$id style='max-width:300px;'>";
-            echo "<hr>";
-          ?>
-        <ul>
-          <li>
-            <label>ユーザID:
-                <input type="hidden" name="id" value="<?php echo $row['id'];?>">
-              <input type="text" name="user_id" placeholder="ユーザID" value="<?php echo htmlspecialchars($row["user_id"]); ?>"
-                required>
-            </label>
-            <label>名前:
-              <input type="text" name="name" placeholder="名前" value="<?php echo htmlspecialchars($row["name"]); ?>"
-                required>
-            </label>
-          </li>
-          </li>
-            <label>年齢:
-              <input type="number" name="age" placeholder="年齢" value="<?php echo htmlspecialchars($row["age"]); ?>"
-                required>
-            </label>
-          </li>
-          <li>性別:
-            <label><input type="radio" name="sex" value="男" checked>男性</label>
-            <label><input type="radio" name="sex" value="女">女性</label>
-            <label><input type="radio" name="sex" value="無回答">無回答</label>
-          </li>
-          <li>
-            <label>E-mail:
-              <input type="text" name="email" placeholder="E-mail"
-                value="<?php echo htmlspecialchars($row["email"]); ?>">
-            </label>
-          </li>
-          <li>
-            <label>コメント:
-              <input type="text" name="comment" placeholder="comment"
-                value="<?php echo htmlspecialchars($row["comment"]); ?>" required>
-            </label>
-          </li>
-          <li>
-            <label>画像選択:<br>
-              <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-              <input type="file" multiple name="image" class="test" accept="image/*" onchange="previewImage(this);">
-            </label>
-          </li>
-          <li>
-            <label>評価:
-              <input type="text" name="evaluation" placeholder="evaluation"
-                value="<?php echo htmlspecialchars($row["evaluation"]); ?>" required>
-            </label>
-          </li>
-          <li><input type="submit" value="変更する"></li>
-        </ul>
-      </form>
-      
-      <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
-      <br>
-      <form method="POST" action="deleteacount.php" enctype="multipart/form-data">
-        <ul>
-          <li>
-            <input type="hidden" name="id" value="<?php echo $_GET['id'];?>">
-            <input type="submit" value="垢BANする"></li>
-        </ul>
-      </form>
+            <form method="POST" action="admin_edit_db.php" enctype="multipart/form-data">
+              <?php
+              $id = $_GET["id"];
+              $sql = "SELECT * FROM users WHERE id=$id";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              foreach ($result as $row) {
+              }
+              echo "<img src=my_image.php?id=$id style='max-width:300px;'>";
+              echo "<hr>";
+              ?>
+              <ul>
+                <li>
+                  <label>ユーザID:
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="text" name="user_id" placeholder="ユーザID"
+                      value="<?php echo htmlspecialchars($row["user_id"]); ?>" required>
+                  </label>
+                  <label>名前:
+                    <input type="text" name="name" placeholder="名前"
+                      value="<?php echo htmlspecialchars($row["name"]); ?>" required>
+                  </label>
+                </li>
+                </li>
+                <label>年齢:
+                  <input type="number" name="age" placeholder="年齢" value="<?php echo htmlspecialchars($row["age"]); ?>"
+                    required>
+                </label>
+                </li>
+                <li>性別:
+                  <label><input type="radio" name="sex" value="男" checked>男性</label>
+                  <label><input type="radio" name="sex" value="女">女性</label>
+                  <label><input type="radio" name="sex" value="無回答">無回答</label>
+                </li>
+                <li>
+                  <label>E-mail:
+                    <input type="text" name="email" placeholder="E-mail"
+                      value="<?php echo htmlspecialchars($row["email"]); ?>">
+                  </label>
+                </li>
+                <li>
+                  <label>コメント:
+                    <input type="text" name="comment" placeholder="comment"
+                      value="<?php echo htmlspecialchars($row["comment"]); ?>" required>
+                  </label>
+                </li>
+                <li>
+                  <label>画像選択:<br>
+                    <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+                    <input type="file" multiple name="image" class="test" accept="image/*"
+                      onchange="previewImage(this);">
+                  </label>
+                </li>
+                <li>
+                  <label>評価:
+                    <input type="text" name="evaluation" placeholder="evaluation"
+                      value="<?php echo htmlspecialchars($row["evaluation"]); ?>" required>
+                  </label>
+                </li>
+                <li><input type="submit" value="変更する"></li>
+              </ul>
+            </form>
+
+            <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+            <br>
+            <form method="POST" action="deleteacount.php" enctype="multipart/form-data">
+              <ul>
+                <li>
+                  <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+                  <input type="submit" value="垢BANする">
+                </li>
+              </ul>
+            </form>
           </div>
 
         </div>
@@ -160,50 +161,7 @@ if($row["admin"]==0){
 
   </div>
   <!-- End of Page Wrapper -->
-
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>
-

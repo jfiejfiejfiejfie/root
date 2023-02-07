@@ -72,38 +72,38 @@ if (isset($_POST["item"])) {
           </div>
 
           <div class="row">
-          <div class="col-6">
-            <form method="POST" action="add_room.php" enctype="multipart/form-data">
-              <?php
-              if (isset($_SESSION["create_text"])) {
-                echo '<label>' . $_SESSION["create_text"] . '</label>';
-              } ?>
-              <br>
-              ルーム名:
-              <input type="text" id="item_name" class="form-control form-control-user" name="item"
-                placeholder="必須(30文字まで)" required>
-              コメント(任意):
-              <script>
-                function countLength(text, field) {
-                  document.getElementById(field).innerHTML = text.length + "文字/1000文字";
-                }
-              </script>
-              <textarea id="message" name="comment" class="form-control form-control-user" placeholder="ルール、注意事項など"
-                onKeyUp="countLength(value, 'textlength2');"></textarea>
-              <p id="textlength2">0文字/1000文字</p>
-              サムネ画像選択:
-              <br>
-              <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-                <input type="file" name="image" class="test" accept="image/*" onchange="previewImage(this);" required>
-              </label><br>
-              <label>
-              <input type="checkbox" required>規約に同意する
-              </label>
-              <br>
-              <input type="submit" class="btn btn-primary btn-user" value="作成する">
-            </form>
+            <div class="col-6">
+              <form method="POST" action="add_room.php" enctype="multipart/form-data">
+                <?php
+                if (isset($_SESSION["create_text"])) {
+                  echo '<label>' . $_SESSION["create_text"] . '</label>';
+                } ?>
+                <br>
+                ルーム名:
+                <input type="text" id="item_name" class="form-control form-control-user" name="item"
+                  placeholder="必須(30文字まで)" required>
+                コメント(任意):
+                <script>
+                  function countLength(text, field) {
+                    document.getElementById(field).innerHTML = text.length + "文字/1000文字";
+                  }
+                </script>
+                <textarea id="message" name="comment" class="form-control form-control-user" placeholder="ルール、注意事項など"
+                  onKeyUp="countLength(value, 'textlength2');"></textarea>
+                <p id="textlength2">0文字/1000文字</p>
+                サムネ画像選択:
+                <br>
+                <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+                  <input type="file" name="image" class="test" accept="image/*" onchange="previewImage(this);" required>
+                </label><br>
+                <label>
+                  <input type="checkbox" required>規約に同意する
+                </label>
+                <br>
+                <input type="submit" class="btn btn-primary btn-user" value="作成する">
+              </form>
+            </div>
           </div>
-        </div>
         </div>
         <!-- /.container-fluid -->
 
@@ -125,49 +125,7 @@ if (isset($_POST["item"])) {
 
   </div>
   <!-- End of Page Wrapper -->
-
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>

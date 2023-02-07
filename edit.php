@@ -72,15 +72,15 @@ require_once "db_connect.php";
                 <input type="text" class="form-control form-control-user col-2" name="name" placeholder="名前"
                   value="<?php echo htmlspecialchars($row["name"]); ?>" required>
                 年齢:
-                  <input type="number" name="age" class="form-control form-control-user col-1" placeholder="年齢"
-                    value="<?php echo htmlspecialchars($row["age"]); ?>" required>
+                <input type="number" name="age" class="form-control form-control-user col-1" placeholder="年齢"
+                  value="<?php echo htmlspecialchars($row["age"]); ?>" required>
                 <div>性別:
                   <label><input type="radio" name="sex" value="男" <?php if ($row["sex"] == "男")
-                    echo 'checked';?>>男性</label>
-                  <label><input type="radio" name="sex" value="女"<?php if ($row["sex"] == "女")
-                    echo 'checked';?>>女性</label>
-                  <label><input type="radio" name="sex" value="無回答"<?php if ($row["sex"] == "無回答")
-                    echo 'checked';?>>無回答</label>
+                    echo 'checked'; ?>>男性</label>
+                  <label><input type="radio" name="sex" value="女" <?php if ($row["sex"] == "女")
+                    echo 'checked'; ?>>女性</label>
+                  <label><input type="radio" name="sex" value="無回答" <?php if ($row["sex"] == "無回答")
+                    echo 'checked'; ?>>無回答</label>
                 </div>
                 <div>コメント:
                   <input type="text" name="comment" placeholder="comment" class="form-control form-control-user col-4"
@@ -124,48 +124,7 @@ require_once "db_connect.php";
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>

@@ -1,7 +1,6 @@
-
 <?php
 session_start();
-$myURL='eturan.php';
+$myURL = 'eturan.php';
 require_once "db_connect.php";
 ?>
 <!DOCTYPE html>
@@ -36,7 +35,7 @@ require_once "db_connect.php";
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -46,7 +45,7 @@ require_once "db_connect.php";
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -59,39 +58,39 @@ require_once "db_connect.php";
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
           <?php
-if (isset($_COOKIE['history_url'])) {
-  $history_url = unserialize($_COOKIE['history_url']); //クッキーに保存されたURLを配列にする
-}
-if (isset($_COOKIE['history_item'])) {
-  $history_item = unserialize($_COOKIE['history_item']); //クッキーに保存されたテキストを配列にする
-  $i = 0;
-  echo "<table><tr>";
-  foreach ($history_item as $key => $val) {
-    $sql = "SELECT * FROM list WHERE id=$val";
-    $stm = $pdo->prepare($sql);
-    $stm->execute();
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($result as $row) {
-    }
-    echo '<td>';
-    echo '<div class="sample5"><a href="' . $history_url[$i] . '"><img src="image.php?id=' . $val . '" id="parent" height="240" width="240"></img>'; //テキストを表示および同じ順番に保存されているURLを表示
-    if ($row["loan"] == 1) {
-      echo '<img id="child" src="images/sold.png" height="240" width="240"/>';
-    }
-    echo '<div class="mask">';
-    echo '<div class="caption">', $row["item"], '</div></div></a></div></td>';
-    // echo '<li><a href="'.$history_url[$i].'">'.$val.'</a></li>'."\n"; //テキストを表示および同じ順番に保存されているURLを表示
-    $i++;
-    if ($i % 4 == 0) {
-      echo "</tr>";
-      echo "<tr>";
-    }
-  }
-  echo '</tr></table>';
-} else {
-  echo '<p>過去に見たページはありません。</p>';
-}
-?>
+          if (isset($_COOKIE['history_url'])) {
+            $history_url = unserialize($_COOKIE['history_url']); //クッキーに保存されたURLを配列にする
+          }
+          if (isset($_COOKIE['history_item'])) {
+            $history_item = unserialize($_COOKIE['history_item']); //クッキーに保存されたテキストを配列にする
+            $i = 0;
+            echo "<table><tr>";
+            foreach ($history_item as $key => $val) {
+              $sql = "SELECT * FROM list WHERE id=$val";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              foreach ($result as $row) {
+              }
+              echo '<td>';
+              echo '<div class="sample5"><a href="' . $history_url[$i] . '"><img src="image.php?id=' . $val . '" id="parent" height="240" width="240"></img>'; //テキストを表示および同じ順番に保存されているURLを表示
+              if ($row["loan"] == 1) {
+                echo '<img id="child" src="images/sold.png" height="240" width="240"/>';
+              }
+              echo '<div class="mask">';
+              echo '<div class="caption">', $row["item"], '</div></div></a></div></td>';
+              // echo '<li><a href="'.$history_url[$i].'">'.$val.'</a></li>'."\n"; //テキストを表示および同じ順番に保存されているURLを表示
+              $i++;
+              if ($i % 4 == 0) {
+                echo "</tr>";
+                echo "<tr>";
+              }
+            }
+            echo '</tr></table>';
+          } else {
+            echo '<p>過去に見たページはありません。</p>';
+          }
+          ?>
           <div class="row">
 
           </div>
@@ -118,49 +117,7 @@ if (isset($_COOKIE['history_item'])) {
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>
-

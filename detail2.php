@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$myURL='detail2.php';
+$myURL = 'detail2.php';
 $gobackURL = "room_member.php?id={$_POST["id"]}";
 ?>
 <!DOCTYPE html>
@@ -36,7 +36,7 @@ $gobackURL = "room_member.php?id={$_POST["id"]}";
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -44,26 +44,26 @@ $gobackURL = "room_member.php?id={$_POST["id"]}";
 
       <!-- Main Content -->
       <div id="content">
-      <?php
-// 簡単なエラー処理
-$errors = [];
-//エラーがあったとき
-if (count($errors) > 0) {
-  echo "<script> rikki(); </script>";
-  echo "<img src='images/main_visual.jpg'>";
-  echo '<ol class="error">';
-  foreach ($errors as $value) {
-    echo "<li>", $value, "</li>";
-  }
-  echo "</ol>";
-  echo "<hr>";
-  echo "<a href=", $gobackURL, ">戻る</a><br>";
-  exit();
-}
-require_once "db_connect.php";
-?>
+        <?php
+        // 簡単なエラー処理
+        $errors = [];
+        //エラーがあったとき
+        if (count($errors) > 0) {
+          echo "<script> rikki(); </script>";
+          echo "<img src='images/main_visual.jpg'>";
+          echo '<ol class="error">';
+          foreach ($errors as $value) {
+            echo "<li>", $value, "</li>";
+          }
+          echo "</ol>";
+          echo "<hr>";
+          echo "<a href=", $gobackURL, ">戻る</a><br>";
+          exit();
+        }
+        require_once "db_connect.php";
+        ?>
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -77,39 +77,39 @@ require_once "db_connect.php";
           </div>
 
           <div class="row">
-          <h1>変更完了しました。</h1>
-      <?php
-  date_default_timezone_set('Asia/Tokyo');
-  $created_at = date("Y/m/d H:i:s");
-  $id = $_SESSION["loan_id"];
-  $item = $_POST["item"];
-  $comment = $_POST["comment"];
-  try {
+            <h1>変更完了しました。</h1>
+            <?php
+            date_default_timezone_set('Asia/Tokyo');
+            $created_at = date("Y/m/d H:i:s");
+            $id = $_SESSION["loan_id"];
+            $item = $_POST["item"];
+            $comment = $_POST["comment"];
+            try {
 
-    $sql = "UPDATE room SET item = :item, comment = :comment, created_at = :created_at where id = $id";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':item', $item, PDO::PARAM_STR);
-    $stm->bindValue(':comment', $comment, PDO::PARAM_STR);
-    $stm->bindValue(':created_at', $created_at, PDO::PARAM_STR);
-    if ($stm->execute()) {
-      if (isset($_FILES["image"]) && ($_FILES["image"]["tmp_name"] != '')) {
-        $upfile = $_FILES["image"]["tmp_name"];
-        $imgdat = file_get_contents($upfile);
-        $sql = "UPDATE room SET image = :imgdat WHERE id=$id";
-        $stm = $pdo->prepare($sql);
-        $stm->bindValue(':imgdat', $imgdat, PDO::PARAM_STR);
-        $stm->execute();
-      }
-    } else {
-      echo "ツイカエラーガアリマシタ。";
-    }
-  } catch (Exception $e) {
-    echo 'エラーがありました。';
-    echo $e->getMessage();
-    exit();
-  }
-  ?>
-      <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
+              $sql = "UPDATE room SET item = :item, comment = :comment, created_at = :created_at where id = $id";
+              $stm = $pdo->prepare($sql);
+              $stm->bindValue(':item', $item, PDO::PARAM_STR);
+              $stm->bindValue(':comment', $comment, PDO::PARAM_STR);
+              $stm->bindValue(':created_at', $created_at, PDO::PARAM_STR);
+              if ($stm->execute()) {
+                if (isset($_FILES["image"]) && ($_FILES["image"]["tmp_name"] != '')) {
+                  $upfile = $_FILES["image"]["tmp_name"];
+                  $imgdat = file_get_contents($upfile);
+                  $sql = "UPDATE room SET image = :imgdat WHERE id=$id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->bindValue(':imgdat', $imgdat, PDO::PARAM_STR);
+                  $stm->execute();
+                }
+              } else {
+                echo "ツイカエラーガアリマシタ。";
+              }
+            } catch (Exception $e) {
+              echo 'エラーがありました。';
+              echo $e->getMessage();
+              exit();
+            }
+            ?>
+            <p><a href="<?php echo $gobackURL ?>">戻る</a></p>
           </div>
 
         </div>
@@ -134,55 +134,7 @@ require_once "db_connect.php";
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>
-
-
-
-
-
-
-

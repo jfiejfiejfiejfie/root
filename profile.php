@@ -126,8 +126,8 @@ $option = "&id=$id";
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="col-6 h3 mb-0 text-gray-800">プロフィール</h1>
             <h1 class="col-6 h3 mb-0 text-gray-800">
-                  <?php echo htmlspecialchars($name); ?>が出品している物
-                </h1>
+              <?php echo htmlspecialchars($name); ?>が出品している物
+            </h1>
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
@@ -160,21 +160,17 @@ $option = "&id=$id";
                     echo '<hr>コメント<div class="col-12"></div><font size="10">', htmlspecialchars($row["comment"]), '</font><div class="col-12"></div>';
                     echo '<hr>評価<div class="col-12"></div><font size="10">';
                     $score = $row["evaluation"];
-                    if($score>=9500){
+                    if ($score >= 9500) {
                       echo '<div class="rainbow">S+</div>';
-                    }else if($score>=7700){
+                    } else if ($score >= 7700) {
                       echo '<div style="color:gold">S</div>';
-                    }
-                    else if($score>=5800){
+                    } else if ($score >= 5800) {
                       echo '<div style="color:red">A</div>';
-                    }
-                    else if($score>=3500){
+                    } else if ($score >= 3500) {
                       echo '<div style="color:blue">B</div>';
-                    }
-                    else if($score>=1300){
+                    } else if ($score >= 1300) {
                       echo '<div style="color:green">C</div>';
-                    }
-                    else{
+                    } else {
                       echo '<div style="color:black">D</div>';
                     }
                     echo number_format($score), '点</font><div class="col-12"></div>';
@@ -192,8 +188,8 @@ $option = "&id=$id";
                 $count = $sth->rowCount();
                 echo '<hr>フォロー<div class="col-12"></div><font size="5">', '<a href="followlist.php?id=' . $_GET["id"] . '">';
                 echo $count . "人</a><br></font><div class='col-12'></div>";
-              ?>
-              <?php
+                ?>
+                <?php
                 $sql = "SELECT * FROM followlist WHERE user_id =$id";
                 $stm = $pdo->prepare($sql);
                 $stm->execute();
@@ -202,8 +198,8 @@ $option = "&id=$id";
                 $count2 = $sth->rowCount();
                 echo 'フォロワー<div class="col-12"></div><font size="5">', '<a href="followerlist.php?id=' . $_GET["id"] . '">';
                 echo $count2 . "人</a><br></font><hr>";
-              ?>
-              <?php
+                ?>
+                <?php
                 echo "<a href='user_chat.php?id={$row["id"]}' class='btn btn-success col-6'>チャットをする<div class='fa fa-comment'></div></a>";
                 // echo '<form method="POST" action="detail.php?id=' . $row["id"] . '&good=1">';
                 // echo '</form>';
@@ -233,7 +229,7 @@ $option = "&id=$id";
               ?>
             </div>
             <div class="col-8">
-              
+
               <?php
               try {
                 $sql = "SELECT * FROM list WHERE user_id=:id AND loan=0";
@@ -290,48 +286,7 @@ $option = "&id=$id";
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>

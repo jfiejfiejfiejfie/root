@@ -1,7 +1,6 @@
-
 <?php
 session_start();
-$myURL='reservation_auth.php';
+$myURL = 'reservation_auth.php';
 require_once "db_connect.php";
 ?>
 <!DOCTYPE html>
@@ -36,7 +35,7 @@ require_once "db_connect.php";
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require_once("sidebar.php");?>
+    <?php require_once("sidebar.php"); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -46,7 +45,7 @@ require_once "db_connect.php";
       <div id="content">
 
         <!-- Topbar -->
-        <?php require_once("nav.php");?>
+        <?php require_once("nav.php"); ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -60,81 +59,99 @@ require_once "db_connect.php";
           </div>
 
           <div class="row">
-          <?php
+            <?php
             if (!isset($_GET["user_id"])) {
-                if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-                    $id = $_SESSION["id"];
-                    $list_id = $_GET["id"];
-                    $sql = "SELECT * FROM list WHERE id=:id";
-                    $stm = $pdo->prepare($sql);
-                    $stm->bindValue(':id', $list_id, PDO::PARAM_STR);
-                    $stm->execute();
-                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($result as $row) {
-                        echo '<div class="col-12"></div>';
-                        echo '<h2>' . $row["item"] . 'を予約している人</h2>';
-                        echo '<div class="col-12"><br></div>';
-                    }
-                    // $list_list = [];
-                    // $list_count = 0;
-                    $sql = "SELECT * FROM list WHERE  id=:id";
-                    $stm = $pdo->prepare($sql);
-                    $stm->bindValue(':id', $list_id, PDO::PARAM_STR);
-                    $stm->execute();
-                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($result as $row) {
-                        $sql = "SELECT * FROM reservation_list WHERE  list_id =$list_id";
-                        $stm = $pdo->prepare($sql);
-                        $stm->execute();
-                        $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                        foreach ($result2 as $row2) {
-                            // $sql = "UPDATE reservation_list SET checked=1 where list_id = :id and user_id=:user_id";
-                            // $stm = $pdo->prepare($sql);
-                            // $stm->bindValue(':id', $list_id, PDO::PARAM_STR);
-                            // $stm->bindValue(':user_id', $row2["user_id"], PDO::PARAM_STR);
-                            // $stm->execute();
-                            echo '<table class="table table-striped">';
-                            echo "<a href='profile.php?id={$row2['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row2['user_id']}'></a><br>";
-                            $user_id = $row2["user_id"];
-                            $sql = "SELECT * FROM users WHERE id=$user_id";
-                            $stm = $pdo->prepare($sql);
-                            $stm->execute();
-                            $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($result3 as $row3) {
-                                echo '<div class="col-12"></div>';
-                                echo $row3["name"], "<a href='reservation_auth.php?id=$list_id&user_id=$user_id' class='btn btn-primary'>認可する</a></td>";
-                            }
-                            echo "<hr>";
-                            echo '</tr>';
-                        }
-                        echo '</tbody>';
-                        echo '</table>';
-                    }
+              if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+                $id = $_SESSION["id"];
+                $list_id = $_GET["id"];
+                $sql = "SELECT * FROM list WHERE id=:id";
+                $stm = $pdo->prepare($sql);
+                $stm->bindValue(':id', $list_id, PDO::PARAM_STR);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($result as $row) {
+                  echo '<div class="col-12"></div>';
+                  echo '<h2>' . $row["item"] . 'を予約している人</h2>';
+                  echo '<div class="col-12"><br></div>';
                 }
+                // $list_list = [];
+                // $list_count = 0;
+                $sql = "SELECT * FROM list WHERE  id=:id";
+                $stm = $pdo->prepare($sql);
+                $stm->bindValue(':id', $list_id, PDO::PARAM_STR);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($result as $row) {
+                  $sql = "SELECT * FROM reservation_list WHERE  list_id =$list_id";
+                  $stm = $pdo->prepare($sql);
+                  $stm->execute();
+                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result2 as $row2) {
+                    // $sql = "UPDATE reservation_list SET checked=1 where list_id = :id and user_id=:user_id";
+                    // $stm = $pdo->prepare($sql);
+                    // $stm->bindValue(':id', $list_id, PDO::PARAM_STR);
+                    // $stm->bindValue(':user_id', $row2["user_id"], PDO::PARAM_STR);
+                    // $stm->execute();
+                    echo '<table class="table table-striped">';
+                    echo "<a href='profile.php?id={$row2['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row2['user_id']}'></a><br>";
+                    $user_id = $row2["user_id"];
+                    $sql = "SELECT * FROM users WHERE id=$user_id";
+                    $stm = $pdo->prepare($sql);
+                    $stm->execute();
+                    $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result3 as $row3) {
+                      echo '<div class="col-12"></div>';
+                      echo $row3["name"], "<a href='reservation_auth.php?id=$list_id&user_id=$user_id' class='btn btn-primary'>認可する</a></td>";
+                    }
+                    echo "<hr>";
+                    echo '</tr>';
+                  }
+                  echo '</tbody>';
+                  echo '</table>';
+                }
+              }
             } else {
-                $data = $_SESSION["id"];
-                $id = $_GET["id"];
-                $user_id = $_GET["user_id"];
-                $sql = "SELECT * FROM users WHERE id=$user_id";
-                $stm = $pdo->prepare($sql);
-                $stm->execute();
-                $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($result2 as $row2) {
-                    echo $row2["name"], 'を認可しました。';
-                }
-                $sql = "UPDATE reservation_list SET auth=1 where list_id = :id and user_id=:user_id";
-                $stm = $pdo->prepare($sql);
-                $stm->bindValue(':id', $id, PDO::PARAM_STR);
-                $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
-                $stm->execute();
-                $sql = "SELECT * FROM list WHERE id=$id";
-                $stm = $pdo->prepare($sql);
-                $stm->execute();
-                $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($result3 as $row3) {
-                    $item = $row3["item"];
-                }
-                $text = "あなたが予約した<a href='detail.php?id=" . $id . "'>" . $item . "</a>の認可はされました。
+              $data = $_SESSION["id"];
+              $id = $_GET["id"];
+              $user_id = $_GET["user_id"];
+              $sql = "SELECT * FROM users WHERE id=$user_id";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+              foreach ($result2 as $row2) {
+                echo $row2["name"], 'を認可しました。';
+              }
+              $sql = "UPDATE reservation_list SET auth=1 where list_id = :id and user_id=:user_id";
+              $stm = $pdo->prepare($sql);
+              $stm->bindValue(':id', $id, PDO::PARAM_STR);
+              $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+              $stm->execute();
+              $sql = "SELECT * FROM list WHERE id=$id";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
+              foreach ($result3 as $row3) {
+                $item = $row3["item"];
+              }
+              $text = "あなたが予約した<a href='detail.php?id=" . $id . "'>" . $item . "</a>の認可はされました。
+                    ※これは自動送信です。";
+              date_default_timezone_set('Asia/Tokyo');
+              $date = date('Y-m-d H:i:s');
+              $sql = "INSERT INTO user_chat (user_id,created_at,text,others_id) VALUES(:user_id,:date,:text,:others_id)";
+              $stm = $pdo->prepare($sql);
+              $stm->bindValue(':user_id', $data, PDO::PARAM_STR);
+              $stm->bindValue(':date', $date, PDO::PARAM_STR);
+              $stm->bindValue(':text', $text, PDO::PARAM_STR);
+              $stm->bindValue(':others_id', $user_id, PDO::PARAM_STR);
+              $stm->execute();
+              $sql = "SELECT * FROM reservation_list where list_id = :id and user_id != :user_id";
+              $stm = $pdo->prepare($sql);
+              $stm->bindValue(':id', $id, PDO::PARAM_STR);
+              $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+              $stm->execute();
+              $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              foreach ($result as $row) {
+                $text = "あなたが予約した<a href='detail.php?id=" . $id . "'>" . $item . "</a>の認可はされませんでした。
                     ※これは自動送信です。";
                 date_default_timezone_set('Asia/Tokyo');
                 $date = date('Y-m-d H:i:s');
@@ -143,33 +160,15 @@ require_once "db_connect.php";
                 $stm->bindValue(':user_id', $data, PDO::PARAM_STR);
                 $stm->bindValue(':date', $date, PDO::PARAM_STR);
                 $stm->bindValue(':text', $text, PDO::PARAM_STR);
-                $stm->bindValue(':others_id', $user_id, PDO::PARAM_STR);
+                $stm->bindValue(':others_id', $row["user_id"], PDO::PARAM_STR);
                 $stm->execute();
-                $sql = "SELECT * FROM reservation_list where list_id = :id and user_id != :user_id";
-                $stm = $pdo->prepare($sql);
-                $stm->bindValue(':id', $id, PDO::PARAM_STR);
-                $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
-                $stm->execute();
-                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($result as $row) {
-                    $text = "あなたが予約した<a href='detail.php?id=" . $id . "'>" . $item . "</a>の認可はされませんでした。
-                    ※これは自動送信です。";
-                    date_default_timezone_set('Asia/Tokyo');
-                    $date = date('Y-m-d H:i:s');
-                    $sql = "INSERT INTO user_chat (user_id,created_at,text,others_id) VALUES(:user_id,:date,:text,:others_id)";
-                    $stm = $pdo->prepare($sql);
-                    $stm->bindValue(':user_id', $data, PDO::PARAM_STR);
-                    $stm->bindValue(':date', $date, PDO::PARAM_STR);
-                    $stm->bindValue(':text', $text, PDO::PARAM_STR);
-                    $stm->bindValue(':others_id', $row["user_id"], PDO::PARAM_STR);
-                    $stm->execute();
-                }
-                $sql = "DELETE FROM reservation_list where list_id = :id and user_id != :user_id";
-                $stm = $pdo->prepare($sql);
-                $stm->bindValue(':id', $id, PDO::PARAM_STR);
-                $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
-                $stm->execute();
-                echo '<a href="mypage.php">マイページに戻る</a>';
+              }
+              $sql = "DELETE FROM reservation_list where list_id = :id and user_id != :user_id";
+              $stm = $pdo->prepare($sql);
+              $stm->bindValue(':id', $id, PDO::PARAM_STR);
+              $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+              $stm->execute();
+              echo '<a href="mypage.php">マイページに戻る</a>';
             }
             ?>
           </div>
@@ -196,48 +195,7 @@ require_once "db_connect.php";
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>

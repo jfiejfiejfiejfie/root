@@ -220,27 +220,27 @@ if (!empty($_POST['btn_submit'])) {
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">ひと言掲示板
 
-                  <i class="fa fa-comments"></i>
-                  <?php
-                    try {
-                      $sql = "SELECT * FROM message";
-                      $stm = $pdo->prepare($sql);
-                      $stm->execute();
-                      $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                      $sth = $pdo->query($sql);
-                      $count = $sth->rowCount();
-                    } catch (Exception $e) {
-                      echo 'エラーがありました。';
-                      echo $e->getMessage();
-                      exit();
-                    }
-                    echo $count . '件'; ?>
-                    </h1>
+              <i class="fa fa-comments"></i>
+              <?php
+              try {
+                $sql = "SELECT * FROM message";
+                $stm = $pdo->prepare($sql);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                $sth = $pdo->query($sql);
+                $count = $sth->rowCount();
+              } catch (Exception $e) {
+                echo 'エラーがありました。';
+                echo $e->getMessage();
+                exit();
+              }
+              echo $count . '件'; ?>
+            </h1>
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
           <div class="wiki m15 m10_s">投稿の際は「<a href="#">投稿規約</a>」を順守して投稿して下さい。</div>
-                <div class="p15 bg_gray fs13 mb10">貸し借りサイトの愚痴掲示板です。名前を晒す行為や、愚痴に対する文句は禁止しています。</div>
+          <div class="p15 bg_gray fs13 mb10">貸し借りサイトの愚痴掲示板です。名前を晒す行為や、愚痴に対する文句は禁止しています。</div>
           <div class="row">
             <section id="point">
 
@@ -251,33 +251,34 @@ if (!empty($_POST['btn_submit'])) {
 
               <body>
                 <form method="POST" action="search_comment.php">
-                      <label>コメントを検索します（部分一致）：<br>
-                      <div class="input-group">
-                      <input type="text" name="message" class="form-control form-control-user" placeholder="調べたいコメントを入れろ">
+                  <label>コメントを検索します（部分一致）：<br>
+                    <div class="input-group">
+                      <input type="text" name="message" class="form-control form-control-user"
+                        placeholder="調べたいコメントを入れろ">
                       <div class="input-group-append">
                         <button class="btn btn-info" type="submit">
                           <i class="fas fa-search fa-sm"></i>
                         </button>
                       </div>
                     </div>
-                      </label>
-                      <!-- <br>
+                  </label>
+                  <!-- <br>
                       <input type="submit" class='btn btn-info'value="検索する"> -->
                 </form>
                 <?php if (!empty($success_message)): ?>
-                <p class="success_message">
-                  <?php
+                  <p class="success_message">
+                    <?php
                     echo $success_message; ?>
-                </p>
+                  </p>
                 <?php endif; ?>
                 <?php if (!empty($error_message)): ?>
-                <ul class="error_message">
-                  <?php foreach ($error_message as $value): ?>
-                  <li>・
-                    <?php echo $value; ?>
-                  </li>
-                  <?php endforeach; ?>
-                </ul>
+                  <ul class="error_message">
+                    <?php foreach ($error_message as $value): ?>
+                      <li>・
+                        <?php echo $value; ?>
+                      </li>
+                    <?php endforeach; ?>
+                  </ul>
                 <?php endif; ?>
                 <form method="post">
                   <div>
@@ -290,52 +291,52 @@ if (!empty($_POST['btn_submit'])) {
                 <section>
                   <article>
                     <?php
-                      try {
-                        $sql = "SELECT * FROM message WHERE message_id=0 ORDER BY post_date DESC";
+                    try {
+                      $sql = "SELECT * FROM message WHERE message_id=0 ORDER BY post_date DESC";
+                      $stm = $pdo->prepare($sql);
+                      $stm->execute();
+                      $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                      require_once('paging.php');
+                      foreach ($disp_data as $row) {
+                        echo '<table class="table table-striped" style="table-layout:fixed;">';
+                        echo '<thead><tr>';
+                        echo '<th>No', $row["id"], ' ', $row["view_name"], ':';
+                        echo $row["post_date"], '　　　　　<a class="btn btn-danger" href="report.php?id=' . $row["id"] . '">通報</a></th>';
+                        echo '</tr>';
+                        echo '<tr>';
+                        echo '<td>', $row["message"], '</td>';
+                        echo '</tr>';
+                        $message_id = $row["id"];
+                        $name = $row["view_name"];
+                        $comment = $row["message"];
+                        $sql = "SELECT * FROM message WHERE message_id=$message_id";
                         $stm = $pdo->prepare($sql);
                         $stm->execute();
-                        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                        require_once('paging.php');
-                        foreach ($disp_data as $row) {
-                          echo '<table class="table table-striped" style="table-layout:fixed;">';
-                          echo '<thead><tr>';
-                          echo '<th>No', $row["id"], ' ', $row["view_name"], ':';
-                          echo $row["post_date"], '　　　　　<a class="btn btn-danger" href="report.php?id=' . $row["id"] . '">通報</a></th>';
-                          echo '</tr>';
+                        $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($result2 as $row2) {
                           echo '<tr>';
-                          echo '<td>', $row["message"], '</td>';
+                          echo '<th>No', $row2["id"], ' ', $row2["view_name"], ':';
+                          echo $row2["post_date"], '　　　　　<a class="btn btn-danger" href="report.php?id=' . $row2["id"] . '">通報</a></th></tr><tr>';
+                          echo '<td>', $row2['message'], '</td>';
                           echo '</tr>';
-                          $message_id = $row["id"];
-                          $name = $row["view_name"];
-                          $comment = $row["message"];
-                          $sql = "SELECT * FROM message WHERE message_id=$message_id";
-                          $stm = $pdo->prepare($sql);
-                          $stm->execute();
-                          $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                          foreach ($result2 as $row2) {
-                            echo '<tr>';
-                            echo '<th>No', $row2["id"], ' ', $row2["view_name"], ':';
-                            echo $row2["post_date"], '　　　　　<a class="btn btn-danger" href="report.php?id=' . $row2["id"] . '">通報</a></th></tr><tr>';
-                            echo '<td>', $row2['message'], '</td>';
-                            echo '</tr>';
-                          }
-                          echo '<tr><td>';
-                          echo '<form action="reply.php" method="POST" name="replay" onClick="return confirm(\'返信しますか？\');">';
-                          echo '<input type="hidden" name="message_id" value="' . $message_id . '">';
-                          echo '<input type="hidden" name="name" value="' . $name . '">';
-                          echo '<input type="hidden" name="comment" value="' . $comment . '">';
-                          echo '<input type="submit" class="btn  btn-secondary" value="返信をする" >';
-                          echo '</form></td></tr>';
-                          echo '</thead>';
-                          echo '</table>';
                         }
-                      } catch (Exception $e) {
-                        echo 'エラーがありました。';
-                        echo $e->getMessage();
-                        exit();
+                        echo '<tr><td>';
+                        echo '<form action="reply.php" method="POST" name="replay" onClick="return confirm(\'返信しますか？\');">';
+                        echo '<input type="hidden" name="message_id" value="' . $message_id . '">';
+                        echo '<input type="hidden" name="name" value="' . $name . '">';
+                        echo '<input type="hidden" name="comment" value="' . $comment . '">';
+                        echo '<input type="submit" class="btn  btn-secondary" value="返信をする" >';
+                        echo '</form></td></tr>';
+                        echo '</thead>';
+                        echo '</table>';
                       }
-                      require_once('paging2.php')
-                        ?>
+                    } catch (Exception $e) {
+                      echo 'エラーがありました。';
+                      echo $e->getMessage();
+                      exit();
+                    }
+                    require_once('paging2.php')
+                      ?>
                   </article>
                 </section>
               </body>
@@ -363,48 +364,7 @@ if (!empty($_POST['btn_submit'])) {
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">本当にログアウトするのですね？</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">ログアウトしますか？</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-
+  <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>
