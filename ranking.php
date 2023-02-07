@@ -64,6 +64,11 @@ $gobackURL = 'index.php';
                         <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
                     </div>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="logout.php" data-toggle="modal" data-target="#classscore">
+                        <i class="fas fa-star fa-sm fa-fw mr-2 text-gray-400"></i>
+                        クラススコア一覧
+                    </a>
                     <div class="row">
                         <?php
                         try {
@@ -144,7 +149,19 @@ $gobackURL = 'index.php';
 
     </div>
     <!-- End of Page Wrapper -->
-
+    <div class="modal fade" id="classscore" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">D:0~1299点<br>C:1300~3499点<br>B:3500~5799点<br>A:5800~7699点<br>S:7700~9499点<br>S+:9500点~</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php require_once("boot_modal.php"); ?>
 </body>
 
