@@ -15,6 +15,14 @@ $point = 0;
 if (isset($_POST["kind"])) {
   require_once('insert.php');
 }
+$sql = "SELECT * FROM users WHERE id=".$_SESSION["id"];
+$stm = $pdo->prepare($sql);
+$stm->execute();
+$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+foreach ($result as $row) {
+  $users_name=$row["name"];
+  $user_email=$row["email"];
+}
 ?>
 <?php
 //エスケープ処理やデータチェックを行う関数のファイルの読み込み
@@ -75,7 +83,7 @@ if (isset($_POST['submitted'])) {
 
     //メール本文の組み立て
     $mail_body = 'コンタクトページからのお問い合わせ' . "\n\n";
-    $mail_body .= "お名前： " . h($name) . "\n";
+    $mail_body .= "ユーザ名： " . h($name) . "\n";
     $mail_body .= "Email： " . h($email) . "\n";
     $mail_body .= "お電話番号： " . h($tel) . "\n\n";
     $mail_body .= "＜お問い合わせ内容＞" . "\n" . h($body);
@@ -109,8 +117,6 @@ if (isset($_POST['submitted'])) {
     if ($result) {
       $_POST = array(); //空の配列を代入し、すべてのPOST変数を消去
       //変数の値も初期化
-      $name = '';
-      $email = '';
       $tel = '';
       $subject = '';
       $body = '';
@@ -201,25 +207,25 @@ if (isset($_POST['submitted'])) {
             <p>以下のフォームからお問い合わせください。</p>
             <div class="col-12">
               <form id="form" method="post" enctype="multipart/form-data">
-                <label for="name">お名前（必須）
+                <label for="name">ユーザ名
                   <span class="error-php">
                     <?php if (isset($error['name']))
                       echo h($error['name']); ?>
                   </span>
                 </label>
-                <input type="text" class="form-control form-control-user" id="name" name="name" placeholder="氏名"
-                  required value="<?php echo h($name); ?>">
+                <input type="text" class="form-control form-control-user" readonly id="name" name="name"
+                  placeholder="氏名" required value="<?php echo h($users_name); ?>">
 
 
-                <label for="email">Email（必須）
+                <label for="email">Email
                   <span class="error-php">
                     <?php if (isset($error['email']))
                       echo h($error['email']); ?>
                   </span>
                 </label>
-                <input type="email" class="form-control" id="email" name="email"
+                <input type="email" class="form-control" id="email" readonly name="email"
                   pattern="([a-zA-Z0-9\+_\-]+)(\.[a-zA-Z0-9\+_\-]+)*@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,6}"
-                  placeholder="Email アドレス" required value="<?php echo h($email); ?>">
+                  placeholder="Email アドレス" required value="<?php echo h($user_email); ?>">
 
 
                 <label for="tel">お電話番号（半角英数字）
