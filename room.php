@@ -111,23 +111,6 @@ if (isset($_GET["chat"])) {
       });
     });
   </script>
-  <!-- <style>
-    .A {
-      display: inline-block;
-      /* background: #b6beff;
-      padding: 5px 10px; */
-      cursor: pointer;
-    }
-
-    .B {
-      /* background: #ffaf74; */
-      height: 300px;
-    }
-
-    .C {
-      display: none;
-    }
-  </style> -->
 </head>
 
 <body id="page-top">
@@ -242,22 +225,6 @@ if (isset($_GET["chat"])) {
               </label>
               <div class="col-12">
                 <!-- <img src="images/aaaa.png"> -->
-              </div>
-              <div class="B">
-                <!-- <?php
-                for ($i = 0; $i < 19; $i++) {
-                  if ($key == 0) {
-                    echo "<a href='room.php?id=$id&chat=1&img=$i'>";
-                  } else {
-                    echo "<a href='room.php?id=$id&chat=1&page_id=$now&img=$i'>";
-                  }
-                  if ($i == 0) {
-                    echo '<img src="stamp/' . $i . '.gif" height="116" width="116"></a>';
-                  } else {
-                    echo '<img src="stamp/' . $i . '.png" height="116" width="116"></a>';
-                  }
-                }
-                ?> -->
               </div>
               <br>
               <div class="input-group col-12">
@@ -410,8 +377,6 @@ if (isset($_GET["chat"])) {
               require_once('paging2.php');
               ?>
             </div>
-            <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
 
           <div class="col-12"></div>
