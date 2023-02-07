@@ -39,8 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // バリデーション
-    $errors = "";
-    //validation($datas, false);
+    $errors = validation($datas, false);
     if (empty($errors)) {
         //ユーザーネームから該当するユーザー情報を取得
         $sql = "SELECT * FROM users WHERE user_id = :user_id";

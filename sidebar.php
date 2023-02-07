@@ -43,14 +43,14 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
     <li class="nav-item">
         <a class="nav-link" href="./">
             <i class="fa fa-home" aria-hidden="true"></i>
-            <span>HOME</span></a>
+            <span>ホーム</span></a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
             aria-controls="collapsePages">
             <i class="fas fa-fw fa-user"></i>
-            <span>Users Page</span>
+            <span>ユーザー</span>
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
