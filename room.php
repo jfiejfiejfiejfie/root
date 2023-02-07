@@ -111,7 +111,7 @@ if (isset($_GET["chat"])) {
       });
     });
   </script>
-  <style>
+  <!-- <style>
     .A {
       display: inline-block;
       /* background: #b6beff;
@@ -127,7 +127,7 @@ if (isset($_GET["chat"])) {
     .C {
       display: none;
     }
-  </style>
+  </style> -->
 </head>
 
 <body id="page-top">
@@ -244,7 +244,7 @@ if (isset($_GET["chat"])) {
                 <!-- <img src="images/aaaa.png"> -->
               </div>
               <div class="B">
-                <?php
+                <!-- <?php
                 for ($i = 0; $i < 19; $i++) {
                   if ($key == 0) {
                     echo "<a href='room.php?id=$id&chat=1&img=$i'>";
@@ -257,7 +257,7 @@ if (isset($_GET["chat"])) {
                     echo '<img src="stamp/' . $i . '.png" height="116" width="116"></a>';
                   }
                 }
-                ?>
+                ?> -->
               </div>
               <br>
               <div class="input-group col-12">
@@ -268,7 +268,8 @@ if (isset($_GET["chat"])) {
                   <a class="btn btn-success"><i class="fa fa-file-image" aria-hidden="true"></i></a>
                 </div> -->
                 <div class="input-group-append">
-                  <a class="A btn btn-danger"><i class="fa fa-smile" aria-hidden="true"></i></a>
+                  <a class="A btn btn-danger" data-toggle="modal" data-target="#stamp"><i class="fa fa-smile"
+                      aria-hidden="true"></i></a>
                   <!-- <div style="position:absolute; left:20px; top:20px; background-color:#fbff96;">レイヤーです。</div> -->
                 </div>
                 <div class="input-group-append">
@@ -442,7 +443,35 @@ if (isset($_GET["chat"])) {
 
   </div>
   <!-- End of Page Wrapper -->
-
+  <div class="modal fade" id="stamp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            スタンプ</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">押したら送信できます</div>
+        <div class="modal-footer">
+          <?php
+          for ($i = 0; $i < 19; $i++) {
+            if ($key == 0) {
+              echo "<a href='room.php?id=$id&chat=1&img=$i'>";
+            } else {
+              echo "<a href='room.php?id=$id&chat=1&page_id=$now&img=$i'>";
+            }
+            if ($i == 0) {
+              echo '<img src="stamp/' . $i . '.gif" height="100" width="100"></a>';
+            } else {
+              echo '<img src="stamp/' . $i . '.png" height="100" width="100"></a>';
+            }
+          } ?>
+        </div>
+      </div>
+    </div>
+  </div>
   <?php require_once("boot_modal.php"); ?>
 </body>
 
