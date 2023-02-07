@@ -236,9 +236,9 @@ if (isset($_GET["chat"])) {
                 echo '<form action="room.php?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
               }
               ?>
-              <label>画像選択:<br>
+              <label>画像:<br>
                 <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-                <input type="file" multiple name="image" class="test" accept="image/*" onchange="previewImage(this);">
+                <input type="file" multiple class="test"name="image" accept="image/*" onchange="previewImage(this);">
               </label>
               <div class="col-12">
                 <!-- <img src="images/aaaa.png"> -->
@@ -263,8 +263,11 @@ if (isset($_GET["chat"])) {
               <div class="input-group col-12">
                 <input type="text" name="text" class="form-control form-control-user">
                 <!-- </div> -->
+                <!-- <div class="input-group-append">
+                  
+                  <a class="btn btn-success"><i class="fa fa-file-image" aria-hidden="true"></i></a>
+                </div> -->
                 <div class="input-group-append">
-
                   <a class="A btn btn-danger"><i class="fa fa-smile" aria-hidden="true"></i></a>
                   <!-- <div style="position:absolute; left:20px; top:20px; background-color:#fbff96;">レイヤーです。</div> -->
                 </div>
