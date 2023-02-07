@@ -126,7 +126,7 @@ if (isset($_SESSION["id"])) {
 
           <div class="row">
             <!-- <h2>出品物詳細</h2> -->
-            <div class="col-8">
+            <div class="col-12">
               <div class="row">
                 <div class="col-12">
                   <?php
@@ -251,8 +251,8 @@ if (isset($_SESSION["id"])) {
                     echo '<form method="POST" action="detail.php?id=' . $row["list_id"] . '&good=1">';
                     echo "<button type='submit'><div class='w-100 mw-100'><i class='fa fa-thumbs-up' aria-hidden='true'>$count</i></div></button><br>";
                     echo '</form>';
-                    echo "<div class='col-12'></div>";
                   }
+                  echo '<a class="btn btn-success col-3" data-toggle="modal" data-target="#chat">チャット</div>';
                   if ($_SESSION['id'] === $row["user_id"]) {
                     if ($buy_user_id === 0) {
                       echo "<a href='my_edit.php?id={$row["list_id"]}' class='btn btn-primary col-2'>編集する</a>";
@@ -307,87 +307,100 @@ if (isset($_SESSION["id"])) {
                 </div>
               </div>
             </div>
-            <div class="col-4">
-              <div class="row">
-                <?php
-                $chat_count = 0;
-                $sql = "SELECT text,chat.image as chat_image,chat.id as chat_id,chat.created_at as time,chat.user_id as user_id,users.name as name FROM chat,users WHERE chat.list_id=$list_id && users.id=chat.user_id";
-                $stm = $pdo->prepare($sql);
-                $stm->execute();
-                $chat_result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($chat_result as $chat_row) {
-                  if ($chat_count == 0) {
-                    echo '<h1 class="col-12">チャット</h1>';
-                  }
-                  echo '<table class="table table-striped col-4">';
-                  echo '<thead>';
-                  echo '<tr>';
-                  echo '<td><a href="profile.php?id=', $chat_row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $chat_row["user_id"], '"></a><br>';
-                  echo $chat_row["name"], "<br>";
-                  echo $chat_row["time"], '</td>';
-                  // echo '</tr>';
-                  // echo '<tr>';
-                  echo '</thead></table>';
-                  echo '<table class="table table-striped col-8"><tbody><td>';
-                  if ($chat_row["chat_image"] != "") {
-                    echo '<img id="parent" src="chat_image.php?id=', $chat_row["chat_id"], ' alt="" height="150" width="150"/>';
-                    // echo '</tr>';
-                    // echo '<tr>';
-                  }
-                  echo $chat_row["text"], '</td>';
-                  echo '</tr>';
-                  echo '</tbody>';
-                  echo '</table>';
-                  $chat_count += 1;
-                }
-                if ($user_id === 0) {
-                  ?>
-                  <form action="detail.php?id=<?php echo $_GET["id"]; ?>&chat=1" method="POST"
-                    enctype="multipart/form-data">
-                    <label>画像選択:<br>
-                      <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-                      <input type="file" multiple name="image" class="test" accept="image/*"
-                        onchange="previewImage(this);">
-                    </label><br>
-                    <div class="input-group col-12">
-                      <input type="text" name="text" class="form-control form-control-user" required>
-                      <!-- </div> -->
-                      <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"
-                            aria-hidden="true"></i></button>
-                      </div>
-                    </div>
-                  </form>
-                  <?php
-                }
-                ?>
-              </div>
+
+
+          </div>
+          <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Your Website 2021</span>
             </div>
           </div>
-
-        </div>
-        <!-- /.container-fluid -->
+        </footer>
+        <!-- End of Footer -->
 
       </div>
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2021</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
+      <!-- End of Content Wrapper -->
 
     </div>
-    <!-- End of Content Wrapper -->
-
-  </div>
-  <!-- End of Page Wrapper -->
-
-  <?php require_once("boot_modal.php"); ?>
+    <!-- End of Page Wrapper -->
+    <div class="modal fade" id="chat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              チャット</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">送信できます</div>
+          <div class="modal-footer">
+            <div class="row">
+              <?php
+              $chat_count = 0;
+              $sql = "SELECT text,chat.image as chat_image,chat.id as chat_id,chat.created_at as time,chat.user_id as user_id,users.name as name FROM chat,users WHERE chat.list_id=$list_id && users.id=chat.user_id";
+              $stm = $pdo->prepare($sql);
+              $stm->execute();
+              $chat_result = $stm->fetchAll(PDO::FETCH_ASSOC);
+              foreach ($chat_result as $chat_row) {
+                echo '<table class="table table-striped col-4">';
+                echo '<thead>';
+                echo '<tr>';
+                echo '<td><a href="profile.php?id=', $chat_row["user_id"], '">', '<img id="image" height="100" width="100" src="my_image.php?id=', $chat_row["user_id"], '"></a><br>';
+                echo $chat_row["name"], "<br>";
+                echo $chat_row["time"], '</td>';
+                // echo '</tr>';
+                // echo '<tr>';
+                echo '</thead></table>';
+                echo '<table class="table table-striped col-8"><tbody><td>';
+                if ($chat_row["chat_image"] != "") {
+                  echo '<img id="parent" src="chat_image.php?id=', $chat_row["chat_id"], ' alt="" height="150" width="150"/>';
+                  // echo '</tr>';
+                  // echo '<tr>';
+                }
+                echo $chat_row["text"], '</td>';
+                echo '</tr>';
+                echo '</tbody>';
+                echo '</table>';
+                $chat_count += 1;
+              }
+              if ($chat_count == 0) {
+                echo "<div class='col-12 h1'>チャットはありません</div>";
+              }
+              if ($user_id === 0) {
+                ?>
+                <form action="detail.php?id=<?php echo $_GET["id"]; ?>&chat=1" method="POST"
+                  enctype="multipart/form-data">
+                  <label>画像選択:<br>
+                    <img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
+                    <input type="file" multiple name="image" class="test" accept="image/*" onchange="previewImage(this);">
+                  </label><br>
+                  <div class="input-group col-12">
+                    <input type="text" name="text" class="form-control form-control-user" required>
+                    <!-- </div> -->
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"
+                          aria-hidden="true"></i></button>
+                    </div>
+                  </div>
+                </form>
+                <?php
+              }
+              ?>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <?php require_once("boot_modal.php"); ?>
 </body>
 
 </html>
