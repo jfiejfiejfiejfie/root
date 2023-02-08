@@ -421,7 +421,7 @@ if (isset($_GET["chat"])) {
         <div class="modal-body">押したら送信できます</div>
         <div class="modal-footer">
           <?php
-          for ($i = 0; $i < 21; $i++) {
+          for ($i = 1; $i < 22; $i++) {
             if ($key == 0) {
               echo "<a href='room.php?id=$id&chat=1&img=$i'>";
             } else {
