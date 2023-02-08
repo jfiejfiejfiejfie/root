@@ -124,6 +124,7 @@ $myURL = 'mypage.php';
                   echo '次のクラスまで残り' . ($next - $score) . '点';
                 }
                 echo '<div class="col-6">ポイント<font size="10">', number_format($point), 'p</font></div>';
+                echo '<a class="btn btn-primary" data-toggle="modal" data-target="#gacha">ポイントでガチャる</a>';
                 //echo '<br><a href="shop_list.php"><img src="images/point.png"></a>';
                 ?>
                 <?php
@@ -212,7 +213,28 @@ $myURL = 'mypage.php';
 
     </div>
     <!-- End of Page Wrapper -->
-
+    <div class="modal fade" id="gacha" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              ガチャ</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">10pで一回ガチャが回せます</div>
+          <div class="modal-footer">
+            <?php
+            echo "<div class='col-12'>所持ポイント:" . $point . "p</div>";
+            echo "<a href='gacha.php' class='btn btn-primary col-12'>ガチャる</a>";
+            echo "<br><div class='col-12'>あと" . ($point / 10) . "回引けます</div>";
+            ?>
+          </div>
+        </div>
+      </div>
+    </div>
     <?php require_once("boot_modal.php"); ?>
 </body>
 
