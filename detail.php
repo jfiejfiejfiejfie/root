@@ -5,6 +5,17 @@ require_once "db_connect.php";
 $myURL = 'detail.php';
 $gobackURL = 'index.php';
 $id = $_GET["id"];
+$flag = 0;
+$sql = "SELECT * FROM list WHERE id=$id";
+$stm = $pdo->prepare($sql);
+$stm->execute();
+$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+foreach ($result as $row) {
+  $flag += 1;
+}
+if ($flag == 0) {
+  header('Location:404.php');
+}
 $list_id = $_GET["id"];
 require_once('reservation.php');
 require_once('good.php');
@@ -253,7 +264,7 @@ if (isset($_SESSION["id"])) {
                     echo '</form>';
                     echo '<a class="btn btn-success col-3" data-toggle="modal" data-target="#chat">チャット</div>';
                   }
-                  
+
                   if ($_SESSION['id'] === $row["user_id"]) {
                     if ($buy_user_id === 0) {
                       echo "<a href='my_edit.php?id={$row["list_id"]}' class='btn btn-primary col-2'>編集する</a>";

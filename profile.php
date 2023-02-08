@@ -61,15 +61,19 @@ $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
   $follow_count2 += 1;
 }
-
+$flag = 0;
 $sql = "SELECT * FROM users WHERE id =:id";
 $stm = $pdo->prepare($sql);
 $stm->bindValue(':id', $id, PDO::PARAM_STR);
 $stm->execute();
 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
+  $flag += 1;
   $admin = $row["admin"];
   $name = $row["name"];
+}
+if ($flag == 0) {
+  header('Location:404.php');
 }
 $myURL = 'profile.php';
 $option = "&id=$id";
@@ -148,12 +152,14 @@ $option = "&id=$id";
               echo '<div class="col-12"></div>';
               if ($block_count == 0 && $block_count2 == 0) {
                 try {
+
                   $sql = "SELECT * FROM users WHERE id =:id";
                   $stm = $pdo->prepare($sql);
                   $stm->bindValue(':id', $id, PDO::PARAM_STR);
                   $stm->execute();
                   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                   foreach ($result as $row) {
+
                     echo '<font size="5">', htmlspecialchars($row["age"]), '歳</font><div class="col-12"></div>';
                     echo '<font size="5">', htmlspecialchars($row["sex"]), '</font><div class="col-12"></div>';
                     // echo '<font size="3">', htmlspecialchars($row["email"]), '</font><div class="col-12"></div>';
@@ -175,11 +181,13 @@ $option = "&id=$id";
                     }
                     echo number_format($score), '点</font><div class="col-12"></div>';
                   }
+
                 } catch (Exception $e) {
                   echo 'エラーがありました。';
                   echo $e->getMessage();
                   exit();
                 }
+
                 $sql = "SELECT * FROM followlist WHERE my_id =$id";
                 $stm = $pdo->prepare($sql);
                 $stm->execute();
