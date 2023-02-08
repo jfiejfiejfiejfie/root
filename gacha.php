@@ -21,7 +21,7 @@ if (!isset($_GET["result"])) {
         $sql = "UPDATE users SET point=point-10 where id = " . $_SESSION["id"];
         $stm = $pdo->prepare($sql);
         $stm->execute();
-        $gacha_result = mt_rand(0, 4);
+        $gacha_result = mt_rand(0, 100);
         header("Location:gacha.php?result=" . $gacha_result);
     } else {
         header("Location:404.php");
@@ -88,20 +88,10 @@ if (!isset($_GET["result"])) {
                         if ($_GET["result"] == 0) {
                             echo "大当たり。大坂聡一郎GODをプレゼント!";
                             echo "<img src='stamp/16.png'>";
-                        }
-                        if ($_GET["result"] == 1) {
+                        } else if ($_GET["result"] <= 10) {
                             echo "大当たり。大坂聡一郎の歯をプレゼント!";
                             echo "<img src='stamp/13.png'>";
-                        }
-                        if ($_GET["result"] == 2) {
-                            echo "残念500円負けをプレゼント!";
-                            echo "<img src='stamp/17.png'>";
-                        }
-                        if ($_GET["result"] == 3) {
-                            echo "残念500円負けをプレゼント!";
-                            echo "<img src='stamp/17.png'>";
-                        }
-                        if ($_GET["result"] == 4) {
+                        } else {
                             echo "残念500円負けをプレゼント!";
                             echo "<img src='stamp/17.png'>";
                         }
