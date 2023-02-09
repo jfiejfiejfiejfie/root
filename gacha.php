@@ -1,20 +1,40 @@
 <?php
 session_start();
-$cards['SSR'] = ['大坂A', '大坂GOD',];
-$cards['SR'] = ['聡一郎', '聡次郎', '聡三郎', '聡五郎',];
-$cards['R'] = ['Oさん', 'ラッキー・聡', 'オオサカ', 'O-SAKA-088'];
+require_once "db_connect.php";
+// $cards['SSR'] = ['大坂A', '大坂GOD',];
+// $cards['SR'] = ['聡一郎', '聡次郎', '聡三郎', '聡五郎',];
+// $cards['R'] = ['Oさん', 'ラッキー・聡', 'オオサカ', 'O-SAKA-088'];
 $raritys = [
-    'SSR' => 300,
-    //3%
-    'SR' => 1200,
-    //12%
-    'R' => 8500, //85%
+    'SSR' => 700,
+    //7%
+    'SR' => 2300,
+    //23%
+    'R' => 7000, //70%
 ];
 $sr_raritys = [
-    'SSR' => 300,
-    //3%
-    'SR' => 9700, //97%
+    'SSR' => 700,
+    //7%
+    'SR' => 9300, //93%
 ];
+$sql = "SELECT * FROM char_data";
+$stm = $pdo->prepare($sql);
+$stm->execute();
+$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+foreach ($result as $row) {
+    if($row["rarity"]=="SSR"){
+        // array_push($cards['SSR'], $row["name"]);
+        $cards['SSR'][] = $row["name"];
+    }else if($row["rarity"]=="SR"){
+        // array_push($cards['SR'], $row["name"]);
+        $cards['SR'][] = $row["name"];
+    }else{
+        // array_push($cards['R'], $row["name"]);
+        $cards['R'][] = $row["name"];
+    }
+}
+// array_push($cards['SSR'], $ssr);
+// array_push($cards['SR'], $sr);
+// array_push($cards['R'], $ra);
 function post_request($url, $param)
 {
     //リクエスト時のオプション指定
@@ -53,7 +73,6 @@ function post_request($url, $param)
 if (!isset($_SESSION["loggedin"])) {
     header('Location:login.php');
 }
-require_once "db_connect.php";
 require_once('checked.php');
 require_once "db_connect.php";
 $myURL = 'add_db.php';
@@ -73,6 +92,9 @@ if (!isset($_GET["result"])) {
         if (isset($_GET["custom"])) { //10連
             // $rand = mt_rand(0, 10000); // 乱数生成
             // 普通に9連
+            if ($point < 100) {
+                header('Location:404.php');
+            }
             for ($i = 0; $i < 9; $i++) {
                 // require_once("10ren.php");
                 $rand = mt_rand(0, 10000);
@@ -193,13 +215,21 @@ if (!isset($_GET["result"])) {
                         if (isset($_GET["custom"])) {
                             $count = 0;
                             foreach ($card_result as $v) {
-
+                                $sql = "SELECT * FROM char_data";
+                                $stm = $pdo->prepare($sql);
+                                $stm->execute();
+                                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($result as $row) {
+                                    if ($cards[$r[$count]][$v] == $row["name"]) {
+                                        $chara_id = $row["id"];
+                                    }
+                                }
                                 // echo $r[$count] . ':' . $cards[$r[$count]][$v] . "をGET!";
                                 // echo $cards[$r[$count]][$v] . "<br>";
                                 if ($count == 0 || $count == 5) {
                                     echo "<div class='col-12'>";
                                 }
-                                echo "<img src='card/" . $r[$count] . "_" . $v . ".png' height='150' width='150'>";
+                                echo "<img src='chara_image.php?id=$chara_id' height='150' width='150'>";
                                 if ($count == 4 || $count == 9) {
                                     echo "</div>";
                                 }
@@ -225,6 +255,11 @@ if (!isset($_GET["result"])) {
                                 echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
                             }
                         }
+                        // $count = 0;
+                        // foreach($cards["SSR"] as $ca){
+                        //     $ca[$count];
+                        //     $count += 1;
+                        // }
                         ?>
                     </div>
 
@@ -263,12 +298,24 @@ if (!isset($_GET["result"])) {
                 <div class="modal-body">ピックアップガチャ:大坂聡一郎GOD</div>
                 <div class="modal-footer">
                     <?php
-                    echo "<div class='col-12'>SSR:3%</div><hr>";
-                    echo "<div class='col-12'>大坂A,大坂GOD:各1.5%</div>";
-                    echo "<div class='col-12'>SR:12%※10連時10個目97%</div>";
-                    echo "<div class='col-12'>聡一郎, 聡次郎, 聡三郎, 聡五郎:各3%</div>";
-                    echo "<div class='col-12'>R:85%</div>";
-                    echo "<div class='col-12'>Oさん, LUCKY・聡,オオサカ,O-SAKA-088:各21.25%</div>";
+                    echo "<div class='col-12'>SSR:7%</div><hr>";
+                    echo "<div class='col-12'>";
+                    foreach($cards["SSR"] as $ssr){
+                        echo $ssr.',';
+                    }
+                    echo "</div>";
+                    echo "<div class='col-12'>SR:23%※10連時10個目97%</div>";
+                    echo "<div class='col-12'>";
+                    foreach($cards["SR"] as $sr){
+                        echo $sr.',';
+                    }
+                    echo "</div>";
+                    echo "<div class='col-12'>R:70%</div>";
+                    echo "<div class='col-12'>";
+                    foreach($cards["R"] as $ra){
+                        echo $ra.',';
+                    }
+                    echo "</div>";
                     ?>
                 </div>
             </div>

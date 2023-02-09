@@ -163,6 +163,7 @@ if ($row["admin"] == 0) {
               echo $line . '<a href="report.php?line=' . $data_count . '">削除</a><br>';
               $data_count += 1;
             }
+            echo '<a href="chara_create.php" class="btn btn-primary col-12">ガチャキャラ作成</a>';
             ?>
           </div>
 

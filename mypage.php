@@ -1,6 +1,22 @@
 <?php
 session_start();
 require_once('db_connect.php');
+$sql = "SELECT * FROM char_data";
+$stm = $pdo->prepare($sql);
+$stm->execute();
+$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+foreach ($result as $row) {
+  if ($row["rarity"] == "SSR") {
+    // array_push($cards['SSR'], $row["name"]);
+    $cards['SSR'][] = $row["name"];
+  } else if ($row["rarity"] == "SR") {
+    // array_push($cards['SR'], $row["name"]);
+    $cards['SR'][] = $row["name"];
+  } else {
+    // array_push($cards['R'], $row["name"]);
+    $cards['R'][] = $row["name"];
+  }
+}
 $myURL = 'mypage.php';
 ?>
 <!DOCTYPE html>
@@ -253,12 +269,24 @@ $myURL = 'mypage.php';
           <div class="modal-body">ピックアップガチャ:大坂聡一郎GOD</div>
           <div class="modal-footer">
             <?php
-            echo "<div class='col-12'>SSR:3%</div><hr>";
-            echo "<div class='col-12'>大坂A,大坂GOD:各1.5%</div>";
-            echo "<div class='col-12'>SR:12%※10連時10個目97%</div>";
-            echo "<div class='col-12'>聡一郎, 聡次郎, 聡三郎, 聡五郎:各3%</div>";
-            echo "<div class='col-12'>R:85%</div>";
-            echo "<div class='col-12'>Oさん, LUCKY・聡,オオサカ,O-SAKA-088:各21.25%</div>";
+            echo "<div class='col-12'>SSR:7%</div><hr>";
+            echo "<div class='col-12'>";
+            foreach ($cards["SSR"] as $ssr) {
+              echo $ssr . ',';
+            }
+            echo "</div>";
+            echo "<div class='col-12'>SR:23%※10連時10個目97%</div>";
+            echo "<div class='col-12'>";
+            foreach ($cards["SR"] as $sr) {
+              echo $sr . ',';
+            }
+            echo "</div>";
+            echo "<div class='col-12'>R:70%</div>";
+            echo "<div class='col-12'>";
+            foreach ($cards["R"] as $ra) {
+              echo $ra . ',';
+            }
+            echo "</div>";
             ?>
           </div>
         </div>
