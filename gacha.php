@@ -1,6 +1,43 @@
 <?php
 session_start();
+$cards['SSR'] = ['大坂A', '大坂GOD',];
+$cards['SR'] = ['聡一郎', '聡次郎', '聡三郎', '聡五郎',];
+$cards['R'] = ['Oさん', 'ラッキー・聡', 'オオサカ', 'O-SAKA-088'];
+function post_request($url, $param)
+{
+    //リクエスト時のオプション指定
+    $options = array(
+        'http' => array(
+            'method' => 'POST',
+            //ここでPOSTを指定
+            'header' => array(
+                'Content-type: application/x-www-form-urlencoded',
+                'User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:13.0) Gecko/20100101 Firefox/13.0.1'
+            ),
+            'content' => http_build_query($param),
+            'ignore_errors' => true,
+            'protocol_version' => '1.1'
+        ),
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false
+        )
+    );
 
+    //リクエスト実行
+    $contents = @file_get_contents($url, false, stream_context_create($options));
+
+    //ステータスコード抜粋
+    preg_match('/HTTP\/1\.[0|1|x] ([0-9]{3})/', $http_response_header[0], $matches);
+    $statusCode = (int) $matches[1];
+
+    //配列で返すためにjsonのエンコード
+    $contents_array = array();
+    if ($statusCode === 200) {
+        $contents_array = json_decode($contents);
+    }
+    return $contents_array;
+}
 if (!isset($_SESSION["loggedin"])) {
     header('Location:login.php');
 }
@@ -8,7 +45,8 @@ require_once "db_connect.php";
 require_once('checked.php');
 require_once "db_connect.php";
 $myURL = 'add_db.php';
-$gobackURL = 'index.php';
+$gobackURL = 'gacha.php';
+
 $sql = "SELECT * FROM users WHERE id=" . $_SESSION["id"];
 $stm = $pdo->prepare($sql);
 $stm->execute();
@@ -18,11 +56,30 @@ foreach ($result as $row) {
 }
 if (!isset($_GET["result"])) {
     if ($point >= 10) {
-        $sql = "UPDATE users SET point=point-10 where id = " . $_SESSION["id"];
+        $my_host = $_SERVER['HTTP_HOST'];
+        $url = 'http://' . $my_host . 'gacha.php';
+        $raritys = [
+            'SSR' => 300,
+            'SR' => 1200,
+            'R' => 8500,
+        ];
+        $rand = mt_rand(0, 10000); // 乱数生成
+
+        $probability = 0;
+        foreach ($raritys as $rarity => $rarity_probability) {
+            $probability += $rarity_probability;
+            if ($rand <= $probability) { // 排出レアリティ確定
+                $gacha_result = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
+                break;
+            }
+        }
+        // $gacha_result = mt_rand(0, 100);
+        // $contents_array = post_request($url, $param);
+        $sql = "UPDATE users SET point=point-10 WHERE id=:id";
         $stm = $pdo->prepare($sql);
+        $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
         $stm->execute();
-        $gacha_result = mt_rand(0, 100);
-        header("Location:gacha.php?result=" . $gacha_result);
+        header("Location:gacha.php?result=" . $gacha_result . "&r=" . $rarity);
     } else {
         header("Location:404.php");
     }
@@ -85,16 +142,8 @@ if (!isset($_GET["result"])) {
 
                     <div class="row">
                         <?php
-                        if ($_GET["result"] == 0) {
-                            echo "<div class='col-12'>大当たり!!<br>大坂聡一郎GODをプレゼント!</div>";
-                            echo "<img src='stamp/16.png' height='200' width='200'>";
-                        } else if ($_GET["result"] <= 10) {
-                            echo "<div class='col-12'>大当たり!<br>大坂聡一郎の歯をプレゼント!</div>";
-                            echo "<img src='stamp/13.png' height='200' width='200'>";
-                        } else {
-                            echo "<div class='col-12'>残念!<br>500円負けをプレゼント!</div>";
-                            echo "<img src='stamp/17.png' height='200' width='200'>";
-                        }
+                        echo "<div class='col-12'>".$_GET["r"] . ':' . $cards[$_GET["r"]][$_GET["result"]] . "をGET!</div>";
+                        echo "<img src='card/" . $_GET["r"] . "_" . $_GET["result"] . ".png' height='150' width='150'>";
                         echo "<div class='col-12'>所持ポイント:" . $point . "p</div>";
                         echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
                         echo "<a href='gacha.php' class='btn btn-primary col-12'>もう一回ガチャる</a>";
@@ -139,9 +188,12 @@ if (!isset($_GET["result"])) {
                 <div class="modal-body">ピックアップガチャ:大坂聡一郎GOD</div>
                 <div class="modal-footer">
                     <?php
-                    echo "<div class='col-12'>大坂聡一郎:GOD:1%</div>";
-                    echo "<div class='col-12'>大坂聡一郎の歯:10%</div>";
-                    echo "<div class='col-12'>500円負けた:89%</div>";
+                    echo "<div class='col-12'>SSR:3%</div><hr>";
+                    echo "<div class='col-12'>大坂A,大坂GOD:各1.5%</div>";
+                    echo "<div class='col-12'>SR:12%</div>";
+                    echo "<div class='col-12'>聡一郎, 聡次郎, 聡三郎, 聡五郎:各3%</div>";
+                    echo "<div class='col-12'>R:85%</div>";
+                    echo "<div class='col-12'>Oさん, LUCKY・聡,オオサカ,O-SAKA-088:各21.25%</div>";
                     ?>
                 </div>
             </div>
