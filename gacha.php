@@ -21,13 +21,13 @@ $stm = $pdo->prepare($sql);
 $stm->execute();
 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
-    if($row["rarity"]=="SSR"){
+    if ($row["rarity"] == "SSR") {
         // array_push($cards['SSR'], $row["name"]);
         $cards['SSR'][] = $row["name"];
-    }else if($row["rarity"]=="SR"){
+    } else if ($row["rarity"] == "SR") {
         // array_push($cards['SR'], $row["name"]);
         $cards['SR'][] = $row["name"];
-    }else{
+    } else {
         // array_push($cards['R'], $row["name"]);
         $cards['R'][] = $row["name"];
     }
@@ -247,7 +247,16 @@ if (!isset($_GET["result"])) {
                             }
                         } else {
                             echo "<div class='col-12'>" . $_GET["r"] . ':' . $cards[$_GET["r"]][$_GET["result"]] . "をGET!</div>";
-                            echo "<img src='card/" . $_GET["r"] . "_" . $_GET["result"] . ".png' height='150' width='150'>";
+                            $sql = "SELECT * FROM char_data";
+                            $stm = $pdo->prepare($sql);
+                            $stm->execute();
+                            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                            foreach ($result as $row) {
+                                if (($row["rarity"] == $_GET["r"]) && ($row["name"] == $cards[$_GET["r"]][$_GET["result"]])) {
+                                    $chara_id = $row["id"];
+                                }
+                            }
+                            echo "<img src='chara_image.php?id=$chara_id' height='150' width='150'>";
                             echo "<div class='col-12'>所持ポイント:" . $point . "p</div>";
                             echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
                             echo "<a href='gacha.php' class='btn btn-primary col-12'>もう一回ガチャる</a>";
@@ -300,20 +309,20 @@ if (!isset($_GET["result"])) {
                     <?php
                     echo "<div class='col-12'>SSR:7%</div><hr>";
                     echo "<div class='col-12'>";
-                    foreach($cards["SSR"] as $ssr){
-                        echo $ssr.',';
+                    foreach ($cards["SSR"] as $ssr) {
+                        echo $ssr . ',';
                     }
                     echo "</div>";
                     echo "<div class='col-12'>SR:23%※10連時10個目97%</div>";
                     echo "<div class='col-12'>";
-                    foreach($cards["SR"] as $sr){
-                        echo $sr.',';
+                    foreach ($cards["SR"] as $sr) {
+                        echo $sr . ',';
                     }
                     echo "</div>";
                     echo "<div class='col-12'>R:70%</div>";
                     echo "<div class='col-12'>";
-                    foreach($cards["R"] as $ra){
-                        echo $ra.',';
+                    foreach ($cards["R"] as $ra) {
+                        echo $ra . ',';
                     }
                     echo "</div>";
                     ?>
