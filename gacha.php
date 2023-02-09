@@ -71,21 +71,24 @@ if (!isset($_GET["result"])) {
         // $my_host = $_SERVER['HTTP_HOST'];
         // $url = 'http://' . $my_host . 'gacha.php';
         if (isset($_GET["custom"])) { //10連
-            $rand = mt_rand(0, 10000); // 乱数生成
+            // $rand = mt_rand(0, 10000); // 乱数生成
             // 普通に9連
             for ($i = 0; $i < 9; $i++) {
+                // require_once("10ren.php");
+                $rand = mt_rand(0, 10000);
                 $probability = 0;
                 foreach ($raritys as $rarity => $rarity_probability) {
                     $probability += $rarity_probability;
                     if ($rand <= $probability) { // 排出レアリティ確定
                         $r[] = $rarity;
                         $card_result[] = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
-                        break;
+                        break 1;
                     }
                 }
             }
 
             // SR以上確定ガチャ
+            $rand = mt_rand(0, 10000);
             $probability = 0;
             foreach ($sr_raritys as $rarity => $rarity_probability) {
                 $probability += $rarity_probability;
@@ -190,6 +193,7 @@ if (!isset($_GET["result"])) {
                         if (isset($_GET["custom"])) {
                             $count = 0;
                             foreach ($card_result as $v) {
+
                                 // echo $r[$count] . ':' . $cards[$r[$count]][$v] . "をGET!";
                                 // echo $cards[$r[$count]][$v] . "<br>";
                                 if ($count == 0 || $count == 5) {
@@ -221,7 +225,6 @@ if (!isset($_GET["result"])) {
                                 echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
                             }
                         }
-
                         ?>
                     </div>
 
