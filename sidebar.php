@@ -85,6 +85,7 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
                         <a class="collapse-item" href="reservation_list.php">予約されたもの</a>
                         <a class="collapse-item" href="good_list.php">いいね一覧</a>
                         <a class="collapse-item" href="eturan.php">閲覧履歴</a>
+                        <a class="collapse-item" href="box.php">MyBOX</a>
                         <a class="collapse-item" href="admin.php">管理者ページ</a>
                         <div class="collapse-divider"></div>
                     </div>

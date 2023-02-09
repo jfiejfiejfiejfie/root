@@ -66,13 +66,22 @@ if (isset($_POST["kind"])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">BOX</h1>
+                        <h1 class="h3 mb-0 text-gray-800">MyBOX</h1>
                         <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
                     </div>
 
                     <div class="row">
-                        
+                        <?php
+                        $sql = "SELECT box.user_id,box.char_data_id as char_data_id,char_data.name as name FROM box,char_data where box.user_id=" . $_SESSION["id"]." && box.char_data_id = char_data.id";
+                        $stm = $pdo->prepare($sql);
+                        $stm->execute();
+                        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($result as $row) {
+                            echo "<img src='chara_image.php?id=".$row["char_data_id"]."' height='150' width='150'>";
+                            // echo $row["name"];
+                        }
+                        ?>
                     </div>
 
                 </div>

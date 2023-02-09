@@ -32,6 +32,7 @@ foreach ($result as $row) {
         $cards['R'][] = $row["name"];
     }
 }
+$user_id = $_SESSION["id"];
 // array_push($cards['SSR'], $ssr);
 // array_push($cards['SR'], $sr);
 // array_push($cards['R'], $ra);
@@ -103,7 +104,22 @@ if (!isset($_GET["result"])) {
                     $probability += $rarity_probability;
                     if ($rand <= $probability) { // 排出レアリティ確定
                         $r[] = $rarity;
-                        $card_result[] = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
+                        $card_id = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
+                        $card_result[] = $card_id;
+                        $sql = "SELECT * FROM char_data";
+                        $stm = $pdo->prepare($sql);
+                        $stm->execute();
+                        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($result as $row) {
+                            if (($row["rarity"] == $rarity) && ($row["name"] == $cards[$rarity][$card_id])) {
+                                $chara_id = $row["id"];
+                            }
+                        }
+                        $sql = "INSERT INTO box (user_id,char_data_id,level) VALUES(:user_id,:chara_data,1)";
+                        $stm = $pdo->prepare($sql);
+                        $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+                        $stm->bindValue(':chara_data', $chara_id, PDO::PARAM_STR);
+                        $stm->execute();
                         break 1;
                     }
                 }
@@ -116,7 +132,22 @@ if (!isset($_GET["result"])) {
                 $probability += $rarity_probability;
                 if ($rand <= $probability) { // 排出レアリティ確定
                     $r[] = $rarity;
-                    $card_result[] = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
+                    $card_id = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
+                    $card_result[] = $card_id;
+                    $sql = "SELECT * FROM char_data";
+                    $stm = $pdo->prepare($sql);
+                    $stm->execute();
+                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result as $row) {
+                        if (($row["rarity"] == $rarity) && ($row["name"] == $cards[$rarity][$card_id])) {
+                            $chara_id = $row["id"];
+                        }
+                    }
+                    $sql = "INSERT INTO box (user_id,char_data_id,level) VALUES(:user_id,:chara_data,1)";
+                    $stm = $pdo->prepare($sql);
+                    $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+                    $stm->bindValue(':chara_data', $chara_id, PDO::PARAM_STR);
+                    $stm->execute();
                     break;
                 }
             }
@@ -138,6 +169,20 @@ if (!isset($_GET["result"])) {
                 $probability += $rarity_probability;
                 if ($rand <= $probability) { // 排出レアリティ確定
                     $gacha_result = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
+                    $sql = "SELECT * FROM char_data";
+                    $stm = $pdo->prepare($sql);
+                    $stm->execute();
+                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($result as $row) {
+                        if (($row["rarity"] == $rarity) && ($row["name"] == $cards[$rarity][$gacha_result])) {
+                            $chara_id = $row["id"];
+                        }
+                    }
+                    $sql = "INSERT INTO box (user_id,char_data_id,level) VALUES(:id,:chara_data,1)";
+                    $stm = $pdo->prepare($sql);
+                    $stm->bindValue(':id', $user_id, PDO::PARAM_STR);
+                    $stm->bindValue(':chara_data', $chara_id, PDO::PARAM_STR);
+                    $stm->execute();
                     break;
                 }
             }
