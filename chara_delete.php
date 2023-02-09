@@ -14,18 +14,20 @@ require_once('checked.php');
 require_once "db_connect.php";
 $myURL = 'add_db.php';
 $gobackURL = 'index.php';
+$message_text = "";
 $point = 0;
-if (isset($_POST["name"])) {
-    $name = $_POST["name"];
-    $rarity = $_POST["rarity"];
-    $upfile = $_FILES["image"]["tmp_name"];
-    $imgdat = file_get_contents($upfile);
-    $sql = "INSERT INTO char_data (name,rarity,image) VALUES(:name,:rarity,:imgdat)";
+if (isset($_GET["id"])) {
+    $chara_id = $_GET["id"];
+    $sql = "DELETE FROM char_data WHERE id=".$chara_id;
     $stm = $pdo->prepare($sql);
-    $stm->bindValue(':name', $name, PDO::PARAM_STR);
-    $stm->bindValue(':rarity', $rarity, PDO::PARAM_STR);
-    $stm->bindValue(':imgdat', $imgdat, PDO::PARAM_STR);
     $stm->execute();
+    $sql = "DELETE FROM box WHERE char_data_id=".$chara_id;
+    $stm = $pdo->prepare($sql);
+    $stm->execute();
+    header('Location:chara_delete.php?suc='.$chara_id);
+}
+if(isset($_GET["suc"])){
+    $message_text = "ID:".$_GET["suc"]."を削除しました。";
 }
 ?>
 <!DOCTYPE html>
@@ -78,30 +80,23 @@ if (isset($_POST["name"])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">キャラ登録</h1>
+                        <h1 class="h3 mb-0 text-gray-800">キャラ削除</h1>
                         <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
                     </div>
 
                     <div class="row">
-                        <form method="POST" action="chara_create.php" enctype="multipart/form-data">
-                            名前:
-                            <input type="text" id="item_name" class="form-control form-control-user" name="name"
-                                placeholder="必須(30文字まで)" required>
-                            レアリティ:
-                            <select name="rarity" class="form-control form-control-user">
-                                <option value="SSR">SSR</option>
-                                <option value="SR">SR</option>
-                                <option value="R">R</option>
-                            </select>
-                            画像:
-                            <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-                                <input type="file" name="image" class="test" accept="image/*"
-                                    onchange="previewImage(this);">
-                            </label>
-                            <br>
-                            <input type="submit" class="btn btn-primary btn-user" value="登録する">
-                        </form>
+                        <?php
+                        echo $message_text;
+                        $sql = "SELECT * FROM char_data";
+                        $stm = $pdo->prepare($sql);
+                        $stm->execute();
+                        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($result as $row) {
+                            echo "<div class='col-12'></div><img src='chara_image.php?id=" . $row["id"] . "' height='150' width='150'>"."<a href='chara_delete.php?id=" . $row["id"] . "' class='btn btn-danger'>消す</a>";
+                            echo $row["rarity"].":".$row["name"];
+                        }
+                        ?>
                     </div>
 
                 </div>

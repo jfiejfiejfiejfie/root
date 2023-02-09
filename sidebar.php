@@ -80,6 +80,7 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="notice.php">通知一覧</a>
+                        <a class="collapse-item" href="login_bonus.php">ログインボーナス</a>
                         <a class="collapse-item" href="buy_list.php">レンタルしたもの</a>
                         <a class="collapse-item" href="bought_list.php">レンタルされたもの</a>
                         <a class="collapse-item" href="reservation_list.php">予約されたもの</a>

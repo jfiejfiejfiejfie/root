@@ -78,7 +78,7 @@ if ($row["admin"] == 0) {
               echo "<tr>";
               echo '<div class="col-12"></div>';
               echo $row["id"] . '<br>レンタル品名:';
-              echo $row["item"] . '<br><div class="col-12"></div>';
+              echo $row["item"] . '<br> ';
               echo '<div class="sample5"><a href=detail.php?', "id={$row["id"]}>";
               echo '<img id="parent" src="image.php?id=', $row["id"], ' alt="" height="155" width="155"/>';
               if ($row["loan"] == 1) {
@@ -164,6 +164,7 @@ if ($row["admin"] == 0) {
               $data_count += 1;
             }
             echo '<a href="chara_create.php" class="btn btn-primary col-12">ガチャキャラ作成</a>';
+            echo '<a href="chara_delete.php" class="btn btn-danger col-12">ガチャキャラ削除</a>';
             ?>
           </div>
 
