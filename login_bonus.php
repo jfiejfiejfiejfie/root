@@ -13,7 +13,7 @@ $bonus['3'] = ['15'];
 $bonus['4'] = ['5'];
 $bonus['5'] = ['30'];
 $bonus['6'] = ['5'];
-$bonus['7'] = ['100'];
+$bonus['0'] = ['100'];
 $myURL = 'add_db.php';
 $gobackURL = 'index.php';
 $point = 0;
@@ -107,10 +107,11 @@ foreach ($result as $row) {
                                 $stm = $pdo->prepare($sql);
                                 $stm->bindValue(':add_point', $bonus['1'][0], PDO::PARAM_STR);
                                 $stm->execute();
-                                echo "<br>" . $bonus["1"][0] . "ポイントゲット!";
+                                $login_count = 1;
+                                echo "<br>" . $bonus[$login_count][0] . "ポイントゲット!";
                                 echo "<br>通算ログイン1日目";
                             } else {
-                                $bonus_count = $login_count % 7;
+                                $bonus_count = ($login_count+1) % 7;
                                 $sql = "UPDATE login set time = :time,count=count+1 WHERE user_id=" . $_SESSION["id"];
                                 $stm = $pdo->prepare($sql);
                                 $stm->bindValue(':time', $today, PDO::PARAM_STR);
@@ -120,7 +121,8 @@ foreach ($result as $row) {
                                 $stm->bindValue(':add_point', $bonus["$bonus_count"][0], PDO::PARAM_STR);
                                 $stm->execute();
                                 echo "<br>" . $bonus["$bonus_count"][0] . "ポイントゲット!";
-                                echo "<br>通算ログイン" . $login_count + 1 . "日目";
+                                $login_count += 1;
+                                echo "<br>通算ログイン" . $login_count . "日目";
                             }
                         } else {
                             $bonus_flag = 1;
@@ -159,17 +161,23 @@ foreach ($result as $row) {
                 <div class="modal-header">ログインボーナス一覧</div>
                 <div class="modal-body">
                     <?php
-                    if(!isset($bonus_flag)){
-                        $bonus_count += 1;
+                    if (!isset($bonus_flag)) {
+                        if ($login_count == 1) {
+                            $bonus_count = 1;
+                        }
                     }
                     for ($i = 1; $i < 8; $i++) {
-                        if (!isset($login_count)) {
-                            echo "<div class='col-12' style='color:red;'>" . $i . "日目:" . $bonus[$i][0] . "ポイント</div>";
+                        if ($bonus_count == $i) {
+                            echo "<div class='col-12' style='color:red;'>" . $i . "日目:" . $bonus[$bonus_count][0] . "ポイント</div>";
                         } else {
-                            if ($bonus_count == $i) {
-                                echo "<div class='col-12' style='color:red;'>" . $i . "日目:" . $bonus[$i][0] . "ポイント</div>";
+                            if (($bonus_count == 0) && ($i == 7)) {
+                                echo "<div class='col-12' style='color:red;'>" . $i . "日目:" . $bonus[$bonus_count][0] . "ポイント</div>";
                             } else {
-                                echo "<div class='col-12'>" . $i . "日目:" . $bonus[$i][0] . "ポイント</div>";
+                                if ($i != 7) {
+                                    echo "<div class='col-12'>" . $i . "日目:" . $bonus[$i][0] . "ポイント</div>";
+                                }else{
+                                    echo "<div class='col-12'>" . $i . "日目:" . $bonus[0][0] . "ポイント</div>";
+                                }
                             }
                         }
 
