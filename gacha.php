@@ -3,6 +3,18 @@ session_start();
 $cards['SSR'] = ['大坂A', '大坂GOD',];
 $cards['SR'] = ['聡一郎', '聡次郎', '聡三郎', '聡五郎',];
 $cards['R'] = ['Oさん', 'ラッキー・聡', 'オオサカ', 'O-SAKA-088'];
+$raritys = [
+    'SSR' => 300,
+    //3%
+    'SR' => 1200,
+    //12%
+    'R' => 8500, //85%
+];
+$sr_raritys = [
+    'SSR' => 300,
+    //3%
+    'SR' => 9700, //97%
+];
 function post_request($url, $param)
 {
     //リクエスト時のオプション指定
@@ -56,30 +68,63 @@ foreach ($result as $row) {
 }
 if (!isset($_GET["result"])) {
     if ($point >= 10) {
-        $my_host = $_SERVER['HTTP_HOST'];
-        $url = 'http://' . $my_host . 'gacha.php';
-        $raritys = [
-            'SSR' => 300,
-            'SR' => 1200,
-            'R' => 8500,
-        ];
-        $rand = mt_rand(0, 10000); // 乱数生成
-
-        $probability = 0;
-        foreach ($raritys as $rarity => $rarity_probability) {
-            $probability += $rarity_probability;
-            if ($rand <= $probability) { // 排出レアリティ確定
-                $gacha_result = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
-                break;
+        // $my_host = $_SERVER['HTTP_HOST'];
+        // $url = 'http://' . $my_host . 'gacha.php';
+        if (isset($_GET["custom"])) { //10連
+            $rand = mt_rand(0, 10000); // 乱数生成
+            // 普通に9連
+            for ($i = 0; $i < 9; $i++) {
+                $probability = 0;
+                foreach ($raritys as $rarity => $rarity_probability) {
+                    $probability += $rarity_probability;
+                    if ($rand <= $probability) { // 排出レアリティ確定
+                        $r[] = $rarity;
+                        $card_result[] = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
+                        break;
+                    }
+                }
             }
+
+            // SR以上確定ガチャ
+            $probability = 0;
+            foreach ($sr_raritys as $rarity => $rarity_probability) {
+                $probability += $rarity_probability;
+                if ($rand <= $probability) { // 排出レアリティ確定
+                    $r[] = $rarity;
+                    $card_result[] = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
+                    break;
+                }
+            }
+            $sql = "UPDATE users SET point=point-100 WHERE id=:id";
+            $stm = $pdo->prepare($sql);
+            $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+            $stm->execute();
+            // 結果表示
+            // $count = 0;
+            // foreach ($card_result as $v) {
+            //     echo $cards[$r[$count]][$v] . "<br>";
+            //     $count += 1;
+            // }
+            // echo var_dump( $result );
+        } else { //単発
+            $rand = mt_rand(0, 10000); // 乱数生成
+            $probability = 0;
+            foreach ($raritys as $rarity => $rarity_probability) {
+                $probability += $rarity_probability;
+                if ($rand <= $probability) { // 排出レアリティ確定
+                    $gacha_result = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
+                    break;
+                }
+            }
+            // $gacha_result = mt_rand(0, 100);
+            // $contents_array = post_request($url, $param);
+            $sql = "UPDATE users SET point=point-10 WHERE id=:id";
+            $stm = $pdo->prepare($sql);
+            $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+            $stm->execute();
+            header("Location:gacha.php?result=" . $gacha_result . "&r=" . $rarity);
         }
-        // $gacha_result = mt_rand(0, 100);
-        // $contents_array = post_request($url, $param);
-        $sql = "UPDATE users SET point=point-10 WHERE id=:id";
-        $stm = $pdo->prepare($sql);
-        $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
-        $stm->execute();
-        header("Location:gacha.php?result=" . $gacha_result . "&r=" . $rarity);
+
     } else {
         header("Location:404.php");
     }
@@ -142,14 +187,41 @@ if (!isset($_GET["result"])) {
 
                     <div class="row">
                         <?php
-                        echo "<div class='col-12'>".$_GET["r"] . ':' . $cards[$_GET["r"]][$_GET["result"]] . "をGET!</div>";
-                        echo "<img src='card/" . $_GET["r"] . "_" . $_GET["result"] . ".png' height='150' width='150'>";
-                        echo "<div class='col-12'>所持ポイント:" . $point . "p</div>";
-                        echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
-                        echo "<a href='gacha.php' class='btn btn-primary col-12'>もう一回ガチャる</a>";
-                        if ($point >= 10) {
-                            echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
+                        if (isset($_GET["custom"])) {
+                            $count = 0;
+                            foreach ($card_result as $v) {
+                                // echo $r[$count] . ':' . $cards[$r[$count]][$v] . "をGET!";
+                                // echo $cards[$r[$count]][$v] . "<br>";
+                                if ($count == 0 || $count == 5) {
+                                    echo "<div class='col-12'>";
+                                }
+                                echo "<img src='card/" . $r[$count] . "_" . $v . ".png' height='150' width='150'>";
+                                if ($count == 4 || $count == 9) {
+                                    echo "</div>";
+                                }
+                                $count += 1;
+                            }
+                            $count = 0;
+                            foreach ($card_result as $v) {
+                                echo $r[$count] . ':' . $cards[$r[$count]][$v] . "をGET!<br>";
+                                $count += 1;
+                            }
+                            echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
+                            echo "<a href='gacha.php?custom=1' class='btn btn-primary col-12'>もう一回10連ガチャる</a>";
+                            if ($point >= 100) {
+                                echo "<br><div class='col-12'>あと" . floor($point / 100) . "回引けます</div>";
+                            }
+                        } else {
+                            echo "<div class='col-12'>" . $_GET["r"] . ':' . $cards[$_GET["r"]][$_GET["result"]] . "をGET!</div>";
+                            echo "<img src='card/" . $_GET["r"] . "_" . $_GET["result"] . ".png' height='150' width='150'>";
+                            echo "<div class='col-12'>所持ポイント:" . $point . "p</div>";
+                            echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
+                            echo "<a href='gacha.php' class='btn btn-primary col-12'>もう一回ガチャる</a>";
+                            if ($point >= 10) {
+                                echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
+                            }
                         }
+
                         ?>
                     </div>
 

@@ -230,6 +230,7 @@ $myURL = 'mypage.php';
             echo "<div class='col-12'>所持ポイント:" . $point . "p</div>";
             echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
             echo "<a href='gacha.php' class='btn btn-primary col-12'>ガチャる</a>";
+            echo "<a href='gacha.php?custom=1' class='btn btn-primary col-12'>10連ガチャ</a>";
             if ($point >= 10) {
               echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
             }
@@ -244,7 +245,7 @@ $myURL = 'mypage.php';
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-            排出確率</h5>
+              排出確率</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
@@ -252,9 +253,12 @@ $myURL = 'mypage.php';
           <div class="modal-body">ピックアップガチャ:大坂聡一郎GOD</div>
           <div class="modal-footer">
             <?php
-            echo "<div class='col-12'>大坂聡一郎:GOD:1%</div>";
-            echo "<div class='col-12'>大坂聡一郎の歯:10%</div>";
-            echo "<div class='col-12'>500円負けた:89%</div>";
+            echo "<div class='col-12'>SSR:3%</div><hr>";
+            echo "<div class='col-12'>大坂A,大坂GOD:各1.5%</div>";
+            echo "<div class='col-12'>SR:12%</div>";
+            echo "<div class='col-12'>聡一郎, 聡次郎, 聡三郎, 聡五郎:各3%</div>";
+            echo "<div class='col-12'>R:85%</div>";
+            echo "<div class='col-12'>Oさん, LUCKY・聡,オオサカ,O-SAKA-088:各21.25%</div>";
             ?>
           </div>
         </div>
