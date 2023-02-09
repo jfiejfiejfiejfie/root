@@ -255,7 +255,7 @@ $myURL = 'mypage.php';
             <?php
             echo "<div class='col-12'>SSR:3%</div><hr>";
             echo "<div class='col-12'>大坂A,大坂GOD:各1.5%</div>";
-            echo "<div class='col-12'>SR:12%</div>";
+            echo "<div class='col-12'>SR:12%※10連時10個目97%</div>";
             echo "<div class='col-12'>聡一郎, 聡次郎, 聡三郎, 聡五郎:各3%</div>";
             echo "<div class='col-12'>R:85%</div>";
             echo "<div class='col-12'>Oさん, LUCKY・聡,オオサカ,O-SAKA-088:各21.25%</div>";
