@@ -162,6 +162,7 @@ if (isset($_GET["add"])) {
                                     <input type="submit" class="btn btn-primary btn-user" value="登録する">
                                 </form>
                                 <?php
+                                $ssr_flag = 0;
                                 $sql = "SELECT char_data.rarity as rarity,gacha_list.PU as PU FROM gacha_list,char_data WHERE char_data.id=gacha_list.chara_id && gacha_list.gacha_id=" . $_GET["id"];
                                 $stm = $pdo->prepare($sql);
                                 $stm->execute();
@@ -170,7 +171,7 @@ if (isset($_GET["add"])) {
                                     if ($row["rarity"] == 'UR') {
                                         $ur_flag = 1;
                                     } else if ($row["rarity"] == 'SSR') {
-                                        $ssr_flag = 1;
+                                        $ssr_flag += 1;
                                         if ($row["PU"] == 1) {
                                             $PU_flag = 1;
                                         }
@@ -180,7 +181,7 @@ if (isset($_GET["add"])) {
                                         $r_flag = 1;
                                     }
                                 }
-                                if (isset($ur_flag) && isset($ssr_flag) && isset($sr_flag) && isset($r_flag) && isset($PU_flag)) {
+                                if (isset($ur_flag) && ($ssr_flag > 1) && (isset($sr_flag)) && isset($r_flag) && isset($PU_flag)) {
                                     echo '<a href="gacha_create_2.php?id=' . $_GET["id"] . '&create=1" class="btn btn-success">ガチャを完成させる</a>';
                                 }
 

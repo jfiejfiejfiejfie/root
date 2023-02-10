@@ -9,8 +9,7 @@ foreach ($result as $row) {
   if ($row["rarity"] == "UR") {
     // array_push($cards['SSR'], $row["name"]);
     $cards['UR'][] = $row["name"];
-  }
-  else if ($row["rarity"] == "SSR") {
+  } else if ($row["rarity"] == "SSR") {
     // array_push($cards['SSR'], $row["name"]);
     $cards['SSR'][] = $row["name"];
   } else if ($row["rarity"] == "SR") {
