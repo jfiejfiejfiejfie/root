@@ -182,16 +182,6 @@
           <a class="dropdown-item text-center small text-gray-500" href="user_chat_list.php">一覧で見る</a>
         </div>
       </li>
-      <div class="form-inline">
-        <button class="btn" title="サイト内検索"
-          onclick="$('#wrap-site-search').toggleClass('d-none').find('input').focus()"><i
-            class="fas fa-search"></i></button>
-        <div id="wrap-site-search" class="form-inline d-none">
-          <input type="text" class="form-control" style="padding-right:40px;" placeholder="サイト内検索"
-            onkeyup="if(event.keyCode===13)location.href=`https://www.google.com/search?q=site%3A${location.host}+${encodeURIComponent(event.currentTarget.value)}`">
-          <i class="fab fa-google text-muted" style="margin-left:-30px;"></i>
-        </div>
-      </div>
       <div class="topbar-divider d-none d-sm-block"></div>
 
       <!-- Nav Item - User Information -->
