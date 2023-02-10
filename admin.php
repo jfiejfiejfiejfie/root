@@ -165,6 +165,7 @@ if ($row["admin"] == 0) {
             }
             echo '<a href="chara_create.php" class="btn btn-primary col-12">ガチャキャラ作成</a>';
             echo '<a href="chara_delete.php" class="btn btn-danger col-12">ガチャキャラ削除</a>';
+            echo '<a href="gacha_create.php" class="btn btn-primary col-12">PUガチャ作成</a>';
             ?>
           </div>
 

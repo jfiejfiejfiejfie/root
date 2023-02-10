@@ -6,7 +6,11 @@ $stm = $pdo->prepare($sql);
 $stm->execute();
 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
-  if ($row["rarity"] == "SSR") {
+  if ($row["rarity"] == "UR") {
+    // array_push($cards['SSR'], $row["name"]);
+    $cards['UR'][] = $row["name"];
+  }
+  else if ($row["rarity"] == "SSR") {
     // array_push($cards['SSR'], $row["name"]);
     $cards['SSR'][] = $row["name"];
   } else if ($row["rarity"] == "SR") {
@@ -266,10 +270,16 @@ $myURL = 'mypage.php';
               <span aria-hidden="true">×</span>
             </button>
           </div>
-          <div class="modal-body">ピックアップガチャ:大坂聡一郎GOD</div>
+          <div class="modal-body">ノーマルガチャ</div>
           <div class="modal-footer">
             <?php
-            echo "<div class='col-12'>SSR:7%</div><hr>";
+            echo "<div class='col-12'>UR:0.1%</div><hr>";
+            echo "<div class='col-12'>";
+            foreach ($cards["UR"] as $ur) {
+              echo $ur . ',';
+            }
+            echo "</div>";
+            echo "<div class='col-12'>SSR:6.9%</div><hr>";
             echo "<div class='col-12'>";
             foreach ($cards["SSR"] as $ssr) {
               echo $ssr . ',';
