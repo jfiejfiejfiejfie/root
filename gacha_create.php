@@ -21,15 +21,19 @@ if (isset($_POST["name"])) {
     $start_time = $_POST["start"];
     $end_time = $_POST["end"];
     $probability = $_POST["probability"];
-    $sql = "INSERT INTO gacha (name,PU_chara_id,start_time,end_time,probability) VALUES(:name,:chara_id,:start_time,:end_time,:probability)";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':name', $name, PDO::PARAM_STR);
-    $stm->bindValue(':chara_id', $chara_id, PDO::PARAM_STR);
-    $stm->bindValue(':start_time', $start_time, PDO::PARAM_STR);
-    $stm->bindValue(':end_time', $end_time, PDO::PARAM_STR);
-    $stm->bindValue(':probability', $probability, PDO::PARAM_STR);
-    $stm->execute();
-    header('Location:gacha_create.php');
+    if ($probability >= 100 && $probability <= 690) {
+        $sql = "INSERT INTO gacha (name,PU_chara_id,start_time,end_time,probability) VALUES(:name,:chara_id,:start_time,:end_time,:probability)";
+        $stm = $pdo->prepare($sql);
+        $stm->bindValue(':name', $name, PDO::PARAM_STR);
+        $stm->bindValue(':chara_id', $chara_id, PDO::PARAM_STR);
+        $stm->bindValue(':start_time', $start_time, PDO::PARAM_STR);
+        $stm->bindValue(':end_time', $end_time, PDO::PARAM_STR);
+        $stm->bindValue(':probability', $probability, PDO::PARAM_STR);
+        $stm->execute();
+        header('Location:gacha_create.php');
+    } else {
+        header('Location:gacha_create.php');
+    }
 }
 ?>
 <!DOCTYPE html>
