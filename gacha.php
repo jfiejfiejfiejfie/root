@@ -358,7 +358,7 @@ if (!isset($_GET["result"])) {
                         echo $ssr . ',';
                     }
                     echo "</div>";
-                    echo "<div class='col-12'>SR:23%※10連時10個目97%</div>";
+                    echo "<div class='col-12'>SR:23%※10連時10個目93%</div>";
                     echo "<div class='col-12'>";
                     foreach ($cards["SR"] as $sr) {
                         echo $sr . ',';
