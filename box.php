@@ -73,13 +73,17 @@ if (isset($_POST["kind"])) {
 
                     <div class="row">
                         <?php
-                        $sql = "SELECT box.user_id,box.char_data_id as char_data_id,char_data.name as name FROM box,char_data where box.user_id=" . $_SESSION["id"]." && box.char_data_id = char_data.id";
+                        $sql = "SELECT box.user_id,box.char_data_id as char_data_id,char_data.name as name,char_data.rarity as RA,box.id as box_id FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id";
                         $stm = $pdo->prepare($sql);
                         $stm->execute();
                         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($result as $row) {
-                            echo "<img src='chara_image.php?id=".$row["char_data_id"]."' height='150' width='150'>";
-                            // echo $row["name"];
+                            echo '<div class="sample5"><a href="chara_detail.php?id=' . $row["box_id"] . '">';
+                            echo "<img src='chara_image.php?id=" . $row["char_data_id"] . "' height='232' width='232'>";
+                            echo '<div class="mask">';
+                            echo $row["RA"] . ":" . $row["name"];
+                            echo '</div>';
+                            echo '</a></div>';
                         }
                         ?>
                     </div>
@@ -94,7 +98,7 @@ if (isset($_POST["kind"])) {
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Lending and borrowing:GOD 2022-2023</span>
                     </div>
                 </div>
             </footer>
