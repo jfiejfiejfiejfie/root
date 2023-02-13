@@ -26,17 +26,12 @@ $stm->execute();
 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
     if ($row["rarity"] == "UR") {
-        // array_push($cards['SSR'], $row["name"]);
         $cards['UR'][] = $row["name"];
-    }
-    else if ($row["rarity"] == "SSR") {
-        // array_push($cards['SSR'], $row["name"]);
+    } else if ($row["rarity"] == "SSR") {
         $cards['SSR'][] = $row["name"];
     } else if ($row["rarity"] == "SR") {
-        // array_push($cards['SR'], $row["name"]);
         $cards['SR'][] = $row["name"];
     } else {
-        // array_push($cards['R'], $row["name"]);
         $cards['R'][] = $row["name"];
     }
 }
