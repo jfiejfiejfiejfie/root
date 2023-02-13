@@ -122,12 +122,11 @@ if (!isset($_GET["result"])) {
                         $probability += $rarity_probability;
                         if ($rand <= $probability) { // 排出レアリティ確定
                             if ($rarity == "PU") {
-                                $r[] = "SSR";
                                 $main_rarity = "SSR";
                             } else {
-                                $r[] = $rarity;
                                 $main_rarity = $rarity;
                             }
+                            $r[] = $rarity;
                             $card_id = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
                             $card_result[] = $card_id;
                             $sql = "SELECT * FROM char_data";
@@ -156,12 +155,11 @@ if (!isset($_GET["result"])) {
                     $probability += $rarity_probability;
                     if ($rand <= $probability) { // 排出レアリティ確定
                         if ($rarity == "PU") {
-                            $r[] = "SSR";
                             $main_rarity = "SSR";
                         } else {
-                            $r[] = $rarity;
                             $main_rarity = $rarity;
                         }
+                        $r[] = $rarity;
                         $card_id = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
                         $card_result[] = $card_id;
                         $sql = "SELECT * FROM char_data";
@@ -315,7 +313,12 @@ if (!isset($_GET["result"])) {
                             }
                             $count = 0;
                             foreach ($card_result as $v) {
-                                echo $r[$count] . ':' . $cards[$r[$count]][$v] . "をGET!<br>";
+                                if ($r[$count] == "PU") {
+                                    $rare = "SSR";
+                                } else {
+                                    $rare = $r[$count];
+                                }
+                                echo $rare . ':' . $cards[$r[$count]][$v] . "をGET!<br>";
                                 $count += 1;
                             }
                             echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
@@ -338,13 +341,13 @@ if (!isset($_GET["result"])) {
                             } else {
                                 $r = $_GET["r"];
                             }
-                            echo "<div class='col-12'>" . $r . ':' . $cards[$r][$_GET["result"]] . "をGET!</div>";
+                            echo "<div class='col-12'>" . $r . ':' . $cards[$_GET["r"]][$_GET["result"]] . "をGET!</div>";
                             $sql = "SELECT * FROM char_data";
                             $stm = $pdo->prepare($sql);
                             $stm->execute();
                             $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                             foreach ($result as $row) {
-                                if (($row["rarity"] == $r) && ($row["name"] == $cards[$r][$_GET["result"]])) {
+                                if (($row["rarity"] == $r) && ($row["name"] == $cards[$_GET["r"]][$_GET["result"]])) {
                                     $chara_id = $row["id"];
                                 }
                             }
@@ -365,7 +368,7 @@ if (!isset($_GET["result"])) {
                                 echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
                             }
                         }
-                        echo $raritys["PU"];
+                        echo $cards["PU"][0];
                         echo $raritys["SSR"];
                         ?>
                     </div>
