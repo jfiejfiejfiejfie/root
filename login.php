@@ -112,6 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
+                                    <div class="sidebar-brand-text mx-2">Lab:G</div>
                                         <h1 class="h4 text-gray-900 mb-4">ログイン</h1>
                                     </div>
                                     <?php
@@ -129,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             </span>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" placeholder="password" name="password"
+                                            <input type="password" placeholder="PASSWORD" name="password"
                                                 class="form-control <?php echo (!empty(h($errors['password']))) ? 'is-invalid' : ''; ?>"
                                                 value="<?php echo h($datas['password']); ?>">
                                             <span class="invalid-feedback">

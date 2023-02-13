@@ -35,7 +35,7 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-fw fa-comments"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">OSAKA</div>
+                <div class="sidebar-brand-text mx-2">Lab:G</div>
             </a>
 
             <!-- Divider -->
@@ -119,16 +119,16 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="user_chat_list.php">
-                    <i class="fas fa-fw fa-comment"></i>
-                    <span>チャット</span></a>
+                <a class="nav-link" href="gacha_list.php">
+                    <i class="fa fa-cube" aria-hidden="true"></i>
+                    <span>ガチャ</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="gacha_list.php">
-                    <i class="fa fa-cube" aria-hidden="true"></i>
-                    <span>ガチャ</span></a>
+                <a class="nav-link" href="user_chat_list.php">
+                    <i class="fas fa-fw fa-comment"></i>
+                    <span>チャット</span></a>
             </li>
 
             <!-- Nav Item - Charts -->

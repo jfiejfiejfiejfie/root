@@ -53,7 +53,7 @@ if (!isset($_SESSION["check"])) {
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i><img height='65px'src='images/human.png'></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">WACCA <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">Lab:G <sup>2</sup></div>
             </a>
 
             <!-- Divider -->
