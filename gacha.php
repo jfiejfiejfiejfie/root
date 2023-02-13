@@ -123,8 +123,10 @@ if (!isset($_GET["result"])) {
                         if ($rand <= $probability) { // 排出レアリティ確定
                             if ($rarity == "PU") {
                                 $r[] = "SSR";
+                                $main_rarity = "SSR";
                             } else {
                                 $r[] = $rarity;
+                                $main_rarity = $rarity;
                             }
                             $card_id = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
                             $card_result[] = $card_id;
@@ -133,7 +135,7 @@ if (!isset($_GET["result"])) {
                             $stm->execute();
                             $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                             foreach ($result as $row) {
-                                if (($row["rarity"] == $rarity) && ($row["name"] == $cards[$rarity][$card_id])) {
+                                if (($row["rarity"] == $main_rarity) && ($row["name"] == $cards[$rarity][$card_id])) {
                                     $chara_id = $row["id"];
                                 }
                             }
@@ -155,8 +157,10 @@ if (!isset($_GET["result"])) {
                     if ($rand <= $probability) { // 排出レアリティ確定
                         if ($rarity == "PU") {
                             $r[] = "SSR";
+                            $main_rarity = "SSR";
                         } else {
                             $r[] = $rarity;
+                            $main_rarity = $rarity;
                         }
                         $card_id = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
                         $card_result[] = $card_id;
@@ -165,7 +169,7 @@ if (!isset($_GET["result"])) {
                         $stm->execute();
                         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($result as $row) {
-                            if (($row["rarity"] == $rarity) && ($row["name"] == $cards[$rarity][$card_id])) {
+                            if (($row["rarity"] == $main_rarity) && ($row["name"] == $cards[$rarity][$card_id])) {
                                 $chara_id = $row["id"];
                             }
                         }
@@ -217,10 +221,10 @@ if (!isset($_GET["result"])) {
             $stm = $pdo->prepare($sql);
             $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
             $stm->execute();
-            if(isset($_GET["id"])){
-            header("Location:gacha.php?result=" . $gacha_result . "&r=" . $rarity . "&id=" . $_GET["id"]);
-            }else{
-            header("Location:gacha.php?result=" . $gacha_result . "&r=" . $rarity);
+            if (isset($_GET["id"])) {
+                header("Location:gacha.php?result=" . $gacha_result . "&r=" . $rarity . "&id=" . $_GET["id"]);
+            } else {
+                header("Location:gacha.php?result=" . $gacha_result . "&r=" . $rarity);
             }
         }
 
@@ -361,6 +365,8 @@ if (!isset($_GET["result"])) {
                                 echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
                             }
                         }
+                        echo $raritys["PU"];
+                        echo $raritys["SSR"];
                         ?>
                     </div>
 
