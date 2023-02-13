@@ -143,7 +143,7 @@ $myURL = 'mypage.php';
                   echo '次のクラスまで残り' . ($next - $score) . '点';
                 }
                 echo '<div class="col-6">ポイント<font size="10">', number_format($point), 'p</font></div>';
-                echo '<a class="btn btn-primary" data-toggle="modal" data-target="#gacha">ポイントでガチャる</a>';
+                echo '<a class="btn btn-primary" href="gacha_list.php">ポイントでガチャる</a>';
                 //echo '<br><a href="shop_list.php"><img src="images/point.png"></a>';
                 ?>
                 <?php
@@ -232,7 +232,7 @@ $myURL = 'mypage.php';
 
     </div>
     <!-- End of Page Wrapper -->
-    <div class="modal fade" id="gacha" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- <div class="modal fade" id="gacha" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -300,7 +300,7 @@ $myURL = 'mypage.php';
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <?php require_once("boot_modal.php"); ?>
 </body>
 

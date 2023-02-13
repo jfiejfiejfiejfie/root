@@ -1,78 +1,93 @@
 <?php
 session_start();
 require_once "db_connect.php";
-// $cards['SSR'] = ['大坂A', '大坂GOD',];
-// $cards['SR'] = ['聡一郎', '聡次郎', '聡三郎', '聡五郎',];
-// $cards['R'] = ['Oさん', 'ラッキー・聡', 'オオサカ', 'O-SAKA-088'];
-$raritys = [
-    'UR' => 10,
-    //0.1%
-    'SSR' => 690,
-    //6.9%
-    'SR' => 2300,
-    //23%
-    'R' => 7000, //70%
-];
-$sr_raritys = [
-    'UR' => 10,
-    //0.1%
-    'SSR' => 690,
-    //6.9%
-    'SR' => 9300, //93%
-];
-$sql = "SELECT * FROM char_data";
-$stm = $pdo->prepare($sql);
-$stm->execute();
-$result = $stm->fetchAll(PDO::FETCH_ASSOC);
-foreach ($result as $row) {
-    if ($row["rarity"] == "UR") {
-        $cards['UR'][] = $row["name"];
-    } else if ($row["rarity"] == "SSR") {
-        $cards['SSR'][] = $row["name"];
-    } else if ($row["rarity"] == "SR") {
-        $cards['SR'][] = $row["name"];
-    } else {
-        $cards['R'][] = $row["name"];
-    }
+if (isset($_GET["id"])) {
+    $gacha_id = $_GET["id"];
+} else {
+    $gacha_id = 0;
 }
-$user_id = $_SESSION["id"];
-// array_push($cards['SSR'], $ssr);
-// array_push($cards['SR'], $sr);
-// array_push($cards['R'], $ra);
-function post_request($url, $param)
-{
-    //リクエスト時のオプション指定
-    $options = array(
-        'http' => array(
-            'method' => 'POST',
-            //ここでPOSTを指定
-            'header' => array(
-                'Content-type: application/x-www-form-urlencoded',
-                'User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:13.0) Gecko/20100101 Firefox/13.0.1'
-            ),
-            'content' => http_build_query($param),
-            'ignore_errors' => true,
-            'protocol_version' => '1.1'
-        ),
-        'ssl' => array(
-            'verify_peer' => false,
-            'verify_peer_name' => false
-        )
-    );
-
-    //リクエスト実行
-    $contents = @file_get_contents($url, false, stream_context_create($options));
-
-    //ステータスコード抜粋
-    preg_match('/HTTP\/1\.[0|1|x] ([0-9]{3})/', $http_response_header[0], $matches);
-    $statusCode = (int) $matches[1];
-
-    //配列で返すためにjsonのエンコード
-    $contents_array = array();
-    if ($statusCode === 200) {
-        $contents_array = json_decode($contents);
+if ($gacha_id == 0) {
+    $raritys = [
+        'UR' => 10,
+        //0.1%
+        'SSR' => 690,
+        //6.9%
+        'SR' => 2300,
+        //23%
+        'R' => 7000, //70%
+    ];
+    $sr_raritys = [
+        'UR' => 10,
+        //0.1%
+        'SSR' => 690,
+        //6.9%
+        'SR' => 9300, //93%
+    ];
+    $gacha_name = "ノーマルガチャ";
+    $sql = "SELECT * FROM char_data";
+    $stm = $pdo->prepare($sql);
+    $stm->execute();
+    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row) {
+        if ($row["rarity"] == "UR") {
+            $cards['UR'][] = $row["name"];
+        } else if ($row["rarity"] == "SSR") {
+            $cards['SSR'][] = $row["name"];
+        } else if ($row["rarity"] == "SR") {
+            $cards['SR'][] = $row["name"];
+        } else {
+            $cards['R'][] = $row["name"];
+        }
     }
-    return $contents_array;
+    $user_id = $_SESSION["id"];
+} else {
+    $sql = "SELECT * FROM gacha WHERE id=" . $gacha_id;
+    $stm = $pdo->prepare($sql);
+    $stm->execute();
+    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row) {
+        $gacha_name = $row["name"];
+        $pu_pro = $row["probability"];
+    }
+    $ssr = 690 - $pu_pro;
+    $raritys = [
+        'UR' => 10,
+        //0.1%
+        'PU' => $pu_pro,
+        'SSR' => $ssr,
+        //6.9%
+        'SR' => 2300,
+        //23%
+        'R' => 7000, //70%
+    ];
+    $sr_raritys = [
+        'UR' => 10,
+        //0.1%
+        'PU' => $pu_pro,
+        'SSR' => $ssr,
+        //6.9%
+        'SR' => 9300, //93%
+    ];
+    $sql = "SELECT char_data.rarity as rarity,char_data.name as name,gacha_list.PU as PU FROM char_data,gacha_list WHERE char_data.id = gacha_list.chara_id && gacha_list.gacha_id = " . $gacha_id;
+    $stm = $pdo->prepare($sql);
+    $stm->execute();
+    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row) {
+        if ($row["rarity"] == "UR") {
+            $cards['UR'][] = $row["name"];
+        } else if ($row["rarity"] == "SSR") {
+            if ($row["PU"] == 1) {
+                $cards['PU'][] = $row["name"];
+            } else {
+                $cards['SSR'][] = $row["name"];
+            }
+        } else if ($row["rarity"] == "SR") {
+            $cards['SR'][] = $row["name"];
+        } else {
+            $cards['R'][] = $row["name"];
+        }
+    }
+    $user_id = $_SESSION["id"];
 }
 if (!isset($_SESSION["loggedin"])) {
     header('Location:login.php');
@@ -98,15 +113,51 @@ if (!isset($_GET["result"])) {
             // 普通に9連
             if ($point < 100) {
                 header('Location:404.php');
-            }
-            for ($i = 0; $i < 9; $i++) {
-                // require_once("10ren.php");
+            } else {
+                for ($i = 0; $i < 9; $i++) {
+                    // require_once("10ren.php");
+                    $rand = mt_rand(0, 10000);
+                    $probability = 0;
+                    foreach ($raritys as $rarity => $rarity_probability) {
+                        $probability += $rarity_probability;
+                        if ($rand <= $probability) { // 排出レアリティ確定
+                            if ($rarity == "PU") {
+                                $r[] = "SSR";
+                            } else {
+                                $r[] = $rarity;
+                            }
+                            $card_id = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
+                            $card_result[] = $card_id;
+                            $sql = "SELECT * FROM char_data";
+                            $stm = $pdo->prepare($sql);
+                            $stm->execute();
+                            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                            foreach ($result as $row) {
+                                if (($row["rarity"] == $rarity) && ($row["name"] == $cards[$rarity][$card_id])) {
+                                    $chara_id = $row["id"];
+                                }
+                            }
+                            $sql = "INSERT INTO box (user_id,char_data_id,level) VALUES(:user_id,:chara_data,1)";
+                            $stm = $pdo->prepare($sql);
+                            $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+                            $stm->bindValue(':chara_data', $chara_id, PDO::PARAM_STR);
+                            $stm->execute();
+                            break 1;
+                        }
+                    }
+                }
+
+                // SR以上確定ガチャ
                 $rand = mt_rand(0, 10000);
                 $probability = 0;
-                foreach ($raritys as $rarity => $rarity_probability) {
+                foreach ($sr_raritys as $rarity => $rarity_probability) {
                     $probability += $rarity_probability;
                     if ($rand <= $probability) { // 排出レアリティ確定
-                        $r[] = $rarity;
+                        if ($rarity == "PU") {
+                            $r[] = "SSR";
+                        } else {
+                            $r[] = $rarity;
+                        }
                         $card_id = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
                         $card_result[] = $card_id;
                         $sql = "SELECT * FROM char_data";
@@ -123,61 +174,32 @@ if (!isset($_GET["result"])) {
                         $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
                         $stm->bindValue(':chara_data', $chara_id, PDO::PARAM_STR);
                         $stm->execute();
-                        break 1;
+                        break;
                     }
                 }
+                $sql = "UPDATE users SET point=point-100 WHERE id=:id";
+                $stm = $pdo->prepare($sql);
+                $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
+                $stm->execute();
             }
-
-            // SR以上確定ガチャ
-            $rand = mt_rand(0, 10000);
-            $probability = 0;
-            foreach ($sr_raritys as $rarity => $rarity_probability) {
-                $probability += $rarity_probability;
-                if ($rand <= $probability) { // 排出レアリティ確定
-                    $r[] = $rarity;
-                    $card_id = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
-                    $card_result[] = $card_id;
-                    $sql = "SELECT * FROM char_data";
-                    $stm = $pdo->prepare($sql);
-                    $stm->execute();
-                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($result as $row) {
-                        if (($row["rarity"] == $rarity) && ($row["name"] == $cards[$rarity][$card_id])) {
-                            $chara_id = $row["id"];
-                        }
-                    }
-                    $sql = "INSERT INTO box (user_id,char_data_id,level) VALUES(:user_id,:chara_data,1)";
-                    $stm = $pdo->prepare($sql);
-                    $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
-                    $stm->bindValue(':chara_data', $chara_id, PDO::PARAM_STR);
-                    $stm->execute();
-                    break;
-                }
-            }
-            $sql = "UPDATE users SET point=point-100 WHERE id=:id";
-            $stm = $pdo->prepare($sql);
-            $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
-            $stm->execute();
-            // 結果表示
-            // $count = 0;
-            // foreach ($card_result as $v) {
-            //     echo $cards[$r[$count]][$v] . "<br>";
-            //     $count += 1;
-            // }
-            // echo var_dump( $result );
         } else { //単発
             $rand = mt_rand(0, 10000); // 乱数生成
             $probability = 0;
             foreach ($raritys as $rarity => $rarity_probability) {
                 $probability += $rarity_probability;
                 if ($rand <= $probability) { // 排出レアリティ確定
+                    if ($rarity == "PU") {
+                        $main_rarity = "SSR";
+                    } else {
+                        $main_rarity = $rarity;
+                    }
                     $gacha_result = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
                     $sql = "SELECT * FROM char_data";
                     $stm = $pdo->prepare($sql);
                     $stm->execute();
                     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($result as $row) {
-                        if (($row["rarity"] == $rarity) && ($row["name"] == $cards[$rarity][$gacha_result])) {
+                        if (($row["rarity"] == $main_rarity) && ($row["name"] == $cards[$rarity][$gacha_result])) {
                             $chara_id = $row["id"];
                         }
                     }
@@ -195,7 +217,11 @@ if (!isset($_GET["result"])) {
             $stm = $pdo->prepare($sql);
             $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
             $stm->execute();
+            if(isset($_GET["id"])){
+            header("Location:gacha.php?result=" . $gacha_result . "&r=" . $rarity . "&id=" . $_GET["id"]);
+            }else{
             header("Location:gacha.php?result=" . $gacha_result . "&r=" . $rarity);
+            }
         }
 
     } else {
@@ -289,34 +315,52 @@ if (!isset($_GET["result"])) {
                                 $count += 1;
                             }
                             echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
-                            echo "<a href='gacha.php?custom=1' class='btn btn-primary col-12'>もう一回10連ガチャる</a>";
+                            if (isset($_GET["id"])) {
+                                echo "<a href='gacha.php?id=" . $_GET["id"] . "' class='btn btn-primary col-6'>ガチャる</a>";
+                            } else {
+                                echo "<a href='gacha.php' class='btn btn-primary col-6'>ガチャる</a>";
+                            }
+                            if (isset($_GET["id"])) {
+                                echo "<a href='gacha.php?id=" . $_GET["id"] . "&custom=1' class='btn btn-primary col-6'>もう一回10連を引く</a>";
+                            } else {
+                                echo "<a href='gacha.php?custom=1' class='btn btn-primary col-6'>もう一回10連を引く</a>";
+                            }
                             if ($point >= 100) {
                                 echo "<br><div class='col-12'>あと" . floor($point / 100) . "回引けます</div>";
                             }
                         } else {
-                            echo "<div class='col-12'>" . $_GET["r"] . ':' . $cards[$_GET["r"]][$_GET["result"]] . "をGET!</div>";
+                            if ($_GET["r"] == "PU") {
+                                $r = "SSR";
+                            } else {
+                                $r = $_GET["r"];
+                            }
+                            echo "<div class='col-12'>" . $r . ':' . $cards[$r][$_GET["result"]] . "をGET!</div>";
                             $sql = "SELECT * FROM char_data";
                             $stm = $pdo->prepare($sql);
                             $stm->execute();
                             $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                             foreach ($result as $row) {
-                                if (($row["rarity"] == $_GET["r"]) && ($row["name"] == $cards[$_GET["r"]][$_GET["result"]])) {
+                                if (($row["rarity"] == $r) && ($row["name"] == $cards[$r][$_GET["result"]])) {
                                     $chara_id = $row["id"];
                                 }
                             }
                             echo "<img src='chara_image.php?id=$chara_id' height='150' width='150'>";
                             echo "<div class='col-12'>所持ポイント:" . $point . "p</div>";
                             echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
-                            echo "<a href='gacha.php' class='btn btn-primary col-12'>もう一回ガチャる</a>";
+                            if (isset($_GET["id"])) {
+                                echo "<a href='gacha.php?id=" . $_GET["id"] . "' class='btn btn-primary col-6'>もう一回ガチャる</a>";
+                            } else {
+                                echo "<a href='gacha.php' class='btn btn-primary col-6'>もう一回ガチャる</a>";
+                            }
+                            if (isset($_GET["id"])) {
+                                echo "<a href='gacha.php?id=" . $_GET["id"] . "&custom=1' class='btn btn-primary col-6'>10連を引く</a>";
+                            } else {
+                                echo "<a href='gacha.php?custom=1' class='btn btn-primary col-6'>10連を引く</a>";
+                            }
                             if ($point >= 10) {
                                 echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
                             }
                         }
-                        // $count = 0;
-                        // foreach($cards["SSR"] as $ca){
-                        //     $ca[$count];
-                        //     $count += 1;
-                        // }
                         ?>
                     </div>
 
@@ -352,7 +396,11 @@ if (!isset($_GET["result"])) {
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">ノーマルガチャ</div>
+                <div class="modal-body">
+                    <?php
+                    echo $gacha_name;
+                    ?>
+                </div>
                 <div class="modal-footer">
                     <?php
                     echo "<div class='col-12'>UR:0.1%</div><hr>";
@@ -363,6 +411,11 @@ if (!isset($_GET["result"])) {
                     echo "</div>";
                     echo "<div class='col-12'>SSR:6.9%</div><hr>";
                     echo "<div class='col-12'>";
+                    if (isset($cards["PU"])) {
+                        foreach ($cards["PU"] as $ssr) {
+                            echo 'ピックアップ!:' . $ssr . '確率:' . ($pu_pro / 100) . '%<br>';
+                        }
+                    }
                     foreach ($cards["SSR"] as $ssr) {
                         echo $ssr . ',';
                     }

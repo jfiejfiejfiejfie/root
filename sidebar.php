@@ -26,9 +26,9 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
         }
     </style>
 </head>
-<div class="side"style="z-index:10000">
-        <div class="side_content">
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion sticky-top" id="accordionSidebar">
+<div class="side" style="z-index:10000">
+    <div class="side_content">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion sticky-top" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./">
@@ -86,7 +86,11 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
                         <a class="collapse-item" href="good_list.php">いいね一覧</a>
                         <a class="collapse-item" href="eturan.php">閲覧履歴</a>
                         <a class="collapse-item" href="box.php">MyBOX</a>
-                        <a class="collapse-item" href="admin.php">管理者ページ</a>
+                        <?php
+                        if ($_SESSION["admin"] != 0) {
+                            ?>
+                            <a class="collapse-item" href="admin.php">管理者ページ</a>
+                        <?php } ?>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
@@ -118,6 +122,13 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
                 <a class="nav-link" href="user_chat_list.php">
                     <i class="fas fa-fw fa-comment"></i>
                     <span>チャット</span></a>
+            </li>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="gacha_list.php">
+                    <i class="fa fa-cube" aria-hidden="true"></i>
+                    <span>ガチャ</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
@@ -157,7 +168,7 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-            </div>
-		</div>
+    </div>
+</div>
 
 </ul>
