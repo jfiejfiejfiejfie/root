@@ -368,8 +368,6 @@ if (!isset($_GET["result"])) {
                                 echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
                             }
                         }
-                        echo $cards["PU"][0];
-                        echo $raritys["SSR"];
                         ?>
                     </div>
 

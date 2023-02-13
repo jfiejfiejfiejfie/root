@@ -61,17 +61,22 @@ require_once "db_connect.php";
                     <div class="row">
                         <div class="col-12">
                             <?php
-                            $sql = "SELECT gacha.probability as pro,gacha.name as gacha_name,char_data.id as PU_id,gacha.id as gacha_id FROM gacha,char_data WHERE gacha.PU_chara_id = char_data.id && gacha.checked=1";
+                            date_default_timezone_set('Asia/Tokyo');
+                            $today = date("Y-m-d");
+                            $sql = "SELECT gacha.probability as pro,gacha.name as gacha_name,char_data.id as PU_id,gacha.id as gacha_id,gacha.start_time as ST,gacha.end_time as ET FROM gacha,char_data WHERE gacha.PU_chara_id = char_data.id && gacha.checked=1";
                             $stm = $pdo->prepare($sql);
                             $stm->execute();
                             $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                             foreach ($result as $row) {
-                                echo $row["gacha_name"] . ":ピックアップ確率:" . ($row["pro"] / 100) . "%!!<br>";
-                                echo "<img src='chara_image.php?id=" . $row["PU_id"] . "' height='150' width='150'><br>";
-                                echo "<a class='btn btn-primary' href='gacha.php?id=" . $row["gacha_id"] . "'>ガチャる</a>";
-                                echo "<a class='btn btn-primary' href='gacha.php?id=" . $row["gacha_id"] . "&custom=1'>10連</a><br>";
+                                if (($row["ST"] <= $today) && ($row["ET"] >= $today)) {
+                                    echo $row["gacha_name"] . ":ピックアップ確率:" . ($row["pro"] / 100) . "%!!<br>";
+                                    echo "<img src='chara_image.php?id=" . $row["PU_id"] . "' height='150' width='150'><br>";
+                                    echo "<a class='btn btn-primary' href='gacha.php?id=" . $row["gacha_id"] . "'>ガチャる</a>";
+                                    echo "<a class='btn btn-primary' href='gacha.php?id=" . $row["gacha_id"] . "&custom=1'>10連</a><br>";
+                                    echo "開催期間:".$row["ST"]."～".$row["ET"]."<br><hr>";
+                                }
                             }
-                            echo "<hr>ノーマルガチャ";
+                            echo "ノーマルガチャ";
                             echo "<a class='btn btn-primary' href='gacha.php'>ガチャる</a>";
                             echo "<a class='btn btn-primary' href='gacha.php?custom=1'>10連</a>";
                             ?>
