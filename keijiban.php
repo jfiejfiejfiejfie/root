@@ -242,7 +242,7 @@ if (!empty($_POST['btn_submit'])) {
           <div class="wiki m15 m10_s">投稿の際は「<class="dropdown-item" href="logout.php" data-toggle="modal" data-target="#kiyaku">
                         利用規約
                     」を順守して投稿して下さい。※利用規約をクリックで確認できます。</div>
-          <div class="p15 bg_gray fs13 mb10">貸し借りサイトの愚痴掲示板です。名前を晒す行為や、愚痴に対する文句は禁止しています。</div>
+          <div class="p15 bg_gray fs13 mb10">貸し借りサイトの掲示板です。名前を晒す行為や、愚痴に対する文句は禁止しています。</div>
           <div class="row">
             <section id="point">
 
@@ -256,7 +256,7 @@ if (!empty($_POST['btn_submit'])) {
                   <label>コメントを検索します（部分一致）：<br>
                     <div class="input-group">
                       <input type="text" name="message" class="form-control form-control-user"
-                        placeholder="調べたいコメントを入れろ">
+                        placeholder="調べたいコメントを入力">
                       <div class="input-group-append">
                         <button class="btn btn-info" type="submit">
                           <i class="fas fa-search fa-sm"></i>
@@ -276,9 +276,7 @@ if (!empty($_POST['btn_submit'])) {
                 <?php if (!empty($error_message)): ?>
                   <ul class="error_message">
                     <?php foreach ($error_message as $value): ?>
-                      <li>・
                         <?php echo $value; ?>
-                      </li>
                     <?php endforeach; ?>
                   </ul>
                 <?php endif; ?>
@@ -322,11 +320,12 @@ if (!empty($_POST['btn_submit'])) {
                           echo '<td>', $row2['message'], '</td>';
                           echo '</tr>';
                         }
-                        echo '<tr><td>';
+                        echo '<td>';
                         echo '<form action="keijiban.php" method="post">';
-                        echo '<br><br>返信内容';
-                        echo '<br><input type="text" name="message">';
-                        echo '<input type="submit" value="投稿" name="btn_submit" class="btn  btn-outline-primary">';
+                        //echo '返信内容';
+                        echo '<input type="text" name="message">';
+                        echo '　';
+                        echo '<input type="submit" value="返信" name="btn_submit" class="btn btn-primary">';
                         // echo '<input type="hidden" value="<?php echo $_POST['line_number'];" name="line_number">';
                         echo '<br>';
     
@@ -379,7 +378,7 @@ if (!empty($_POST['btn_submit'])) {
       
       利用規約
 
-この利用規約（以下、「本規約」といいます。）は、ＯＳＡＫＡ（以下、「当社」といいます。）がこのウェブサイト上で提供するサービス（以下、「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下、「ユーザー」といいます。）には、本規約に従って、本サービスをご利用いただきます。
+この利用規約（以下、「本規約」といいます。）は、ＬＡＢ：Ｇ（以下、「当社」といいます。）がこのウェブサイト上で提供するサービス（以下、「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下、「ユーザー」といいます。）には、本規約に従って、本サービスをご利用いただきます。
 
 第1条（適用）
 本規約は、ユーザーと当社との間の本サービスの利用に関わる一切の関係に適用されるものとします。
