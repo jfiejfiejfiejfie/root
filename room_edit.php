@@ -16,7 +16,7 @@ require_once "db_connect.php";
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>貸し借りサイト　Lab:G</title>
+  <title>貸し借りサイト　Lab:G | ルーム編集</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

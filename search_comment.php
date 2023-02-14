@@ -28,7 +28,7 @@ if (isset($_POST["kind"])) {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>貸し借りサイト　Lab:GA</title>
+  <title>貸し借りサイト　Lab:GA | 掲示板検索</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

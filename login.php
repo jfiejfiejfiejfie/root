@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>貸し借りサイト　Lab:G | ログイン</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                    <div class="sidebar-brand-text mx-2">Lab:G</div>
+                                        <div class="sidebar-brand-text mx-2">Lab:G</div>
                                         <h1 class="h4 text-gray-900 mb-4">ログイン</h1>
                                     </div>
                                     <?php
@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <form class="user" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="post">
                                         <div class="form-group">
                                             <input type="text" placeholder="USERID" name="name"
-                                                class="form-control <?php echo (!empty(h($errors['name']))) ? 'is-invalid' : ''; ?>"
+                                                class="form-control <?php echo (!empty($errors['name'])) ? 'is-invalid' : ''; ?>"
                                                 value="<?php echo h($datas['name']); ?>">
                                             <span class="invalid-feedback">
                                                 <?php echo h($errors['name']); ?>
@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </div>
                                         <div class="form-group">
                                             <input type="password" placeholder="PASSWORD" name="password"
-                                                class="form-control <?php echo (!empty(h($errors['password']))) ? 'is-invalid' : ''; ?>"
+                                                class="form-control <?php echo (!empty($errors['password'])) ? 'is-invalid' : ''; ?>"
                                                 value="<?php echo h($datas['password']); ?>">
                                             <span class="invalid-feedback">
                                                 <?php echo h($errors['password']); ?>
@@ -145,8 +145,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             </div>
                                         </div> -->
                                         <div class="form-group">
-                                            <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
-                                            <input type="submit" class="btn btn-primary btn btn-primary btn-user btn-block" value="ログイン">
+                                            <input type="hidden" name="token"
+                                                value="<?php echo h($_SESSION['token']); ?>">
+                                            <input type="submit"
+                                                class="btn btn-primary btn btn-primary btn-user btn-block" value="ログイン">
                                         </div>
                                         <!-- <a href="login.php" class="btn btn-primary btn-user btn-block">
                                             Login

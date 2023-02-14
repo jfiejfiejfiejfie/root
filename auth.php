@@ -73,7 +73,7 @@ if (empty($errors)) {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Register</title>
+  <title>貸し借りサイト　Lab:G | アカウント認証完了</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

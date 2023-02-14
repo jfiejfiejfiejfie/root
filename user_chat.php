@@ -77,7 +77,9 @@ foreach ($result as $row) {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>貸し借りサイト　Lab:G</title>
+  <title>貸し借りサイト　Lab:G |
+    <?php echo $user_name2 . "とのチャット"; ?>
+  </title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

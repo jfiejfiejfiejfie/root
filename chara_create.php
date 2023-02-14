@@ -39,7 +39,7 @@ if (isset($_POST["name"])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>貸し借りサイト　Lab:G</title>
+    <title>貸し借りサイト　Lab:G | キャラ作成</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

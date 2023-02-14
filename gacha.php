@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once "db_connect.php";
+if (!isset($_SESSION["loggedin"])) {
+    header('Location:login.php');
+}
 if (isset($_GET["id"])) {
     $gacha_id = $_GET["id"];
 } else {
@@ -89,9 +92,7 @@ if ($gacha_id == 0) {
     }
     $user_id = $_SESSION["id"];
 }
-if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
-}
+
 require_once('checked.php');
 require_once "db_connect.php";
 $myURL = 'add_db.php';
@@ -242,7 +243,7 @@ if (!isset($_GET["result"])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>貸し借りサイト　Lab:G</title>
+    <title>貸し借りサイト　Lab:G | <?php echo $gacha_name."のガチャ結果";?></title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

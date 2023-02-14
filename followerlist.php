@@ -2,6 +2,20 @@
 session_start();
 $myURL = 'followerlist.php';
 require_once "db_connect.php";
+if (isset($_GET["id"])) {
+  $id = $_GET["id"];
+  $sql = "SELECT * FROM users WHERE id=:id";
+  $stm = $pdo->prepare($sql);
+  $stm->bindValue(':id', $id, PDO::PARAM_STR);
+  $stm->execute();
+  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+  foreach ($result as $row) {
+    $name = $row["name"];
+  }
+} else {
+  $id = $_SESSION["id"];
+  $name = "あなた";
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -14,7 +28,11 @@ require_once "db_connect.php";
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>貸し借りサイト　Lab:G</title>
+  <title>貸し借りサイト　Lab:G |
+    <?php
+    echo $name . "のフォロワーリスト";
+    ?>
+  </title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -53,23 +71,21 @@ require_once "db_connect.php";
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">フォロワーリスト</h1>
+            <h1 class="h3 mb-0 text-gray-800"><?php
+    echo $name . "のフォロワーリスト";
+    ?></h1>
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
 
           <div class="row">
-            <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
-
-
-              <?php
-              if (isset($_GET["id"])) {
-                $id = $_GET["id"];
-              } else {
-                $id = $_SESSION["id"];
-              }
+            <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
               try {
-
+                if (isset($_GET["id"])) {
+                  $id = $_GET["id"];
+                } else {
+                  $id = $_SESSION["id"];
+                }
                 $sql = "SELECT * FROM followlist WHERE user_id=:id ORDER BY id DESC";
                 $stm = $pdo->prepare($sql);
                 $stm->bindValue(':id', $id, PDO::PARAM_STR);

@@ -68,7 +68,7 @@ if (isset($_GET["add"])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>貸し借りサイト　Lab:G</title>
+    <title>貸し借りサイト　Lab:G | PUガチャ作成-2</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

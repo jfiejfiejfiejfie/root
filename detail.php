@@ -11,6 +11,7 @@ $stm = $pdo->prepare($sql);
 $stm->execute();
 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
+  $item_name = $row["item"];
   $flag += 1;
 }
 if ($flag == 0) {
@@ -88,7 +89,7 @@ if (isset($_SESSION["id"])) {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>貸し借りサイト　Lab:G</title>
+  <title>貸し借りサイト　Lab:G | <?php echo $item_name."の詳細";?></title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

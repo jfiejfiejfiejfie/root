@@ -22,9 +22,6 @@ if (!isset($_GET['page_id'])) {
 } else {
   $now = $_GET['page_id'];
 }
-if (isset($_POST["kind"])) {
-  require_once('insert.php');
-}
 if (isset($_GET["chat"])) {
   // $name = $_SESSION["name"];
   $room_id = $_GET["id"];
@@ -74,6 +71,13 @@ if (isset($_GET["chat"])) {
     header('Location:room.php?id=' . $id);
   }
 }
+$sql = "SELECT * FROM room WHERE id=$id";
+$stm = $pdo->prepare($sql);
+$stm->execute();
+$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+foreach ($result as $row) {
+  $room_name = $row["item"];
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -86,7 +90,9 @@ if (isset($_GET["chat"])) {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>貸し借りサイト　Lab:G</title>
+  <title>貸し借りサイト　Lab:G | ルーム:
+    <?php echo $room_name; ?>
+  </title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

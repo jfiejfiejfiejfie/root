@@ -87,7 +87,15 @@ if (isset($_GET["delete"])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>貸し借りサイト　Lab:G</title>
+    <title>貸し借りサイト　Lab:G |
+        <?php
+        if (isset($_GET["result"])) {
+            echo $chara_name . "売却";
+        } else {
+            echo $chara_name . "の詳細";
+        }
+        ?>
+    </title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

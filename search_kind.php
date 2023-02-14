@@ -46,7 +46,9 @@ $option = "&kind_name=$kind_name";
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>貸し借りサイト　Lab:G</title>
+  <title>貸し借りサイト　Lab:G | 検索:
+    <?php echo $kind_name; ?>
+  </title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
