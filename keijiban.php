@@ -323,14 +323,22 @@ if (!empty($_POST['btn_submit'])) {
                           echo '</tr>';
                         }
                         echo '<tr><td>';
-                        echo '<form action="reply.php" method="POST" name="replay" onClick="return confirm(\'返信しますか？\');">';
+                        echo '<form action="keijiban.php" method="post">';
+                        echo '<br><br>返信内容';
+                        echo '<br><input type="text" name="message">';
+                        echo '<input type="submit" value="投稿" name="btn_submit" class="btn  btn-outline-primary">';
+                        // echo '<input type="hidden" value="<?php echo $_POST['line_number'];" name="line_number">';
+                        echo '<br>';
+    
                         echo '<input type="hidden" name="message_id" value="' . $message_id . '">';
                         echo '<input type="hidden" name="name" value="' . $name . '">';
                         echo '<input type="hidden" name="comment" value="' . $comment . '">';
-                        echo '<input type="submit" class="btn  btn-secondary" value="返信をする" >';
+
                         echo '</form></td></tr>';
                         echo '</thead>';
                         echo '</table>';
+                    
+
                       }
                     } catch (Exception $e) {
                       echo 'エラーがありました。';
