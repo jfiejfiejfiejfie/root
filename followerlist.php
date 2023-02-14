@@ -71,9 +71,11 @@ if (isset($_GET["id"])) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800"><?php
-    echo $name . "のフォロワーリスト";
-    ?></h1>
+            <h1 class="h3 mb-0 text-gray-800">
+              <?php
+              echo $name . "のフォロワーリスト";
+              ?>
+            </h1>
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
@@ -86,32 +88,19 @@ if (isset($_GET["id"])) {
                 } else {
                   $id = $_SESSION["id"];
                 }
-                $sql = "SELECT * FROM followlist WHERE user_id=:id ORDER BY id DESC";
+                $sql = "SELECT users.id as my_id,users.name as name,users.comment as mes,followlist.checked as checked FROM followlist,users WHERE followlist.my_id=users.id && followlist.user_id=:id ORDER BY followlist.id DESC";
                 $stm = $pdo->prepare($sql);
                 $stm->bindValue(':id', $id, PDO::PARAM_STR);
                 $stm->execute();
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($result as $row) {
-                  echo '<table class="table table-striped">';
+                  echo '<table class="table table-striped"><th>';
                   echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
-                  $user_id = $row["my_id"];
-                  $sql = "SELECT * FROM users WHERE id=$user_id";
-                  $stm = $pdo->prepare($sql);
-                  $stm->execute();
-                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  foreach ($result2 as $row2) {
-                    echo $row2["name"];
-                    if ($row["checked"] == 0) {
-                      echo "<div style='color:red;'>New</div>";
-                      // if (!isset($_GET["id"])) {
-                      //   $sql = "UPDATE followlist SET checked=1 WHERE user_id=$id";
-                      //   $stm = $pdo->prepare($sql);
-                      //   $stm->execute();
-                      // }
-                    }
-                  }
+                  echo $row["name"];
+                  echo "<br>コメント:";
+                  echo $row["mes"];
+                  echo "</th>";
                   echo "<hr>";
-                  echo '</tr>';
                 }
                 echo '</tbody>';
                 echo '</table>';

@@ -81,42 +81,36 @@ if (isset($_GET["id"])) {
           </div>
 
           <div class="row">
-            <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+            <div class="col-12">
+              <?php
               if (isset($_GET["id"])) {
                 $id = $_GET["id"];
               } else {
                 $id = $_SESSION["id"];
               }
               try {
-
-                $sql = "SELECT * FROM followlist WHERE  my_id=:id";
+                $sql = "SELECT users.name as name,followlist.user_id as user_id,users.comment as mes FROM followlist,users WHERE followlist.user_id=users.id && followlist.my_id=:id";
                 $stm = $pdo->prepare($sql);
                 $stm->bindValue(':id', $id, PDO::PARAM_STR);
                 $stm->execute();
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($result as $row) {
-                  echo '<table class="table table-striped">';
+                  echo '<table class="table table-striped"><th>';
                   echo "<a href='profile.php?id={$row['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
-                  $user_id = $row["user_id"];
-                  $sql = "SELECT * FROM users WHERE id=$user_id";
-                  $stm = $pdo->prepare($sql);
-                  $stm->execute();
-                  $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
-                  foreach ($result2 as $row2) {
-                    echo $row2["name"], "</td>";
-                  }
+                  echo $row["name"];
+                  echo "<br>コメント:";
+                  echo $row["mes"];
+                  echo "</th>";
                   echo "<hr>";
-                  echo '</tr>';
                 }
-                echo '</tbody>';
                 echo '</table>';
               } catch (Exception $e) {
                 echo 'エラーがありました。';
                 echo $e->getMessage();
                 exit();
               }
-            }
-            ?>
+              ?>
+            </div>
           </div>
 
         </div>
