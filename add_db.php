@@ -15,13 +15,6 @@ $point = 0;
 if (isset($_POST["kind"])) {
   require_once('insert.php');
 }
-if (isset($_GET["result"])) {
-  if ($_GET["result"] == 0) {
-    $message = "登録完了しました。";
-  } else {
-    $image_err = "画像を入れてください";
-  }
-}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -75,13 +68,16 @@ if (isset($_GET["result"])) {
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">レンタル品登録</h1>
+            <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
           </div>
+
           <div class="row">
-            <div class="col-12">
+            <div class="col-6">
               <form method="POST" action="add_db.php" enctype="multipart/form-data">
                 <?php
-                if (isset($message)) {
-                  echo '<label>' . $message . '</label>';
+                if (isset($_SESSION["insert_text"])) {
+                  echo '<label>' . $_SESSION["insert_text"] . '</label>';
                 } ?>
                 <br>
                 貸出物　:
@@ -156,16 +152,10 @@ if (isset($_GET["result"])) {
                 <label id="hidden4" style="visibility: hidden;"><img src="images/imageplus.png" id="preview5"
                     style="max-width:200px;"><br>
                   <input type="file" name="image5" class="test" accept="image/*" onchange="previewImage5(this);">
-                </label>
-                <?php
-                if (isset($image_err)) {
-                  echo "<div class='col-12'></div><div style='color:red;'>".$image_err."</div>";
-                }
-                ?>
-                <!-- <br>
+                </label><br>
                 <label>
                   <input type="checkbox" required>規約に同意する
-                </label> -->
+                </label>
                 <br>
                 <input type="submit" class="btn btn-primary btn-user" value="追加する">
               </form>

@@ -73,13 +73,6 @@ if (isset($_POST["kind"])) {
 
                     <div class="row">
                         <?php
-                        $sql = "SELECT count(*) as box_count FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id";
-                        $stm = $pdo->prepare($sql);
-                        $stm->execute();
-                        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                        foreach ($result as $row) {
-                            $box_count = $row["box_count"];
-                        }
                         $sql = "SELECT box.user_id,box.char_data_id as char_data_id,char_data.name as name,char_data.rarity as RA,box.id as box_id FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id";
                         $stm = $pdo->prepare($sql);
                         $stm->execute();
@@ -92,8 +85,6 @@ if (isset($_POST["kind"])) {
                             echo '</div>';
                             echo '</a></div>';
                         }
-                        echo '<div class="col-12"></div>';
-                        echo "BOX容量:" . $box_count . "/300";
                         ?>
                     </div>
 
