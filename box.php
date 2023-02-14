@@ -85,9 +85,10 @@ if (isset($_POST["kind"])) {
                         $stm->execute();
                         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($result as $row) {
-                            echo '<div class="sample5 border col-3"><a href="chara_detail.php?id=' . $row["box_id"] . '">';
-                            echo "<img src='chara_image.php?id=" . $row["char_data_id"] . "' height='232' width='232'></a>";
+                            echo '<div class="border col-2">';
                             echo $row["RA"] . ":" . $row["name"];
+                            echo '<br><a href="chara_detail.php?id=' . $row["box_id"] . '">';
+                            echo "<img src='chara_image.php?id=" . $row["char_data_id"] . "' height='232' width='232'></a>";
                             echo '</div>';
                         }
                         echo '<div class="col-12"></div>';
