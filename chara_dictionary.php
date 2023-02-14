@@ -27,7 +27,7 @@ if (isset($_POST["kind"])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>貸し借りサイト　Lab:G | MyBOX</title>
+    <title>貸し借りサイト　Lab:G | キャラ図鑑</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -66,33 +66,36 @@ if (isset($_POST["kind"])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">ボックス</h1>
+                        <h1 class="h3 mb-0 text-gray-800">キャラクター図鑑</h1>
                         <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
                     </div>
 
                     <div class="row">
+                        <!-- <div class="col-12"> -->
                         <?php
-                        $sql = "SELECT count(*) as box_count FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id";
+                        $count = 1;
+                        $sql = "SELECT * FROM char_data";
                         $stm = $pdo->prepare($sql);
                         $stm->execute();
                         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($result as $row) {
-                            $box_count = $row["box_count"];
+                            echo "<div class='col-2 border'>";
+                            echo "No." . $count . ":" . $row["rarity"] . ":" . $row["name"];
+                            echo "<br><img src='chara_image.php?id=" . $row["id"] . "' height='232' width='232'>";
+                            $sql = "SELECT * FROM box WHERE user_id = " . $_SESSION["id"] . " && char_data_id=" . $row["id"];
+                            $stm = $pdo->prepare($sql);
+                            $stm->execute();
+                            if ($row2 = $stm->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<div></div>入手済み";
+                            } else {
+                                echo "<div></div>未入手";
+                            }
+                            echo "</div>";
+                            $count += 1;
                         }
-                        $sql = "SELECT box.user_id,box.char_data_id as char_data_id,char_data.name as name,char_data.rarity as RA,box.id as box_id FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id";
-                        $stm = $pdo->prepare($sql);
-                        $stm->execute();
-                        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                        foreach ($result as $row) {
-                            echo '<div class="sample5 border col-3"><a href="chara_detail.php?id=' . $row["box_id"] . '">';
-                            echo "<img src='chara_image.php?id=" . $row["char_data_id"] . "' height='232' width='232'></a>";
-                            echo $row["RA"] . ":" . $row["name"];
-                            echo '</div>';
-                        }
-                        echo '<div class="col-12"></div>';
-                        echo "ボックス容量:" . $box_count . "/300";
                         ?>
+                        <!-- </div> -->
                     </div>
 
                 </div>
@@ -116,6 +119,7 @@ if (isset($_POST["kind"])) {
 
     </div>
     <!-- End of Page Wrapper -->
+
     <?php require_once("boot_modal.php"); ?>
 
 </body>

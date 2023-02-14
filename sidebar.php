@@ -85,7 +85,6 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
                         <a class="collapse-item" href="reservation_list.php">予約されたもの</a>
                         <a class="collapse-item" href="good_list.php">いいね一覧</a>
                         <a class="collapse-item" href="eturan.php">閲覧履歴</a>
-                        <a class="collapse-item" href="box.php">MyBOX</a>
                         <?php
                         if ($_SESSION["admin"] != 0) {
                             ?>
@@ -120,8 +119,22 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="gacha_list.php">
-                    <i class="fa fa-cube" aria-hidden="true"></i>
+                    <i class="fa fa-globe" aria-hidden="true"></i>
                     <span>ガチャ</span></a>
+            </li>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="chara_dictionary.php">
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                    <span>図鑑</span></a>
+            </li>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="box.php">
+                    <i class="fa fa-cube" aria-hidden="true"></i>
+                    <span>ボックス</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
