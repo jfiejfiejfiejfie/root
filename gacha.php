@@ -396,7 +396,7 @@ if (!isset($_GET["result"])) {
                             if ($point >= 10) {
                                 echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
                             }
-                            echo '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-text="' . $r . ':' . $cards[$_GET["r"]][$_GET["result"]] . 'をGETしました。" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+                            echo '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-text="' . $r . ':' . $cards[$_GET["r"]][$_GET["result"]] . 'をGETしました。#Temaki" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
                         }
                         ?>
                         <!-- </div> -->
