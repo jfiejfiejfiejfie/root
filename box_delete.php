@@ -12,8 +12,31 @@ require_once "db_connect.php";
 $myURL = 'add_db.php';
 $gobackURL = 'index.php';
 $point = 0;
-if (isset($_POST["kind"])) {
-    require_once('insert.php');
+if (isset($_GET["id"])) {
+    $sql = "SELECT char_data.rarity as RA,box.id as box_id FROM char_data,box WHERE char_data.id = " . $_GET["id"] . " && box.char_data_id=char_data.id && box.user_id=" . $_SESSION["id"];
+    $stm = $pdo->prepare($sql);
+    $stm->execute();
+    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row) {
+        if ($row["RA"] == "SSR") {
+            $point = 200;
+        } else if ($row["RA"] == "SR") {
+            $point = 70;
+        } else if ($row["RA"] == "UR") {
+            $point = 1000;
+        } else {
+            $point = 1;
+        }
+        $box_id = $row["box_id"];
+        $sql = "DELETE FROM box WHERE id=" . $box_id;
+        $stm = $pdo->prepare($sql);
+        $stm->execute();
+        $sql = "UPDATE users SET point = point + :point where id = " . $_SESSION["id"];
+        $stm = $pdo->prepare($sql);
+        $stm->bindValue(':point', $point, PDO::PARAM_STR);
+        $stm->execute();
+    }
+    header('Location:box.php');
 }
 ?>
 <!DOCTYPE html>
@@ -66,13 +89,13 @@ if (isset($_POST["kind"])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">ボックス</h1>
+                        <h1 class="h3 mb-0 text-gray-800">ボックス売却</h1>
                         <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
                     </div>
 
                     <div class="row">
-                        <a href='box_delete.php' class="btn btn-danger">一括売却</a><div class='col-12'></div>
+                        一括売却するキャラクターを選択してください。<div class='col-12'></div>
                         <?php
                         $sql = "SELECT count(*) as box_count FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id";
                         $stm = $pdo->prepare($sql);
@@ -88,7 +111,7 @@ if (isset($_POST["kind"])) {
                         foreach ($result as $row) {
                             echo '<div class="border col-2">';
                             echo $row["RA"] . ":" . $row["name"];
-                            echo '<br><a href="chara_detail.php?id=' . $row["box_id"] . '">';
+                            echo '<br><a href="box_delete.php?id=' . $row["char_data_id"] . '" onclick="alert('."'".$row["name"]."を一括売却します'".')">';
                             echo "<img src='chara_image.php?id=" . $row["char_data_id"] . "' height='232' width='232'></a>";
                             echo '</div>';
                         }
