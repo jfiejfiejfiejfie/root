@@ -243,7 +243,9 @@ if (!isset($_GET["result"])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>貸し借りサイト　Lab:G | <?php echo $gacha_name."のガチャ結果";?></title>
+    <title>貸し借りサイト　Lab:G |
+        <?php echo $gacha_name . "のガチャ結果"; ?>
+    </title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -288,88 +290,104 @@ if (!isset($_GET["result"])) {
                     </div>
 
                     <div class="row">
-                        <?php
-                        if (isset($_GET["custom"])) {
-                            $count = 0;
-                            foreach ($card_result as $v) {
+                        <div class='col-12'>
+                            <?php
+                            if (isset($_GET["custom"])) {
+                                $count = 0;
+                                foreach ($card_result as $v) {
+                                    $sql = "SELECT * FROM char_data";
+                                    $stm = $pdo->prepare($sql);
+                                    $stm->execute();
+                                    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($result as $row) {
+                                        if ($cards[$r[$count]][$v] == $row["name"]) {
+                                            $chara_id = $row["id"];
+                                        }
+                                    }
+                                    if ($r[$count] == "UR") {
+                                        echo "<img id='gazou_" . $count . "'src='chara_image.php?id=$chara_id' height='150' width='150' class='border border-secondary border-4 rounded'>";
+                                    } else if ($r[$count] == "SSR") {
+                                        echo "<img id='gazou_" . $count . "'src='chara_image.php?id=$chara_id' height='150' width='150' class='border border-danger border-4 rounded'>";
+                                    } else if ($r[$count] == "SR") {
+                                        echo "<img id='gazou_" . $count . "'src='chara_image.php?id=$chara_id' height='150' width='150' class='border border-primary border-4 rounded'>";
+                                    } else if ($r[$count] == "R") {
+                                        echo "<img id='gazou_" . $count . "'src='chara_image.php?id=$chara_id' height='150' width='150' class='border border-dark border-4 rounded'>";
+                                    }
+                                    // echo "<img id='gazou_" . $count . "'src='chara_image.php?id=$chara_id' height='150' width='150'>";
+                                    if ($count == 4 || $count == 9) {
+                                        echo "<div class='col-12'>";
+                                        echo "</div>";
+                                    }
+                                    $count += 1;
+                                }
+                                $count = 0;
+                                $text2 = "";
+                                foreach ($card_result as $v) {
+                                    if ($r[$count] == "PU") {
+                                        $rare = "SSR";
+                                        $text = 'ピックアップの' . $cards[$r[$count]][$v] . "をGET!";
+                                        $text2 = $text2 . $text;
+                                    } else {
+                                        $rare = $r[$count];
+                                        if ($r[$count] == "SSR") {
+                                            $text = $rare . ':' . $cards[$r[$count]][$v] . "をGET!";
+                                            $text2 = $text2 . $text;
+                                        }
+                                    }
+                                    echo $rare . ':' . $cards[$r[$count]][$v] . "をGET!<br>";
+                                    $count += 1;
+                                }
+                                echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
+                                if (isset($_GET["id"])) {
+                                    echo "<a href='gacha.php?id=" . $_GET["id"] . "' class='btn btn-primary col-6'>ガチャる</a>";
+                                } else {
+                                    echo "<a href='gacha.php' class='btn btn-primary col-6'>ガチャる</a>";
+                                }
+                                if (isset($_GET["id"])) {
+                                    echo "<a href='gacha.php?id=" . $_GET["id"] . "&custom=1' class='btn btn-primary col-6'>もう一回10連を引く</a>";
+                                } else {
+                                    echo "<a href='gacha.php?custom=1' class='btn btn-primary col-6'>もう一回10連を引く</a>";
+                                }
+                                if ($point >= 100) {
+                                    echo "<br><div class='col-12'>あと" . floor($point / 100) . "回引けます</div>";
+                                }
+                                echo '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-text="10連の結果:' . $text2 . '" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+                            } else {
+                                if ($_GET["r"] == "PU") {
+                                    $r = "SSR";
+                                } else {
+                                    $r = $_GET["r"];
+                                }
+                                echo "<div class='col-12'>" . $r . ':' . $cards[$_GET["r"]][$_GET["result"]] . "をGET!</div>";
                                 $sql = "SELECT * FROM char_data";
                                 $stm = $pdo->prepare($sql);
                                 $stm->execute();
                                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                                 foreach ($result as $row) {
-                                    if ($cards[$r[$count]][$v] == $row["name"]) {
+                                    if (($row["rarity"] == $r) && ($row["name"] == $cards[$_GET["r"]][$_GET["result"]])) {
                                         $chara_id = $row["id"];
                                     }
                                 }
-                                // echo $r[$count] . ':' . $cards[$r[$count]][$v] . "をGET!";
-                                // echo $cards[$r[$count]][$v] . "<br>";
-                                if ($count == 0 || $count == 5) {
-                                    echo "<div class='col-12'>";
-                                }
                                 echo "<img src='chara_image.php?id=$chara_id' height='150' width='150'>";
-                                if ($count == 4 || $count == 9) {
-                                    echo "</div>";
-                                }
-                                $count += 1;
-                            }
-                            $count = 0;
-                            foreach ($card_result as $v) {
-                                if ($r[$count] == "PU") {
-                                    $rare = "SSR";
+                                echo "<div class='col-12'>所持ポイント:" . $point . "p</div>";
+                                echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
+                                if (isset($_GET["id"])) {
+                                    echo "<a href='gacha.php?id=" . $_GET["id"] . "' class='btn btn-primary col-6'>もう一回ガチャる</a>";
                                 } else {
-                                    $rare = $r[$count];
+                                    echo "<a href='gacha.php' class='btn btn-primary col-6'>もう一回ガチャる</a>";
                                 }
-                                echo $rare . ':' . $cards[$r[$count]][$v] . "をGET!<br>";
-                                $count += 1;
-                            }
-                            echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
-                            if (isset($_GET["id"])) {
-                                echo "<a href='gacha.php?id=" . $_GET["id"] . "' class='btn btn-primary col-6'>ガチャる</a>";
-                            } else {
-                                echo "<a href='gacha.php' class='btn btn-primary col-6'>ガチャる</a>";
-                            }
-                            if (isset($_GET["id"])) {
-                                echo "<a href='gacha.php?id=" . $_GET["id"] . "&custom=1' class='btn btn-primary col-6'>もう一回10連を引く</a>";
-                            } else {
-                                echo "<a href='gacha.php?custom=1' class='btn btn-primary col-6'>もう一回10連を引く</a>";
-                            }
-                            if ($point >= 100) {
-                                echo "<br><div class='col-12'>あと" . floor($point / 100) . "回引けます</div>";
-                            }
-                        } else {
-                            if ($_GET["r"] == "PU") {
-                                $r = "SSR";
-                            } else {
-                                $r = $_GET["r"];
-                            }
-                            echo "<div class='col-12'>" . $r . ':' . $cards[$_GET["r"]][$_GET["result"]] . "をGET!</div>";
-                            $sql = "SELECT * FROM char_data";
-                            $stm = $pdo->prepare($sql);
-                            $stm->execute();
-                            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($result as $row) {
-                                if (($row["rarity"] == $r) && ($row["name"] == $cards[$_GET["r"]][$_GET["result"]])) {
-                                    $chara_id = $row["id"];
+                                if (isset($_GET["id"])) {
+                                    echo "<a href='gacha.php?id=" . $_GET["id"] . "&custom=1' class='btn btn-primary col-6'>10連を引く</a>";
+                                } else {
+                                    echo "<a href='gacha.php?custom=1' class='btn btn-primary col-6'>10連を引く</a>";
                                 }
+                                if ($point >= 10) {
+                                    echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
+                                }
+                                echo '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-text="' . $r . ':' . $cards[$_GET["r"]][$_GET["result"]] . 'をGETしました。" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
                             }
-                            echo "<img src='chara_image.php?id=$chara_id' height='150' width='150'>";
-                            echo "<div class='col-12'>所持ポイント:" . $point . "p</div>";
-                            echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
-                            if (isset($_GET["id"])) {
-                                echo "<a href='gacha.php?id=" . $_GET["id"] . "' class='btn btn-primary col-6'>もう一回ガチャる</a>";
-                            } else {
-                                echo "<a href='gacha.php' class='btn btn-primary col-6'>もう一回ガチャる</a>";
-                            }
-                            if (isset($_GET["id"])) {
-                                echo "<a href='gacha.php?id=" . $_GET["id"] . "&custom=1' class='btn btn-primary col-6'>10連を引く</a>";
-                            } else {
-                                echo "<a href='gacha.php?custom=1' class='btn btn-primary col-6'>10連を引く</a>";
-                            }
-                            if ($point >= 10) {
-                                echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
-                            }
-                        }
-                        ?>
+                            ?>
+                        </div>
                     </div>
 
                 </div>
