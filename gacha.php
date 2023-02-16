@@ -256,7 +256,80 @@ if (!isset($_GET["result"])) {
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/original.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+    </script>
     <script src="js/original.js">
+    </script>
+    <style>
+        .load-text {
+            color: black;
+            font-size: 16pt;
+        }
+
+        .load-blink {
+            animation: blink 1s linear infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .load-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 20px solid rgba(0, 0, 0, 0.5);
+            border-top-color: rgba(255, 255, 255, 1);
+            animation: rotate 1s linear infinite;
+        }
+
+        @keyframes rotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 中略 */
+
+        .load-absolute {
+            position: absolute;
+        }
+
+        .loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+    </style>
+    <script>
+        var bg = $('#loader-bg'),
+            loader = $('#loader');
+        /* ローディング画面の非表示を解除 */
+        bg.removeClass('is-hide');
+        loader.removeClass('is-hide');
+
+        /* 読み込み完了 */
+        $(window).on('load', stopload);
+
+        /* 10秒経ったら強制的にローディング画面を非表示にする */
+        setTimeout('stopload()', 10000);
+
+        /* ローディング画面を非表示にする処理 */
+        function stopload() {
+            bg.delay(900).fadeOut(800);
+            loader.delay(900).fadeOut(300);
+        }
+        window.onload = function () {
+            const spinner = document.getElementById('sample10');
+            spinner.classList.add('loaded');
+        }
     </script>
 </head>
 
@@ -288,8 +361,12 @@ if (!isset($_GET["result"])) {
                         <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
                     </div>
-
                     <div class="row">
+                        <div id="sample10" class="loading">
+                            <div class="load-circle"></div>
+                            <div class="load-text load-blink load-absolute">Loading...</div>
+                        </div>
+                        <div class="col-12"></div>
                         <!-- <div class='col-12'> -->
                         <?php
                         if (isset($_GET["custom"])) {
