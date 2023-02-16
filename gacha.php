@@ -43,14 +43,23 @@ if ($gacha_id == 0) {
         }
     }
     $user_id = $_SESSION["id"];
+    $PU_id = 0;
 } else {
     $sql = "SELECT * FROM gacha WHERE id=" . $gacha_id;
     $stm = $pdo->prepare($sql);
     $stm->execute();
     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
     foreach ($result as $row) {
+        $PU_id = $row["PU_chara_id"];
         $gacha_name = $row["name"];
         $pu_pro = $row["probability"];
+        $s_time = $row["start_time"];
+        $e_time = $row["end_time"];
+    }
+    date_default_timezone_set('Asia/Tokyo');
+    $today = date("Y-m-d");
+    if (($s_time >= $today) || ($e_time <= $today)) {
+        header("Location:404.php");
     }
     $ssr = 690 - $pu_pro;
     $raritys = [
@@ -184,6 +193,12 @@ if (!isset($_GET["result"])) {
                 $stm = $pdo->prepare($sql);
                 $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
                 $stm->execute();
+                if (isset($_GET["id"])) {
+                    header("Location:gacha.php?result=1&custom=1&id=" . $_GET["id"]);
+                } else {
+                    header("Location:gacha.php?result=1&custom=1");
+                }
+
             }
         } else { //単発
             $rand = mt_rand(0, 10000); // 乱数生成
@@ -221,14 +236,39 @@ if (!isset($_GET["result"])) {
             $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
             $stm->execute();
             if (isset($_GET["id"])) {
-                header("Location:gacha.php?result=" . $gacha_result . "&r=" . $rarity . "&id=" . $_GET["id"]);
+                header("Location:gacha.php?result=1&id=" . $_GET["id"]);
             } else {
-                header("Location:gacha.php?result=" . $gacha_result . "&r=" . $rarity);
+                header("Location:gacha.php?result=1");
             }
         }
 
     } else {
         header("Location:404.php");
+    }
+} else {
+    if (isset($_GET["custom"])) {
+        $char[] = "";
+        $Rare[] = "";
+        $char_name[] = "";
+        $sql = "SELECT char_data.id as ch_id,char_data.rarity as ch_ra,char_data.name as ch_name FROM box,char_data WHERE char_data.id = box.char_data_id && box.user_id=" . $_SESSION["id"] . " order by box.id desc LIMIT 10";
+        $stm = $pdo->prepare($sql);
+        $stm->execute();
+        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $row) {
+            $char[] = $row["ch_id"];
+            $char_name[] = $row["ch_name"];
+            $Rare[] = $row["ch_ra"];
+        }
+    } else {
+        $sql = "SELECT char_data.id as ch_id,char_data.rarity as ch_ra,char_data.name as ch_name FROM box,char_data WHERE char_data.id = box.char_data_id && box.user_id=" . $_SESSION["id"] . " order by box.id desc LIMIT 10";
+        $stm = $pdo->prepare($sql);
+        $stm->execute();
+        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $row) {
+            $char = $row["ch_id"];
+            $char_name = $row["ch_name"];
+            $Rare = $row["ch_ra"];
+        }
     }
 }
 ?>
@@ -293,62 +333,35 @@ if (!isset($_GET["result"])) {
                         <!-- <div class='col-12'> -->
                         <?php
                         if (isset($_GET["custom"])) {
-                            $count = 0;
-                            foreach ($card_result as $v) {
-                                $sql = "SELECT * FROM char_data";
-                                $stm = $pdo->prepare($sql);
-                                $stm->execute();
-                                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                                foreach ($result as $row) {
-                                    if ($cards[$r[$count]][$v] == $row["name"]) {
-                                        $chara_id = $row["id"];
-                                    }
-                                }
+                            for ($count = 10; $count > 0; $count--) {
                                 echo "<div class='col-2 border'>";
-                                if ($r[$count] == "UR") {
-                                    echo "<img id='gazou_" . $count . "'src='chara_image.php?id=$chara_id' height='150' width='150' class='border border-secondary border-4 rounded'><br>";
-                                    echo "<div style='color:purple;'>" . $r[$count];
-                                } else if ($r[$count] == "SSR") {
-                                    echo "<img id='gazou_" . $count . "'src='chara_image.php?id=$chara_id' height='150' width='150' class='border border-danger border-4 rounded'><br>";
-                                    echo "<div style='color:gold;'>" . $r[$count];
-                                } else if ($r[$count] == "PU") {
-                                    echo "<img id='gazou_" . $count . "'src='chara_image.php?id=$chara_id' height='150' width='150' class='border border-danger border-4 rounded rainbow'><br>";
-                                    echo "<div class='rainbow'>SSR";
-                                } else if ($r[$count] == "SR") {
-                                    echo "<img id='gazou_" . $count . "'src='chara_image.php?id=$chara_id' height='150' width='150' class='border border-primary border-4 rounded'><br>";
-                                    echo "<div style='color:silver;'>" . $r[$count];
-                                } else if ($r[$count] == "R") {
-                                    echo "<img id='gazou_" . $count . "'src='chara_image.php?id=$chara_id' height='150' width='150' class='border border-dark border-4 rounded'><br>";
-                                    echo "<div style='color:blue;'>" . $r[$count];
+                                if ($Rare[$count] == "UR") {
+                                    echo "<img src='chara_image.php?id=" . $char[$count] . "' height='150' width='150' class='border border-secondary border-4 rounded'><br>";
+                                    echo "<div style='color:purple;'>" . $Rare[$count];
+                                } else if ($Rare[$count] == "SSR") {
+                                    if ($char[$count] == $PU_id) {
+                                        echo "<img src='chara_image.php?id=" . $char[$count] . "' height='150' width='150' class='border border-danger border-4 rounded rainbow'><br>";
+                                        echo "<div class='rainbow'>SSR";
+                                    } else {
+                                        echo "<img src='chara_image.php?id=" . $char[$count] . "' height='150' width='150' class='border border-danger border-4 rounded'><br>";
+                                        echo "<div style='color:gold;'>" . $Rare[$count];
+                                    }
+                                } else if ($Rare[$count] == "SR") {
+                                    echo "<img src='chara_image.php?id=" . $char[$count] . "' height='150' width='150' class='border border-primary border-4 rounded'><br>";
+                                    echo "<div style='color:silver;'>" . $Rare[$count];
+                                } else if ($Rare[$count] == "R") {
+                                    echo "<img src='chara_image.php?id=" . $char[$count] . "' height='150' width='150' class='border border-dark border-4 rounded'><br>";
+                                    echo "<div style='color:blue;'>" . $Rare[$count];
                                 }
-                                echo ':' . $cards[$r[$count]][$v] . "をGET!</div>";
+                                echo ':' . $char_name[$count] . "をGET!</div>";
                                 echo "</div>";
-                                // echo "<img id='gazou_" . $count . "'src='chara_image.php?id=$chara_id' height='150' width='150'>";
-                                if ($count == 4 || $count == 9) {
+                                if ($count == 6 || $count == 0) {
                                     echo "<div class='col-12'>";
                                     echo "</div>";
-                                    // echo '<br>';
                                 }
-                                $count += 1;
+                            }
 
-                            }
-                            $count = 0;
                             $text2 = "";
-                            foreach ($card_result as $v) {
-                                if ($r[$count] == "PU") {
-                                    $rare = "SSR";
-                                    $text = 'ピックアップの' . $cards[$r[$count]][$v] . "をGET!";
-                                    $text2 = $text2 . $text;
-                                } else {
-                                    $rare = $r[$count];
-                                    if ($r[$count] == "SSR") {
-                                        $text = $rare . ':' . $cards[$r[$count]][$v] . "をGET!";
-                                        $text2 = $text2 . $text;
-                                    }
-                                }
-                                // echo $rare . ':' . $cards[$r[$count]][$v] . "をGET!<br>";
-                                $count += 1;
-                            }
                             echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
                             if (isset($_GET["id"])) {
                                 echo "<a href='gacha.php?id=" . $_GET["id"] . "' class='btn btn-primary col-6'>ガチャる</a>";
@@ -363,24 +376,29 @@ if (!isset($_GET["result"])) {
                             if ($point >= 100) {
                                 echo "<br><div class='col-12'>あと" . floor($point / 100) . "回引けます</div>";
                             }
-                            echo '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-text="10連の結果:' . $text2 . '" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+                            echo '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-text="10連ガチャを引きました。 #Temaki" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
                         } else {
-                            if ($_GET["r"] == "PU") {
-                                $r = "SSR";
-                            } else {
-                                $r = $_GET["r"];
-                            }
-                            echo "<div class='col-12'>" . $r . ':' . $cards[$_GET["r"]][$_GET["result"]] . "をGET!</div>";
-                            $sql = "SELECT * FROM char_data";
-                            $stm = $pdo->prepare($sql);
-                            $stm->execute();
-                            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($result as $row) {
-                                if (($row["rarity"] == $r) && ($row["name"] == $cards[$_GET["r"]][$_GET["result"]])) {
-                                    $chara_id = $row["id"];
+                            echo "<div class='col-2 border'>";
+                            if ($Rare == "UR") {
+                                echo "<img src='chara_image.php?id=" . $char . "' height='150' width='150' class='border border-secondary border-4 rounded'><br>";
+                                echo "<div style='color:purple;'>" . $Rare;
+                            } else if ($Rare == "SSR") {
+                                if ($char == $PU_id) {
+                                    echo "<img src='chara_image.php?id=" . $char . "' height='150' width='150' class='border border-danger border-4 rounded rainbow'><br>";
+                                    echo "<div class='rainbow'>SSR";
+                                } else {
+                                    echo "<img src='chara_image.php?id=" . $char . "' height='150' width='150' class='border border-danger border-4 rounded'><br>";
+                                    echo "<div style='color:gold;'>" . $Rare;
                                 }
+                            } else if ($Rare == "SR") {
+                                echo "<img src='chara_image.php?id=" . $char . "' height='150' width='150' class='border border-primary border-4 rounded'><br>";
+                                echo "<div style='color:silver;'>" . $Rare;
+                            } else if ($Rare == "R") {
+                                echo "<img src='chara_image.php?id=" . $char . "' height='150' width='150' class='border border-dark border-4 rounded'><br>";
+                                echo "<div style='color:blue;'>" . $Rare;
                             }
-                            echo "<img src='chara_image.php?id=$chara_id' height='150' width='150'>";
+                            echo ':' . $char_name . "をGET!</div>";
+                            echo "</div>";
                             echo "<div class='col-12'>所持ポイント:" . $point . "p</div>";
                             echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
                             if (isset($_GET["id"])) {
@@ -396,7 +414,7 @@ if (!isset($_GET["result"])) {
                             if ($point >= 10) {
                                 echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
                             }
-                            echo '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-text="' . $r . ':' . $cards[$_GET["r"]][$_GET["result"]] . 'をGETしました。#Temaki" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+                            echo '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-text="ガチャを引きました。 #Temaki" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
                         }
                         ?>
                         <!-- </div> -->
