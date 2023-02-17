@@ -72,7 +72,7 @@ $gobackURL = 'index.php';
                             <?php
                             if (isset($_GET["pu"])) {
                                 echo "<div class='rainbow' style='font-size:60px;'>ピックアップキャラ確定!!!</div>";
-                                echo "<a href='gacha.php?result=1&custom=1&id=" . $_GET["id"] . "' class='btn btn-primary'>押して!!</a>";
+                                echo "<a href='gacha.php?result=1&custom=1&id=" . $_GET["id"] . "' class='btn btn-primary rainbow'>押して!!</a>";
                             } else if (isset($_GET["ssr"])) {
                                 echo "<div class='rainbow' style='font-size:60px;'>SSR以上確定!!!</div>";
                                 if (isset($_GET["id"])) {

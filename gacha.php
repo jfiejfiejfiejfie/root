@@ -304,7 +304,7 @@ if (!isset($_GET["result"])) {
             $Rare[] = $row["ch_ra"];
         }
     } else {
-        $sql = "SELECT char_data.id as ch_id,char_data.rarity as ch_ra,char_data.name as ch_name FROM box,char_data WHERE char_data.id = box.char_data_id && box.user_id=" . $_SESSION["id"] . " order by box.id desc LIMIT 10";
+        $sql = "SELECT char_data.id as ch_id,char_data.rarity as ch_ra,char_data.name as ch_name FROM box,char_data WHERE char_data.id = box.char_data_id && box.user_id=" . $_SESSION["id"] . " order by box.id desc LIMIT 1";
         $stm = $pdo->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
