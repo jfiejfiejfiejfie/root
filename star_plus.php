@@ -4,9 +4,6 @@ session_start();
 if (!isset($_SESSION["loggedin"])) {
     header('Location:login.php');
 }
-if (!isset($_SESSION["admin"])) {
-    header('Location:404.php');
-}
 // if ("location:login.php")
 //     ;
 require_once "db_connect.php";
@@ -14,29 +11,6 @@ require_once('checked.php');
 require_once "db_connect.php";
 $myURL = 'add_db.php';
 $gobackURL = 'index.php';
-$point = 0;
-if (isset($_POST["name"])) {
-    $name = $_POST["name"];
-    $rarity = $_POST["rarity"];
-    if ($rarity == "UR") {
-        $star = 5;
-    } else if ($rarity == "SSR") {
-        $star = 4;
-    } else if ($rarity == "SR") {
-        $star = 3;
-    } else if ($rarity == "R") {
-        $star = 2;
-    }
-    $upfile = $_FILES["image"]["tmp_name"];
-    $imgdat = file_get_contents($upfile);
-    $sql = "INSERT INTO char_data (name,rarity,image,star) VALUES(:name,:rarity,:imgdat,:star)";
-    $stm = $pdo->prepare($sql);
-    $stm->bindValue(':name', $name, PDO::PARAM_STR);
-    $stm->bindValue(':rarity', $rarity, PDO::PARAM_STR);
-    $stm->bindValue(':imgdat', $imgdat, PDO::PARAM_STR);
-    $stm->bindValue(':star', $star, PDO::PARAM_STR);
-    $stm->execute();
-}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -49,7 +23,7 @@ if (isset($_POST["name"])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>貸し借りサイト　Lab:G | キャラ作成</title>
+    <title>貸し借りサイト　Lab:G | ここにタイトル</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -88,32 +62,34 @@ if (isset($_POST["name"])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">キャラ登録</h1>
+                        <h1 class="h3 mb-0 text-gray-800">追加しました</h1>
                         <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
                     </div>
 
                     <div class="row">
-                        <form method="POST" action="chara_create.php" enctype="multipart/form-data">
-                            名前:
-                            <input type="text" id="item_name" class="form-control form-control-user" name="name"
-                                placeholder="必須(30文字まで)" required>
-                            レアリティ:
-                            <select name="rarity" class="form-control form-control-user">
-                                <option value="R">R</option>
-                                <option value="SR">SR</option>
-                                <option value="SSR">SSR</option>
-                                <option value="UR">UR</option>
-
-                            </select>
-                            画像:
-                            <label><img src="images/imageplus.png" id="preview" style="max-width:200px;"><br>
-                                <input type="file" name="image" class="test" accept="image/*"
-                                    onchange="previewImage(this);">
-                            </label>
-                            <br>
-                            <input type="submit" class="btn btn-primary btn-user" value="登録する">
-                        </form>
+                        <?php
+                        $sql = "SELECT * FROM char_data";
+                        $stm = $pdo->prepare($sql);
+                        $stm->execute();
+                        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($result as $row) {
+                            $rarity = $row["rarity"];
+                            if ($rarity == "UR") {
+                                $star = 5;
+                            } else if ($rarity == "SSR") {
+                                $star = 4;
+                            } else if ($rarity == "SR") {
+                                $star = 3;
+                            } else if ($rarity == "R") {
+                                $star = 2;
+                            }
+                            $sql = "UPDATE char_data SET star=:star where id = " . $row["id"];
+                            $stm = $pdo->prepare($sql);
+                            $stm->bindValue(':star', $star, PDO::PARAM_STR);
+                            $stm->execute();
+                        }
+                        ?>
                     </div>
 
                 </div>
