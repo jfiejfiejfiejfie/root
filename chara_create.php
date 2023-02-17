@@ -70,7 +70,7 @@ if (isset($_POST["name"])) {
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php require_once("sidebar"); ?>
+        <?php require_once("sidebar.php"); ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -80,7 +80,7 @@ if (isset($_POST["name"])) {
             <div id="content">
 
                 <!-- Topbar -->
-                <?php require_once("nav"); ?>
+                <?php require_once("nav.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -138,7 +138,7 @@ if (isset($_POST["name"])) {
     </div>
     <!-- End of Page Wrapper -->
 
-    <?php require_once("boot_modal"); ?>
+    <?php require_once("boot_modal.php"); ?>
 
 </body>
 
