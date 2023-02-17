@@ -417,6 +417,8 @@ if (!isset($_GET["result"])) {
                             echo '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-text="ガチャを引きました。 #Temaki" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
                         }
                         ?>
+                        <div class="col-12"></div>
+                        <a href='gacha_list.php' class='btn btn-primary'>戻る</a>
                         <!-- </div> -->
                     </div>
 
