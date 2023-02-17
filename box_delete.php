@@ -104,14 +104,14 @@ if (isset($_GET["id"])) {
                         foreach ($result as $row) {
                             $box_count = $row["box_count"];
                         }
-                        $sql = "SELECT box.user_id,box.char_data_id as char_data_id,char_data.name as name,char_data.rarity as RA,box.id as box_id FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id";
+                        $sql = "SELECT box.user_id,box.char_data_id as char_data_id,char_data.name as name,char_data.rarity as RA,box.id as box_id FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id ORDER BY char_data.star DESC,char_data.id ASC";
                         $stm = $pdo->prepare($sql);
                         $stm->execute();
                         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($result as $row) {
                             echo '<div class="border col-2">';
                             echo $row["RA"] . ":" . $row["name"];
-                            echo '<br><a href="box_delete?id=' . $row["char_data_id"] . '" onclick="alert('."'".$row["name"]."を一括売却します'".')">';
+                            echo '<br><a href="box_delete?id=' . $row["char_data_id"] . '" onclick="alert(' . "'" . $row["name"] . "を一括売却します'" . ')">';
                             echo "<img src='chara_image?id=" . $row["char_data_id"] . "' height='232' width='232'></a>";
                             echo '</div>';
                         }
