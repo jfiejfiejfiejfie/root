@@ -107,62 +107,62 @@ if ($row["admin"] == 0) {
               echo "</table>";
             }
             echo '<div class="col-12"><br></div>';
-            echo '<h1>ユーザを永久追放する</h1>';
-            $filename = "report.txt";
-            $data = array();
-            if (is_readable($filename) === TRUE) {
-              if (($fp = fopen($filename, 'r')) !== FALSE) {
-                while (($tmp = fgets($fp)) !== FALSE) {
-                  echo '<div class="col-12"></div>';
-                  $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
-                }
-                fclose($fp);
-              }
-            } else {
-              $data[] = 'ファイルがありません';
-            }
-            foreach ($data as $line) {
-              echo '<div class="col-12"></div>';
-              echo 'IPアドレス->' . $line . '<a href="report?IP=' . $line . '">永久追放する</a><br>';
-            }
             // echo '<h1>ユーザを永久追放する</h1>';
-            $filename = "user_report.txt";
-            $data = array();
-            if (is_readable($filename) === TRUE) {
-              if (($fp = fopen($filename, 'r')) !== FALSE) {
-                while (($tmp = fgets($fp)) !== FALSE) {
-                  $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
-                }
-                fclose($fp);
-              }
-            } else {
-              $data[] = 'ファイルがありません';
-            }
-            foreach ($data as $line) {
-              echo '<div class="col-12"></div>';
-              echo 'ユーザーID->' . $line . '<a href="deleteacount?id=' . $line . '">永久追放する</a><br>';
-            }
-            echo '<div class="col-12"><br></div>';
-            echo '<h1>IP追放編集</h1>';
-            $filename = ".htaccess";
-            $data = array();
-            if (is_readable($filename) === TRUE) {
-              if (($fp = fopen($filename, 'r')) !== FALSE) {
-                while (($tmp = fgets($fp)) !== FALSE) {
-                  echo '<div class="col-12"></div>';
-                  $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
-                }
-                fclose($fp);
-              }
-            } else {
-              $data[] = 'ファイルがありません';
-            }
-            $data_count = 0;
-            foreach ($data as $line) {
-              echo '<div class="col-12"></div>';
-              echo $line . '<a href="report?line=' . $data_count . '">削除</a><br>';
-              $data_count += 1;
-            }
+            // $filename = "report.txt";
+            // $data = array();
+            // if (is_readable($filename) === TRUE) {
+            //   if (($fp = fopen($filename, 'r')) !== FALSE) {
+            //     while (($tmp = fgets($fp)) !== FALSE) {
+            //       echo '<div class="col-12"></div>';
+            //       $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
+            //     }
+            //     fclose($fp);
+            //   }
+            // } else {
+            //   $data[] = 'ファイルがありません';
+            // }
+            // foreach ($data as $line) {
+            //   echo '<div class="col-12"></div>';
+            //   echo 'IPアドレス->' . $line . '<a href="report?IP=' . $line . '">永久追放する</a><br>';
+            // }
+            // // echo '<h1>ユーザを永久追放する</h1>';
+            // $filename = "user_report.txt";
+            // $data = array();
+            // if (is_readable($filename) === TRUE) {
+            //   if (($fp = fopen($filename, 'r')) !== FALSE) {
+            //     while (($tmp = fgets($fp)) !== FALSE) {
+            //       $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
+            //     }
+            //     fclose($fp);
+            //   }
+            // } else {
+            //   $data[] = 'ファイルがありません';
+            // }
+            // foreach ($data as $line) {
+            //   echo '<div class="col-12"></div>';
+            //   echo 'ユーザーID->' . $line . '<a href="deleteacount?id=' . $line . '">永久追放する</a><br>';
+            // }
+            // echo '<div class="col-12"><br></div>';
+            // echo '<h1>IP追放編集</h1>';
+            // $filename = ".htaccess";
+            // $data = array();
+            // if (is_readable($filename) === TRUE) {
+            //   if (($fp = fopen($filename, 'r')) !== FALSE) {
+            //     while (($tmp = fgets($fp)) !== FALSE) {
+            //       echo '<div class="col-12"></div>';
+            //       $data[] = htmlspecialchars($tmp, ENT_QUOTES, 'UTF-8');
+            //     }
+            //     fclose($fp);
+            //   }
+            // } else {
+            //   $data[] = 'ファイルがありません';
+            // }
+            // $data_count = 0;
+            // foreach ($data as $line) {
+            //   echo '<div class="col-12"></div>';
+            //   echo $line . '<a href="report?line=' . $data_count . '">削除</a><br>';
+            //   $data_count += 1;
+            // }
             echo '<a href="chara_create" class="btn btn-primary col-12">ガチャキャラ作成</a>';
             echo '<a href="chara_delete" class="btn btn-danger col-12">ガチャキャラ削除</a>';
             echo '<a href="gacha_create" class="btn btn-primary col-12">PUガチャ作成</a>';
