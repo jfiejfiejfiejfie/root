@@ -233,8 +233,13 @@ if (!isset($_GET["result"])) {
                             header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&ssr=1");
                         }
                     } else {
-                        sleep(1);
-                        header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&ssr=1");
+                        if (isset($_GET["id"])) {
+                            sleep(0.5);
+                            header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&ssr=1");
+                        } else {
+                            sleep(0.5);
+                            header("Location:gacha_result.php?custom=1&ssr=1");
+                        }
                     }
                 }
 
