@@ -9,9 +9,9 @@ if (!isset($_SESSION["admin"])) {
 }
 // if ("location:login")
 //     ;
-require_once "db_connect";
-require_once('checked');
-require_once "db_connect";
+require_once "db_connect.php";
+require_once('checked.php');
+require_once "db_connect.php";
 $myURL = 'add_db';
 $gobackURL = 'index';
 $point = 0;
