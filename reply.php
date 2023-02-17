@@ -238,7 +238,7 @@ if (isset($_POST['submitted'])) {
         <div class="modal-body">ログアウトしますか？</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout">ログアウト</a>
+          <a class="btn btn-danger" href="logoutw">ログアウト</a>
         </div>
       </div>
     </div>

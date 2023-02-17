@@ -72,3 +72,26 @@ function validation($datas, $confirm = true)
 
     return $errors;
 }
+function validation2($datas, $confirm = true)
+{
+    $errors = [];
+    
+    //パスワードのチェック（正規表現）
+    if (empty($datas["password"])) {
+        $errors['password'] = "パスワードを入力してください。";
+    } else {
+        if (!preg_match('/\A[a-z\d]{8,100}+\z/i', $datas["password"])) {
+            $errors['password'] = "パスワードは8文字以上にしてください。.";
+        }
+    }
+    //パスワード入力確認チェック（ユーザー新規登録時のみ使用）
+    if ($confirm) {
+        if (empty($datas["confirm_password"])) {
+            $errors['confirm_password'] = "パスワードを入力してください。";
+        } else if (empty($errors['password']) && ($datas["password"] != $datas["confirm_password"])) {
+            $errors['confirm_password'] = "パスワードが違うようです。";
+        }
+    }
+
+    return $errors;
+}

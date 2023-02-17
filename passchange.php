@@ -37,12 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // }
     //データベースの中に同一ユーザー名が存在していないか確認
     if (empty($errors['email'])) {
-        $sql = "SELECT email FROM users WHERE email = :email";
+        $sql = "SELECT email,id FROM users WHERE email = :email";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':email', $datas['email'], PDO::PARAM_STR);
         $stmt->execute();
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $flag = 1;
+            $id = $row["id"];
         }
     }
     //エラーがなかったらDBへの新規登録を実行
@@ -50,10 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mb_language("Japanese");
         mb_internal_encoding("UTF-8");
         $to = $_POST["email"];
+        $http_host = $_SERVER['HTTP_HOST'];
         // $to = "fki2166301@stu.o-hara.ac.jp"; // 送信先のアドレス
         $subject = "パスワード変更の件"; // 件名
         $message = "パスワードの変更をするには以下のURLに接続してください。
-		http://172.16.31.28/root/change?email=$to
+		http://$http_host/root/change?id=$id
 		関係のない場合は削除してください。"; // 本文
         $additional_headers = ""; // ヘッダーオプション
 
@@ -62,6 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $text = "メール送信に失敗しました。";
         }
+    } else {
+        $text = "そのメールアドレスは登録されていません";
     }
 }
 ?>
@@ -76,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Register</title>
+    <title>貸し借りサイト　Lab:G | パスワード変更</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
