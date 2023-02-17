@@ -124,6 +124,9 @@ if (!isset($_GET["result"])) {
             if ($point < 100) {
                 header('Location:404.php');
             } else {
+                $SSR = 0;
+                $PU = 0;
+                $UR = 0;
                 for ($i = 0; $i < 9; $i++) {
                     // require_once("10ren.php");
                     $rand = mt_rand(0, 10000);
@@ -137,6 +140,15 @@ if (!isset($_GET["result"])) {
                                 $main_rarity = $rarity;
                             }
                             $r[] = $rarity;
+                            if ($main_rarity == "SSR") {
+                                $SSR = 1;
+                                if ($rarity == "PU") {
+                                    $PU = 1;
+                                }
+                            }
+                            if ($main_rarity == "UR") {
+                                $UR = 1;
+                            }
                             $card_id = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
                             $card_result[] = $card_id;
                             $sql = "SELECT * FROM char_data";
@@ -170,6 +182,15 @@ if (!isset($_GET["result"])) {
                             $main_rarity = $rarity;
                         }
                         $r[] = $rarity;
+                        if ($main_rarity == "SSR") {
+                            $SSR = 1;
+                            if ($rarity == "PU") {
+                                $PU = 1;
+                            }
+                        }
+                        if ($main_rarity == "UR") {
+                            $UR = 1;
+                        }
                         $card_id = array_rand($cards[$rarity], 1); // 排出レアリティ内からランダムに1枚取得
                         $card_result[] = $card_id;
                         $sql = "SELECT * FROM char_data";
@@ -193,10 +214,28 @@ if (!isset($_GET["result"])) {
                 $stm = $pdo->prepare($sql);
                 $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
                 $stm->execute();
-                if (isset($_GET["id"])) {
-                    header("Location:gacha.php?result=1&custom=1&id=" . $_GET["id"]);
+                if ($SSR == 0 && $UR == 0) {
+                    if (isset($_GET["id"])) {
+                        sleep(0.5);
+                        header("Location:gacha.php?result=1&custom=1&id=" . $_GET["id"]);
+                    } else {
+                        sleep(0.5);
+                        header("Location:gacha.php?result=1&custom=1");
+                    }
                 } else {
-                    header("Location:gacha.php?result=1&custom=1");
+                    if ($PU == 1) {
+                        $rand = mt_rand(0, 10000);
+                        if ($rand > 5000) {
+                            sleep(1);
+                            header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&pu=1");
+                        } else {
+                            sleep(1);
+                            header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&ssr=1");
+                        }
+                    } else {
+                        sleep(1);
+                        header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&ssr=1");
+                    }
                 }
 
             }
