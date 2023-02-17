@@ -58,7 +58,7 @@ if ($gacha_id == 0) {
     }
     date_default_timezone_set('Asia/Tokyo');
     $today = date("Y-m-d");
-    if (($s_time >= $today) || ($e_time <= $today)) {
+    if (($s_time > $today) || ($e_time < $today)) {
         header("Location:404.php");
     }
     $ssr = 690 - $pu_pro;
