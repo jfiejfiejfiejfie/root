@@ -223,21 +223,26 @@ if (!isset($_GET["result"])) {
                         header("Location:gacha.php?result=1&custom=1");
                     }
                 } else {
-                    if ($PU == 1) {
+                    if ($UR == 1) {
+                        sleep(2);
+                        if (isset($_GET["id"])) {
+                            header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&ur=1");
+                        } else {
+                            header("Location:gacha_result.php?custom=1&ur=1");
+                        }
+                    } else if ($PU == 1) {
                         $rand = mt_rand(0, 10000);
+                        sleep(1);
                         if ($rand > 5000) {
-                            sleep(1);
                             header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&pu=1");
                         } else {
-                            sleep(1);
                             header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&ssr=1");
                         }
                     } else {
+                        sleep(0.5);
                         if (isset($_GET["id"])) {
-                            sleep(0.5);
                             header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&ssr=1");
                         } else {
-                            sleep(0.5);
                             header("Location:gacha_result.php?custom=1&ssr=1");
                         }
                     }
