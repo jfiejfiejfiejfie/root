@@ -52,13 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     //エラーがなかったらDBへの新規登録を実行
     if (empty($errors)) {
-        // $params = [
-        //     'user_id' => $datas['name'],
-        //     'name' => $datas['name'],
-        //     'password' => password_hash($datas['password'], PASSWORD_DEFAULT),
-        //     'age' => $datas['age'],
-        //     'sex' => $datas['sex']
-        // ];
         $name = $datas['name'];
         $pass = password_hash($datas['password'], PASSWORD_DEFAULT);
         $age = $datas["age"];
@@ -84,8 +77,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindValue(':sex', $sex, PDO::PARAM_STR);
             $stmt->bindValue(':id', $update_id, PDO::PARAM_STR);
             $stmt->execute();
-            header("Location:login");
-            // $pdo->commit();
+
+            $sql = "SELECT * FROM users WHERE id = :id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue('id', $update_id, PDO::PARAM_INT);
+            $stmt->execute();
+            //ユーザー情報があれば変数に格納
+            if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                session_regenerate_id(true);
+                //セッション変数にログイン情報を格納
+                $_SESSION["loggedin"] = true;
+                $_SESSION["id"] = $row['id'];
+                $_SESSION["name"] = $row['name'];
+                $_SESSION["user_id"] = $row['user_id'];
+                $_SESSION["admin"] = $row['admin'];
+                //ウェルカムページへリダイレクト
+                header("location:./");
+                exit();
+            }
         } catch (Exception $e) {
             echo 'エラーがありました。';
             echo $e->getMessage();
