@@ -2,7 +2,7 @@
 session_start();
 
 $myURL = 'edit_db.php';
-$gobackURL = 'mypage.php';
+$gobackURL = 'mypage';
 require_once "db_connect.php";
 
 ?>
@@ -68,10 +68,6 @@ require_once "db_connect.php";
           $sex = $_POST["sex"];
           $comment = $_POST["comment"];
           $_SESSION["name"] = $_POST["name"];
-          // $_SESSION["age"] = $_POST["age"];
-          // $_SESSION["sex"] = $_POST["sex"];
-          // $_SESSION["email"] = $_POST["email"];
-          // $_SESSION["comment"] = $_POST["comment"];
           try {
 
             $sql = "UPDATE users SET name=:name ,age = :age,sex = :sex,comment = :comment where id = $id";
@@ -115,7 +111,7 @@ require_once "db_connect.php";
                 echo '<td>', $row['sex'], '</td>';
                 echo '<td>', $row['email'], '</td>';
                 echo '<td>', $row['comment'], '</td>';
-                echo '<td><img height="150" width="150" src="my_image.php?id=', $row['id'], '"></td>';
+                echo '<td><img height="150" width="150" src="my_image?id=', $row['id'], '"></td>';
                 echo '</tr>';
               }
               echo '</tbody>';

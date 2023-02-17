@@ -47,7 +47,7 @@
 
       <!-- Nav Item - Alerts -->
       <li class="nav-item dropdown no-arrow mx-1">
-        <a class="nav-link dropdown-toggle" href="login_bonus.php" id="alertsDropdown" role="button"
+        <a class="nav-link dropdown-toggle" href="login_bonus" id="alertsDropdown" role="button"
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-gift" aria-hidden="true"></i>
           <?php
@@ -78,7 +78,7 @@
           <?php
 
           ?>
-          <a class="dropdown-item d-flex align-items-center" href="login_bonus.php">
+          <a class="dropdown-item d-flex align-items-center" href="login_bonus">
             <div class="mr-3">
               <div class="icon-circle bg-primary">
                 <i class="fas fa-file-alt text-white"></i>
@@ -144,9 +144,9 @@
             if (($row["others_id"] == $id) && ($chat_count < 3)) {
               if (!in_array($row["user_id"], $user_id_list)) {
                 $chat_count += 1;
-                echo '<a class="dropdown-item d-flex align-items-center" href="user_chat.php?id=' . $row["user_id"] . '">';
+                echo '<a class="dropdown-item d-flex align-items-center" href="user_chat?id=' . $row["user_id"] . '">';
                 echo '<div class="dropdown-list-image mr-3">';
-                echo '<img class="rounded-circle" src="my_image.php?id=' . $row["user_id"] . '" alt="...">';
+                echo '<img class="rounded-circle" src="my_image?id=' . $row["user_id"] . '" alt="...">';
                 echo '<div class="status-indicator bg-success"></div>';
                 echo '</div>';
                 if ($row["checked"] == 0) {
@@ -179,7 +179,7 @@
             }
           }
           ?>
-          <a class="dropdown-item text-center small text-gray-500" href="user_chat_list.php">一覧で見る</a>
+          <a class="dropdown-item text-center small text-gray-500" href="user_chat_list">一覧で見る</a>
         </div>
       </li>
       <div class="topbar-divider d-none d-sm-block"></div>
@@ -199,24 +199,24 @@
           }
           ?>
           <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
-          <img class="img-profile rounded-circle" src="<?php echo 'my_image.php?id=' . $main_id; ?>">
+          <img class="img-profile rounded-circle" src="<?php echo 'my_image?id=' . $main_id; ?>">
         </a>
         <!-- Dropdown - User Information -->
         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="mypage.php">
+          <a class="dropdown-item" href="mypage">
             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
             マイページ
           </a>
-          <a class="dropdown-item" href="edit.php">
+          <a class="dropdown-item" href="edit">
             <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
             編集
           </a>
-          <a class="dropdown-item" href="eturan.php">
+          <a class="dropdown-item" href="eturan">
             <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
             閲覧履歴
           </a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="logout.php" data-toggle="modal" data-target="#logoutModal">
+          <a class="dropdown-item" href="logout" data-toggle="modal" data-target="#logoutModal">
             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
             ログアウト
           </a>

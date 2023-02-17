@@ -2,18 +2,18 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
+    header('Location:login');
 }
 if (!isset($_SESSION["admin"])) {
-    header('Location:404.php');
+    header('Location:404');
 }
-// if ("location:login.php")
+// if ("location:login")
 //     ;
-require_once "db_connect.php";
-require_once('checked.php');
-require_once "db_connect.php";
-$myURL = 'add_db.php';
-$gobackURL = 'index.php';
+require_once "db_connect";
+require_once('checked');
+require_once "db_connect";
+$myURL = 'add_db';
+$gobackURL = 'index';
 $point = 0;
 if (isset($_POST["name"])) {
     $name = $_POST["name"];
@@ -70,7 +70,7 @@ if (isset($_POST["name"])) {
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php require_once("sidebar.php"); ?>
+        <?php require_once("sidebar"); ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -80,7 +80,7 @@ if (isset($_POST["name"])) {
             <div id="content">
 
                 <!-- Topbar -->
-                <?php require_once("nav.php"); ?>
+                <?php require_once("nav"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -94,7 +94,7 @@ if (isset($_POST["name"])) {
                     </div>
 
                     <div class="row">
-                        <form method="POST" action="chara_create.php" enctype="multipart/form-data">
+                        <form method="POST" action="chara_create" enctype="multipart/form-data">
                             名前:
                             <input type="text" id="item_name" class="form-control form-control-user" name="name"
                                 placeholder="必須(30文字まで)" required>
@@ -138,7 +138,7 @@ if (isset($_POST["name"])) {
     </div>
     <!-- End of Page Wrapper -->
 
-    <?php require_once("boot_modal.php"); ?>
+    <?php require_once("boot_modal"); ?>
 
 </body>
 

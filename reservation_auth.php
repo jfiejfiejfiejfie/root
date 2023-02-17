@@ -11,7 +11,7 @@ foreach ($result as $row) {
   $user_id = $row["user_id"];
 }
 if ($_SESSION["id"] !== $user_id) {
-  header("Location:404.php");
+  header("Location:404");
 }
 ?>
 <!DOCTYPE html>
@@ -104,7 +104,7 @@ if ($_SESSION["id"] !== $user_id) {
                     // $stm->bindValue(':user_id', $row2["user_id"], PDO::PARAM_STR);
                     // $stm->execute();
                     echo '<table class="table table-striped">';
-                    echo "<a href='profile.php?id={$row2['user_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row2['user_id']}'></a><br>";
+                    echo "<a href='profile?id={$row2['user_id']}'><img id='image' height='100' width='100'src='my_image?id={$row2['user_id']}'></a><br>";
                     $user_id = $row2["user_id"];
                     $sql = "SELECT * FROM users WHERE id=$user_id";
                     $stm = $pdo->prepare($sql);
@@ -112,7 +112,7 @@ if ($_SESSION["id"] !== $user_id) {
                     $result3 = $stm->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($result3 as $row3) {
                       echo '<div class="col-12"></div>';
-                      echo $row3["name"], "<a href='reservation_auth.php?id=$list_id&user_id=$user_id' class='btn btn-primary'>認可する</a></td>";
+                      echo $row3["name"], "<a href='reservation_auth?id=$list_id&user_id=$user_id' class='btn btn-primary'>認可する</a></td>";
                     }
                     echo "<hr>";
                     echo '</tr>';
@@ -144,7 +144,7 @@ if ($_SESSION["id"] !== $user_id) {
               foreach ($result3 as $row3) {
                 $item = $row3["item"];
               }
-              $text = "あなたが予約した<a href='detail.php?id=" . $id . "'>" . $item . "</a>の認可はされました。
+              $text = "あなたが予約した<a href='detail?id=" . $id . "'>" . $item . "</a>の認可はされました。
                     ※これは自動送信です。";
               date_default_timezone_set('Asia/Tokyo');
               $date = date('Y-m-d H:i:s');
@@ -162,7 +162,7 @@ if ($_SESSION["id"] !== $user_id) {
               $stm->execute();
               $result = $stm->fetchAll(PDO::FETCH_ASSOC);
               foreach ($result as $row) {
-                $text = "あなたが予約した<a href='detail.php?id=" . $id . "'>" . $item . "</a>の認可はされませんでした。
+                $text = "あなたが予約した<a href='detail?id=" . $id . "'>" . $item . "</a>の認可はされませんでした。
                     ※これは自動送信です。";
                 date_default_timezone_set('Asia/Tokyo');
                 $date = date('Y-m-d H:i:s');
@@ -179,7 +179,7 @@ if ($_SESSION["id"] !== $user_id) {
               $stm->bindValue(':id', $id, PDO::PARAM_STR);
               $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
               $stm->execute();
-              echo '<a href="mypage.php">マイページに戻る</a>';
+              echo '<a href="mypage">マイページに戻る</a>';
             }
             ?>
           </div>

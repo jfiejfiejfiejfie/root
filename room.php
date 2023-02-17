@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-  header('Location:login.php');
+  header('Location:login');
 }
 // if ("location:login.php")
 //     ;
@@ -43,9 +43,9 @@ if (isset($_GET["chat"])) {
     $stm->bindValue(':imgdat', $img, PDO::PARAM_STR);
     $stm->execute();
     if (isset($_GET['page_id'])) {
-      header('Location:room.php?id=' . $id . '&page_id=' . $now);
+      header('Location:room?id=' . $id . '&page_id=' . $now);
     } else {
-      header('Location:room.php?id=' . $id);
+      header('Location:room?id=' . $id);
     }
   }
   if ($_FILES["image"]["tmp_name"] == "") {
@@ -66,9 +66,9 @@ if (isset($_GET["chat"])) {
     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
   }
   if (isset($_GET['page_id'])) {
-    header('Location:room.php?id=' . $id . '&page_id=' . $now);
+    header('Location:room?id=' . $id . '&page_id=' . $now);
   } else {
-    header('Location:room.php?id=' . $id);
+    header('Location:room?id=' . $id);
   }
 }
 $sql = "SELECT * FROM room WHERE id=$id";
@@ -155,7 +155,7 @@ foreach ($result as $row) {
                 $stm->execute();
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($result as $row) {
-                  echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='50' width='50'src='my_image.php?id={$row['my_id']}'></a>";
+                  echo "<a href='profile?id={$row['my_id']}'><img id='image' height='50' width='50'src='my_image?id={$row['my_id']}'></a>";
                   $room_id = $row["room_id"];
                   $sql = "SELECT * FROM users WHERE id=" . $row["my_id"];
                   $stm = $pdo->prepare($sql);
@@ -219,10 +219,10 @@ foreach ($result as $row) {
               <?php
               $key = 0;
               if (isset($_GET["page_id"])) {
-                echo '<form action="room.php?id=' . $id . '&chat=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
+                echo '<form action="room?id=' . $id . '&chat=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
                 $key = 1;
               } else {
-                echo '<form action="room.php?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
+                echo '<form action="room?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
               }
               ?>
               <label>画像:<br>
@@ -278,7 +278,7 @@ foreach ($result as $row) {
                 if (($row["user_id"] != $_SESSION["id"])) {
                   echo '<table id="user_chat">';
                   echo '<thead><tr>';
-                  echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
+                  echo '<th><a href="profile?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image?id=', $row["user_id"], '"></a>';
                   $user_id = $row["user_id"];
                   $sql = "SELECT * FROM users WHERE id=$user_id";
                   $stm = $pdo->prepare($sql);
@@ -312,13 +312,13 @@ foreach ($result as $row) {
                     $text = $row["text"];
                     if ($text != "stamp_123456789") {
                       if ($row["image"] != "") {
-                        echo '<a img data-lightbox="group" height="200" width="200" href="room_chat_image.php?id=', $row['id'], '"><img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '"></a>';
+                        echo '<a img data-lightbox="group" height="200" width="200" href="room_chat_image?id=', $row['id'], '"><img height="232" width="232" src="room_chat_image?id=' . $row["id"] . '"></a>';
                       }
                       if ($row["text"] != "") {
                         echo '<div style="font-size:35px; font-family: serif; text-align: left;" class="balloon1">' . $text . '</div>';
                       }
                     } else {
-                      echo '<img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '">';
+                      echo '<img height="232" width="232" src="room_chat_image?id=' . $row["id"] . '">';
                     }
                     $time = new DateTime($row["created_at"]);
                     $time = $time->format("H:i");
@@ -339,7 +339,7 @@ foreach ($result as $row) {
                   $time = $time->format("H:i");
                   if ($text != "stamp_123456789") {
                     if ($row["image"] != "") {
-                      echo '<div style="text-align: right;"><a img data-lightbox="group" height="200" width="200" href="room_chat_image.php?id=', $row['id'], '"><img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '"></a></div>';
+                      echo '<div style="text-align: right;"><a img data-lightbox="group" height="200" width="200" href="room_chat_image?id=', $row['id'], '"><img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '"></a></div>';
                       echo '<div style="font-size:20px; text-align: right;">' . $time;
                     }
                     if ($row["text"] != "") {
@@ -350,12 +350,12 @@ foreach ($result as $row) {
                       }
                     }
                   } else {
-                    echo '<div style="text-align: right;"><img height="232" width="232" src="room_chat_image.php?id=' . $row["id"] . '"></div>';
+                    echo '<div style="text-align: right;"><img height="232" width="232" src="room_chat_image?id=' . $row["id"] . '"></div>';
                     echo '<div style="font-size:20px; text-align: right;">' . $time;
                   }
                   echo '</div>';
                   echo '</th>';
-                  echo '<td><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
+                  echo '<td><a href="profile?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image?id=', $row["user_id"], '"></a>';
                   $user_id = $row["user_id"];
                   $sql = "SELECT * FROM users WHERE id=$user_id";
                   $stm = $pdo->prepare($sql);
@@ -429,9 +429,9 @@ foreach ($result as $row) {
           <?php
           for ($i = 1; $i < 22; $i++) {
             if ($key == 0) {
-              echo "<a href='room.php?id=$id&chat=1&img=$i'>";
+              echo "<a href='room?id=$id&chat=1&img=$i'>";
             } else {
-              echo "<a href='room.php?id=$id&chat=1&page_id=$now&img=$i'>";
+              echo "<a href='room?id=$id&chat=1&page_id=$now&img=$i'>";
             }
             if ($i == 0) {
               echo '<img src="stamp/' . $i . '.gif" height="100" width="100"></a>';

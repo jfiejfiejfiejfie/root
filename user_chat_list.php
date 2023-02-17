@@ -86,7 +86,7 @@ if (!isset($_SESSION["check"])) {
                   $chat_count += 1;
                   echo '<table id="user_chat" class="table table-striped">';
                   echo '<thead><tr>';
-                  echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
+                  echo '<th><a href="profile?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image?id=', $row["user_id"], '"></a>';
                   $user_id = $row["user_id"];
                   $sql = "SELECT * FROM users WHERE id=$user_id";
                   $stm = $pdo->prepare($sql);
@@ -117,7 +117,7 @@ if (!isset($_SESSION["check"])) {
                   $stm->execute();
                   $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
                   foreach ($result2 as $row2) {
-                    echo "<td><a class='btn col-12' href='user_chat.php?id=" . $user_id . "'>" . $row2["name"] . ':';
+                    echo "<td><a class='btn col-12' href='user_chat?id=" . $user_id . "'>" . $row2["name"] . ':';
                     //整形したい文字列
                     $text = $row["text"];
                     $text = strip_tags($text);
@@ -145,7 +145,7 @@ if (!isset($_SESSION["check"])) {
                   $chat_count += 1;
                   echo '<table id="user_chat" class="table table-striped">';
                   echo '<thead><tr>';
-                  echo '<th><a href="profile.php?id=', $row["others_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["others_id"], '"></a>';
+                  echo '<th><a href="profile?id=', $row["others_id"], '">', '<img id="image" height="150" width="150" src="my_image?id=', $row["others_id"], '"></a>';
                   $user_id = $row["others_id"];
                   $sql = "SELECT * FROM users WHERE id=$user_id";
                   $stm = $pdo->prepare($sql);
@@ -169,7 +169,7 @@ if (!isset($_SESSION["check"])) {
                     }
                   }
                   $user_id_list[] = $row["others_id"];
-                  echo '<td><a class="btn col-12" href="user_chat.php?id=' . $user_id . '">あなた:';
+                  echo '<td><a class="btn col-12" href="user_chat?id=' . $user_id . '">あなた:';
                   $text = $row["text"];
                   $text = strip_tags($text);
                   //文字数の上限

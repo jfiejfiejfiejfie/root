@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
+    header('Location:login');
 }
 // if ("location:login.php")
 //     ;
@@ -69,7 +69,7 @@ $gobackURL = 'index.php';
 
                     <div class="row">
                         <?php
-                        $sql = "SELECT * FROM char_data";
+                        $sql = "SELECT * FROM char_data WHERE star=0";
                         $stm = $pdo->prepare($sql);
                         $stm->execute();
                         $result = $stm->fetchAll(PDO::FETCH_ASSOC);

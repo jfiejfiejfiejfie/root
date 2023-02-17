@@ -44,5 +44,5 @@ if ($block_count == 0) {
   $stm = $pdo->prepare($sql);
   $stm->execute();
 }
-header('Location:profile.php?id=' . $user_id);
+header('Location:profile?id=' . $user_id);
 ?>

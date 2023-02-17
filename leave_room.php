@@ -18,7 +18,7 @@ try {
         $stm->execute();
         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
     }
-    header('Location:room_member.php?id=' . $room_id);
+    header('Location:room_member?id=' . $room_id);
 } catch (Exception $e) {
     echo 'エラーがありました。';
     echo $e->getMessage();

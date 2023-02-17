@@ -44,5 +44,5 @@ if (isset($_GET["good"])) {
     $stm->execute();
     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
   }
-  header('Location:detail.php?id=' . $id);
+  header('Location:detail?id=' . $id);
 }

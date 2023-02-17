@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-  header('Location:login.php');
+  header('Location:login');
 }
 // if ("location:login.php")
 //     ;
@@ -10,11 +10,7 @@ require_once "db_connect.php";
 require_once('checked.php');
 require_once "db_connect.php";
 $myURL = 'add_db.php';
-$gobackURL = 'keijiban.php';
-$point = 0;
-if (isset($_POST["kind"])) {
-  require_once('insert.php');
-}
+$gobackURL = 'keijiban';
 ?>
 
 <!DOCTYPE html>

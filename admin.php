@@ -79,12 +79,12 @@ if ($row["admin"] == 0) {
               echo '<div class="col-12"></div>';
               echo $row["id"] . '<br>レンタル品名:';
               echo $row["item"] . '<br> ';
-              echo '<div class="sample5"><a href=detail.php?', "id={$row["id"]}>";
+              echo '<div class="sample5"><a href=detail?', "id={$row["id"]}>";
               echo '<img id="parent" src="image.php?id=', $row["id"], ' alt="" height="155" width="155"/>';
               if ($row["loan"] == 1) {
                 echo '<img id="child" src="images/sold.png" height="155" width="155"/>';
               }
-              echo "<div class='col-12'></div><a class='btn btn-danger col-8' href='mydelete.php?id=" . $row['id'] . "'>消す</a>";
+              echo "<div class='col-12'></div><a class='btn btn-danger col-8' href='mydelete?id=" . $row['id'] . "'>消す</a>";
               echo '</div></a></div>';
               echo "</tr>";
               echo "</table>";
@@ -102,7 +102,7 @@ if ($row["admin"] == 0) {
               echo '<div class="col-12"></div>';
               echo $row["id"];
               echo $row["name"];
-              echo "<a href='admin_edit.php?id=" . $row['id'] . "'>編集する</a>";
+              echo "<a href='admin_edit?id=" . $row['id'] . "'>編集する</a>";
               echo "</tr>";
               echo "</table>";
             }
@@ -123,7 +123,7 @@ if ($row["admin"] == 0) {
             }
             foreach ($data as $line) {
               echo '<div class="col-12"></div>';
-              echo 'IPアドレス->' . $line . '<a href="report.php?IP=' . $line . '">永久追放する</a><br>';
+              echo 'IPアドレス->' . $line . '<a href="report?IP=' . $line . '">永久追放する</a><br>';
             }
             // echo '<h1>ユーザを永久追放する</h1>';
             $filename = "user_report.txt";
@@ -140,7 +140,7 @@ if ($row["admin"] == 0) {
             }
             foreach ($data as $line) {
               echo '<div class="col-12"></div>';
-              echo 'ユーザーID->' . $line . '<a href="deleteacount.php?id=' . $line . '">永久追放する</a><br>';
+              echo 'ユーザーID->' . $line . '<a href="deleteacount?id=' . $line . '">永久追放する</a><br>';
             }
             echo '<div class="col-12"><br></div>';
             echo '<h1>IP追放編集</h1>';
@@ -160,12 +160,12 @@ if ($row["admin"] == 0) {
             $data_count = 0;
             foreach ($data as $line) {
               echo '<div class="col-12"></div>';
-              echo $line . '<a href="report.php?line=' . $data_count . '">削除</a><br>';
+              echo $line . '<a href="report?line=' . $data_count . '">削除</a><br>';
               $data_count += 1;
             }
-            echo '<a href="chara_create.php" class="btn btn-primary col-12">ガチャキャラ作成</a>';
-            echo '<a href="chara_delete.php" class="btn btn-danger col-12">ガチャキャラ削除</a>';
-            echo '<a href="gacha_create.php" class="btn btn-primary col-12">PUガチャ作成</a>';
+            echo '<a href="chara_create" class="btn btn-primary col-12">ガチャキャラ作成</a>';
+            echo '<a href="chara_delete" class="btn btn-danger col-12">ガチャキャラ削除</a>';
+            echo '<a href="gacha_create" class="btn btn-primary col-12">PUガチャ作成</a>';
             ?>
           </div>
 

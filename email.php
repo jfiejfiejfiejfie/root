@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // $to = "fki2166301@stu.o-hara.ac.jp"; // 送信先のアドレス
         $subject = "メール認証の件"; // 件名
         $message = "メール認証をするには以下のURLに接続してください。
-		http://".$http_host."/root/auth.php?email=$to
+		http://".$http_host."/root/auth?email=$to
 		関係のない場合は削除してください。"; // 本文
         $additional_headers = ""; // ヘッダーオプション
 
@@ -121,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="login.php">既にアカウントをお持ちの方はこちら</a>
+                                <a class="small" href="login">既にアカウントをお持ちの方はこちら</a>
                             </div>
                         </div>
                     </div>

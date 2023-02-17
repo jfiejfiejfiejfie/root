@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-// $gobackURL ="blocklist.php?id={$_SESSION["my_id"]}&user_id={$_SESSION["user_id"]}";
-//$gobackURL = 'blocklist.php';
 require_once "db_connect.php";
 $my_id = $_SESSION["id"];
 $user_id = $_GET["id"];

@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-  header('Location:login.php');
+  header('Location:login');
 }
 // if ("location:login.php")
 //     ;
@@ -22,7 +22,7 @@ if (isset($_GET["delete"])) {
   $sql = "DELETE FROM roomchat WHERE room_id =" . $_GET['id'];
   $stm = $pdo->prepare($sql);
   $stm->execute();
-  header("Location:chat_room.php");
+  header("Location:chat_room");
 }
 ?>
 <!DOCTYPE html>
@@ -93,20 +93,20 @@ if (isset($_GET["delete"])) {
                 foreach ($result as $row) {
                   if ($row["host_id"] == $row["my_id"]) {
                     echo '<div class="col-12">ホストユーザー</div>';
-                    echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
+                    echo "<a href='profile?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image?id={$row['my_id']}'></a><br>";
                     echo $row["name"];
                     if ($row["host_id"] == $_SESSION["id"]) {
                       echo '<div class="col-12">　</div>';
-                      echo "<a href='room_edit.php?id={$_GET["id"]}'  class='btn btn-primary col-3'>ルーム編集する <div class='fa fa-cog'></div></a>";
+                      echo "<a href='room_edit?id={$_GET["id"]}'  class='btn btn-primary col-3'>ルーム編集する <div class='fa fa-cog'></div></a>";
                     }
                     echo '<div class="col-12">　</div><hr>';
                     echo '<div class="col-12">ゲストユーザー</div>';
                   } else {
-                    echo "<div class='col-12'>　</div><a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
+                    echo "<div class='col-12'>　</div><a href='profile?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image?id={$row['my_id']}'></a><br>";
                     echo $row["name"];
                     if ($row["host_id"] == $_SESSION["id"]) {
                       echo '<div class="col-12">　</div>';
-                      echo "<a href='leave_room.php?id=$id&my_id=" . $row["my_id"] . "'  class='btn btn-primary col-3'>脱退させる <div class='fa fa-times'></div></a>";
+                      echo "<a href='leave_room?id=$id&my_id=" . $row["my_id"] . "'  class='btn btn-primary col-3'>脱退させる <div class='fa fa-times'></div></a>";
                     }
                   }
                   echo "<hr>";
@@ -114,7 +114,7 @@ if (isset($_GET["delete"])) {
                 }
                 if ($row["host_id"] == $_SESSION["id"]) {
                   echo '<div class="col-12">　</div>';
-                  echo "<a href='room_member.php?id={$_GET["id"]}&delete=1'  class='btn btn-danger col-3'>ルームを削除する <div class='fa fa-times'></div></a>";
+                  echo "<a href='room_member?id={$_GET["id"]}&delete=1'  class='btn btn-danger col-3'>ルームを削除する <div class='fa fa-times'></div></a>";
                 }
                 echo '</tbody>';
                 echo '</table>';

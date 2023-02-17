@@ -87,7 +87,7 @@ require_once "db_connect.php";
                     if (!in_array($row["list_id"], $reservation_list)) {
                       $reservation_list[] = $row["list_id"];
                       echo '<table class="table table-striped">';
-                      echo "<a href='reservation_auth.php?id={$row['list_id']}'><img id='image' height='100' width='100'src='image.php?id={$row['list_id']}'></a><br>";
+                      echo "<a href='reservation_auth?id={$row['list_id']}'><img id='image' height='100' width='100'src='image?id={$row['list_id']}'></a><br>";
                       $list_id = $row["list_id"];
                       $sql = "SELECT * FROM list WHERE id=$list_id";
                       $stm = $pdo->prepare($sql);

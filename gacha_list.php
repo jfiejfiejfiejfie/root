@@ -70,17 +70,17 @@ require_once "db_connect.php";
                             foreach ($result as $row) {
                                 if (($row["ST"] <= $today) && ($row["ET"] >= $today)) {
                                     echo $row["gacha_name"] . ":ピックアップ確率:" . ($row["pro"] / 100) . "%!!<br>";
-                                    echo "<img src='chara_image.php?id=" . $row["PU_id"] . "' height='250' width='250'><br>";
-                                    echo "<a class='btn btn-success col-2' target='_brank' href='teikyo.php?id=" . $row["gacha_id"] . "'>提供割合</a><b style='color:red;'>※別窓が開きます</b><div class='col-12'></div>";
-                                    echo "<a class='btn btn-primary col-1' href='gacha.php?id=" . $row["gacha_id"] . "'>ガチャる</a>";
-                                    echo "<a class='btn btn-primary col-1' href='gacha.php?id=" . $row["gacha_id"] . "&custom=1'>10連</a><br>";
+                                    echo "<img src='chara_image?id=" . $row["PU_id"] . "' height='250' width='250'><br>";
+                                    echo "<a class='btn btn-success col-2' target='_brank' href='teikyo?id=" . $row["gacha_id"] . "'>提供割合</a><b style='color:red;'>※別窓が開きます</b><div class='col-12'></div>";
+                                    echo "<a class='btn btn-primary col-1' href='gacha?id=" . $row["gacha_id"] . "'>ガチャる</a>";
+                                    echo "<a class='btn btn-primary col-1' href='gacha?id=" . $row["gacha_id"] . "&custom=1'>10連</a><br>";
                                     echo "開催期間:" . $row["ST"] . "～" . $row["ET"] . "<br><hr>";
                                 }
                             }
                             echo "ノーマルガチャ<div class='col-12'></div>";
                             echo "<a class='btn btn-success col-2' data-toggle='modal' data-target='#kakuritu'>提供割合</a><div class='col-12'></div>";
-                            echo "<a class='btn btn-primary col-1' href='gacha.php'>ガチャる</a>";
-                            echo "<a class='btn btn-primary col-1' href='gacha.php?custom=1'>10連</a>";
+                            echo "<a class='btn btn-primary col-1' href='gacha'>ガチャる</a>";
+                            echo "<a class='btn btn-primary col-1' href='gacha?custom=1'>10連</a>";
                             ?>
                         </div>
                     </div>

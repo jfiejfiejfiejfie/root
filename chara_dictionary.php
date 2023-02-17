@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
+    header('Location:./');
 }
 // if ("location:login.php")
 //     ;
@@ -11,10 +11,6 @@ require_once('checked.php');
 require_once "db_connect.php";
 $myURL = 'add_db.php';
 $gobackURL = 'index.php';
-$point = 0;
-if (isset($_POST["kind"])) {
-    require_once('insert.php');
-}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -82,7 +78,7 @@ if (isset($_POST["kind"])) {
                         foreach ($result as $row) {
                             echo "<div class='col-2 border'>";
                             echo "No." . $count . ":" . $row["rarity"] . ":" . $row["name"];
-                            echo "<br><img src='chara_image.php?id=" . $row["id"] . "' height='232' width='232'>";
+                            echo "<br><img src='chara_image?id=" . $row["id"] . "' height='232' width='232'>";
                             $sql = "SELECT * FROM box WHERE user_id = " . $_SESSION["id"] . " && char_data_id=" . $row["id"];
                             $stm = $pdo->prepare($sql);
                             $stm->execute();

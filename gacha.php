@@ -2,7 +2,7 @@
 session_start();
 require_once "db_connect.php";
 if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
+    header('Location:./');
 }
 if (isset($_GET["id"])) {
     $gacha_id = $_GET["id"];
@@ -59,7 +59,7 @@ if ($gacha_id == 0) {
     date_default_timezone_set('Asia/Tokyo');
     $today = date("Y-m-d");
     if (($s_time > $today) || ($e_time < $today)) {
-        header("Location:404.php");
+        header("Location:404");
     }
     $ssr = 690 - $pu_pro;
     $raritys = [
@@ -122,13 +122,12 @@ if (!isset($_GET["result"])) {
             // $rand = mt_rand(0, 10000); // 乱数生成
             // 普通に9連
             if ($point < 100) {
-                header('Location:404.php');
+                header('Location:404');
             } else {
                 $SSR = 0;
                 $PU = 0;
                 $UR = 0;
                 for ($i = 0; $i < 9; $i++) {
-                    // require_once("10ren.php");
                     $rand = mt_rand(0, 10000);
                     $probability = 0;
                     foreach ($raritys as $rarity => $rarity_probability) {
@@ -217,33 +216,33 @@ if (!isset($_GET["result"])) {
                 if ($SSR == 0 && $UR == 0) {
                     if (isset($_GET["id"])) {
                         sleep(0.5);
-                        header("Location:gacha.php?result=1&custom=1&id=" . $_GET["id"]);
+                        header("Location:gacha?result=1&custom=1&id=" . $_GET["id"]);
                     } else {
                         sleep(0.5);
-                        header("Location:gacha.php?result=1&custom=1");
+                        header("Location:gacha?result=1&custom=1");
                     }
                 } else {
                     if ($UR == 1) {
                         sleep(2);
                         if (isset($_GET["id"])) {
-                            header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&ur=1");
+                            header("Location:gacha_result?custom=1&id=" . $_GET["id"] . "&ur=1");
                         } else {
-                            header("Location:gacha_result.php?custom=1&ur=1");
+                            header("Location:gacha_result?custom=1&ur=1");
                         }
                     } else if ($PU == 1) {
                         $rand = mt_rand(0, 10000);
                         sleep(1);
                         if ($rand > 5000) {
-                            header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&pu=1");
+                            header("Location:gacha_result?custom=1&id=" . $_GET["id"] . "&pu=1");
                         } else {
-                            header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&ssr=1");
+                            header("Location:gacha_result?custom=1&id=" . $_GET["id"] . "&ssr=1");
                         }
                     } else {
                         sleep(0.5);
                         if (isset($_GET["id"])) {
-                            header("Location:gacha_result.php?custom=1&id=" . $_GET["id"] . "&ssr=1");
+                            header("Location:gacha_result?custom=1&id=" . $_GET["id"] . "&ssr=1");
                         } else {
-                            header("Location:gacha_result.php?custom=1&ssr=1");
+                            header("Location:gacha_result?custom=1&ssr=1");
                         }
                     }
                 }
@@ -285,14 +284,14 @@ if (!isset($_GET["result"])) {
             $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);
             $stm->execute();
             if (isset($_GET["id"])) {
-                header("Location:gacha.php?result=1&id=" . $_GET["id"]);
+                header("Location:gacha?result=1&id=" . $_GET["id"]);
             } else {
-                header("Location:gacha.php?result=1");
+                header("Location:gacha?result=1");
             }
         }
 
     } else {
-        header("Location:404.php");
+        header("Location:404");
     }
 } else {
     if (isset($_GET["custom"])) {
@@ -385,21 +384,21 @@ if (!isset($_GET["result"])) {
                             for ($count = 10; $count > 0; $count--) {
                                 echo "<div class='col-2 border'>";
                                 if ($Rare[$count] == "UR") {
-                                    echo "<img src='chara_image.php?id=" . $char[$count] . "' height='150' width='150' class='border border-secondary border-4 rounded'><br>";
+                                    echo "<img src='chara_image?id=" . $char[$count] . "' height='150' width='150' class='border border-secondary border-4 rounded'><br>";
                                     echo "<div style='color:purple;'>" . $Rare[$count];
                                 } else if ($Rare[$count] == "SSR") {
                                     if ($char[$count] == $PU_id) {
-                                        echo "<img src='chara_image.php?id=" . $char[$count] . "' height='150' width='150' class='border border-danger border-4 rounded rainbow'><br>";
+                                        echo "<img src='chara_image?id=" . $char[$count] . "' height='150' width='150' class='border border-danger border-4 rounded rainbow'><br>";
                                         echo "<div class='rainbow'>SSR";
                                     } else {
-                                        echo "<img src='chara_image.php?id=" . $char[$count] . "' height='150' width='150' class='border border-danger border-4 rounded'><br>";
+                                        echo "<img src='chara_image?id=" . $char[$count] . "' height='150' width='150' class='border border-danger border-4 rounded'><br>";
                                         echo "<div style='color:gold;'>" . $Rare[$count];
                                     }
                                 } else if ($Rare[$count] == "SR") {
-                                    echo "<img src='chara_image.php?id=" . $char[$count] . "' height='150' width='150' class='border border-primary border-4 rounded'><br>";
+                                    echo "<img src='chara_image?id=" . $char[$count] . "' height='150' width='150' class='border border-primary border-4 rounded'><br>";
                                     echo "<div style='color:silver;'>" . $Rare[$count];
                                 } else if ($Rare[$count] == "R") {
-                                    echo "<img src='chara_image.php?id=" . $char[$count] . "' height='150' width='150' class='border border-dark border-4 rounded'><br>";
+                                    echo "<img src='chara_image?id=" . $char[$count] . "' height='150' width='150' class='border border-dark border-4 rounded'><br>";
                                     echo "<div style='color:blue;'>" . $Rare[$count];
                                 }
                                 echo ':' . $char_name[$count] . "をGET!</div>";
@@ -413,14 +412,14 @@ if (!isset($_GET["result"])) {
                             $text2 = "";
                             echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
                             if (isset($_GET["id"])) {
-                                echo "<a href='gacha.php?id=" . $_GET["id"] . "' class='btn btn-primary col-6'>ガチャる</a>";
+                                echo "<a href='gacha?id=" . $_GET["id"] . "' class='btn btn-primary col-6'>ガチャる</a>";
                             } else {
-                                echo "<a href='gacha.php' class='btn btn-primary col-6'>ガチャる</a>";
+                                echo "<a href='gacha' class='btn btn-primary col-6'>ガチャる</a>";
                             }
                             if (isset($_GET["id"])) {
-                                echo "<a href='gacha.php?id=" . $_GET["id"] . "&custom=1' class='btn btn-primary col-6'>もう一回10連を引く</a>";
+                                echo "<a href='gacha?id=" . $_GET["id"] . "&custom=1' class='btn btn-primary col-6'>もう一回10連を引く</a>";
                             } else {
-                                echo "<a href='gacha.php?custom=1' class='btn btn-primary col-6'>もう一回10連を引く</a>";
+                                echo "<a href='gacha?custom=1' class='btn btn-primary col-6'>もう一回10連を引く</a>";
                             }
                             if ($point >= 100) {
                                 echo "<br><div class='col-12'>あと" . floor($point / 100) . "回引けます</div>";
@@ -429,21 +428,21 @@ if (!isset($_GET["result"])) {
                         } else {
                             echo "<div class='col-2 border'>";
                             if ($Rare == "UR") {
-                                echo "<img src='chara_image.php?id=" . $char . "' height='150' width='150' class='border border-secondary border-4 rounded'><br>";
+                                echo "<img src='chara_image?id=" . $char . "' height='150' width='150' class='border border-secondary border-4 rounded'><br>";
                                 echo "<div style='color:purple;'>" . $Rare;
                             } else if ($Rare == "SSR") {
                                 if ($char == $PU_id) {
-                                    echo "<img src='chara_image.php?id=" . $char . "' height='150' width='150' class='border border-danger border-4 rounded rainbow'><br>";
+                                    echo "<img src='chara_image?id=" . $char . "' height='150' width='150' class='border border-danger border-4 rounded rainbow'><br>";
                                     echo "<div class='rainbow'>SSR";
                                 } else {
-                                    echo "<img src='chara_image.php?id=" . $char . "' height='150' width='150' class='border border-danger border-4 rounded'><br>";
+                                    echo "<img src='chara_image?id=" . $char . "' height='150' width='150' class='border border-danger border-4 rounded'><br>";
                                     echo "<div style='color:gold;'>" . $Rare;
                                 }
                             } else if ($Rare == "SR") {
-                                echo "<img src='chara_image.php?id=" . $char . "' height='150' width='150' class='border border-primary border-4 rounded'><br>";
+                                echo "<img src='chara_image?id=" . $char . "' height='150' width='150' class='border border-primary border-4 rounded'><br>";
                                 echo "<div style='color:silver;'>" . $Rare;
                             } else if ($Rare == "R") {
-                                echo "<img src='chara_image.php?id=" . $char . "' height='150' width='150' class='border border-dark border-4 rounded'><br>";
+                                echo "<img src='chara_image?id=" . $char . "' height='150' width='150' class='border border-dark border-4 rounded'><br>";
                                 echo "<div style='color:blue;'>" . $Rare;
                             }
                             echo ':' . $char_name . "をGET!</div>";
@@ -451,14 +450,14 @@ if (!isset($_GET["result"])) {
                             echo "<div class='col-12'>所持ポイント:" . $point . "p</div>";
                             echo "<a class='btn btn-success col-12' data-toggle='modal' data-target='#kakuritu'>提供割合</a>";
                             if (isset($_GET["id"])) {
-                                echo "<a href='gacha.php?id=" . $_GET["id"] . "' class='btn btn-primary col-6'>もう一回ガチャる</a>";
+                                echo "<a href='gacha?id=" . $_GET["id"] . "' class='btn btn-primary col-6'>もう一回ガチャる</a>";
                             } else {
-                                echo "<a href='gacha.php' class='btn btn-primary col-6'>もう一回ガチャる</a>";
+                                echo "<a href='gacha' class='btn btn-primary col-6'>もう一回ガチャる</a>";
                             }
                             if (isset($_GET["id"])) {
-                                echo "<a href='gacha.php?id=" . $_GET["id"] . "&custom=1' class='btn btn-primary col-6'>10連を引く</a>";
+                                echo "<a href='gacha?id=" . $_GET["id"] . "&custom=1' class='btn btn-primary col-6'>10連を引く</a>";
                             } else {
-                                echo "<a href='gacha.php?custom=1' class='btn btn-primary col-6'>10連を引く</a>";
+                                echo "<a href='gacha?custom=1' class='btn btn-primary col-6'>10連を引く</a>";
                             }
                             if ($point >= 10) {
                                 echo "<br><div class='col-12'>あと" . floor($point / 10) . "回引けます</div>";
@@ -467,7 +466,7 @@ if (!isset($_GET["result"])) {
                         }
                         ?>
                         <div class="col-12"></div>
-                        <a href='gacha_list.php' class='btn btn-primary'>戻る</a>
+                        <a href='gacha_list' class='btn btn-primary'>戻る</a>
                         <!-- </div> -->
                     </div>
 

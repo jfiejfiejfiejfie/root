@@ -63,7 +63,7 @@ require_once "db_connect.php";
           <div class="row">
             <br>
             <div>
-              <form method="POST" action="search1.php" class="form-inline">
+              <form method="POST" action="search1" class="form-inline">
 
                 <ul>
                   <h1>レンタル品検索</h1>
@@ -79,7 +79,7 @@ require_once "db_connect.php";
                   </label>
                 </ul>
               </form>
-              <form method="POST" action="search_kind.php" class="form-inline">
+              <form method="POST" action="search_kind" class="form-inline">
 
                 <ul>
                   <h1>ジャンル検索</h1>
@@ -113,7 +113,7 @@ require_once "db_connect.php";
 
                 </ul>
               </form>
-              <form method="POST" action="search_user.php" class="form-inline">
+              <form method="POST" action="search_user" class="form-inline">
                 <ul>
                   <h1>ユーザ検索</h1>
                   <label>ユーザを検索します（部分一致）：<br>

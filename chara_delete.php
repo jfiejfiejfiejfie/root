@@ -2,18 +2,18 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
+    header('Location:login');
 }
 if (!isset($_SESSION["admin"])) {
-    header('Location:404.php');
+    header('Location:404');
 }
-// if ("location:login.php")
+// if ("location:login")
 //     ;
-require_once "db_connect.php";
-require_once('checked.php');
-require_once "db_connect.php";
-$myURL = 'add_db.php';
-$gobackURL = 'index.php';
+require_once "db_connect";
+require_once('checked');
+require_once "db_connect";
+$myURL = 'add_db';
+$gobackURL = 'index';
 $message_text = "";
 $point = 0;
 if (isset($_GET["id"])) {
@@ -24,7 +24,7 @@ if (isset($_GET["id"])) {
     $sql = "DELETE FROM box WHERE char_data_id=".$chara_id;
     $stm = $pdo->prepare($sql);
     $stm->execute();
-    header('Location:chara_delete.php?suc='.$chara_id);
+    header('Location:chara_delete?suc='.$chara_id);
 }
 if(isset($_GET["suc"])){
     $message_text = "ID:".$_GET["suc"]."を削除しました。";
@@ -62,7 +62,7 @@ if(isset($_GET["suc"])){
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php require_once("sidebar.php"); ?>
+        <?php require_once("sidebar"); ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -72,7 +72,7 @@ if(isset($_GET["suc"])){
             <div id="content">
 
                 <!-- Topbar -->
-                <?php require_once("nav.php"); ?>
+                <?php require_once("nav"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -93,7 +93,7 @@ if(isset($_GET["suc"])){
                         $stm->execute();
                         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($result as $row) {
-                            echo "<div class='col-12'></div><img src='chara_image.php?id=" . $row["id"] . "' height='150' width='150'>"."<a href='chara_delete.php?id=" . $row["id"] . "' class='btn btn-danger'>消す</a>";
+                            echo "<div class='col-12'></div><img src='chara_image?id=" . $row["id"] . "' height='150' width='150'>"."<a href='chara_delete?id=" . $row["id"] . "' class='btn btn-danger'>消す</a>";
                             echo $row["rarity"].":".$row["name"];
                         }
                         ?>
@@ -121,7 +121,7 @@ if(isset($_GET["suc"])){
     </div>
     <!-- End of Page Wrapper -->
 
-    <?php require_once("boot_modal.php"); ?>
+    <?php require_once("boot_modal"); ?>
 
 </body>
 

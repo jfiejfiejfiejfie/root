@@ -2,7 +2,7 @@
 session_start();
 
 $myURL = 'detail2.php';
-$gobackURL = "room_member.php?id={$_POST["id"]}";
+$gobackURL = "room_member?id={$_POST["id"]}";
 ?>
 <!DOCTYPE html>
 <html lang="ja">

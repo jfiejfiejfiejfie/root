@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
+    header('Location:login');
 }
 $myURL = './';
 $option = '';
@@ -191,8 +191,8 @@ if (!isset($_SESSION["check"])) {
                                 echo '<div class="row no-gutters align-items-center">';
                                 echo '<div class="container mt-3">';
                                 // echo '<td class="border border-dark">';
-                                echo '<div class="sample5"><a href=detail.php?', "id={$row["main_id"]}>";
-                                echo '<img id="parent" src="image.php?id=', $row["main_id"], ' alt="" height="232" width="232"/>';
+                                echo '<div class="sample5"><a href=detail?', "id={$row["main_id"]}>";
+                                echo '<img id="parent" src="image?id=', $row["main_id"], ' alt="" height="232" width="232"/>';
                                 if ($row["loan"] == 1) {
                                     echo '<img id="child" src="images/sold.png" height="232" width="232"/>';
                                 }
@@ -220,7 +220,7 @@ if (!isset($_SESSION["check"])) {
                                 echo '<div class="card-body">';
                                 echo '<div class="row no-gutters align-items-center">';
                                 echo '<div class="container mt-3">';
-                                echo '<div class="sample5"><a href="add_db.php">';
+                                echo '<div class="sample5"><a href="add_db">';
                                 echo "<img id='parent' src='images/dogeza.png' height='232' width='232'>";
                                 // echo '<img id="child" src="images/PR.png" height="232" width="232"/>';
                                 echo '<div class="mask">';

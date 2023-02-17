@@ -112,7 +112,7 @@ if (isset($_POST["kind"])) {
                                 echo '<td>', $row['item'], '</td>';
                                 echo '<td>', $row['kind'], '</td>';
                                 // echo '<td>￥', number_format($row['money']), '</td>';
-                                echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="200" width="200" src="image.php?id=', $row['id'], '"></a></td>';
+                                echo "<td><a href=detail?id={$row["id"]}>", '<img height="200" width="200" src="image?id=', $row['id'], '"></a></td>';
                                 echo '</tr>';
                             }
                             echo '</tbody>';

@@ -2,7 +2,7 @@
 
 require_once('user_check.php');
 if ((!isset($_FILES["image"])) || ($_FILES["image"]["tmp_name"] == '')) {
-  header('Location:add_db.php?result=1');
+  header('Location:add_db?result=1');
 } else {
   $kind_id = $_POST["kind"];
   try {
@@ -104,7 +104,7 @@ if ((!isset($_FILES["image"])) || ($_FILES["image"]["tmp_name"] == '')) {
         $stm->bindValue(':number', 4, PDO::PARAM_STR);
         $stm->execute();
       }
-      header('Location:add_db.php?result=0');
+      header('Location:add_db?result=0');
     } else {
       echo "ツイカエラーガアリマシタ。";
     }

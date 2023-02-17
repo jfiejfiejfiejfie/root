@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
+    header('Location:login');
 }
 require_once "db_connect.php";
 require_once('checked.php');
@@ -151,8 +151,8 @@ $user_id = $_SESSION["id"];
                                 echo $ra . ',';
                             }
                             echo "</div><hr>";
-                            echo "<a class='btn btn-primary' href='gacha.php?id=" . $gacha_id . "'>ガチャる</a>";
-                            echo "<a class='btn btn-primary' href='gacha.php?id=" . $gacha_id . "&custom=1'>10連</a><br>";
+                            echo "<a class='btn btn-primary' href='gacha?id=" . $gacha_id . "'>ガチャる</a>";
+                            echo "<a class='btn btn-primary' href='gacha?id=" . $gacha_id . "&custom=1'>10連</a><br>";
                             $sql = "SELECT * FROM gacha WHERE id=" . $gacha_id;
                             $stm = $pdo->prepare($sql);
                             $stm->execute();

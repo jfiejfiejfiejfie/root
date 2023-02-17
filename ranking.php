@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
+    header('Location:login');
 }
 // if ("location:login.php")
 //     ;
@@ -65,7 +65,7 @@ $gobackURL = 'index.php';
                                 class="fas fa-download fa-sm text-white-50"></i> ダウンロードできません</a> -->
                     </div>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="logout.php" data-toggle="modal" data-target="#classscore">
+                    <a class="dropdown-item" href="" data-toggle="modal" data-target="#classscore">
                         <i class="fas fa-star fa-sm fa-fw mr-2 text-gray-400"></i>
                         クラススコア一覧
                     </a>

@@ -17,7 +17,7 @@
                 <div class="modal-body">ログアウトしますか？</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-                    <a class="btn btn-danger" href="logout.php">ログアウト</a>
+                    <a class="btn btn-danger" href="logout">ログアウト</a>
                 </div>
             </div>
         </div>

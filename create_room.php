@@ -71,5 +71,5 @@ try {
   echo $e->getMessage();
   exit();
 }
-header('Location:add_room.php');
+header('Location:add_room');
 ?>

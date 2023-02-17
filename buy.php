@@ -9,7 +9,7 @@ $name = $row["name"];
 if (isset($_GET["id"])) {
   $id = $_GET["id"];
   $data = $_SESSION["id"];
-  $gobackURL = "detail.php?id={$id}";
+  $gobackURL = "detail?id={$id}";
   try {
     $sql = "SELECT * FROM list WHERE id=$id";
     $stm = $pdo->prepare($sql);
@@ -171,7 +171,7 @@ if (isset($_GET["id"])) {
                   $others_id = $row["user_id"];
                 }
                 $user_id = $_GET["user_id"];
-                $text = "<a href='detail.php?id=" . $id . "'>" . $item . "</a>をレンタルしました。
+                $text = "<a href='detail?id=" . $id . "'>" . $item . "</a>をレンタルしました。
             ※これは自動送信です。";
                 date_default_timezone_set('Asia/Tokyo');
                 $date = date('Y-m-d H:i:s');

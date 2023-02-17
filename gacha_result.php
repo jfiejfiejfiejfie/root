@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
+    header('Location:./');
 }
 // if ("location:login.php")
 //     ;
@@ -72,27 +72,27 @@ $gobackURL = 'index.php';
                             <?php
                             if (isset($_GET["pu"])) {
                                 echo "<div class='rainbow' style='font-size:60px;'>ピックアップキャラ確定!!!</div>";
-                                echo "<a href='gacha.php?result=1&custom=1&id=" . $_GET["id"] . "' class='btn btn-primary rainbow'>PUSH</a>";
+                                echo "<a href='gacha?result=1&custom=1&id=" . $_GET["id"] . "' class='btn btn-primary rainbow'>PUSH</a>";
                             } else if (isset($_GET["ur"])) {
                                 echo "<div class='rainbow' style='font-size:60px;'>UR確定!!!!</div>";
                                 if (isset($_GET["id"])) {
-                                    echo "<a href='gacha.php?result=1&custom=1&id=" . $_GET["id"] . "'>";
+                                    echo "<a href='gacha?result=1&custom=1&id=" . $_GET["id"] . "'>";
                                 } else {
-                                    echo "<a href='gacha.php?result=1&custom=1'>";
+                                    echo "<a href='gacha?result=1&custom=1'>";
                                 }
                                 echo "<img src='images/PUSH.jpg'></a>";
                             } else if (isset($_GET["ssr"])) {
                                 echo "<div class='rainbow' style='font-size:60px;'>SSR以上確定!!!</div>";
                                 if (isset($_GET["id"])) {
-                                    echo "<a href='gacha.php?result=1&custom=1&id=" . $_GET["id"] . "' class='btn btn-primary'>PUSH</a>";
+                                    echo "<a href='gacha?result=1&custom=1&id=" . $_GET["id"] . "' class='btn btn-primary'>PUSH</a>";
                                 } else {
-                                    echo "<a href='gacha.php?result=1&custom=1' class='btn btn-primary'>PUSH</a>";
+                                    echo "<a href='gacha?result=1&custom=1' class='btn btn-primary'>PUSH</a>";
                                 }
                             } else {
                                 if (isset($_GET["id"])) {
-                                    echo "<a href='gacha.php?result=1&custom=1&id=" . $_GET["id"] . "' class='btn btn-primary'>PUSH</a>";
+                                    echo "<a href='gacha?result=1&custom=1&id=" . $_GET["id"] . "' class='btn btn-primary'>PUSH</a>";
                                 } else {
-                                    echo "<a href='gacha.php?result=1&custom=1' class='btn btn-primary'>PUSH</a>";
+                                    echo "<a href='gacha?result=1&custom=1' class='btn btn-primary'>PUSH</a>";
                                 }
                             }
                             ?>

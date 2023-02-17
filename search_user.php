@@ -3,12 +3,12 @@ session_start();
 
 $myURL = 'search_user.php';
 require_once "db_connect.php";
-$gobackURL = "search_sp.php";
+$gobackURL = "search_sp";
 
 
 // nameが未設定、空のときはエラー
 if (empty($_POST)) {
-  header("Location:search_sp.php");
+  header("Location:search_sp");
   exit();
 } else if (!isset($_POST["user_name"]) || ($_POST["user_name"] === "")) {
   header("Location:{$gobackURL}");
@@ -73,7 +73,7 @@ if (empty($_POST)) {
           </div>
 
           <div class="row">
-            <form method="POST" action="search_user.php">
+            <form method="POST" action="search_user">
               <label>ユーザ名を検索します（部分一致）：<br>
                 <div class="input-group">
                   <input type="text" name="user_name" class="form-control form-control-user" placeholder="名前を入れてください。"
@@ -119,7 +119,7 @@ if (empty($_POST)) {
                 foreach ($result as $row) {
                   echo '<tr>';
                   echo '<td>', $row['name'];
-                  echo "<br><a target='_blank' href='profile.php?id={$row['id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['id']}'></a></td>";
+                  echo "<br><a target='_blank' href='profile?id={$row['id']}'><img id='image' height='100' width='100'src='my_image?id={$row['id']}'></a></td>";
                   echo '<td>', $row['comment'];
                   echo '</tr>';
                 }

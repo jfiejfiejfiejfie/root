@@ -190,7 +190,7 @@ if (isset($_POST['submitted'])) {
       echo '<br>';
       echo "内容:",$_POST['comment'];
       echo '<br>';
-      echo '<form action="keijiban.php" method="post">';
+      echo '<form action="keijiban" method="post">';
       echo '<br><br>返信内容';
       echo '<br><input type="text" name="message">';
       echo '<input type="hidden" name="message_id" value="'.$_POST["message_id"].'">';
@@ -238,7 +238,7 @@ if (isset($_POST['submitted'])) {
         <div class="modal-body">ログアウトしますか？</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">しない</button>
-          <a class="btn btn-danger" href="logout.php">ログアウト</a>
+          <a class="btn btn-danger" href="logout">ログアウト</a>
         </div>
       </div>
     </div>

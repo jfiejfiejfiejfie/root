@@ -2,10 +2,10 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
+    header('Location:./');
 }
 if (!isset($_SESSION["admin"])) {
-    header('Location:404.php');
+    header('Location:404');
 }
 // if ("location:login.php")
 //     ;
@@ -30,9 +30,9 @@ if (isset($_POST["name"])) {
         $stm->bindValue(':end_time', $end_time, PDO::PARAM_STR);
         $stm->bindValue(':probability', $probability, PDO::PARAM_STR);
         $stm->execute();
-        header('Location:gacha_create.php');
+        header('Location:gacha_create.');
     } else {
-        header('Location:gacha_create.php');
+        header('Location:gacha_create');
     }
 }
 ?>
@@ -92,7 +92,7 @@ if (isset($_POST["name"])) {
                     </div>
 
                     <div class="row">
-                        <form method="POST" action="gacha_create.php" enctype="multipart/form-data">
+                        <form method="POST" action="gacha_create" enctype="multipart/form-data">
                             ガチャの名前
                             <input type="text" id="item_name" class="form-control form-control-user" name="name"
                                 placeholder="必須(30文字まで)" required>
@@ -119,7 +119,7 @@ if (isset($_POST["name"])) {
                             <input type="submit" class="btn btn-primary btn-user" value="登録する">
                         </form>
                         <div class="col-12"></div>
-                        <a href="gacha_create_2.php" class="btn btn-primary col-3">ガチャ内訳登録</a>
+                        <a href="gacha_create_2" class="btn btn-primary col-3">ガチャ内訳登録</a>
                     </div>
 
                 </div>

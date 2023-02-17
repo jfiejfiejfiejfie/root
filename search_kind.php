@@ -93,7 +93,7 @@ $option = "&kind_name=$kind_name";
           </div>
 
           <div class="row">
-            <form method="POST" action="search_kind.php">
+            <form method="POST" action="search_kind">
               <label>ジャンルで検索します：<br>
                 <div class="input-group">
                   <select name="kind_name">
@@ -163,7 +163,7 @@ $option = "&kind_name=$kind_name";
                   echo '<tbody>';
                   foreach ($disp_data as $row) {
                     echo '<tr><td>';
-                    echo "<a href='profile.php?id={$row['user_id']}'><img class='img-profile rounded-circle' height='100' width='100'src='my_image.php?id={$row['user_id']}'></a><br>";
+                    echo "<a href='profile?id={$row['user_id']}'><img class='img-profile rounded-circle' height='100' width='100'src='my_image?id={$row['user_id']}'></a><br>";
                     echo $row["name"] . "</td>";
                     echo '<td class="col-2">', $row['item'], '</td>';
                     echo '<td>', $row['kind'], '</td>';
@@ -176,7 +176,7 @@ $option = "&kind_name=$kind_name";
                     }
                     echo '<td class="col-4">', $text, '</td>';
                     // echo '<td>￥', number_format($row['money']), '</td>';
-                    echo "<td><a href=detail.php?id={$row["list_id"]}>", '<img height="200" width="200" src="image.php?id=', $row['list_id'], '"></a></td>';
+                    echo "<td><a href=detail?id={$row["list_id"]}>", '<img height="200" width="200" src="image?id=', $row['list_id'], '"></a></td>';
                     echo '</tr>';
                   }
                   echo '</tbody>';

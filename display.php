@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
+    header('Location:./');
 }
 // if ("location:login.php")
 //     ;
@@ -11,10 +11,6 @@ require_once('checked.php');
 require_once "db_connect.php";
 $myURL = 'add_db.php';
 $gobackURL = 'index.php';
-$point = 0;
-if (isset($_POST["kind"])) {
-    require_once('insert.php');
-}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -94,7 +90,7 @@ if (isset($_POST["kind"])) {
                                 echo '<td>', $row['item'], '</td>';
                                 echo '<td>', $row['kind'], '</td>';
                                 // echo '<td>￥', number_format($row['money']), '</td>';
-                                echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="200" width="200" src="image.php?id=', $row['id'], '"></a></td>';
+                                echo "<td><a href=detail?id={$row["id"]}>", '<img height="200" width="200" src="image?id=', $row['id'], '"></a></td>';
                                 echo '</tr>';
                             }
                             echo '</tbody>';

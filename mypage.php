@@ -94,12 +94,12 @@ $myURL = 'mypage.php';
             <h1 class="col-5 h3 mb-0 text-gray-800">プロフィール</h1>
             <div class="col-7">
               <?php
-              echo '<a href="edit.php"  class="btn btn-primary col-3">編集する <div class="fa fa-cog"></div></a>';
-              echo '<a href="blocklist.php" class="btn btn-primary col-3">ブロックリスト <div class="fa fa-address-book"></div></a>';
-              echo '<a href="reservation_list.php" class="btn btn-primary col-3">予約されたレンタル品 <div class="fa fa-gavel"></div></a>';
-              echo '<a href="eturan.php" class="btn btn-primary col-3">閲覧履歴 <i class="fa fa-list"></i></a>';
+              echo '<a href="edit"  class="btn btn-primary col-3">編集する <div class="fa fa-cog"></div></a>';
+              echo '<a href="blocklist" class="btn btn-primary col-3">ブロックリスト <div class="fa fa-address-book"></div></a>';
+              echo '<a href="reservation_list" class="btn btn-primary col-3">予約されたレンタル品 <div class="fa fa-gavel"></div></a>';
+              echo '<a href="eturan" class="btn btn-primary col-3">閲覧履歴 <i class="fa fa-list"></i></a>';
               if ($row["admin"] == 1) {
-                echo "<a href='admin.php' class='btn btn-danger col-12'>管理者ページに行く <i class='fa fa-user-secret'></i></a>";
+                echo "<a href='admin' class='btn btn-danger col-12'>管理者ページに行く <i class='fa fa-user-secret'></i></a>";
               }
               ?>
             </div>
@@ -109,7 +109,7 @@ $myURL = 'mypage.php';
             <div class="col-5">
               <?php
               try {
-                echo '<img class="img-profile rounded-circle" height="150" width="150" src="my_image.php?id=' . $id . '"><div class="col-2"></div>';
+                echo '<img class="img-profile rounded-circle" height="150" width="150" src="my_image?id=' . $id . '"><div class="col-2"></div>';
                 echo '<div class="col-12"></div>';
                 echo '<font class="col-8" size="10">' . $name . '</font>';
                 echo '<div class="col-4"></div>';
@@ -143,7 +143,7 @@ $myURL = 'mypage.php';
                   echo '次のクラスまで残り' . ($next - $score) . '点';
                 }
                 echo '<div class="col-6">ポイント<font size="10">', number_format($point), 'p</font></div>';
-                echo '<a class="btn btn-primary" href="gacha_list.php">ポイントでガチャる</a>';
+                echo '<a class="btn btn-primary" href="gacha_list">ポイントでガチャる</a>';
                 //echo '<br><a href="shop_list.php"><img src="images/point.png"></a>';
                 ?>
                 <?php
@@ -153,7 +153,7 @@ $myURL = 'mypage.php';
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 $sth = $pdo->query($sql);
                 $count = $sth->rowCount();
-                echo '<hr><div class="col-12">フォロー中<font size="5"><a href="followlist.php">';
+                echo '<hr><div class="col-12">フォロー中<font size="5"><a href="followlist">';
                 echo $count . "人</a></font>";
                 ?>
                 <?php
@@ -163,7 +163,7 @@ $myURL = 'mypage.php';
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 $sth = $pdo->query($sql);
                 $count2 = $sth->rowCount();
-                echo 'フォロワー<font size="5"><a href="followerlist.php">';
+                echo 'フォロワー<font size="5"><a href="followerlist">';
                 echo $count2 . "人</a></font></div>";
                 ?>
                 <?php
@@ -196,12 +196,12 @@ $myURL = 'mypage.php';
                   echo '<td>', $row['created_at'], '</td>';
                   echo '<td>', $row['item'], '</td>';
                   echo '<td>', $row['kind'], '</td>';
-                  echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="200" width="200" src="image.php?id=', $row['id'], '"></a></td>';
+                  echo "<td><a href=detail?id={$row["id"]}>", '<img height="200" width="200" src="image?id=', $row['id'], '"></a></td>';
                   echo '</tr>';
                 }
                 echo '</tbody>';
                 echo '</table>';
-                echo '<a class="btn btn-primary col-12" href="display.php">一覧で見る</a><hr>';
+                echo '<a class="btn btn-primary col-12" href="display">一覧で見る</a><hr>';
               } catch (Exception $e) {
                 echo 'エラーがありました。';
                 echo $e->getMessage();

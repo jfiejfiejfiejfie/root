@@ -73,7 +73,7 @@ require_once "db_connect.php";
               foreach ($result as $row) {
               }
               echo '<td>';
-              echo '<div class="sample5"><a href="' . $history_url[$i] . '"><img src="image.php?id=' . $val . '" id="parent" height="240" width="240"></img>'; //テキストを表示および同じ順番に保存されているURLを表示
+              echo '<div class="sample5"><a href="' . $history_url[$i] . '"><img src="image?id=' . $val . '" id="parent" height="240" width="240"></img>'; //テキストを表示および同じ順番に保存されているURLを表示
               if ($row["loan"] == 1) {
                 echo '<img id="child" src="images/sold.png" height="240" width="240"/>';
               }

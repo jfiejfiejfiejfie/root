@@ -73,7 +73,7 @@ require_once "db_connect.php";
                 foreach ($result as $row) {
                   echo '<table class="table table-striped">';
                   echo '<thead><tr>';
-                  echo '<td><img src="room_image.php?id=', $row['id'], '"style="max-width:200px;">';
+                  echo '<td><img src="room_image?id=', $row['id'], '"style="max-width:200px;">';
                   echo '</tr>';
                   echo '<tr>';
                   echo '</thead>';
@@ -89,7 +89,7 @@ require_once "db_connect.php";
               }
               ?>
               <hr>
-              <form method="POST" action="detail2.php" enctype="multipart/form-data">
+              <form method="POST" action="detail2" enctype="multipart/form-data">
                 <label>貸出物:
                   <input type="text" name="item" class="form-control form-control-user "
                     value="<?php echo htmlspecialchars($item); ?>" placeholder="貸出物" required>

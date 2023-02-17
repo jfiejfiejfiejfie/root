@@ -89,19 +89,19 @@ require_once "db_connect.php";
                 foreach ($result as $row) {
                   echo '<table class="table table-striped">';
                   echo '<thead><tr>';
-                  echo '<td><img src="image.php?id=', $row['id'], '"style="max-width:200px;">';
+                  echo '<td><img src="image?id=', $row['id'], '"style="max-width:200px;">';
                   if ($image_count > 0) {
-                    echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['id'], '&number=1">
-                    <img src="image_next.php?id=', $row['id'], '&number=1"height="150" width="150"></a>';
+                    echo '<a img data-lightbox="group" height="200" width="200  "href="image_next?id=', $row['id'], '&number=1">
+                    <img src="image_next?id=', $row['id'], '&number=1"height="150" width="150"></a>';
                     if ($image_count > 1) {
-                      echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['id'], '&number=2">
-                      <img src="image_next.php?id=', $row['id'], '&number=2"height="150" width="150"></a>';
+                      echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.?id=', $row['id'], '&number=2">
+                      <img src="image_next?id=', $row['id'], '&number=2"height="150" width="150"></a>';
                       if ($image_count > 2) {
-                        echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['id'], '&number=3">
-                        <img src="image_next.php?id=', $row['id'], '&number=3"height="150" width="150"></a>';
+                        echo '<a img data-lightbox="group" height="200" width="200  "href="image_next?id=', $row['id'], '&number=3">
+                        <img src="image_next?id=', $row['id'], '&number=3"height="150" width="150"></a>';
                         if ($image_count > 3) {
-                          echo '<a img data-lightbox="group" height="200" width="200  "href="image_next.php?id=', $row['id'], '&number=4">
-                          <img src="image_next.php?id=', $row['id'], '&number=4"height="150" width="150"></a></td>';
+                          echo '<a img data-lightbox="group" height="200" width="200  "href="image_next?id=', $row['id'], '&number=4">
+                          <img src="image_next.?id=', $row['id'], '&number=4"height="150" width="150"></a></td>';
                         }
                       }
                     }
@@ -124,7 +124,7 @@ require_once "db_connect.php";
               }
               ?>
               <hr>
-              <form method="POST" action="detail1.php" enctype="multipart/form-data">
+              <form method="POST" action="detail1" enctype="multipart/form-data">
 
                 <label>貸出物:
                   <input type="text" name="item" class="form-control form-control-user"

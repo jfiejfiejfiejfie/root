@@ -36,7 +36,7 @@ if (isset($_GET["id"])) {
         $stm->bindValue(':point', $point, PDO::PARAM_STR);
         $stm->execute();
     }
-    header('Location:box.php');
+    header('Location:box');
 }
 ?>
 <!DOCTYPE html>
@@ -111,8 +111,8 @@ if (isset($_GET["id"])) {
                         foreach ($result as $row) {
                             echo '<div class="border col-2">';
                             echo $row["RA"] . ":" . $row["name"];
-                            echo '<br><a href="box_delete.php?id=' . $row["char_data_id"] . '" onclick="alert('."'".$row["name"]."を一括売却します'".')">';
-                            echo "<img src='chara_image.php?id=" . $row["char_data_id"] . "' height='232' width='232'></a>";
+                            echo '<br><a href="box_delete?id=' . $row["char_data_id"] . '" onclick="alert('."'".$row["name"]."を一括売却します'".')">';
+                            echo "<img src='chara_image?id=" . $row["char_data_id"] . "' height='232' width='232'></a>";
                             echo '</div>';
                         }
                         echo '<div class="col-12"></div>';

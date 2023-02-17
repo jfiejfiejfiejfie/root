@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-  header('Location:login.php');
+  header('Location:./');
 }
 // if ("location:login.php")
 //     ;
@@ -74,7 +74,7 @@ if (isset($_POST["kind"])) {
           <div class="row">
             <div class="col-12">
               <?php
-              echo '<div><br><h2>チャットルーム一覧</h2><div class="text-right"><a href="add_room.php" class="btn btn-primary col-4" >作成する</a></div></div>';
+              echo '<div><br><h2>チャットルーム一覧</h2><div class="text-right"><a href="add_room" class="btn btn-primary col-4" >作成する</a></div></div>';
               try {
                 $sql = "SELECT * FROM room";
                 $stm = $pdo->prepare($sql);
@@ -91,7 +91,7 @@ if (isset($_POST["kind"])) {
                 echo '<tbody>';
                 foreach ($result as $row) {
                   ?>
-                  <form action="attend.php" method="POST" enctype="multipart/form-data">
+                  <form action="attend" method="POST" enctype="multipart/form-data">
                     <?php
                     $attend_count = 0;
                     $sql = "SELECT * FROM roomlist WHERE room_id =:room_id and my_id=:my_id";
@@ -106,18 +106,18 @@ if (isset($_POST["kind"])) {
                     echo '<tr>';
                     echo "<td>";
                     if ($attend_count != 0) {
-                      echo "<a href=room.php?id={$row["id"]}>";
+                      echo "<a href=room?id={$row["id"]}>";
                     }
-                    echo '<img height="200" width="200" src="room_image.php?id=', $row['id'], '">';
+                    echo '<img height="200" width="200" src="room_image?id=', $row['id'], '">';
                     if ($attend_count != 0) {
                       echo "</a>";
                     }
                     $user_id = $row["user_id"];
                     if ($_SESSION["id"] !== $row["user_id"]) {
                       if ($attend_count == 0) {
-                        echo "<br><div><a href='attend.php?id={$row["id"]}' class='btn btn-danger col-5'>参加する</a></td></div>";
+                        echo "<br><div><a href='attend?id={$row["id"]}' class='btn btn-danger col-5'>参加する</a></td></div>";
                       } else {
-                        echo "<br><a href='attend.php?id={$row["id"]}&no=0' class='btn btn-primary col-5'>脱退する</a></td></div>";
+                        echo "<br><a href='attend?id={$row["id"]}&no=0' class='btn btn-primary col-5'>脱退する</a></td></div>";
                       }
                     }
                     ?>
@@ -128,7 +128,7 @@ if (isset($_POST["kind"])) {
                     $stm->execute();
                     $result2 = $stm->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($result2 as $row2) {
-                      echo '<td>', "<a href='profile.php?id={$row["user_id"]}'>", ($row2['name']), '</a></td>';
+                      echo '<td>', "<a href='profile?id={$row["user_id"]}'>", ($row2['name']), '</a></td>';
                     }
                     echo '<td>', $row['item'], '</td>';
                     echo '<td>', $row['comment'], '</td>';
@@ -137,7 +137,7 @@ if (isset($_POST["kind"])) {
                     $stm->execute();
                     $sth = $pdo->query($sql);
                     $count = $sth->rowCount();
-                    echo '<td>', '<font size="5">', "<a href='room_member.php?id={$row["id"]}'>";
+                    echo '<td>', '<font size="5">', "<a href='room_member?id={$row["id"]}'>";
                     echo $count . "人</a></font>";
                     echo '</td>';
                     echo '</tr>';

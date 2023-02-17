@@ -72,7 +72,14 @@ if (isset($_POST["kind"])) {
                     </div>
 
                     <div class="row">
-                        <a href='box_delete.php' class="btn btn-danger">一括売却</a><div class='col-12'></div>
+                        <a href='box_delete' class="btn btn-danger">一括売却</a>
+                        <div class="col-12"></div>
+                        <?php if (!isset($_GET["custom"])) { ?>
+                            <a href='box?custom=1' class="btn btn-danger">レアリティ昇順</a>
+                        <?php } else { ?>
+                            <a href='box' class="btn btn-success">レアリティ降順</a>
+                        <?php } ?>
+                        <div class='col-12'></div>
                         <?php
                         $sql = "SELECT count(*) as box_count FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id";
                         $stm = $pdo->prepare($sql);
@@ -81,14 +88,18 @@ if (isset($_POST["kind"])) {
                         foreach ($result as $row) {
                             $box_count = $row["box_count"];
                         }
-                        $sql = "SELECT box.user_id,box.char_data_id as char_data_id,char_data.name as name,char_data.rarity as RA,box.id as box_id FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id";
+                        if (isset($_GET["custom"])) {
+                            $sql = "SELECT box.user_id,box.char_data_id as char_data_id,char_data.name as name,char_data.rarity as RA,box.id as box_id FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id ORDER BY char_data.star ASC,char_data.id ASC";
+                        } else {
+                            $sql = "SELECT box.user_id,box.char_data_id as char_data_id,char_data.name as name,char_data.rarity as RA,box.id as box_id FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id ORDER BY char_data.star DESC,char_data.id ASC";
+                        }
                         $stm = $pdo->prepare($sql);
                         $stm->execute();
                         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($result as $row) {
                             echo '<div class="border col-2">';
                             echo $row["RA"] . ":" . $row["name"];
-                            echo '<br><a href="chara_detail.php?id=' . $row["box_id"] . '">';
+                            echo '<br><a href="chara_detail?id=' . $row["box_id"] . '">';
                             echo "<img src='chara_image.php?id=" . $row["char_data_id"] . "' height='232' width='232'></a>";
                             echo '</div>';
                         }

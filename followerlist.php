@@ -95,7 +95,7 @@ if (isset($_GET["id"])) {
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($result as $row) {
                   echo '<table class="table table-striped"><th>';
-                  echo "<a href='profile.php?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image.php?id={$row['my_id']}'></a><br>";
+                  echo "<a href='profile?id={$row['my_id']}'><img id='image' height='100' width='100'src='my_image?id={$row['my_id']}'></a><br>";
                   echo $row["name"];
                   echo "<br>コメント:";
                   echo $row["mes"];

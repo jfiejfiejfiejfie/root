@@ -42,9 +42,9 @@ if (isset($_GET["ev"])) {
         $stm->execute();
     }
     if (isset($_GET['page_id'])) {
-        header('Location:loan_chat.php?id=' . $id . '&page_id=' . $now);
+        header('Location:loan_chat?id=' . $id . '&page_id=' . $now);
     } else {
-        header('Location:loan_chat.php?id=' . $id);
+        header('Location:loan_chat?id=' . $id);
     }
 }
 if (isset($_GET["chat"])) {
@@ -81,9 +81,9 @@ if (isset($_GET["chat"])) {
         $result = $stm->fetchAll(PDO::FETCH_ASSOC);
     }
     if (isset($_GET['page_id'])) {
-        header('Location:loan_chat.php?id=' . $id . '&page_id=' . $now);
+        header('Location:loan_chat?id=' . $id . '&page_id=' . $now);
     } else {
-        header('Location:loan_chat.php?id=' . $id);
+        header('Location:loan_chat?id=' . $id);
     }
 
 }
@@ -165,7 +165,7 @@ foreach ($result as $row) {
                     </div>
 
                     <div class="row">
-                        <img src="image.php?id=<?php echo $_GET["id"]; ?>" height="150" width="150">
+                        <img src="image?id=<?php echo $_GET["id"]; ?>" height="150" width="150">
                         <div class="col-12"></div>
                         <div>
                             <?php
@@ -185,9 +185,9 @@ foreach ($result as $row) {
                                 ?>
                                 <div>
                                     <?php if (isset($_GET["page_id"])) {
-                                        echo '<form action="loan_chat.php?id=' . $id . '&chat=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
+                                        echo '<form action="loan_chat?id=' . $id . '&chat=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
                                     } else {
-                                        echo '<form action="loan_chat.php?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
+                                        echo '<form action="loan_chat?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
                                     }
                                     ?>
                                     <label>画像選択:<br>
@@ -212,9 +212,9 @@ foreach ($result as $row) {
                                         <hr>
                                         <div>
                                             <?php if (isset($_GET["page_id"])) {
-                                                echo '<form action="loan_chat.php?id=' . $id . '&ev=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
+                                                echo '<form action="loan_chat?id=' . $id . '&ev=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
                                             } else {
-                                                echo '<form action="loan_chat.php?id=' . $id . '&ev=1" method="POST"enctype="multipart/form-data">';
+                                                echo '<form action="loan_chat?id=' . $id . '&ev=1" method="POST"enctype="multipart/form-data">';
                                             }
                                             ?>
                                             <label>評価をつける:<br>
@@ -271,7 +271,7 @@ foreach ($result as $row) {
                                         echo '<table id="loan_chat">';
                                         echo '<thead><tr>';
                                         if ($row["text"] != "" || $row["image"] != "") {
-                                            echo '<th><a href="profile.php?id=', $row["chat_user"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["chat_user"], '"></a>';
+                                            echo '<th><a href="profile?id=', $row["chat_user"], '">', '<img id="image" height="150" width="150" src="my_image?id=', $row["chat_user"], '"></a>';
                                             $user_id = $row["chat_user"];
                                             $sql = "SELECT * FROM users WHERE id=$user_id";
                                             $stm = $pdo->prepare($sql);
@@ -305,7 +305,7 @@ foreach ($result as $row) {
                                             //整形したい文字列
                                             $text = $row["text"];
                                             if ($row["image"] != "") {
-                                                echo '<a img data-lightbox="group" height="200" width="200" href="loan_chat_image.php?id=', $row['chat_id'], '"><img height="232" width="232" src="loan_chat_image.php?id=' . $row['chat_id'] . '"></a>';
+                                                echo '<a img data-lightbox="group" height="200" width="200" href="loan_chat_image?id=', $row['chat_id'], '"><img height="232" width="232" src="loan_chat_image.php?id=' . $row['chat_id'] . '"></a>';
 
                                             }
                                             if ($row["text"] != "") {
@@ -326,7 +326,7 @@ foreach ($result as $row) {
                                         echo '<th>';
                                         // echo '<div class="clearfix">';
                                         if ($row["image"] != "") {
-                                            echo '<div style="text-align: right;"><a img data-lightbox="group" height="200" width="200" href="loan_chat_image.php?id=', $row['chat_id'], '"><img height="232" width="232" src="loan_chat_image.php?id=' . $row['chat_id'] . '"></a></div>';
+                                            echo '<div style="text-align: right;"><a img data-lightbox="group" height="200" width="200" href="loan_chat_image?id=', $row['chat_id'], '"><img height="232" width="232" src="loan_chat_image.php?id=' . $row['chat_id'] . '"></a></div>';
                                             $time = new DateTime($row["time"]);
                                             $time = $time->format("H:i");
                                             echo '<div style="font-size:20px; text-align: right;">' . $time;
@@ -349,7 +349,7 @@ foreach ($result as $row) {
                                         echo '</div>';
                                         echo '</th>';
                                         if ($row["text"] != "" || $row["image"] != "") {
-                                            echo '<td><a href="profile.php?id=', $row["chat_user"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["chat_user"], '"></a>';
+                                            echo '<td><a href="profile?id=', $row["chat_user"], '">', '<img id="image" height="150" width="150" src="my_image?id=', $row["chat_user"], '"></a>';
                                             $user_id = $row["user_id"];
                                             $sql = "SELECT * FROM users WHERE id=$user_id";
                                             $stm = $pdo->prepare($sql);

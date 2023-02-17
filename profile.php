@@ -5,7 +5,7 @@ $myURL = 'profile.php';
 $id = $_GET["id"];
 define('MAX', '6');
 if ($id == $_SESSION["id"]) {
-  header("Location:mypage.php");
+  header("Location:mypage");
 }
 $my_id = $_SESSION["id"];
 $_SESSION["my_id"] = $_GET["id"];
@@ -73,7 +73,7 @@ foreach ($result as $row) {
   $name = $row["name"];
 }
 if ($flag == 0) {
-  header('Location:404.php');
+  header('Location:404');
 }
 $myURL = 'profile.php';
 $option = "&id=$id";
@@ -141,7 +141,7 @@ $option = "&id=$id";
               <?php
               $id = $_GET["id"];
               ?>
-              <img class="img-profile rounded-circle" height="150" width="150" src="my_image.php?id=<?php echo $id; ?>">
+              <img class="img-profile rounded-circle" height="150" width="150" src="my_image?id=<?php echo $id; ?>">
               <div class="col-12"></div>
               <?php
               if ($admin == 0) {
@@ -194,7 +194,7 @@ $option = "&id=$id";
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 $sth = $pdo->query($sql);
                 $count = $sth->rowCount();
-                echo '<hr>フォロー<div class="col-12"></div><font size="5">', '<a href="followlist.php?id=' . $_GET["id"] . '">';
+                echo '<hr>フォロー<div class="col-12"></div><font size="5">', '<a href="followlist?id=' . $_GET["id"] . '">';
                 echo $count . "人</a><br></font><div class='col-12'></div>";
                 ?>
                 <?php
@@ -204,18 +204,18 @@ $option = "&id=$id";
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 $sth = $pdo->query($sql);
                 $count2 = $sth->rowCount();
-                echo 'フォロワー<div class="col-12"></div><font size="5">', '<a href="followerlist.php?id=' . $_GET["id"] . '">';
+                echo 'フォロワー<div class="col-12"></div><font size="5">', '<a href="followerlist?id=' . $_GET["id"] . '">';
                 echo $count2 . "人</a><br></font><hr>";
                 ?>
                 <?php
-                echo "<a href='user_chat.php?id={$row["id"]}' class='btn btn-success col-6'>チャットをする<div class='fa fa-comment'></div></a>";
+                echo "<a href='user_chat?id={$row["id"]}' class='btn btn-success col-6'>チャットをする<div class='fa fa-comment'></div></a>";
                 // echo '<form method="POST" action="detail.php?id=' . $row["id"] . '&good=1">';
                 // echo '</form>';
                 // if ($_SESSION['id'] !== $id) {
                 if ($follow_count2 == 0) {
-                  echo "<a href='follow.php?id=$id' class='btn btn-primary col-6'>フォローする<div class='fa fa-user-plus'></div></a>";
+                  echo "<a href='follow?id=$id' class='btn btn-primary col-6'>フォローする<div class='fa fa-user-plus'></div></a>";
                 } else {
-                  echo "<a href='follow.php?id=$id' class='btn btn-danger col-6'>フォロー解除する<div class='fa fa-user-times'></div></a>";
+                  echo "<a href='follow?id=$id' class='btn btn-danger col-6'>フォロー解除する<div class='fa fa-user-times'></div></a>";
                 }
                 // echo "<div class='col-12'></div>";
                 echo '<br>';
@@ -227,11 +227,11 @@ $option = "&id=$id";
                 echo "<h1>あなたはこのユーザをブロックしています。</h1><div class='col-12'></div>";
               }
               if ($block_count == 0) {
-                echo "<a href='block.php?id=$id' class='btn btn-danger col-6'>ブロックする<div class='fa fa-ban'></div></a>";
+                echo "<a href='block?id=$id' class='btn btn-danger col-6'>ブロックする<div class='fa fa-ban'></div></a>";
               } else {
-                echo "<a href='block.php?id=$id' class='btn btn-primary col-6'>ブロックを解除する<div class='fa fa-times-circle'></div></a>";
+                echo "<a href='block?id=$id' class='btn btn-primary col-6'>ブロックを解除する<div class='fa fa-times-circle'></div></a>";
               }
-              echo '<a class="btn btn-warning col-6" href="report.php?user_id=' . $id . '">通報<div class="fa fa-exclamation-triangle"></div></a></th>';
+              echo '<a class="btn btn-warning col-6" href="report?user_id=' . $id . '">通報<div class="fa fa-exclamation-triangle"></div></a></th>';
               echo "<div class='col-8'></div>";
               // }
               ?>
@@ -257,7 +257,7 @@ $option = "&id=$id";
                   echo '<tr>';
                   echo '<td>', $row['created_at'], '</td>';
                   echo '<td>', $row['item'], '</td>';
-                  echo "<td><a target='_blank' href=detail.php?id={$row["id"]}>", '<img height="100" width="100" src="image.php?id=', $row['id'], '"></a></td>';
+                  echo "<td><a target='_blank' href=detail?id={$row["id"]}>", '<img height="100" width="100" src="image?id=', $row['id'], '"></a></td>';
                   echo '</tr>';
                 }
                 echo '</tbody>';

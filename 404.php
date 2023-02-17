@@ -12,9 +12,6 @@ require_once "db_connect.php";
 $myURL = '404.php';
 $gobackURL = 'index.php';
 $point = 0;
-if (isset($_POST["kind"])) {
-    require_once('insert.php');
-}
 ?>
 <!DOCTYPE html>
 <html lang="ja">

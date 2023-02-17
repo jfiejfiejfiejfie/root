@@ -1,7 +1,7 @@
 <?php
 session_start();
 $myURL = 'edit.php';
-$gobackURL = 'mypage.php';
+$gobackURL = 'mypage';
 require_once "db_connect.php";
 ?>
 <!DOCTYPE html>
@@ -61,11 +61,11 @@ require_once "db_connect.php";
 
           <div class="row">
             <div class="col-12">
-              <form method="POST" action="edit_db.php" enctype="multipart/form-data">
+              <form method="POST" action="edit_db" enctype="multipart/form-data">
                 <?php
                 $id = $_SESSION["id"];
                 require_once('user_check.php');
-                echo "<img src=my_image.php?id=$id style='max-width:200px;'>";
+                echo "<img src=my_image?id=$id style='max-width:200px;'>";
                 echo "<hr>";
                 ?>
                 名前:

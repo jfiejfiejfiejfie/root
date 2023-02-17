@@ -1,6 +1,6 @@
 <?php
 if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
-    header('Location:login.php');
+    header('Location:login');
 }
 ?>
 
@@ -43,7 +43,7 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="mypage.php">
+                <a class="nav-link" href="mypage">
                     <i class="fa fa-user-circle" aria-hidden="true"></i>
                     <span>マイページ</span></a>
             </li>
@@ -79,16 +79,16 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="login_bonus.php">ログインボーナス</a>
-                        <a class="collapse-item" href="buy_list.php">レンタルしたもの</a>
-                        <a class="collapse-item" href="bought_list.php">レンタルされたもの</a>
-                        <a class="collapse-item" href="reservation_list.php">予約されたもの</a>
-                        <a class="collapse-item" href="good_list.php">いいね一覧</a>
-                        <a class="collapse-item" href="eturan.php">閲覧履歴</a>
+                        <a class="collapse-item" href="login_bonus">ログインボーナス</a>
+                        <a class="collapse-item" href="buy_list">レンタルしたもの</a>
+                        <a class="collapse-item" href="bought_list">レンタルされたもの</a>
+                        <a class="collapse-item" href="reservation_list">予約されたもの</a>
+                        <a class="collapse-item" href="good_list">いいね一覧</a>
+                        <a class="collapse-item" href="eturan">閲覧履歴</a>
                         <?php
                         if ($_SESSION["admin"] != 0) {
                             ?>
-                            <a class="collapse-item" href="admin.php">管理者ページ</a>
+                            <a class="collapse-item" href="admin">管理者ページ</a>
                         <?php } ?>
                         <div class="collapse-divider"></div>
                     </div>
@@ -97,21 +97,21 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="add_db.php">
+                <a class="nav-link" href="add_db">
                     <i class="fas fa-fw fa-download"></i>
                     <span>レンタル品登録</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="search_sp.php">
+                <a class="nav-link" href="search_sp">
                     <i class="fas fa-fw fa-search"></i>
                     <span>検索</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="ranking.php">
+                <a class="nav-link" href="ranking">
                     <i class="fa fa-road" aria-hidden="true"></i>
                     <span>ランキング</span></a>
             </li>
@@ -124,9 +124,9 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
                 </a>
                 <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="gacha_list.php"><i class="fa fa-globe" aria-hidden="true"></i>　ガチャ一覧</a>
-                        <a class="collapse-item" href="chara_dictionary.php"><i class="fa fa-book" aria-hidden="true"></i>　図鑑</a>
-                        <a class="collapse-item" href="box.php"><i class="fa fa-cube" aria-hidden="true"></i>　ボックス</a>
+                        <a class="collapse-item" href="gacha_list"><i class="fa fa-globe" aria-hidden="true"></i>　ガチャ一覧</a>
+                        <a class="collapse-item" href="chara_dictionary"><i class="fa fa-book" aria-hidden="true"></i>　図鑑</a>
+                        <a class="collapse-item" href="box"><i class="fa fa-cube" aria-hidden="true"></i>　ボックス</a>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
@@ -134,14 +134,14 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="user_chat_list.php">
+                <a class="nav-link" href="user_chat_list">
                     <i class="fas fa-fw fa-comment"></i>
                     <span>チャット</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="chat_room.php">
+                <a class="nav-link" href="chat_room">
                     <i class="fas fa-fw fa-comments"></i>
                     <span>チャットルーム</span></a>
             </li>
@@ -157,14 +157,14 @@ if (!isset($_SESSION["loggedin"]) && $myURL != "auth.php") {
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="keijiban.php">
+                <a class="nav-link" href="keijiban">
                     <i class="fas fa-fw fa-newspaper"></i>
                     <span>掲示板</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="contact.php">
+                <a class="nav-link" href="contact">
                     <i class="fas fa-fw fa-envelope"></i>
                     <span>お問い合わせ</span></a>
             </li>

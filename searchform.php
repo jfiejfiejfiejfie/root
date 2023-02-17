@@ -8,7 +8,7 @@
 <body>
 <div>
   <!-- 入力フォームを作る -->
-  <form method="POST" action="search1.php">
+  <form method="POST" action="search1">
     <ul>
       <li>
         <label>名前を検索します（部分一致）：<br>

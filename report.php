@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-$gobackURL = 'index.php';
+$gobackURL = './';
 if (!isset($_SESSION["loggedin"])) {
-  header('Location:login.php');
+  header('Location:login');
 }
 // if ("location:login.php")
 //     ;

@@ -11,7 +11,7 @@ $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':email', $email, PDO::PARAM_STR);
 $stmt->execute();
 if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-  header("Location:404.php");
+  header("Location:404");
 }
 $flag = 0;
 if (empty($errors['email'])) {
@@ -100,14 +100,14 @@ if (empty($errors)) {
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">メール認証完了</h1>
               </div>
-              <form class="user" action="register.php" method="post">
+              <form class="user" action="register" method="post">
                 <!-- <div class="form-group">
                   <input type="hidden" name="email" class="form-control form-control-user" id="exampleInputEmail"
                     placeholder="Email Address" value="<?php echo $email; ?>">
                 </div> -->
                 <div class="form-group">
                   <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
-                  <a href="register.php?email=<?php echo $email; ?>"
+                  <a href="register?email=<?php echo $email; ?>"
                     class="btn btn-primary btn-user btn-block">基礎情報入力</a>
                 </div>
               </form>

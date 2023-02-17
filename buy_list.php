@@ -98,7 +98,7 @@ if (isset($_POST["kind"])) {
                                     echo '<br><div style="color:red">※評価をつけてください！</div>';
                                 }
                                 echo '</td>';
-                                echo "<td><a href=detail.php?id={$row["id"]}>", '<img height="200" width="200" src="image.php?id=', $row['id'], '"></a></td>';
+                                echo "<td><a href=detail?id={$row["id"]}>", '<img height="200" width="200" src="image.php?id=', $row['id'], '"></a></td>';
                                 echo '</tr>';
                             }
                             echo '</tbody>';

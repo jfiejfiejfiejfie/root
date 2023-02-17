@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindValue(':sex', $sex, PDO::PARAM_STR);
             $stmt->bindValue(':id', $update_id, PDO::PARAM_STR);
             $stmt->execute();
-            header("Location:login.php");
+            header("Location:login");
             // $pdo->commit();
         } catch (Exception $e) {
             echo 'エラーがありました。';
@@ -201,7 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="login.php">既にアカウントをお持ちの方はこちら</a>
+                                <a class="small" href="login">既にアカウントをお持ちの方はこちら</a>
                             </div>
                         </div>
                     </div>

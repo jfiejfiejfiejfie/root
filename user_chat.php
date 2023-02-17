@@ -10,7 +10,7 @@ $id = $_GET["id"];
 $myURL = 'user_chat.php';
 $option = "&id=$id";
 $memo = "チャット";
-$gobackURL = "profile.php?id={$id}";
+$gobackURL = "profile?id={$id}";
 $users_id = $_SESSION["id"];
 if (!isset($_GET['page_id'])) {
   $now = 1;
@@ -51,9 +51,9 @@ if (isset($_GET["chat"])) {
     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
   }
   if (isset($_GET['page_id'])) {
-    header('Location:user_chat.php?id=' . $id . '&page_id=' . $now);
+    header('Location:user_chat?id=' . $id . '&page_id=' . $now);
   } else {
-    header('Location:user_chat.php?id=' . $id);
+    header('Location:user_chat?id=' . $id);
   }
 
 }
@@ -150,9 +150,9 @@ foreach ($result as $row) {
                 ?>
                 <div>
                   <?php if (isset($_GET["page_id"])) {
-                    echo '<form action="user_chat.php?id=' . $id . '&chat=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
+                    echo '<form action="user_chat?id=' . $id . '&chat=1&page_id=' . $now . '" method="POST"enctype="multipart/form-data">';
                   } else {
-                    echo '<form action="user_chat.php?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
+                    echo '<form action="user_chat?id=' . $id . '&chat=1" method="POST"enctype="multipart/form-data">';
                   }
                   ?>
                   <label>画像選択:<br>
@@ -205,7 +205,7 @@ foreach ($result as $row) {
                     echo '<table id="user_chat">';
                     echo '<thead><tr>';
                     if ($row["text"] != "" || $row["image"] != "") {
-                      echo '<th><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
+                      echo '<th><a href="profile?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image?id=', $row["user_id"], '"></a>';
                       $user_id = $row["user_id"];
                       $sql = "SELECT * FROM users WHERE id=$user_id";
                       $stm = $pdo->prepare($sql);
@@ -239,7 +239,7 @@ foreach ($result as $row) {
                       //整形したい文字列
                       $text = $row["text"];
                       if ($row["image"] != "") {
-                        echo '<a img data-lightbox="group" height="200" width="200" href="user_chat_image.php?id=', $row['id'], '"><img height="232" width="232" src="user_chat_image.php?id=' . $row["id"] . '"></a>';
+                        echo '<a img data-lightbox="group" height="200" width="200" href="user_chat_image?id=', $row['id'], '"><img height="232" width="232" src="user_chat_image?id=' . $row["id"] . '"></a>';
 
                       }
                       if ($row["text"] != "") {
@@ -260,7 +260,7 @@ foreach ($result as $row) {
                     echo '<th>';
                     // echo '<div class="clearfix">';
                     if ($row["image"] != "") {
-                      echo '<div style="text-align: right;"><a img data-lightbox="group" height="200" width="200" href="user_chat_image.php?id=', $row['id'], '"><img height="232" width="232" src="user_chat_image.php?id=' . $row["id"] . '"></a></div>';
+                      echo '<div style="text-align: right;"><a img data-lightbox="group" height="200" width="200" href="user_chat_image?id=', $row['id'], '"><img height="232" width="232" src="user_chat_image.php?id=' . $row["id"] . '"></a></div>';
                       $time = new DateTime($row["created_at"]);
                       $time = $time->format("H:i");
                       echo '<div style="font-size:20px; text-align: right;">' . $time;
@@ -283,7 +283,7 @@ foreach ($result as $row) {
                     echo '</div>';
                     echo '</th>';
                     if ($row["text"] != "" || $row["image"] != "") {
-                      echo '<td><a href="profile.php?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image.php?id=', $row["user_id"], '"></a>';
+                      echo '<td><a href="profile?id=', $row["user_id"], '">', '<img id="image" height="150" width="150" src="my_image?id=', $row["user_id"], '"></a>';
                       $user_id = $row["user_id"];
                       $sql = "SELECT * FROM users WHERE id=$user_id";
                       $stm = $pdo->prepare($sql);

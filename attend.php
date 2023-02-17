@@ -45,8 +45,8 @@ if ($attend_count == 0) {
   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 }
 if (isset($_GET["no"])) {
-  header('Location:chat_room.php');
+  header('Location:chat_room');
 }else{
-  header('Location:room.php?id=' . $room_id);
+  header('Location:room?id=' . $room_id);
 }
 ?>

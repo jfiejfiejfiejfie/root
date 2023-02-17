@@ -2,10 +2,10 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"])) {
-    header('Location:login.php');
+    header('Location:./');
 }
 if (!isset($_SESSION["admin"])) {
-    header('Location:404.php');
+    header('Location:404');
 }
 // if ("location:login.php")
 //     ;
@@ -19,7 +19,7 @@ if (isset($_GET["create"])) {
     $sql = "UPDATE gacha SET checked=1 where id = " . $_GET["id"];
     $stm = $pdo->prepare($sql);
     $stm->execute();
-    header('Location:gacha_create_2.php');
+    header('Location:gacha_create_2');
 }
 if (isset($_GET["add"])) {
     $flag = 0;
@@ -52,9 +52,9 @@ if (isset($_GET["add"])) {
         $stm->bindValue(':chara_id', $chara_id, PDO::PARAM_STR);
         $stm->bindValue(':PU', $PU, PDO::PARAM_STR);
         $stm->execute();
-        header('Location:gacha_create_2.php?id=' . $gacha_id);
+        header('Location:gacha_create_2?id=' . $gacha_id);
     }
-    header('Location:gacha_create_2.php?id=' . $gacha_id);
+    header('Location:gacha_create_2?id=' . $gacha_id);
 }
 ?>
 <!DOCTYPE html>
@@ -121,7 +121,7 @@ if (isset($_GET["add"])) {
                             $stm->execute();
                             $state = $stm->fetchAll(PDO::FETCH_ASSOC);
                             foreach ($state as $row) {
-                                echo "<div class='col-12'></div>" . $row["name"] . "<a href='gacha_create_2.php?id=" . $row["id"] . "' class='btn btn-primary'>選択</a>";
+                                echo "<div class='col-12'></div>" . $row["name"] . "<a href='gacha_create_2?id=" . $row["id"] . "' class='btn btn-primary'>選択</a>";
                             }
                         } else {
                             ?>
@@ -144,7 +144,7 @@ if (isset($_GET["add"])) {
                                     echo $row["rarity"] . ':' . $row["chara_name"] . '<br>';
                                 }
                                 ?>
-                                <form method="POST" action="gacha_create_2.php?add=1" enctype="multipart/form-data">
+                                <form method="POST" action="gacha_create_2?add=1" enctype="multipart/form-data">
                                     キャラ選択:
                                     <select name="chara_id" class="form-control form-control-user">
                                         <?php
@@ -182,7 +182,7 @@ if (isset($_GET["add"])) {
                                     }
                                 }
                                 if (isset($ur_flag) && ($ssr_flag > 1) && (isset($sr_flag)) && isset($r_flag) && isset($PU_flag)) {
-                                    echo '<a href="gacha_create_2.php?id=' . $_GET["id"] . '&create=1" class="btn btn-success">ガチャを完成させる</a>';
+                                    echo '<a href="gacha_create_2?id=' . $_GET["id"] . '&create=1" class="btn btn-success">ガチャを完成させる</a>';
                                 }
 
                         }

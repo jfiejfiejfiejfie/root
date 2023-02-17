@@ -149,7 +149,7 @@ if (!empty($_POST['btn_submit'])) {
 
       // SQLクエリの実行
       $res = $stmt->execute();
-      header('Location:keijiban.php');
+      header('Location:keijiban');
       // if ($res) {
       //   $success_message = 'メッセージを書き込みました。';
       // } else {
@@ -252,7 +252,7 @@ if (!empty($_POST['btn_submit'])) {
               </head>
 
               <body>
-                <form method="POST" action="search_comment.php">
+                <form method="POST" action="search_comment">
                   <label>コメントを検索します（部分一致）：<br>
                     <div class="input-group">
                       <input type="text" name="message" class="form-control form-control-user"
@@ -301,7 +301,7 @@ if (!empty($_POST['btn_submit'])) {
                         echo '<table class="table table-striped" style="table-layout:fixed;">';
                         echo '<thead><tr>';
                         echo '<th>No', $row["id"], ' ', $row["view_name"], ':';
-                        echo $row["post_date"], '　　　　　<a class="btn btn-danger" href="report.php?id=' . $row["id"] . '">通報</a></th>';
+                        echo $row["post_date"], '　　　　　<a class="btn btn-danger" href="report?id=' . $row["id"] . '">通報</a></th>';
                         echo '</tr>';
                         echo '<tr>';
                         echo '<td>', $row["message"], '</td>';
@@ -316,12 +316,12 @@ if (!empty($_POST['btn_submit'])) {
                         foreach ($result2 as $row2) {
                           echo '<tr>';
                           echo '<th>No', $row2["id"], ' ', $row2["view_name"], ':';
-                          echo $row2["post_date"], '　　　　　<a class="btn btn-danger" href="report.php?id=' . $row2["id"] . '">通報</a></th></tr><tr>';
+                          echo $row2["post_date"], '　　　　　<a class="btn btn-danger" href="report?id=' . $row2["id"] . '">通報</a></th></tr><tr>';
                           echo '<td>', $row2['message'], '</td>';
                           echo '</tr>';
                         }
                         echo '<td>';
-                        echo '<form action="keijiban.php" method="post">';
+                        echo '<form action="keijiban" method="post">';
                         //echo '返信内容';
                         echo '<input type="text" name="message">';
                         echo '　';
