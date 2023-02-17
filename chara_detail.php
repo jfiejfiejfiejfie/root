@@ -59,13 +59,25 @@ if (isset($_GET["delete"])) {
         }
         $chara_name = $row["name"];
     }
+} else if (isset($_GET["lock"])) {
+    if ($_GET["lock"] == 1) {
+        $sql = "UPDATE box SET lock_check=1 where id = " . $_GET["id"];
+        $stm = $pdo->prepare($sql);
+        $stm->execute();
+    } else {
+        $sql = "UPDATE box SET lock_check=0 where id = " . $_GET["id"];
+        $stm = $pdo->prepare($sql);
+        $stm->execute();
+    }
+    header('Location:chara_detail?id=' . $_GET["id"]);
 } else {
     $level = 0;
-    $sql = "SELECT char_data.name as chara_name,box.level as chara_level,char_data.id as chara_id,char_data.rarity as RA FROM char_data,box WHERE box.id = " . $box_id . " && box.char_data_id=char_data.id && box.user_id=" . $_SESSION["id"];
+    $sql = "SELECT box.lock_check as lc,char_data.name as chara_name,box.level as chara_level,char_data.id as chara_id,char_data.rarity as RA FROM char_data,box WHERE box.id = " . $box_id . " && box.char_data_id=char_data.id && box.user_id=" . $_SESSION["id"];
     $stm = $pdo->prepare($sql);
     $stm->execute();
     $result = $stm->fetchAll(PDO::FETCH_ASSOC);
     foreach ($result as $row) {
+        $lc = $row["lc"];
         $chara_id = $row["chara_id"];
         $chara_name = $row["chara_name"];
         $level = $row["chara_level"];
@@ -156,9 +168,17 @@ if (isset($_GET["delete"])) {
                                 echo '<div class="col-12"></div>';
                                 echo "現在のレベル:" . $level;
                                 echo '<div class="col-12"></div>';
-                                echo "<a class='btn btn-primary' href='./'>限界突破(未実装)</a>";
+                                if ($lc == 0) {
+                                    echo "<a class='btn btn-primary' href='chara_detail?id=" . $box_id . "&lock=1'><i class='fa fa-lock' aria-hidden='true'></i>ロックする</a>";
+                                } else {
+                                    echo "<a class='btn btn-danger' href='chara_detail?id=" . $box_id . "&lock=0'><i class='fa fa-unlock' aria-hidden='true'></i>ロックを解除する</a>";
+                                }
                                 echo '<div class="col-12"></div>';
-                                echo "<a class='btn btn-danger' href='chara_detail.php?id=" . $box_id . "&delete=1'>売却</a>";
+                                echo "<a class='btn btn-primary' href=''>限界突破(未実装)</a>";
+                                echo '<div class="col-12"></div>';
+                                if ($lc == 0) {
+                                    echo "<a class='btn btn-danger' href='chara_detail.php?id=" . $box_id . "&delete=1'>売却</a>";
+                                }                                
                                 echo '<div class="col-12"></div>';
                             }
                             ?>

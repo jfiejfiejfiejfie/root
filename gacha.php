@@ -159,8 +159,13 @@ if (!isset($_GET["result"])) {
                                     $chara_id = $row["id"];
                                 }
                             }
-                            $sql = "INSERT INTO box (user_id,char_data_id,level) VALUES(:user_id,:chara_data,1)";
-                            $stm = $pdo->prepare($sql);
+                            if ($rarity == "PU" || $rarity == "SSR" || $rarity == "UR") {
+                                $sql = "INSERT INTO box (user_id,char_data_id,level,lock_check) VALUES(:user_id,:chara_data,1,1)";
+                                $stm = $pdo->prepare($sql);
+                            } else {
+                                $sql = "INSERT INTO box (user_id,char_data_id,level) VALUES(:user_id,:chara_data,1)";
+                                $stm = $pdo->prepare($sql);
+                            }
                             $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
                             $stm->bindValue(':chara_data', $chara_id, PDO::PARAM_STR);
                             $stm->execute();
@@ -201,8 +206,13 @@ if (!isset($_GET["result"])) {
                                 $chara_id = $row["id"];
                             }
                         }
-                        $sql = "INSERT INTO box (user_id,char_data_id,level) VALUES(:user_id,:chara_data,1)";
-                        $stm = $pdo->prepare($sql);
+                        if ($rarity == "PU" || $rarity == "SSR" || $rarity == "UR") {
+                            $sql = "INSERT INTO box (user_id,char_data_id,level,lock_check) VALUES(:user_id,:chara_data,1,1)";
+                            $stm = $pdo->prepare($sql);
+                        } else {
+                            $sql = "INSERT INTO box (user_id,char_data_id,level) VALUES(:user_id,:chara_data,1)";
+                            $stm = $pdo->prepare($sql);
+                        }
                         $stm->bindValue(':user_id', $user_id, PDO::PARAM_STR);
                         $stm->bindValue(':chara_data', $chara_id, PDO::PARAM_STR);
                         $stm->execute();
@@ -269,16 +279,19 @@ if (!isset($_GET["result"])) {
                             $chara_id = $row["id"];
                         }
                     }
-                    $sql = "INSERT INTO box (user_id,char_data_id,level) VALUES(:id,:chara_data,1)";
-                    $stm = $pdo->prepare($sql);
+                    if ($rarity == "PU" || $rarity == "SSR" || $rarity == "UR") {
+                        $sql = "INSERT INTO box (user_id,char_data_id,level,lock_check) VALUES(:user_id,:chara_data,1,1)";
+                        $stm = $pdo->prepare($sql);
+                    } else {
+                        $sql = "INSERT INTO box (user_id,char_data_id,level) VALUES(:user_id,:chara_data,1)";
+                        $stm = $pdo->prepare($sql);
+                    }
                     $stm->bindValue(':id', $user_id, PDO::PARAM_STR);
                     $stm->bindValue(':chara_data', $chara_id, PDO::PARAM_STR);
                     $stm->execute();
                     break;
                 }
             }
-            // $gacha_result = mt_rand(0, 100);
-            // $contents_array = post_request($url, $param);
             $sql = "UPDATE users SET point=point-10 WHERE id=:id";
             $stm = $pdo->prepare($sql);
             $stm->bindValue(':id', $_SESSION["id"], PDO::PARAM_STR);

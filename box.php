@@ -89,9 +89,9 @@ if (isset($_POST["kind"])) {
                             $box_count = $row["box_count"];
                         }
                         if (isset($_GET["custom"])) {
-                            $sql = "SELECT box.user_id,box.char_data_id as char_data_id,char_data.name as name,char_data.rarity as RA,box.id as box_id FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id ORDER BY char_data.star ASC,char_data.id ASC";
+                            $sql = "SELECT box.lock_check,box.user_id,box.char_data_id as char_data_id,char_data.name as name,char_data.rarity as RA,box.id as box_id FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id ORDER BY char_data.star ASC,char_data.id ASC";
                         } else {
-                            $sql = "SELECT box.user_id,box.char_data_id as char_data_id,char_data.name as name,char_data.rarity as RA,box.id as box_id FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id ORDER BY char_data.star DESC,char_data.id ASC";
+                            $sql = "SELECT box.lock_check,box.user_id,box.char_data_id as char_data_id,char_data.name as name,char_data.rarity as RA,box.id as box_id FROM box,char_data where box.user_id=" . $_SESSION["id"] . " && box.char_data_id = char_data.id ORDER BY char_data.star DESC,char_data.id ASC";
                         }
                         $stm = $pdo->prepare($sql);
                         $stm->execute();
@@ -99,6 +99,9 @@ if (isset($_POST["kind"])) {
                         foreach ($result as $row) {
                             echo '<div class="border col-2">';
                             echo $row["RA"] . ":" . $row["name"];
+                            if ($row["lock_check"] == 1) {
+                                echo '<i class="fa fa-lock" aria-hidden="true"></i>';
+                            }
                             echo '<br><a href="chara_detail?id=' . $row["box_id"] . '">';
                             echo "<img src='chara_image.php?id=" . $row["char_data_id"] . "' height='232' width='232'></a>";
                             echo '</div>';

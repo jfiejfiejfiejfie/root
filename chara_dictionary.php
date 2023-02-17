@@ -70,6 +70,7 @@ $gobackURL = 'index.php';
                     <div class="row">
                         <!-- <div class="col-12"> -->
                         <?php
+                        $flag = 0;
                         $count = 1;
                         $sql = "SELECT * FROM char_data";
                         $stm = $pdo->prepare($sql);
@@ -85,10 +86,15 @@ $gobackURL = 'index.php';
                             if ($row2 = $stm->fetch(PDO::FETCH_ASSOC)) {
                                 echo "<div></div>入手済み";
                             } else {
+                                $flag = 1;
                                 echo "<div></div>未入手";
                             }
                             echo "</div>";
                             $count += 1;
+                        }
+                        if ($flag == 0) {
+                            echo "<div class='col-12'></div>";
+                            echo "<div class='rainbow'>フルコンプリートおめでとう!!!!</div>";
                         }
                         ?>
                         <!-- </div> -->
